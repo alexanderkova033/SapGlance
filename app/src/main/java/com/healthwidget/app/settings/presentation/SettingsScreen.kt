@@ -4,7 +4,24 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,12 +40,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Balance
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.DarkMode
-import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.PersonOff
 import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.filled.Tune
@@ -52,6 +71,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -212,12 +233,18 @@ private fun VarietySection(
     onLevelChange: (VarietyLevel) -> Unit,
 ) {
     SectionTitle(icon = Icons.Filled.Tune, text = stringResource(R.string.settings_variety_title))
-    Text(
-        text = stringResource(level.stateDescriptionRes()),
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.primary,
-        fontWeight = FontWeight.Medium,
-    )
+    AnimatedContent(
+        targetState = level,
+        transitionSpec = { fadeIn(tween(200)) togetherWith fadeOut(tween(150)) },
+        label = "varietyStateDescription",
+    ) { animatedLevel ->
+        Text(
+            text = stringResource(animatedLevel.stateDescriptionRes()),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Medium,
+        )
+    }
     Spacer(Modifier.height(12.dp))
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -234,6 +261,12 @@ private fun VarietySection(
     }
 }
 
+/** Tonal (container-color) fill for the selected level and a plain outline for the other two,
+ * rather than a solid `primary`-filled block for the winner — three opaque, equal-weight color
+ * blocks side by side read as a stark on/off switch wearing a trenchcoat; a soft container tint
+ * plus a per-level icon reads as a considered choice instead. Colors and scale both animate on
+ * selection change instead of snapping, so tapping a level reads as a picked choice settling
+ * into place rather than a flat state swap. */
 @Composable
 private fun VarietyLevelChip(
     level: VarietyLevel,
@@ -241,23 +274,65 @@ private fun VarietyLevelChip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(
+    val shape = RoundedCornerShape(14.dp)
+    val containerColor by
+        animateColorAsState(
+            targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+            label = "varietyChipContainer",
+        )
+    val borderColor by
+        animateColorAsState(
+            targetValue = if (selected) Color.Transparent else MaterialTheme.colorScheme.outlineVariant,
+            label = "varietyChipBorder",
+        )
+    val contentColor by
+        animateColorAsState(
+            targetValue =
+                if (selected) {
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
+            label = "varietyChipContent",
+        )
+    val scale by
+        animateFloatAsState(
+            targetValue = if (selected) 1.06f else 1f,
+            animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy),
+            label = "varietyChipScale",
+        )
+    Column(
         modifier =
             modifier
-                .clip(RoundedCornerShape(12.dp))
-                .background(
-                    if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                ).clickable(onClick = onClick)
-                .padding(vertical = 10.dp),
-        contentAlignment = Alignment.Center,
+                .scale(scale)
+                .clip(shape)
+                .background(containerColor)
+                .border(width = 1.dp, color = borderColor, shape = shape)
+                .clickable(onClick = onClick)
+                .padding(vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Icon(
+            imageVector = level.icon(),
+            contentDescription = null,
+            tint = contentColor,
+            modifier = Modifier.size(20.dp),
+        )
+        Spacer(Modifier.height(4.dp))
         Text(
             text = stringResource(level.labelRes()),
             style = MaterialTheme.typography.labelLarge,
-            color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
+            color = contentColor,
         )
     }
 }
+
+private fun VarietyLevel.icon(): ImageVector =
+    when (this) {
+        VarietyLevel.PRACTICAL -> Icons.Filled.Science
+        VarietyLevel.BALANCED -> Icons.Filled.Balance
+        VarietyLevel.PLAYFUL -> Icons.Filled.AutoAwesome
+    }
 
 private fun VarietyLevel.labelRes(): Int =
     when (this) {
@@ -329,6 +404,8 @@ private fun TipSourceSection(
 ) {
     val visual = dayPartVisual(dayPart)
     val accent = visual.role.accent()
+    val scope = rememberCoroutineScope()
+    val refreshIconRotation = remember { Animatable(0f) }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -370,11 +447,22 @@ private fun TipSourceSection(
                 )
             }
             Spacer(Modifier.height(16.dp))
-            Text(
-                text = stringResource(R.string.settings_tip_source_quote, tipText),
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Medium,
-            )
+            // Slides the incoming tip up past the outgoing one rather than a hard cut, so a
+            // refresh reads as one tip replacing another instead of the text just changing.
+            AnimatedContent(
+                targetState = tipText,
+                transitionSpec = {
+                    (fadeIn(tween(350)) + slideInVertically(tween(350)) { height -> height / 4 })
+                        .togetherWith(fadeOut(tween(150)) + slideOutVertically(tween(150)) { height -> -height / 4 })
+                },
+                label = "tipQuote",
+            ) { animatedTipText ->
+                Text(
+                    text = stringResource(R.string.settings_tip_source_quote, animatedTipText),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Medium,
+                )
+            }
             if (source != null) {
                 Spacer(Modifier.height(14.dp))
                 val context = LocalContext.current
@@ -398,11 +486,24 @@ private fun TipSourceSection(
                 }
             }
             Spacer(Modifier.height(16.dp))
-            FilledTonalButton(onClick = onRefresh) {
+            FilledTonalButton(
+                onClick = {
+                    // A full spin per tap, purely decorative (independent of onRefresh's own
+                    // async work) — it's a tactile "something happened" cue that fires the
+                    // instant you tap, rather than waiting on the actual tip/widget update.
+                    scope.launch {
+                        refreshIconRotation.animateTo(
+                            targetValue = refreshIconRotation.value + 360f,
+                            animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
+                        )
+                    }
+                    onRefresh()
+                },
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Shuffle,
                     contentDescription = null,
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(18.dp).rotate(refreshIconRotation.value),
                 )
                 Spacer(Modifier.width(6.dp))
                 Text(stringResource(R.string.settings_tip_refresh_action))
@@ -429,6 +530,7 @@ private fun openSource(
 @Composable
 private fun AboutSection() {
     var expanded by rememberSaveable { mutableStateOf(false) }
+    val chevronRotation by animateFloatAsState(targetValue = if (expanded) 180f else 0f, label = "aboutChevron")
 
     Row(
         modifier =
@@ -443,19 +545,28 @@ private fun AboutSection() {
             Spacer(Modifier.width(8.dp))
             Text(text = stringResource(R.string.settings_about_title), style = MaterialTheme.typography.titleLarge)
         }
+        // One icon rotated 180° rather than swapping between ExpandMore/ExpandLess drawables —
+        // the chevron turns smoothly in place instead of one glyph replacing another.
         Icon(
-            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+            imageVector = Icons.Filled.ExpandMore,
             contentDescription = null,
+            modifier = Modifier.rotate(chevronRotation),
         )
     }
 
-    if (expanded) {
-        Spacer(Modifier.height(12.dp))
-        AboutRow(icon = Icons.Filled.PhoneAndroid, text = stringResource(R.string.settings_about_privacy_local))
-        Spacer(Modifier.height(8.dp))
-        AboutRow(icon = Icons.Filled.PersonOff, text = stringResource(R.string.settings_about_privacy_account))
-        Spacer(Modifier.height(8.dp))
-        AboutRow(icon = Icons.Filled.VisibilityOff, text = stringResource(R.string.settings_about_privacy_ads))
+    AnimatedVisibility(
+        visible = expanded,
+        enter = fadeIn() + expandVertically(),
+        exit = fadeOut() + shrinkVertically(),
+    ) {
+        Column {
+            Spacer(Modifier.height(12.dp))
+            AboutRow(icon = Icons.Filled.PhoneAndroid, text = stringResource(R.string.settings_about_privacy_local))
+            Spacer(Modifier.height(8.dp))
+            AboutRow(icon = Icons.Filled.PersonOff, text = stringResource(R.string.settings_about_privacy_account))
+            Spacer(Modifier.height(8.dp))
+            AboutRow(icon = Icons.Filled.VisibilityOff, text = stringResource(R.string.settings_about_privacy_ads))
+        }
     }
 }
 

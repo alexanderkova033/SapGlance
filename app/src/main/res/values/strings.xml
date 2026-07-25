@@ -10,10 +10,10 @@
     <string name="settings_variety_title">More variety</string>
     <string name="settings_variety_label_practical">Practical</string>
     <string name="settings_variety_label_balanced">Balanced</string>
-    <string name="settings_variety_label_playful">Playful</string>
+    <string name="settings_variety_label_playful">Reflective</string>
     <string name="settings_variety_state_practical">Mostly practical</string>
-    <string name="settings_variety_state_balanced">A mix of practical, motivational, and lighthearted</string>
-    <string name="settings_variety_state_playful">Mostly motivational &amp; lighthearted</string>
+    <string name="settings_variety_state_balanced">A mix of practical, philosophical, and lighthearted</string>
+    <string name="settings_variety_state_playful">Mostly philosophical &amp; lighthearted</string>
 
     <string name="settings_tip_source_quote">“%1$s”</string>
     <string name="settings_tip_refresh_action">Get a different tip</string>

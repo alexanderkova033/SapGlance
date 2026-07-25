@@ -12,11 +12,16 @@
          "frame" language. -->
     <color name="widget_card_border">#4DFFFFFF</color>
 
-    <!-- Shaded fill behind the settings gear icon (widget_settings_button_bg.xml) — a
-         neutral dark scrim reads against all four background styles alike, unlike a style-
-         matched tint would. Paired with widget_card_border for the same ring, so the button
-         reads as part of the same "frame" language as the card itself. -->
-    <color name="widget_settings_button_fill">#40000000</color>
+    <!-- Glass-chip look behind the settings gear icon (widget_settings_button_bg.xml): a
+         top-lit translucent gradient plus a small highlight and a soft offset shadow, rather
+         than a single flat scrim tone. Kept neutral (white/black, no brand hue) so it reads
+         against all four background styles alike, unlike a style-matched tint would — paired
+         with widget_card_border for the rim, so the button reads as part of the same "frame"
+         language as the card itself. -->
+    <color name="widget_settings_button_fill_top">#59FFFFFF</color>
+    <color name="widget_settings_button_fill_bottom">#40000000</color>
+    <color name="widget_settings_button_highlight">#4DFFFFFF</color>
+    <color name="widget_settings_button_shadow">#33000000</color>
 
     <!-- Deep emerald-to-near-black green (previously drifted into blue-gray, which read as
          generic rather than "forest" and blurred together with Ocean/Midnight's cool tones). -->
