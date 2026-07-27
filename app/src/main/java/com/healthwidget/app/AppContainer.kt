@@ -5,8 +5,8 @@ import androidx.glance.appwidget.updateAll
 import com.healthwidget.app.common.healthWidgetDataStore
 import com.healthwidget.app.settings.data.DataStoreSettingsRepository
 import com.healthwidget.app.tips.data.DataStoreTipHistoryRepository
-import com.healthwidget.app.widget.TipWidget
 import com.healthwidget.app.widget.data.DataStoreWidgetRefreshRepository
+import com.healthwidget.app.widget.presentation.TipWidget
 import com.healthwidget.core.scheduling.WidgetRefreshRepository
 import com.healthwidget.core.settings.SettingsRepository
 import com.healthwidget.core.tips.AdvanceTipUseCase
@@ -51,13 +51,42 @@ class AppContainer(context: Context) {
         DataStoreWidgetRefreshRepository(appContext.healthWidgetDataStore)
     }
 
-    val tipEngine: TipEngine by lazy { TipEngine() }
+    /**
+     * Constructing this parses all 15 bundled tip text resources out of the APK, which is the
+     * single most expensive step in the tip-refresh path and is pure CPU with no I/O dependency
+     * on anything else the app is doing. See [warmUp].
+     */
+    val tipEngine: TipEngine by lazy {
+        com.healthwidget.app.common.PerfLog.time("TipEngine()/loadDefault") { TipEngine() }
+    }
 
     val advanceTip: AdvanceTipUseCase by lazy { AdvanceTipUseCase(tipEngine, tipHistoryRepository) }
 
+    /**
+     * Parses the tip catalog ahead of the first thing that needs it, off the main thread.
+     *
+     * A widget tap on a dead process pays for a cold start *and* the catalog parse *and* the
+     * DataStore read, strictly one after another, before anything can repaint — the parse sits
+     * on the critical path purely because [tipEngine] is built lazily at the moment of first use.
+     * Nothing about it depends on the tap: it reads bundled resources that never change. Started
+     * from [com.healthwidget.app.HealthWidgetApp.onCreate], it runs in parallel with the
+     * DataStore read that the tap has to do anyway, so by the time selection needs the catalog
+     * it is usually already built.
+     *
+     * `by lazy` is `SYNCHRONIZED` by default, so a tap arriving mid-parse blocks on the same
+     * initialization rather than starting a second one, and one arriving after it is a plain
+     * field read. This is a scheduling change only: nothing is precomputed that wasn't already
+     * computed, and nothing is cached that wasn't already cached for the process's lifetime.
+     */
+    fun warmUp() {
+        tipEngine
+    }
+
     suspend fun refreshWidget() {
         widgetRefreshMutex.withLock {
+            val start = System.nanoTime()
             TipWidget().updateAll(appContext)
+            com.healthwidget.app.common.PerfLog.log("updateAll", (System.nanoTime() - start) / 1_000_000.0)
         }
     }
 }

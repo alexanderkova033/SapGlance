@@ -1,4 +1,4 @@
-package com.healthwidget.app.widget
+package com.healthwidget.app.widget.presentation
 
 import android.content.Context
 import android.content.Intent
@@ -41,7 +41,7 @@ import androidx.glance.unit.ColorProvider
 import com.healthwidget.app.HealthWidgetApp
 import com.healthwidget.app.R
 import com.healthwidget.app.settings.presentation.SettingsActivity
-import com.healthwidget.core.settings.WidgetStyle
+import com.healthwidget.core.widget.WidgetStyle
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -65,16 +65,20 @@ class TipWidget : GlanceAppWidget() {
         context: Context,
         id: GlanceId,
     ) {
+        com.healthwidget.app.common.PerfLog.mark("provideGlance START")
         val container = (context.applicationContext as HealthWidgetApp).container
         // Read once, synchronously, purely so the very first frame has something to draw
         // (and so a fresh install, with no history yet, still gets a tip). Everything after
         // that comes from the flow collected inside provideContent below.
+        val readStart = System.nanoTime()
         val initialTip =
             container.tipHistoryRepository.recentTips.first().lastOrNull()
                 ?: run {
                     val varietyLevel = container.settingsRepository.settings.first().varietyLevel
                     container.advanceTip(LocalTime.now(), varietyLevel = varietyLevel).text
                 }
+        com.healthwidget.app.common.PerfLog.log("recentTips.first()", (System.nanoTime() - readStart) / 1_000_000.0)
+        com.healthwidget.app.common.PerfLog.mark("provideContent START")
 
         provideContent {
             // The tip MUST be observed as Compose state from inside provideContent, not read
@@ -112,6 +116,11 @@ private fun WidgetStyle.backgroundDrawableRes(): Int =
         WidgetStyle.OCEAN -> R.drawable.widget_background_ocean
         WidgetStyle.SUNSET -> R.drawable.widget_background_sunset
         WidgetStyle.MIDNIGHT -> R.drawable.widget_background_midnight
+        WidgetStyle.AURORA -> R.drawable.widget_background_aurora
+        WidgetStyle.DAWN -> R.drawable.widget_background_dawn
+        WidgetStyle.RAIN -> R.drawable.widget_background_rain
+        WidgetStyle.AUTUMN -> R.drawable.widget_background_autumn
+        WidgetStyle.WINTER -> R.drawable.widget_background_winter
     }
 
 // A single fixed size, rather than measuring each tip and picking a size to match, was a

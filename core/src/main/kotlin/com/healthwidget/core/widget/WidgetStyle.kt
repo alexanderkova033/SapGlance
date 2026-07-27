@@ -1,4 +1,4 @@
-package com.healthwidget.core.settings
+package com.healthwidget.core.widget
 
 /**
  * Which background style the home-screen widget renders with. Purely a symbolic choice here —
@@ -10,6 +10,11 @@ enum class WidgetStyle {
     OCEAN,
     SUNSET,
     MIDNIGHT,
+    AURORA,
+    DAWN,
+    RAIN,
+    AUTUMN,
+    WINTER,
     ;
 
     companion object {

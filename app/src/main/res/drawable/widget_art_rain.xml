@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Overcast cloud band along the top, slanted drizzle across the middle, and two puddle
+     rings at the bottom. The streaks all share one angle so they read as wind-driven rain
+     rather than scattered marks. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_rain_cloud_back"
+        android:pathData="M0,0 L300,0 L300,32 C265,44 235,28 205,38 C172,49 142,32 110,42 C78,52 44,36 0,44 Z" />
+    <path
+        android:fillColor="@color/widget_rain_cloud_front"
+        android:pathData="M0,0 L300,0 L300,18 C270,30 244,16 214,25 C180,35 150,20 118,29 C86,38 40,24 0,32 Z" />
+    <path
+        android:fillColor="@color/widget_rain_streak"
+        android:pathData="M46,44 L51,44 L33,88 L28,88 Z M104,52 L109,52 L91,96 L86,96 Z M168,40 L173,40 L155,84 L150,84 Z M226,56 L231,56 L213,100 L208,100 Z M272,46 L277,46 L259,90 L254,90 Z" />
+    <!-- Ripple rings: flattened ellipse outlines, drawn as four cubic segments rather than
+         with elliptical arc commands, so they use the same path vocabulary as the rest of the
+         widget art (and can't trip over arc parsing at inflation time). -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_rain_ripple"
+        android:strokeWidth="1.5"
+        android:pathData="M92,136 C92,132.96 100.95,130.5 112,130.5 C123.05,130.5 132,132.96 132,136 C132,139.04 123.05,141.5 112,141.5 C100.95,141.5 92,139.04 92,136 Z" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_rain_ripple"
+        android:strokeWidth="1.5"
+        android:pathData="M188,126 C188,124.07 193.82,122.5 201,122.5 C208.18,122.5 214,124.07 214,126 C214,127.93 208.18,129.5 201,129.5 C193.82,129.5 188,127.93 188,126 Z" />
+</vector>

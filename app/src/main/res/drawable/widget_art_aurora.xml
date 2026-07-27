@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Three aurora curtains (translucent, so they tint whatever they cross rather than sitting
+     on it) plus a bottom-anchored mountain ridge in two depth tones. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_aurora_curtain_green"
+        android:pathData="M34,0 C58,28 26,54 48,96 L74,96 C54,54 84,28 62,0 Z" />
+    <path
+        android:fillColor="@color/widget_aurora_curtain_violet"
+        android:pathData="M126,0 C104,32 138,56 118,104 L146,104 C164,56 132,32 152,0 Z" />
+    <path
+        android:fillColor="@color/widget_aurora_curtain_green"
+        android:pathData="M214,0 C238,26 208,50 230,92 L252,92 C234,50 262,26 240,0 Z" />
+    <path
+        android:fillColor="@color/widget_aurora_ridge_back"
+        android:pathData="M0,150 L0,118 L45,86 L80,110 L130,72 L180,112 L235,80 L300,120 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_aurora_ridge_front"
+        android:pathData="M0,150 L0,134 L60,106 L110,128 L165,100 L215,126 L262,104 L300,124 L300,150 Z" />
+</vector>

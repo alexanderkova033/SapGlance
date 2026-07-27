@@ -1,4 +1,4 @@
-package com.healthwidget.core.settings
+package com.healthwidget.core.widget
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test

@@ -1,4 +1,4 @@
-package com.healthwidget.app.widget
+package com.healthwidget.app.widget.scheduling
 
 import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy

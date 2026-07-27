@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two snow drifts along the bottom edge. Both fills are low-alpha pale blue rather than
+     opaque white: this band sits directly behind the widget's footer label, and solid snow
+     there would leave the label unreadable. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_winter_drift_far"
+        android:pathData="M0,150 L0,124 C48,108 92,128 142,119 C192,110 242,126 300,114 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_winter_drift_near"
+        android:pathData="M0,150 L0,140 C58,124 110,142 170,133 C220,126 262,139 300,131 L300,150 Z" />
+</vector>

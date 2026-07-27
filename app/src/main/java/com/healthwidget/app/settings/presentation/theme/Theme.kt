@@ -1,4 +1,4 @@
-package com.healthwidget.app.theme
+package com.healthwidget.app.settings.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

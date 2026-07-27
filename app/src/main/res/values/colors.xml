@@ -56,4 +56,66 @@
     <color name="widget_midnight_aurora_glow">#406A3FD6</color>
     <color name="widget_midnight_star">#B3FFFFFF</color>
     <color name="widget_midnight_moon_body">#E6EAF5FA</color>
+
+    <!-- Polar night: violet and green curtains over a ridge line. Deliberately more saturated
+         than Midnight's single faint aurora wash — the curtains are the subject here, not a
+         tint on a night sky, which is what keeps the two from reading as the same card. -->
+    <color name="widget_aurora_start">#070B1C</color>
+    <color name="widget_aurora_end">#12203A</color>
+    <color name="widget_aurora_veil_green">#4D2FD69B</color>
+    <color name="widget_aurora_veil_violet">#477A46E0</color>
+    <color name="widget_aurora_curtain_green">#4038E8A8</color>
+    <color name="widget_aurora_curtain_violet">#3D8A5CF0</color>
+    <color name="widget_aurora_ridge_back">#B3122240</color>
+    <color name="widget_aurora_ridge_front">#E60A1226</color>
+    <color name="widget_aurora_star">#B3E8F0FF</color>
+
+    <!-- First light: a cool violet sky still holding overnight, warming to dusty rose at the
+         horizon. Sunset's opposite number, so it stays cooler and mistier than Sunset's
+         magenta-to-orange and swaps that theme's hard hill silhouette for soft mist bands. -->
+    <color name="widget_dawn_start">#7E4A5C</color>
+    <color name="widget_dawn_end">#2E2148</color>
+    <color name="widget_dawn_horizon_glow">#4DFFC9A3</color>
+    <color name="widget_dawn_bloom">#3DFFAFC4</color>
+    <color name="widget_dawn_sun">#B3FFE3B0</color>
+    <color name="widget_dawn_mist_far">#2EFFE7EC</color>
+    <color name="widget_dawn_mist_near">#3DFFF1F2</color>
+    <color name="widget_dawn_bird">#8C2B1D3A</color>
+    <color name="widget_dawn_spark">#A6FFF0D6</color>
+
+    <!-- Overcast drizzle: the only desaturated style in the set, which is the point — it gives
+         the rotation somewhere quiet to land between the saturated scenes. -->
+    <color name="widget_rain_start">#3A4652</color>
+    <color name="widget_rain_end">#121820</color>
+    <color name="widget_rain_cloud_glow">#40A9BECF</color>
+    <color name="widget_rain_haze">#33566E85</color>
+    <color name="widget_rain_cloud_back">#B32C3742</color>
+    <color name="widget_rain_cloud_front">#E6202932</color>
+    <color name="widget_rain_streak">#59C8DEEF</color>
+    <color name="widget_rain_ripple">#4DBFD8EA</color>
+    <color name="widget_rain_drop">#99D6E8F5</color>
+
+    <!-- Late autumn: rust and amber over near-black brown, with a bare branch and drifting
+         leaves. Shares Sunset's warmth but not its hue range (earth/rust rather than
+         magenta/orange) and reads as daylight through trees rather than a horizon. -->
+    <color name="widget_autumn_start">#7A3510</color>
+    <color name="widget_autumn_end">#150C06</color>
+    <color name="widget_autumn_sun_glow">#59E08B32</color>
+    <color name="widget_autumn_haze">#40B4551A</color>
+    <color name="widget_autumn_branch">#E62A1608</color>
+    <color name="widget_autumn_leaf_far">#A6C8641F</color>
+    <color name="widget_autumn_leaf_near">#CCE8912F</color>
+    <color name="widget_autumn_litter">#E61A0D05</color>
+    <color name="widget_autumn_ember">#B3FFB05A</color>
+
+    <!-- Winter dusk. Kept deliberately dark for a "snow" theme: the widget's footer label is
+         white at 65% alpha and sits directly over the bottom of the card, so bright drifts
+         there would eat it. The snow reads through low-alpha pale accents instead. -->
+    <color name="widget_winter_start">#35597A</color>
+    <color name="widget_winter_end">#0F1A2E</color>
+    <color name="widget_winter_halo">#40DCEEFF</color>
+    <color name="widget_winter_shade">#4D0B1526</color>
+    <color name="widget_winter_drift_far">#33D3E9FA</color>
+    <color name="widget_winter_drift_near">#4DE9F5FF</color>
+    <color name="widget_winter_flake">#CCF2FAFF</color>
 </resources>

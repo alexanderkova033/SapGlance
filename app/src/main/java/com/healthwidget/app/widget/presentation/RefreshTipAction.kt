@@ -1,4 +1,4 @@
-package com.healthwidget.app.widget
+package com.healthwidget.app.widget.presentation
 
 import android.content.Context
 import androidx.glance.GlanceId
@@ -23,9 +23,16 @@ class RefreshTipAction : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters,
     ) {
+        com.healthwidget.app.common.PerfLog.mark("RefreshTipAction.onAction START")
+        val total = System.nanoTime()
         val container = (context.applicationContext as HealthWidgetApp).container
+        val settingsStart = System.nanoTime()
         val varietyLevel = container.settingsRepository.settings.first().varietyLevel
+        com.healthwidget.app.common.PerfLog.log("settings.first()", (System.nanoTime() - settingsStart) / 1_000_000.0)
+        val start = System.nanoTime()
         container.advanceTip(LocalTime.now(), manual = true, varietyLevel = varietyLevel)
+        com.healthwidget.app.common.PerfLog.log("advanceTip", (System.nanoTime() - start) / 1_000_000.0)
         container.refreshWidget()
+        com.healthwidget.app.common.PerfLog.log("RefreshTipAction TOTAL", (System.nanoTime() - total) / 1_000_000.0)
     }
 }

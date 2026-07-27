@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A bare branch reaching in from the top-left, three leaves already off it, and a band of
+     leaf litter along the bottom. The branch is stroked rather than filled — a tapering
+     silhouette this thin turns into an unreadable sliver once the widget is resized. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_autumn_branch"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:pathData="M0,12 C42,20 74,8 104,26 C124,38 142,32 160,46" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_autumn_branch"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M62,15 L74,38 M112,29 L120,50" />
+    <path
+        android:fillColor="@color/widget_autumn_leaf_far"
+        android:pathData="M196,58 C204,48 220,50 224,62 C217,73 201,71 196,58 Z" />
+    <path
+        android:fillColor="@color/widget_autumn_leaf_near"
+        android:pathData="M244,92 C252,83 267,86 270,97 C263,107 248,104 244,92 Z" />
+    <path
+        android:fillColor="@color/widget_autumn_leaf_far"
+        android:pathData="M138,84 C145,76 158,78 161,88 C155,97 142,95 138,84 Z" />
+    <path
+        android:fillColor="@color/widget_autumn_litter"
+        android:pathData="M0,150 L0,136 C40,128 80,140 120,134 C170,126 210,140 260,132 C280,129 292,132 300,130 L300,150 Z" />
+</vector>

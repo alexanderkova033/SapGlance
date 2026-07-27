@@ -3,7 +3,7 @@ package com.healthwidget.app.boot
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.healthwidget.app.widget.WidgetScheduler
+import com.healthwidget.app.widget.scheduling.WidgetScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

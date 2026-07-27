@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Low mist bands, drawn over the sun disc in widget_background_dawn.xml so the sun reads as
+     rising *through* them, plus two distant birds. Deliberately soft-edged where the other
+     landscape styles use hard silhouettes. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_dawn_mist_far"
+        android:pathData="M0,96 C60,86 110,102 170,94 C220,87 260,98 300,92 L300,108 C260,114 220,104 170,110 C110,117 60,102 0,110 Z" />
+    <path
+        android:fillColor="@color/widget_dawn_mist_near"
+        android:pathData="M0,122 C50,113 100,126 160,120 C215,114 255,124 300,118 L300,134 C255,140 215,130 160,136 C100,142 50,130 0,138 Z" />
+    <path
+        android:fillColor="@color/widget_dawn_bird"
+        android:pathData="M196,42 C201,36 206,36 211,42 C206,39 201,39 196,42 Z" />
+    <path
+        android:fillColor="@color/widget_dawn_bird"
+        android:pathData="M222,54 C226,49 230,49 234,54 C230,51.5 226,51.5 222,54 Z" />
+</vector>

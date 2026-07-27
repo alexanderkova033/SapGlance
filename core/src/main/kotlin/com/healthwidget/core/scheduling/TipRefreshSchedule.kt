@@ -5,7 +5,7 @@ package com.healthwidget.core.scheduling
  * wall-clock timer, which could rotate a tip nobody ever saw (phone face-down all afternoon,
  * screen off overnight). WorkManager has no "notify me when the screen turns on" primitive
  * and a real screen-on/off listener can't survive process death without a foreground service,
- * so this instead samples: [WidgetRefreshWorker][com.healthwidget.app.widget.WidgetRefreshWorker]
+ * so this instead samples: [WidgetRefreshWorker][com.healthwidget.app.widget.scheduling.WidgetRefreshWorker]
  * ticks every [TICK_INTERVAL_MINUTES] (WorkManager's own minimum periodic interval) and counts
  * a tick only if the screen happens to be on at that instant. [TICKS_UNTIL_ADVANCE] such ticks
  * (spaced [TICK_INTERVAL_MINUTES] apart, so ~90 minutes of *confirmed* on-screen time,

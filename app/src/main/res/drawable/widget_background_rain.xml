@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="180"
+                android:startColor="@color/widget_rain_start"
+                android:endColor="@color/widget_rain_end"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="150dp"
+                android:centerX="0.5"
+                android:centerY="0.0"
+                android:startColor="@color/widget_rain_cloud_glow"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="170dp"
+                android:centerX="0.5"
+                android:centerY="1.0"
+                android:startColor="@color/widget_rain_haze"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/widget_art_rain" />
+    <item
+        android:width="2.5dp"
+        android:height="2.5dp"
+        android:gravity="center_vertical|left"
+        android:left="26dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_rain_drop" />
+        </shape>
+    </item>
+    <item
+        android:width="2dp"
+        android:height="2dp"
+        android:gravity="bottom|center_horizontal"
+        android:bottom="34dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_rain_drop" />
+        </shape>
+    </item>
+    <item
+        android:width="1.8dp"
+        android:height="1.8dp"
+        android:gravity="bottom|right"
+        android:right="30dp"
+        android:bottom="18dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_rain_drop" />
+        </shape>
+    </item>
+    <!-- Card frame: a thin translucent edge on top of everything else, so the widget reads as
+         a bounded card rather than a borderless block of color on the home screen. -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1.5dp" android:color="@color/widget_card_border" />
+        </shape>
+    </item>
+</layer-list>

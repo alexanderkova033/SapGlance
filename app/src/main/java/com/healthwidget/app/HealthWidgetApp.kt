@@ -1,7 +1,7 @@
 package com.healthwidget.app
 
 import android.app.Application
-import com.healthwidget.app.widget.WidgetScheduler
+import com.healthwidget.app.widget.scheduling.WidgetScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -18,6 +18,12 @@ class HealthWidgetApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        com.healthwidget.app.common.PerfLog.mark("Application.onCreate")
+        // Parsing the tip catalog is the most expensive step in answering a widget tap, and it
+        // depends on nothing the tap provides — see AppContainer.warmUp. Starting it here lets it
+        // run alongside the DataStore read instead of after it. Deliberately its own launch, so
+        // the scheduling call below can't delay it (or be delayed by it).
+        applicationScope.launch { container.warmUp() }
         applicationScope.launch {
             WidgetScheduler(this@HealthWidgetApp).ensureScheduled()
         }

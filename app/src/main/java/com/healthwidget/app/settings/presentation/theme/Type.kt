@@ -1,4 +1,4 @@
-package com.healthwidget.app.theme
+package com.healthwidget.app.settings.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
