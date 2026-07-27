@@ -569,6 +569,89 @@ Two follow-up passes after the initial build-out:
     reported in `TipEngineTest.kt`/`TempSimulationTest.kt` were this work in flight —
     `TempSimulationTest.kt` was measurement scaffolding and has been deleted, and
     `ktlintCheck` is green now.
+- **`feat:` five more widget backgrounds (2026-07-27, later same day)** — by request ("add more
+  backgrounds, take inspiration from the existing ones and my project easywritingpoem"). The
+  `WidgetStyle` enum goes 4 → 9: **Aurora, Dawn, Rain, Autumn, Winter**, named after backdrops
+  in the Easy-poems workshop (`web/src/app/themes/*.css` there) and rebuilt from scratch as
+  Android resources rather than ported — that project's backdrops are animated CSS with
+  `color-mix()` and elliptical radial gradients, none of which exist in `<layer-list>`/`<shape>`.
+  - Each new style follows the existing recipe exactly: base linear gradient at its own angle,
+    one or two radial glows, an optional solid celestial disc *behind* a `widget_art_*` vector
+    so the art crosses it, three small accent dots, then the shared `widget_card_border` frame.
+  - They were picked to claim palette territory the original four left empty rather than to
+    add more of the same: violet/green curtains over a ridge (Aurora), misty rose first light
+    (Dawn), desaturated overcast slate (Rain), rust and amber with a bare branch (Autumn),
+    icy blue dusk (Winter). Rain is the only low-saturation style in the set, deliberately —
+    it gives the rotation somewhere quiet to land.
+  - **Two constraints drove the palettes, both learned from the existing four.** Every
+    background stays dark: the tip sits on a 22%-black chip in white text, and the footer
+    label is white at 65% alpha directly over the bottom edge. So the light Easy-poems
+    backdrops had to be re-pitched to dusk versions (Winter is winter *dusk*; a literal snow
+    theme with bright drifts under the footer would have eaten it, so its snow reads through
+    low-alpha pale accents instead). And with nine styles against only eight legal gradient
+    angles, exactly one pair must share: Winter doubles Forest's 135°, the pair least likely
+    to be confused (icy blue vs. green, entirely different art).
+  - Ripple rings in `widget_art_rain.xml` are four cubic segments rather than elliptical arc
+    commands — same path vocabulary as the rest of the widget art, and no arc parsing to trip
+    over at inflation time.
+  - `forTip` is unchanged (`hashCode()` mod `entries.size`), so adding entries reshuffles which
+    tip draws which background. Nothing persists a style, so there's nothing to migrate.
+  - Verified: `:app:processDebugResources` compiles all ten new resource files, `:core:test`
+    (including `WidgetStyleTest`) passes, and `:app:compileDebugKotlin` confirms the
+    `backgroundDrawableRes()` `when` is exhaustive over all nine. Not yet seen on a device —
+    aapt validates the XML, not whether the art reads well at widget size.
+  - **Note on a concurrent pass**: the repo was being restructured underneath this work
+    mid-session (`widget/` split into `presentation/`/`scheduling/`, `WidgetStyle` moved from
+    `core/settings/` to `core/widget/`). The enum edit moved with it cleanly; one build failure
+    partway through was a half-written `AppContainer.kt` from that pass, not this one.
+- **`docs:` second content pass, every pool, aiming for precision (2026-07-27, later still)** —
+  a follow-on to the pass below, by request: more tips in *all seven* pools, no repeated ideas,
+  and deliberately **more precise** than what was already there. Content only; no Kotlin
+  touched.
+  - **Practical 119 tips to 130**: `general` 45 → 50, `morning` 24 → 26, `afternoon` 24 → 26,
+    `evening` 26 → 28. **Tone 124 to 150**: `motivation` 43 → 53, `philosophy` 36 → 42,
+    `wellbeing` 45 → 55. Catalog total 282.
+  - **What "more precise" meant in practice**, and it is now written into the pool headers as a
+    rule rather than left as this session's taste: name the mechanism, the number, or the
+    object instead of the mood. Motivation got "put it where you will trip over it" and "name
+    the time and the place" rather than another "just start"; wellbeing got "notice which
+    sounds are inside the room and which are outside it" rather than "notice the sounds around
+    you". The practical additions carry real figures (21-22C, 30 dB, 100 lux, 15-30 minutes).
+  - **Two candidates were researched and then dropped**, which is the part worth recording:
+    - A handwriting-versus-typing tip, sourced to Mueller & Oppenheimer (2014). Checking it
+      turned up Morehead et al. (2019), a replication finding small **non-significant** effects.
+      Contested evidence does not belong in a pool whose whole promise is two independent
+      sources that agree.
+    - A morning-spinal-flexion tip (discs are most hydrated on waking, so deep forward bends
+      load them hardest). The underlying Adams & Dolan work is real, but the citable versions
+      were awkward and the phrasing kept drifting toward medical advice.
+  - **Deliberate near-miss checks**, since "don't repeat an idea" was the explicit ask. The
+    blue-light-glasses tip is about *eye strain*, and does not contradict the evening
+    blue-light tips, which are about *melatonin*. The light-during-sleep tip is about the hours
+    *during* sleep, where every other evening light tip is about the hours *before* it. The
+    caffeine-nap tip coexists with the existing half-life and no-naps-after-3pm tips. Each of
+    those distinctions is now stated in TIP_SOURCES.md so a later pass doesn't "resolve" them.
+  - **A tidy-up caught mid-pass**: the new wellbeing lines were first appended under fresh
+    headings ("Closer attention", "More people"), which quietly duplicated the existing
+    "Noticing" and "Other people" groups and made the file's own variety rule dishonest. They
+    were merged into the canonical groups instead, and the rule now says to do that.
+  - **Philosophy stays majority-quotation**: 32 attributed quotations to 10 originals. Four new
+    quotations, each verified verbatim against the linked public-domain text (Heraclitus via
+    Burnet, Spinoza's *Ethics* IV via Elwes, Douglass's 1857 West India Emancipation speech,
+    George Eliot's *Middlemarch* finale), chosen to widen the tradition spread rather than add
+    a fifth Stoic.
+  - **Verified: `./gradlew ktlintCheck test lint build` BUILD SUCCESSFUL**, including
+    `assembleRelease`; `TipCatalogTest` 13/13. Custom validation re-checked line-for-line
+    alignment of all four `_sources.txt` files, 2+ sources per practical tip, HTTPS URLs, no
+    URL twice within a tip, no em dashes, and no duplicate text across pools.
+  - **Environment note for next time**: the scratch JDK at `%TEMP%\claude\jdk17` was present but
+    **silently incomplete** (32 files; `java -version` worked, `javac`/toolchain detection did
+    not), which is exactly the partial-extraction failure warned about below. Re-extracted to
+    `%TEMP%\claude\jdk17b` and confirmed 492 files before trusting it. Check the file count, not
+    just that `java` runs.
+  - **Not verified on a physical device.** Longest new line is the cyclic-sighing tip at 105
+    characters; the sleep-and-colds tip from the previous pass (104) is still the other one to
+    watch for clipping at 6 lines.
 
 ## Verified for real (not just reviewed)
 
@@ -670,6 +753,9 @@ Two follow-up passes after the initial build-out:
   - No screenshots (needs the app running on a device).
   - No signed `.aab` has been uploaded anywhere yet — `bundleRelease` produces
     `app/build/outputs/bundle/release/app-release.aab` locally, gitignored, not committed.
+  - The listing will be English-only at launch, which is fine and not a blocker — but note the
+    Play listing localizes in Play Console, separately from the app itself. See "Planned next:
+    languages beyond English" below for the in-app side.
 
 ## In progress right now
 
@@ -702,6 +788,303 @@ Two methodological notes for next time:
   confirmed working via screenshots, but the user caught a UX regression (lag) that no
   automated check here would have surfaced. Real user re-testing after "it's fixed" claims
   matters even when the automated signals are all green.
+
+## Known defect: long tips clip in the widget (confirmed on device, not fixed)
+
+**User-reported and confirmed on a real device (2026-07-27): some tips are too long and don't
+fit the widget.** This one is worth reading before the planned sections below, because two of
+them depend on the number it produces.
+
+The docs predicted this twice and both times flagged it as unverified — the 2026-07-27 content
+passes each closed with a note that the longest new line "should fit the 6-line limit, but that
+is inference from length, not something anyone has looked at." Somebody has now looked at it,
+and the inference was wrong.
+
+**Character count is measuring the wrong thing.** Every tip in the catalog is already inside
+CONTRIBUTING.md's ~115-character guidance — the longest line in all nine pools is a philosophy
+quotation at 111 characters, and the longest practical tip is 106. So the existing rule is
+being *followed* and things still clip. What decides fit is the number of wrapped lines at a
+fixed 15sp against a width the launcher picks, and the vertical space left after chrome —
+neither of which a character count sees. Width per line varies by launcher grid and device;
+word length matters too, since one long unbreakable word can push a shorter string onto an
+extra line than a longer string of short words.
+
+**The chrome is the bigger half of the problem, and it's structural.** The widget declares
+`android:minWidth="140dp"` and `android:minHeight="90dp"` in `tip_widget_info.xml`. Inside
+that, `TipWidget` spends vertical space on: 16dp root padding top and bottom (32dp), the
+decorative `❝` at 18sp plus a 4dp spacer (~26dp), the tip chip's own 6dp vertical padding
+(12dp), an 8dp spacer, and the 11sp "HEALTHWIDGET" label (~13dp). That is ~90dp of non-tip
+content — the entire declared minimum height — before a single line of tip text is drawn. Six
+lines of 15sp is roughly another 110dp. Arithmetic from declared sizes rather than a device
+measurement, and line-height factors are approximate, but the conclusion is robust: the layout
+needs on the order of 200dp of height to render the six lines it says it allows, against a
+minimum it advertises as 90dp. **A tip that wraps to six lines cannot fit at the small end of
+the size range the widget claims to support.** Shortening tips reduces how often this bites; it
+does not remove it.
+
+**This is the known cost of a deliberate decision, now come due.** Measure-and-fit font sizing
+was removed on purpose — the comment above `TIP_FONT_SIZE` in `TipWidget.kt` records why:
+predicting wrap against `LocalSize.current` disagreed with the width the real `RemoteViews`
+`TextView` actually got (different launchers, grid rounding), and picked wrong in both
+directions. That trade explicitly accepted clipped long tips as the lesser evil. Reopening it
+is justified now, but from a different angle than last time: `AndroidRemoteViews` hosting a
+layout with `android:autoSizeTextType="uniform"` hands the shrink-to-fit decision to the
+platform `TextView` at layout time, **with the real width in hand** — which is precisely the
+information the failed approach was trying to guess. Worth prototyping before anything else; it
+would make the whole class of problem go away rather than moving the threshold.
+
+**Options, roughly in order of value for effort:**
+
+1. **Cut chrome at small sizes.** The `❝` glyph and the app-name label, with their spacers,
+   cost ~45dp — half the declared minimum height — and are both purely decorative. Dropping
+   them below some size threshold buys about three lines of tip text.
+2. **Autosizing text** via `AndroidRemoteViews`, as above. Needs a real prototype; Glance's
+   `Text` has no autosize of its own, which is why this has to go through a RemoteViews layout.
+3. **Responsive layout** via Glance `SizeMode.Responsive`/`LocalSize`. This is already on the
+   roadmap as "widget size variants (small/medium)" and is almost certainly the same piece of
+   work, not a separate one.
+4. **Raise the declared minimum size** so the widget stops advertising a box it cannot render
+   its own maximum text in. Cheapest of all, and honest, but narrows where users can place it.
+5. **Shorten the tips.** Necessary as calibration, insufficient as a fix, and worth doing only
+   after there's a measured budget to shorten *to*.
+
+**Add the missing test, but measure before choosing its number.** `TipCatalogTest` has no
+length assertion at all: the em-dash rule got a guard, the length rule never did, so the ~115
+figure in CONTRIBUTING.md is honour-system guidance nothing enforces. That figure is also stale
+on its face — CONTRIBUTING justifies it as "5 lines of bold 16sp type", while the widget renders
+`maxLines = 6` at `TIP_FONT_SIZE = 15.sp`. The right sequence is: fix the layout, measure what
+actually fits at the smallest supported size on a real device, then encode *that* as a test,
+rather than promoting an unvalidated number into a build failure.
+
+**Two planned sections below depend on this.** The languages plan notes German and Russian
+typically run 20-30% longer than English, and the de-cliché plan's "carries a real number"
+register is its longest. Both are risky to execute against an unknown budget, which is an
+argument for fixing this first.
+
+## Planned next: de-cliché the practical tip pools (not started)
+
+Not started. Content-only work, in the same shape as the two 2026-07-27 content passes above,
+but pointed at the one group those passes left alone: the **practical** pools were grown and
+de-duplicated, never de-cliché'd. `motivation`/`philosophy`/`wellbeing` got that treatment
+(each pool's dominant angle capped, a variety rule added to its header); `general`/`morning`/
+`afternoon`/`evening` got new tips and a near-duplicate rewrite, which is a different problem.
+Two tips can be entirely distinct from each other and both be things the reader has read a
+hundred times.
+
+**The problem, stated precisely.** Roughly a sixth of the 130 practical tips are the standard
+ergonomics-poster and sleep-hygiene-leaflet lines: the 20-20-20 rule, "check your posture",
+"adjust your chair so your feet rest flat on the floor", "position your screen at eye level and
+an arm's length away", "keep water within arm's reach", "take 3 slow, deep breaths", "open the
+curtains", "dimming lights and screens in the evening helps your body start winding down".
+None of them is inaccurate, and that is exactly what makes them hard to argue with one at a
+time. The argument against them is specific to this product rather than to the advice: a widget
+reappears on the home screen several times a day for months, so a line that informs on first
+sight and then reads as wallpaper for its next sixty appearances costs more here than the same
+line costs in a leaflet somebody reads once. Novelty is a feature of the format, not a vanity.
+
+**The fix is register, not topic** — do not drop posture, hydration, breaks or morning light,
+which are clichés precisely because they're true and worth repeating. Change what the line
+*says* about them. This is tractable because each pool already contains the good version of its
+own clichés:
+
+- `general.txt` carries both "Check your posture: ears, shoulders, and hips roughly stacked"
+  and "Your best posture is your next one. Changing position beats holding a perfect one."
+- It carries both "Take 3 slow, deep breaths" and "Breathing out for longer than you breathe in
+  is what triggers the calming response."
+- Every line in the catalog that is actually worth re-reading does one of four things: **busts
+  a myth** (blue-light glasses and the Cochrane review, snoozing, breakfast and metabolism,
+  night mode vs dimming), **names a mechanism** (the warm-bath paradox, the dive reflex,
+  why breaks work), **carries a real number** (21-22C, 100 lux, WHO's 30 dB, NASA's 26-minute
+  nap, three-times-as-many colds), or **inverts an assumption** (coffee *then* a 15-minute nap;
+  save open-ended problems for when you're slightly tired). Those four registers are the spec.
+
+**Where the familiarity concentrates** (worth starting here rather than reading all 119 in
+order): `morning.txt` still has six separate morning-light lines even after the near-duplicate
+pass removed two, so the pool's biggest cluster is also its most familiar one; `afternoon.txt`
+has five near-interchangeable "get up / move / take a break" lines; `general.txt` has an
+ergonomics run (chair height, screen distance, shoulder rolls, wrist stretches, leg stretches)
+and two hydration lines. `evening.txt` is in the best shape already — the 100-lux, WHO-30-dB,
+warm-bath-paradox and night-mode lines are the model for the whole exercise.
+
+**Constraints this work must not break:**
+
+1. **The evidence bar stays where it is.** The obvious failure mode of chasing
+   counterintuitive lines is drifting toward findings that are interesting *because* they are
+   shaky; surprising results replicate worst. Two independent primary citations per tip,
+   TIP_SOURCES.md source-quality rules unchanged, and where a topic's only non-obvious angle
+   rests on one small study, the boring well-supported line stays. Worth pointing the same
+   scepticism back at the catalog while in there: the 20-20-20 rule is asserted as an
+   eye-doctor recommendation, and whether the evidence supports those specific numbers is a
+   fair question, in the same spirit as the blue-light-glasses line four rows below it.
+2. **Replace 1:1, don't net-cut.** `ANTI_REPEAT_WINDOW` is 30 against ~76 unique practical
+   tips per day part. Shrinking the pools moves the window closer to pool size and makes
+   rotation feel more repetitive — the opposite of the goal.
+3. **Two-file bookkeeping.** Practical pools zip `<pool>.txt` against `<pool>_sources.txt`
+   line-for-line with a `require` on count and field parity, so every rewritten line moves with
+   its sources line and its TIP_SOURCES.md entry. The specific thing to catch in review is a
+   rewritten tip silently inheriting the previous tip's citation: if the claim changed, the
+   sources must change too, and nothing in the build can tell the difference.
+4. **Length envelope**: still ~115 characters (CONTRIBUTING.md), and the "carries a real
+   number" register is the one that runs long.
+5. **Existing users' history is keyed by tip text**, so every rewrite orphans that line in
+   stored history and it can come back immediately once. Minor and acceptable; noted because
+   it's the same root cause as item 2 of the languages plan below.
+
+**Enforcement is a header rule, not a test.** `TipCatalogTest` catches byte-identical
+duplicates, em dashes, missing citations and malformed URLs; none of that detects "boring", and
+a lint for it would be gameable nonsense. The durable form is what the tone pools already do:
+a `WRITING RULE` header comment in each practical file naming the four registers and the
+"change the register, keep the topic" rule, mirrored into CONTRIBUTING.md's "Adding a tip"
+list. The practical files' headers are currently two lines of purely mechanical bookkeeping,
+which is why nothing pushed back when the poster lines went in.
+
+## Planned next: languages beyond English (not started)
+
+Nothing below is implemented — this is the plan of record for the README roadmap's "Languages
+beyond `en`" item, written up here because the shape of the work is much less obvious than the
+one-line roadmap entry made it sound. The app is `en`-only today and has no `values-<lang>/`
+directories, no `resConfigs`/locale filtering in `app/build.gradle.kts`, and no locale concept
+anywhere in `:core`.
+
+The headline: **the UI is the easy 5% and the tip catalog is the other 95%, and the catalog is
+not an Android-resources problem.** All user-facing UI strings are already externalized to
+`app/src/main/res/values/strings.xml` (a `values-es/strings.xml` etc. is genuinely all Android
+needs, for the Glance widget as much as the settings screen — the only hardcoded literal in
+`:app` is the decorative `❝` glyph in `TipWidget.kt`). But the 282 tips live in
+`core/src/main/resources/tips/*.txt` and load via
+`TipCatalog::class.java.getResourceAsStream("/tips/$fileName")` — a JVM classpath lookup with no
+notion of `Locale`. Translate `strings.xml` alone and a Spanish phone gets a fully Spanish UI
+wrapped around 282 English tips.
+
+Work items, in dependency order:
+
+1. **Locale-aware `TipCatalog`.** `loadDefault()` currently takes no arguments. Give it a
+   locale, passed in from `:app` rather than read from a global — `:core` is deliberately
+   Android-free and JVM-pure (that's also what keeps it portable to the iOS port), so it must
+   not reach for `Locale.getDefault()` on its own account. Resource layout becomes
+   `/tips/<lang>/general.txt` with a per-pool fallback to the English file, so a partially
+   translated locale ships mixed-language content instead of failing the
+   `require(...) { "Missing bundled tip resource: tips/$fileName" }` in `resourceLines`.
+   `AppContainer` builds the `TipEngine` as a `by lazy` singleton, so it also needs to notice
+   a locale change (`ACTION_LOCALE_CHANGED` / config change) and rebuild, or a language switch
+   won't take effect until the process dies.
+2. **Decide what a language switch does to tip history.** `TipHistoryRepository` stores the
+   last 90 tip *texts* (`recordTip(tip: String)`), not ids. So switching language invalidates
+   the whole history in one step, with three visible consequences: the FR5 anti-repeat
+   guarantee silently restarts from empty (a tip seen yesterday can come back immediately);
+   `TipEngine.findByText` no longer resolves the currently-shown tip, so "Why this tip?" loses
+   its citation half until the next advance (the card survives this — `SettingsScreen.kt`
+   already treats the lookup as best-effort and nullable); and `WidgetStyle.forTip`, which
+   hashes tip text, picks a different background for the same tip in each language. Two
+   options: accept it as a rare one-time cost and write it down, or add a stable id to `Tip`
+   and migrate history onto ids. The id route is a bigger change but is the only one that also
+   fixes the pre-existing "history stops matching after a wording edit" case.
+3. **Translate the pools — three genuinely different jobs.** Practical tips (130) each carry
+   ≥2 citations to English-language primary literature: the text translates, the sources do
+   not, and keeping the English citation should be an explicit decision (it's the right one —
+   the evidence is the paper, not its language). Philosophy (42) is majority public-domain
+   quotation pinned to a specific edition, and `TipCatalogTest` enforces that majority; a
+   translated quotation attributed to an English Gutenberg edition is a false citation, so each
+   language needs its own public-domain translation or the Greek/Latin original, per line.
+   Motivation (53) and wellbeing (55) carry no citation bar and are the cheapest to translate
+   and the easiest to get tonally wrong — each file's header rules (voice, variety, how far the
+   humour may go) are the spec and must go to the translator with the text.
+4. **The two sleep messages.** `sleep_late.txt` reads "It's past 11 PM" — a 12-hour clock
+   about to meet locales that don't use one.
+5. **Parameterize the tests.** Every guard in `TipCatalogTest` runs against `loadDefault()`,
+   i.e. English: no duplicates within or across pools, ≥2 real sources per practical tip, no em
+   dashes, philosophy majority-quotation, well-formed citations. Translated catalogs get none of
+   those unless the suite runs per locale. Worth adding at the same time: a per-locale max-length
+   check. The widget uses a fixed `TIP_FONT_SIZE` (15sp, `maxLines = 6`) with no measure-and-fit,
+   which is exactly why the English catalog was kept to a ~50-115 character envelope; German and
+   Russian typically run 20-30% longer, so translations will clip where the English didn't.
+6. **Store-side.** Play Console listings and screenshots localize separately from the app, and
+   `PRIVACY.md` is English-only.
+
+**Open decision: which languages.** Candidate first wave `es`/`pt-BR`/`de`/`fr`/`ru`, but the
+real constraint is review capacity rather than translation supply — an unreviewed machine
+translation of an evidence-backed health claim is precisely what this project's content history
+has refused to ship, repeatedly and on purpose. One language done properly beats five done
+automatically. Items 1, 2, 4 and 5 are the same work regardless, so none of them is blocked on
+this decision.
+
+## Planned much later: iOS port (not started, and gated on hardware)
+
+Not started, and unlike everything else on the roadmap it is **not primarily blocked on
+work**. Two hard gates come first, both outside the code:
+
+- **Xcode is macOS-only.** Nothing here can be built, run, simulated, or submitted from this
+  Windows machine — see "Local environment notes" below, which already documents that this box
+  has no JDK or Android SDK by default either. A Mac, or rented macOS CI runners, is a
+  precondition, not an optimization.
+- **$99/year, recurring**, for the Apple Developer Program, against the $25 one-off Google
+  charges. The Play Console account hasn't even been bought yet (see "Release readiness"), so
+  the sane sequencing is: ship Android, find out whether anyone wants this, then decide whether
+  a second platform earns a recurring fee.
+
+**`:core` is genuinely close to portable — but "reusable as-is" (as the README used to claim,
+now corrected) was never true.** A full audit of the module's imports turns up exactly two JVM
+dependencies:
+
+1. `java.time.LocalTime` — `TipEngine.kt`, `AdvanceTipUseCase.kt`. Replaced by
+   `kotlinx-datetime` in a multiplatform build.
+2. Resource loading in `TipCatalog.kt` — `TipCatalog::class.java.getResourceAsStream`, plus
+   `Charsets.UTF_8` and `bufferedReader`, all JVM-only. Needs an `expect`/`actual` around
+   catalog loading, with the iOS side reading the `tips/*.txt` files out of the app bundle.
+
+Everything else already compiles anywhere Kotlin does: `kotlinx.coroutines` `Flow`/`Mutex`,
+`kotlin.random.Random`, the data classes, and all of the selection math. Mechanically the move
+is `core/build.gradle.kts` swapping `alias(libs.plugins.kotlin.jvm)` for the multiplatform
+plugin with `jvm()` + `iosArm64()`/`iosSimulatorArm64()` targets.
+
+**The real cost is the test suite.** `:core`'s tests are the most valuable thing in the repo
+and they are JUnit 5 (`junit.jupiter`, including `@ParameterizedTest` fed by
+`java.util.stream.Stream`) plus Truth. None of that runs on Kotlin/Native. Moving them into
+`commonTest` means a mechanical but wide rewrite onto `kotlin.test` — more work than porting
+the logic they guard, and the kind of job that gets abandoned halfway.
+
+**Platform divergences that are product decisions, not porting details:**
+
+- **The ~90-minute confirmed-screen-on rule cannot be reproduced.** `TipRefreshSchedule`'s
+  whole design (tick every 15 min via WorkManager, count the tick only if the screen was on,
+  advance at 6 ticks) depends on background execution and a screen-state signal. WidgetKit
+  gives neither: a widget returns a *timeline* of future entries and the system renders them
+  when it likes, against a daily refresh budget. iOS therefore gets wall-clock rotation, which
+  is exactly the model this project rejected on purpose because it rotates tips nobody saw.
+  Decide deliberately: accept a weaker iOS guarantee and document it, or find a rule both
+  platforms can honour.
+- **Tap-to-refresh requires iOS 17+.** Interactive widgets (a `Button` wired to an App Intent)
+  don't exist before that; on iOS 16 a widget tap can only deep-link into the app, which
+  removes the primary interaction rather than degrading it. iOS 17 as the floor is the
+  straightforward call.
+- **Two processes instead of one.** The widget extension doesn't share an address space or a
+  container with the app, so settings and history must move to a shared App Group. That also
+  invalidates `AdvanceTipUseCase`'s concurrency guarantee: its `Mutex` serializes
+  read-select-persist within a single process, which was sufficient on Android (one app
+  process, `AppContainer` handing out one shared instance) and is not sufficient on iOS. The
+  read-modify-write race the mutex was added to fix comes back and needs cross-process
+  coordination.
+- **The nine widget styles are Android artwork.** `WidgetStyle.forTip` is pure `:core` and
+  ports for free; `widget_background_*.xml` and `widget_art_*.xml` are Android vector drawables
+  and need rebuilding in SwiftUI. Also relevant before anyone designs for it: iOS 17 imposes
+  its own content margins, and Lock Screen / StandBy widgets are rendered monochrome, so the
+  gradient card doesn't exist in those contexts at all.
+- **The privacy promise doesn't translate literally, and this one matters** because it's the
+  product's headline claim. "The manifest doesn't declare `INTERNET`, so a compromised
+  dependency couldn't phone home even if it tried" is an Android guarantee with no iOS
+  equivalent — there is no way for an iOS app to declaratively renounce network access. The
+  truthful iOS version is weaker: no networking code, and an App Store privacy label of "Data
+  Not Collected". PRIVACY.md needs its own iOS section saying that plainly rather than
+  reusing the Android sentence, and iCloud container backup is the analogue of the existing
+  Android backup-rules discussion.
+
+**Open decision: how much to share.** Kotlin Multiplatform `:core` versus reimplementing the
+engine in Swift and sharing only the `tips/*.txt` content. The recommendation is **KMP**:
+selection stopped being trivial in the 2026-07-27 rework (three narrowing weighted picks,
+recency weighting across a 90-tip history, per-day-part `ToneProfile`) and it carries a real
+invariant in FR5, so a second hand-written implementation would be precisely the divergence
+`AdvanceTipUseCase` was created to prevent — the same argument, one platform up. The
+Swift-rewrite route is only defensible if the iOS app is intentionally a simpler product.
 
 ## Local environment notes
 
@@ -743,6 +1126,11 @@ Notes from repeated from-scratch JDK setups in this environment:
   wellbeing pools, and are ~50% of night draws at the default variety level.
 - No ViewModel, no DI framework (`AppContainer` is hand-written) — deliberate, the app is
   too small to justify either; see README "Notable design decisions."
+- Tips are identified by their **text** everywhere it matters: history (`recordTip(String)`),
+  lookup (`TipEngine.findByText`), and background style (`WidgetStyle.forTip` hashes the text).
+  Fine while the app is single-language and the catalog only changes at release; it is the main
+  structural obstacle to shipping other languages, and the reason a wording edit already orphans
+  a user's stored history. See "Planned next: languages beyond English" above.
 - AGP is now 8.10.1 / `compileSdk`/`targetSdk 36` (previously 8.7.3 / 35 — an earlier attempt
   at other dependency bumps, e.g. activity-compose 1.13/core-ktx 1.19, had been reverted
   after cascading into requiring `compileSdk 36+`/AGP 9.x, which felt out of scope at the

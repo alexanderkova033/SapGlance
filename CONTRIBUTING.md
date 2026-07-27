@@ -82,9 +82,13 @@ Keep new tips:
   (e.g. a caffeine half-life, a recommended bedroom temperature range) is fine; an
   invented-sounding one is not.
 - Phrased as a gentle suggestion ("can help", "is linked to"), never a guaranteed outcome.
-- Short enough to read at a glance in a small widget — in practice, under ~115 characters,
-  since the widget caps tip text at 5 lines of bold 16sp type (`TipWidget.kt`) and has to fit
-  the smallest home-screen widget size too.
+- Short enough to read at a glance in a small widget. The working figure is ~115 characters,
+  but treat it as provisional and aim well under it: the widget caps tip text at `maxLines = 6`
+  of bold 15sp type (`TipWidget.kt`) and has to fit the smallest home-screen widget size, and
+  long tips are currently known to clip on real devices *while still obeying this rule* — the
+  longest tip in the catalog is 111 characters and does not reliably fit. Nothing enforces the
+  number yet either; `TipCatalogTest` has no length assertion. See "Known defect: long tips clip
+  in the widget" in [STATUS.md](STATUS.md) before relying on it.
 - Free of em dashes. `TipCatalogTest` fails the build on one; use a comma, a period, or "and".
 - Distinct from what's already there. `TipCatalogTest` only catches byte-identical duplicates,
   so check by hand that you aren't restating an existing tip in different words — and if the
