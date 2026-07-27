@@ -78,6 +78,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -91,6 +92,7 @@ import com.healthwidget.core.tips.DayPart
 import com.healthwidget.core.tips.Tip
 import com.healthwidget.core.tips.TipEngine
 import com.healthwidget.core.tips.TipHistoryRepository
+import com.healthwidget.core.tips.TipKind
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -334,6 +336,15 @@ private fun VarietyLevel.icon(): ImageVector =
         VarietyLevel.PLAYFUL -> Icons.Filled.AutoAwesome
     }
 
+/** `null` for [TipKind.PRACTICAL] — the default kind isn't labelled, see [TipSourceSection]. */
+private fun TipKind.labelRes(): Int? =
+    when (this) {
+        TipKind.PRACTICAL -> null
+        TipKind.MOTIVATION -> R.string.settings_tip_kind_motivation
+        TipKind.PHILOSOPHY -> R.string.settings_tip_kind_philosophy
+        TipKind.WELLBEING -> R.string.settings_tip_kind_wellbeing
+    }
+
 private fun VarietyLevel.labelRes(): Int =
     when (this) {
         VarietyLevel.PRACTICAL -> R.string.settings_variety_label_practical
@@ -438,8 +449,21 @@ private fun TipSourceSection(
                     )
                 }
                 Spacer(Modifier.width(12.dp))
+                // Tone tips name their group next to the day part ("EVENING · PHILOSOPHY"), so
+                // it's obvious which pool a tip came from. Practical tips stay unlabelled: they
+                // are the default and the majority, and tagging every one of them would be noise.
+                val kindLabelRes = source?.kind?.labelRes()
                 Text(
-                    text = visual.label.uppercase(),
+                    text =
+                        if (kindLabelRes == null) {
+                            visual.label.uppercase()
+                        } else {
+                            stringResource(
+                                R.string.settings_tip_label_combined,
+                                visual.label,
+                                stringResource(kindLabelRes),
+                            ).uppercase()
+                        },
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.5.sp,
@@ -463,26 +487,49 @@ private fun TipSourceSection(
                     fontWeight = FontWeight.Medium,
                 )
             }
-            if (source != null) {
+            // An unsourced tip (an original motivational or wellbeing line) shows no citation
+            // block at all rather than an empty header — it makes no empirical claim, so there
+            // is nothing to back up and nothing to apologise for.
+            if (source != null && source.sources.isNotEmpty()) {
                 Spacer(Modifier.height(14.dp))
                 val context = LocalContext.current
-                Row(
-                    modifier = Modifier.clickable { openSource(context, source.sourceUrl) },
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.OpenInNew,
-                        contentDescription = null,
-                        tint = accent,
-                        modifier = Modifier.size(16.dp),
-                    )
-                    Spacer(Modifier.width(6.dp))
-                    Text(
-                        text = source.sourceLabel,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = accent,
-                        fontWeight = FontWeight.Medium,
-                    )
+                // Every source gets its own tappable row rather than just the first one: the
+                // point of carrying several is that the user can see a claim is backed by more
+                // than one study, which a single collapsed link would hide again.
+                Text(
+                    text =
+                        if (source.kind.requiresCitation) {
+                            pluralStringResource(
+                                R.plurals.settings_tip_sources_header,
+                                source.sources.size,
+                                source.sources.size,
+                            )
+                        } else {
+                            stringResource(R.string.settings_tip_source_attribution)
+                        },
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                source.sources.forEach { tipSource ->
+                    Spacer(Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier.clickable { openSource(context, tipSource.url) },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                            contentDescription = null,
+                            tint = accent,
+                            modifier = Modifier.size(16.dp),
+                        )
+                        Spacer(Modifier.width(6.dp))
+                        Text(
+                            text = tipSource.label,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = accent,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(16.dp))

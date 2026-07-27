@@ -1,0 +1,83 @@
+# GROUP: WELLBEING (TipKind.WELLBEING) — small, concrete invitations.
+#
+# Original writing, no citation, none implied; see TipKind. Format is inline:
+# "Tip text" alone, or "Tip text<TAB>Label<TAB>URL" if a line ever needs attribution.
+#
+# WRITING RULE FOR THIS POOL: never assume the reader is having a bad day. A widget appears
+# at random, so a line that presupposes struggle ("it's fine if today was mostly getting
+# through it") lands as a diagnosis nobody asked for, and a line that corrects the reader
+# ("nobody is watching you as closely as you think", "your shoulders are higher than you
+# think") tells them they were wrong about something. Offer something small and specific
+# instead, and let it be equally welcome on a good day. Concrete beats abstract: hands,
+# windows, sound, temperature, a song.
+#
+# SECOND WRITING RULE, on variety: keep the senses and the settings spread out. The easy line
+# to write is another quiet indoor noticing prompt, and a pool made only of those reads as one
+# tip in twenty costumes. The groupings below are the spread worth keeping: noticing, the
+# body, outside, play, other people, small acts of making things nicer, and lighter. Prefer
+# whichever group is thinnest, and keep the body lines invitations rather than corrections.
+#
+# THIRD WRITING RULE, on the lighter group: this is the only pool allowed to be openly silly,
+# and the first rule still governs it. Humour that needs the reader to be having a bad day to
+# land ("at least it's not Monday") breaks that rule, and humour at the reader's expense
+# breaks the no-correcting rule. Aim at the situation or the object, not the person, and check
+# the line still works on a day that is going perfectly well.
+
+# Noticing.
+Look out of the nearest window for ten seconds. Just look.
+Name three things you can hear right now without moving.
+Notice the temperature of the room. That's the whole thing.
+Notice how the light is falling right now. It won't be like this later.
+Listen for the furthest away sound you can pick out.
+Pick a colour and notice everywhere it shows up for the next minute.
+Watch something moving that isn't a screen. Trees, traffic, clouds.
+Actually taste the next thing you eat, not just the first bite of it.
+Let the next good moment run about three seconds longer than usual.
+Something made you smile in the last day or so. See if you can find it again.
+
+# The body.
+Put both hands around something warm and stay there for a minute.
+Stretch like a cat with nowhere to be.
+Let your shoulders drop about a centimetre.
+Let your jaw sit loose for a moment.
+Roll your neck slowly, once each way.
+Put your bare feet on the floor and notice what that's like.
+Adjust one thing you're wearing so it sits more comfortably.
+Take up slightly more room than you're currently taking up.
+
+# Outside.
+There's a plant, a tree, or a patch of sky within reach of your eyes.
+Find the sky. Wherever you are, there's some of it.
+Step outside for one minute, even if the weather is unremarkable.
+Open a window a little, whatever the season is doing.
+Take the longer way to wherever you're going next.
+
+# Play.
+Play the song you always skip back to.
+Sing along to something badly, where nobody can hear you.
+Do one small thing purely because it would be funny.
+Sit somewhere different for the next ten minutes and see how it lands.
+
+# Other people.
+Text someone you like, for no reason and with no occasion.
+Someone would be glad to hear from you today. You probably know who.
+Tell someone the specific thing you like about them, not the general one.
+Say thank you to someone who won't be expecting it.
+Ask someone a better question than how they are.
+
+# Making things nicer.
+If a small thing would make the next hour nicer, go and get it.
+Put something you like where tomorrow-morning-you will find it.
+Make the next drink you have properly, without hurrying it.
+Clear one surface. Not the room, one surface.
+Rest gets to be enjoyable, not just necessary.
+
+# Lighter. Small and a bit silly, and just as welcome on a good day.
+Stand up and do the stretch that makes an involuntary noise.
+Check on the plant. It has been through a lot and has never once complained.
+Find the oldest unread notification and dismiss it unread. Nothing will happen.
+There is a snack situation somewhere nearby. You know the one.
+Put on something you'd be slightly embarrassed to have playing when someone walks in.
+Name the nearest object out loud. That's your band name now.
+Take the long way to the kettle, past the window.
+If there's a dog, a bird, or a cat within sight, that's a legitimate use of a minute.

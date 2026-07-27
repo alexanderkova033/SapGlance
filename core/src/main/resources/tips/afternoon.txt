@@ -1,23 +1,26 @@
 # Afternoon-only micro-tips (12:00-17:59), appended to the general pool.
-Feeling a slump? A short walk or fresh air often helps more than coffee.
-Open a window or step outside to ease that mentally fatigued feeling.
-Check in on your water intake — have you had a drink recently?
-The early-afternoon slump is partly circadian, not just lunch — a walk can help.
-If focus is fading, a 5-minute break often helps more than pushing through.
-Stand up and stretch — moving around can help with an afternoon slump.
-A few minutes in daylight can give you a natural energy boost.
-A short chat or change of scenery is a simple way to break up mental fatigue.
-Check your posture — it's easy to slouch as the day goes on.
-Swap a caffeine refill for a glass of water and see how you feel.
-Break up long afternoon sitting with just a minute of standing.
-A short chat with a coworker or friend can lift an afternoon lull.
-Keeping a nap under 20 minutes can help you avoid feeling groggy.
-Stepping away from your screen for a few minutes can ease eye fatigue.
-A few slow breaths can help settle a restless afternoon mind.
-A brief mental break can restore focus after hours of sustained attention.
-Caffeine takes ~5 hours to clear half — an afternoon cup can still be active at bedtime.
-Napping after 3pm is more likely to disrupt falling asleep that night.
+# Each line has a matching line in afternoon_sources.txt carrying 2+ citations.
+Feeling a slump? A short walk or fresh air often helps more than another coffee.
+Step outside for a few minutes. Daylight has a direct alerting effect, not just a mood one.
+When did you last actually drink something? Coffee only half counts.
+The early-afternoon dip is partly circadian. It shows up even on days you skip lunch.
+If focus is fading, a 5-minute break usually beats pushing through.
+Stand up and move. Even one lap of the room interrupts the slump.
+A change of scenery resets attention faster than staring harder at the same screen.
+Check your posture. It's easy to slowly slide down the chair as the day goes on.
+Swap one caffeine refill for a glass of water and see how the afternoon goes.
+Break up long afternoon sitting with a minute or two of standing.
+Two minutes of conversation with an actual human breaks an afternoon lull.
+Keeping a nap under about 20 minutes helps you avoid waking up groggy.
+Give your eyes a few minutes on something that isn't a screen.
+A few slow breaths can settle a restless afternoon mind.
+Attention fades on its own after long stretches of focus. A break is the fix.
+Caffeine takes around 5 hours to half-clear, so an afternoon cup still works at bedtime.
+Napping after 3pm is more likely to make falling asleep tonight harder.
 Bright light in the afternoon can help offset your body clock's natural dip.
-A heavy, high-carb lunch can trigger a blood-sugar dip and an afternoon crash.
+A big, heavy lunch tends to deepen the afternoon dip. A lighter one softens it.
 Standing or walking meetings are an easy way to break up afternoon sitting.
-Screen use can roughly halve your blink rate — afternoons are when eyes feel dry.
+Screen use can roughly halve your blink rate, which is why eyes feel dry by now.
+In NASA's pilot study, a nap averaging 26 minutes measurably restored alertness.
+Short bursts of hard effort count. One brisk flight of stairs is doing real work.
+Music put on deliberately to relax lowers stress. Music as background does less.

@@ -1,42 +1,48 @@
-# Citation for each line in general.txt, same order, one per line: Label<TAB>URL.
-# See TIP_SOURCES.md at the repo root for the full research writeup behind each of these.
-AOA & AOA: The 20-20-20 rule for digital eye strain	https://www.aoa.org/AOA/Images/Patients/Eye%20Conditions/20-20-20-rule.pdf
-Portello, Rosenfield & Chu, Optometry and Vision Science, 2013	https://pubmed.ncbi.nlm.nih.gov/23538437/
-Biswas et al., Annals of Internal Medicine, 2015	https://www.sedentarybehaviour.org/2015/03/11/author-summary-of-sedentary-time-and-its-association-with-risk-for-disease-incidence-mortality-and-hospitalization-in-adults-paper-published-in-the-annals-of-internal-medicine-20/
-Biswas et al., Annals of Internal Medicine, 2015	https://www.sedentarybehaviour.org/2015/03/11/author-summary-of-sedentary-time-and-its-association-with-risk-for-disease-incidence-mortality-and-hospitalization-in-adults-paper-published-in-the-annals-of-internal-medicine-20/
-Slow breathing & heart-rate variability, systematic review	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007
-UBC Visual Ergonomics: Solutions for Lighting & Eye Health	https://hr.ubc.ca/wellbeing-benefits/files/Visual-ergonomics-resources.pdf
-Ariga & Lleras, Cognition, 2011	https://www.sciencedaily.com/releases/2011/02/110208131529.htm
-Ariga & Lleras, Cognition, 2011	https://www.sciencedaily.com/releases/2011/02/110208131529.htm
-Ganio et al., British Journal of Nutrition, 2011	https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF
-Lundberg et al., 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/
-Lundberg et al., 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/
-Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
-OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors
-Rempel et al., wrist posture and carpal tunnel pressure	https://pubmed.ncbi.nlm.nih.gov/18383144/
-Ariga & Lleras, Cognition, 2011	https://www.sciencedaily.com/releases/2011/02/110208131529.htm
-Slow breathing & heart-rate variability, systematic review	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007
-Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
-Slow breathing & heart-rate variability, systematic review	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007
-Ariga & Lleras, Cognition, 2011	https://www.sciencedaily.com/releases/2011/02/110208131529.htm
-Lundberg et al., 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/
-Biswas et al., Annals of Internal Medicine, 2015	https://www.sedentarybehaviour.org/2015/03/11/author-summary-of-sedentary-time-and-its-association-with-risk-for-disease-incidence-mortality-and-hospitalization-in-adults-paper-published-in-the-annals-of-internal-medicine-20/
-Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
-Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
-Ganio et al., British Journal of Nutrition, 2011	https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF
-Lundberg et al., 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/
-Lundberg et al., 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/
-Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
-Rempel et al., wrist posture and carpal tunnel pressure	https://pubmed.ncbi.nlm.nih.gov/18383144/
-Perceived musculoskeletal discomfort during prolonged sitting, ScienceDirect	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770
-McMains & Kastner, J. Neuroscience, 2011	https://pubmed.ncbi.nlm.nih.gov/21228167/
-Biswas et al., Annals of Internal Medicine, 2015	https://www.sedentarybehaviour.org/2015/03/11/author-summary-of-sedentary-time-and-its-association-with-risk-for-disease-incidence-mortality-and-hospitalization-in-adults-paper-published-in-the-annals-of-internal-medicine-20/
-Rubinstein, Meyer & Evans, J. Exp. Psychology, 2001	https://pubmed.ncbi.nlm.nih.gov/11518143/
-Mark, Gudith & Klocke, CHI 2008	https://dl.acm.org/doi/10.1145/1357054.1357072
-Attention Restoration Theory, systematic review (ECEHH)	https://www.ecehh.org/research/attention-restoration-theory-a-systematic-review/
-Satish et al., Environmental Health Perspectives, 2012	https://newscenter.lbl.gov/2012/10/17/elevated-indoor-carbon-dioxide-impairs-decision-making-performance/
-Lundberg et al., 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/
-Perceived musculoskeletal discomfort during prolonged sitting, ScienceDirect	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770
-Reinecke et al., Media Psychology, 2017	https://www.researchgate.net/publication/296623540
-Oppezzo & Schwartz, J. Exp. Psychology, 2014 (Stanford)	https://news.stanford.edu/stories/2014/04/walking-vs-sitting-042414
-Circadian phase advance from morning light, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/
+# Citations for each line in general.txt, same order, one line per tip.
+# Format: Label<TAB>URL, repeated. Every tip carries at least two independent sources, and
+# the same source may back several tips. See TIP_SOURCES.md at the repo root for the writeup.
+AOA: Computer vision syndrome	https://www.aoa.org/healthy-eyes/eye-and-vision-conditions/computer-vision-syndrome	Talens-Estarelles et al., Contact Lens & Anterior Eye, 2023	https://www.sciencedirect.com/science/article/pii/S1367048422001990	Optometry Times: Deconstructing the 20-20-20 rule	https://www.optometrytimes.com/view/deconstructing-20-20-20-rule-digital-eye-strain
+Portello, Rosenfield & Chu, Optometry & Vision Science, 2013	https://pubmed.ncbi.nlm.nih.gov/23538437/	Cognitive demand and blink rate, Computers in Human Behavior, 2015	https://www.sciencedirect.com/science/article/abs/pii/S0747563215003829
+Biswas et al., Annals of Internal Medicine, 2015	https://pubmed.ncbi.nlm.nih.gov/25599350/	Buffey et al., Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35147898/
+Discomfort during prolonged sitting, Applied Ergonomics, 2020	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770	Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
+Slow breathing and HRV, meta-analysis, Neurosci. & Biobehav. Reviews, 2022	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007	Zaccaro et al., Frontiers in Human Neuroscience, 2018	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6137615/
+UBC Visual Ergonomics: Lighting & Eye Health	https://hr.ubc.ca/wellbeing-benefits/files/Visual-ergonomics-resources.pdf	OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors
+Ariga & Lleras, Cognition, 2011	https://www.sciencedirect.com/science/article/abs/pii/S0010027710002994	Oppezzo & Schwartz, J. Exp. Psychology: LMC, 2014	https://www.apa.org/pubs/journals/releases/xlm-a0036577.pdf
+AOA: Computer vision syndrome	https://www.aoa.org/healthy-eyes/eye-and-vision-conditions/computer-vision-syndrome	Ariga & Lleras, Cognition, 2011	https://www.sciencedirect.com/science/article/abs/pii/S0010027710002994
+Ganio et al., British Journal of Nutrition, 2011	https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF	Armstrong et al., Journal of Nutrition, 2012	https://jn.nutrition.org/article/S0022-3166(22)02889-9/fulltext
+Lundberg et al., stress and muscle tension, 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/	Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
+Lundberg et al., stress and muscle tension, 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/	Awake bruxism and psychological scores, 2024	https://pubmed.ncbi.nlm.nih.gov/38850025/
+Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html	OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors
+UBC Visual Ergonomics: Lighting & Eye Health	https://hr.ubc.ca/wellbeing-benefits/files/Visual-ergonomics-resources.pdf	OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors
+Rempel et al., wrist posture and carpal tunnel pressure	https://pubmed.ncbi.nlm.nih.gov/18383144/	OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors
+Ariga & Lleras, Cognition, 2011	https://www.sciencedirect.com/science/article/abs/pii/S0010027710002994	Ariga & Lleras, 2011 (ScienceDaily summary)	https://www.sciencedaily.com/releases/2011/02/110208131529.htm
+Slow breathing and HRV, meta-analysis, Neurosci. & Biobehav. Reviews, 2022	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007	Zaccaro et al., Frontiers in Human Neuroscience, 2018	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6137615/
+Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html	OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors
+Ariga & Lleras, Cognition, 2011	https://www.sciencedirect.com/science/article/abs/pii/S0010027710002994	Ohly et al., Attention Restoration Theory review, 2016	https://www.tandfonline.com/doi/full/10.1080/10937404.2016.1196155
+Rubinstein, Meyer & Evans, J. Exp. Psychology, 2001	https://pubmed.ncbi.nlm.nih.gov/11518143/	Mark, Gudith & Klocke, CHI 2008	https://dl.acm.org/doi/10.1145/1357054.1357072
+Rempel et al., wrist posture and carpal tunnel pressure	https://pubmed.ncbi.nlm.nih.gov/18383144/	Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
+Buffey et al., Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35147898/	Biswas et al., Annals of Internal Medicine, 2015	https://www.acpjournals.org/doi/10.7326/M14-1651
+OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors	Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
+Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html	Discomfort during prolonged sitting, Applied Ergonomics, 2020	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770
+Ganio et al., British Journal of Nutrition, 2011	https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF	Armstrong et al., Journal of Nutrition, 2012	https://jn.nutrition.org/article/S0022-3166(22)02889-9/fulltext
+Lundberg et al., stress and muscle tension, 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/	Discomfort during prolonged sitting, Applied Ergonomics, 2020	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770
+Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html	OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors
+OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors	UBC Visual Ergonomics: Lighting & Eye Health	https://hr.ubc.ca/wellbeing-benefits/files/Visual-ergonomics-resources.pdf
+Rempel et al., wrist posture and carpal tunnel pressure	https://pubmed.ncbi.nlm.nih.gov/18383144/	OSHA eTools: Computer Workstations	https://www.osha.gov/etools/computer-workstations/components/monitors
+Discomfort during prolonged sitting, Applied Ergonomics, 2020	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770	Biswas et al., Annals of Internal Medicine, 2015	https://pubmed.ncbi.nlm.nih.gov/25599350/
+McMains & Kastner, J. Neuroscience, 2011	https://pubmed.ncbi.nlm.nih.gov/21228167/	Distracter suppression in real-world scenes, J. Neuroscience, 2012	https://pubmed.ncbi.nlm.nih.gov/22915122/
+Biswas et al., Annals of Internal Medicine, 2015	https://pubmed.ncbi.nlm.nih.gov/25599350/	Biswas et al., 2015 (journal full text)	https://www.acpjournals.org/doi/10.7326/M14-1651
+Rubinstein, Meyer & Evans, J. Exp. Psychology, 2001	https://pubmed.ncbi.nlm.nih.gov/11518143/	Mark, Gudith & Klocke, CHI 2008	https://dl.acm.org/doi/10.1145/1357054.1357072
+Mark, Gudith & Klocke, CHI 2008	https://dl.acm.org/doi/10.1145/1357054.1357072	Rubinstein, Meyer & Evans, J. Exp. Psychology, 2001	https://pubmed.ncbi.nlm.nih.gov/11518143/
+Ohly et al., Attention Restoration Theory review, 2016	https://www.tandfonline.com/doi/full/10.1080/10937404.2016.1196155	ECEHH, University of Exeter: ART systematic review	https://www.ecehh.org/research/attention-restoration-theory-a-systematic-review/
+Satish et al., Environmental Health Perspectives, 2012	https://ehp.niehs.nih.gov/doi/full/10.1289/ehp.1104789	Satish et al., 2012 (PMC full text)	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3548274/
+Lundberg et al., stress and muscle tension, 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/	Awake bruxism and psychological scores, 2024	https://pubmed.ncbi.nlm.nih.gov/38850025/
+Discomfort during prolonged sitting, Applied Ergonomics, 2020	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770	Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
+Reinecke et al., Media Psychology, 2017	https://www.tandfonline.com/doi/abs/10.1080/15213269.2015.1121832	Mark, Gudith & Klocke, CHI 2008	https://dl.acm.org/doi/10.1145/1357054.1357072
+Oppezzo & Schwartz, J. Exp. Psychology: LMC, 2014	https://www.apa.org/pubs/journals/releases/xlm-a0036577.pdf	Oppezzo & Schwartz, 2014 (Stanford News summary)	https://news.stanford.edu/stories/2014/04/walking-vs-sitting-042414
+Masicampo & Baumeister, J. Personality & Social Psychology, 2011	https://users.wfu.edu/masicaej/MasicampoBaumeister2011JPSP.pdf	Scullin et al., J. Exp. Psychology: General, 2018	https://pubmed.ncbi.nlm.nih.gov/29058942/
+Morning light and circadian phase advance, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/	Ambient light levels by location and condition, PMC, 2021	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8263252/
+White et al., Scientific Reports, 2019	https://www.nature.com/articles/s41598-019-44097-3	Twohig-Bennett & Jones, Environmental Research, 2018	https://www.sciencedirect.com/science/article/pii/S0013935118303323
+Holt-Lunstad, Smith & Layton, PLoS Medicine, 2010	https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1000316	Holt-Lunstad et al., Perspectives on Psychological Science, 2015	https://pubmed.ncbi.nlm.nih.gov/25910392/
+Curry et al., J. Experimental Social Psychology, 2018	https://ora.ox.ac.uk/objects/uuid:4701365b-5760-4ece-a390-857a5f7b3c0c	Hui et al., Psychological Bulletin, 2020	https://pubmed.ncbi.nlm.nih.gov/32881540/
+Reynolds et al., The Lancet, 2019	https://pubmed.ncbi.nlm.nih.gov/30638909/	NHS: How to get more fibre into your diet	https://www.nhs.uk/live-well/eat-well/digestive-health/how-to-get-more-fibre-into-your-diet/

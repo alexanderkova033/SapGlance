@@ -1,24 +1,28 @@
 # Evening-only micro-tips (18:00-22:59), appended to the general pool.
-Dimming screens and lights in the evening helps your body wind down.
-Reading on a light-up screen before bed suppresses melatonin more than a printed book.
+# Each line has a matching line in evening_sources.txt carrying 2+ citations.
+Dimming lights and screens in the evening helps your body start winding down.
+Reading on a lit screen before bed suppresses melatonin more than a printed book does.
 Jot down tomorrow's top task so your brain can stop holding onto it.
-Reflect on one good thing from today before you keep scrolling.
-A relaxed stretch in the evening can help you unwind.
-Turning down your screen brightness is a simple way to ease into bedtime.
-A short walk 15-30 minutes after dinner can blunt your blood-sugar spike.
-A consistent bedtime, even on busy nights, can support better sleep.
-Evening is a good time to swap screens for a book, even briefly.
-Try a few slow breaths to shift out of work mode before bed.
-A cooler bedroom supports better sleep — experts suggest 65-68°F (18-20°C).
-Caffeine can linger for hours — worth checking when you had your last cup.
+Name one good thing about today before you go back to scrolling.
+Stretch on the floor for two minutes. No counting, no goal, just the floor.
+Ordinary room light counts too. It doesn't take a bright screen to delay melatonin.
+A short walk 15 to 30 minutes after dinner blunts the blood-sugar spike.
+A consistent bedtime, even on busy nights, is worth more than one perfect night.
+Evening is a good time to swap a screen for a book, even for ten minutes.
+A few slow breaths are the cheapest way out of work mode and into evening.
+A cooler bedroom supports better sleep. Around 18-20C (65-68F) is the usual advice.
+Caffeine lingers for hours. When was your last cup, honestly?
 A warm shower or bath an hour or two before bed may help you fall asleep faster.
-Alcohol can speed up sleep onset, but it fragments sleep and cuts into REM later.
-A consistent wind-down routine signals to your body that sleep is coming.
-One sleep study found writing tomorrow's to-do list helped people fall asleep faster.
-Blue-enriched screen light suppresses melatonin more than warm, dim light.
-Warm baths work by a paradox — warming your skin helps your core temperature drop.
-Even dim light before bed, not just bright light, can measurably suppress melatonin.
-A consistent sleep and wake schedule is linked to better long-term health outcomes.
-Heavy meals close to bedtime can disrupt sleep — finish eating 2-3 hours before.
-Gratitude journaling before bed is linked to falling asleep faster.
-Keeping your bed for sleep only strengthens the mental link to sleep.
+Alcohol can speed up falling asleep, but it fragments sleep and cuts REM later on.
+The same few things in the same order each night tell your body sleep is coming.
+In one sleep-lab study, writing a to-do list beat writing a done-list by nine minutes.
+Blue-enriched light suppresses melatonin more than warm light of the same brightness.
+Warm baths work by a paradox: warming your skin helps your core temperature drop.
+Regular sleep timing predicts long-term health better than sleep duration alone.
+Heavy meals close to bedtime can disrupt sleep. Try to finish 2-3 hours before.
+People who feel more grateful tend to fall asleep faster and sleep better.
+Keeping your bed for sleep only strengthens the mental link between the two.
+If sleep isn't coming after a while, getting up beats lying there frustrated.
+Evening exercise won't wreck your sleep. Finishing an hour or two before bed is what matters.
+Night mode alone doesn't do much. Dimming the screen matters more than warming its colour.
+In two virus-exposure studies, people sleeping under seven hours caught colds about three times as often.

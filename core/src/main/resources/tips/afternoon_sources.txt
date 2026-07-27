@@ -1,24 +1,27 @@
-# Citation for each line in afternoon.txt, same order, one per line: Label<TAB>URL.
-# See TIP_SOURCES.md at the repo root for the full research writeup behind each of these.
-Monk, The Post-Lunch Dip in Performance, Chronobiology International	https://www.semanticscholar.org/paper/The-post-lunch-dip-in-performance.-Monk/2a637623cc562fffcddf9aa8c41e41ef2069f3e1
-Attention Restoration Theory, systematic review (ECEHH)	https://www.ecehh.org/research/attention-restoration-theory-a-systematic-review/
-Ganio et al., British Journal of Nutrition, 2011	https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF
-Monk, The Post-Lunch Dip in Performance, Chronobiology International	https://www.semanticscholar.org/paper/The-post-lunch-dip-in-performance.-Monk/2a637623cc562fffcddf9aa8c41e41ef2069f3e1
-Ariga & Lleras, Cognition, 2011	https://www.sciencedaily.com/releases/2011/02/110208131529.htm
-Biswas et al., Annals of Internal Medicine, 2015	https://www.sedentarybehaviour.org/2015/03/11/author-summary-of-sedentary-time-and-its-association-with-risk-for-disease-incidence-mortality-and-hospitalization-in-adults-paper-published-in-the-annals-of-internal-medicine-20/
-Light intervention and the post-lunch dip, PubMed	https://pubmed.ncbi.nlm.nih.gov/30369519/
-Attention Restoration Theory, systematic review (ECEHH)	https://www.ecehh.org/research/attention-restoration-theory-a-systematic-review/
-Perceived musculoskeletal discomfort during prolonged sitting, ScienceDirect	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770
-Drake et al., J. Clinical Sleep Medicine, 2013	https://jcsm.aasm.org/doi/10.5664/jcsm.3170
-Biswas et al., Annals of Internal Medicine, 2015	https://www.sedentarybehaviour.org/2015/03/11/author-summary-of-sedentary-time-and-its-association-with-risk-for-disease-incidence-mortality-and-hospitalization-in-adults-paper-published-in-the-annals-of-internal-medicine-20/
-Attention Restoration Theory, systematic review (ECEHH)	https://www.ecehh.org/research/attention-restoration-theory-a-systematic-review/
-Sleep Foundation: NASA Nap	https://www.sleepfoundation.org/sleep-hygiene/nasa-nap
-AOA & AOA: The 20-20-20 rule for digital eye strain	https://www.aoa.org/AOA/Images/Patients/Eye%20Conditions/20-20-20-rule.pdf
-Slow breathing & heart-rate variability, systematic review	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007
-Ariga & Lleras, Cognition, 2011	https://www.sciencedaily.com/releases/2011/02/110208131529.htm
-Drake et al., J. Clinical Sleep Medicine, 2013	https://jcsm.aasm.org/doi/10.5664/jcsm.3170
-Sleep Foundation: Does Napping Impact Sleep at Night?	https://www.sleepfoundation.org/how-sleep-works/does-napping-impact-sleep-at-night
-Light intervention and the post-lunch dip, PubMed	https://pubmed.ncbi.nlm.nih.gov/30369519/
-Reactive hypoglycemia overview, Wikipedia	https://en.wikipedia.org/wiki/Reactive_hypoglycemia
-Biswas et al., Annals of Internal Medicine, 2015	https://www.sedentarybehaviour.org/2015/03/11/author-summary-of-sedentary-time-and-its-association-with-risk-for-disease-incidence-mortality-and-hospitalization-in-adults-paper-published-in-the-annals-of-internal-medicine-20/
-Cognitive demand, digital screens and blink rate, ScienceDirect	https://www.sciencedirect.com/science/article/abs/pii/S0747563215003829
+# Citations for each line in afternoon.txt, same order, one line per tip.
+# Format: Label<TAB>URL, repeated. Every tip carries at least two independent sources, and
+# the same source may back several tips. See TIP_SOURCES.md at the repo root for the writeup.
+Monk, The Post-Lunch Dip in Performance, 2005	https://pubmed.ncbi.nlm.nih.gov/15892914/	Weinstein et al., Psychosomatic Medicine, 2024 (acute exercise meta-analysis)	https://journals.lww.com/bsam/fulltext/2024/07000/affective_responses_to_acute_exercise__a.2.aspx
+Light intervention and the post-lunch dip, 2018	https://pubmed.ncbi.nlm.nih.gov/30369519/	Ambient light levels by location and condition, PMC, 2021	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8263252/
+Ganio et al., British Journal of Nutrition, 2011	https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF	Armstrong et al., Journal of Nutrition, 2012	https://jn.nutrition.org/article/S0022-3166(22)02889-9/fulltext
+Monk, The Post-Lunch Dip in Performance, 2005	https://pubmed.ncbi.nlm.nih.gov/15892914/	Monk et al., Circadian determinants of the postlunch dip, Chronobiology Int., 1996	https://pubmed.ncbi.nlm.nih.gov/8877121/
+Ariga & Lleras, Cognition, 2011	https://www.sciencedirect.com/science/article/abs/pii/S0010027710002994	Ariga & Lleras, 2011 (ScienceDaily summary)	https://www.sciencedaily.com/releases/2011/02/110208131529.htm
+Buffey et al., Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35147898/	Biswas et al., Annals of Internal Medicine, 2015	https://pubmed.ncbi.nlm.nih.gov/25599350/
+Ohly et al., Attention Restoration Theory review, 2016	https://www.tandfonline.com/doi/full/10.1080/10937404.2016.1196155	Ariga & Lleras, Cognition, 2011	https://www.sciencedirect.com/science/article/abs/pii/S0010027710002994
+Discomfort during prolonged sitting, Applied Ergonomics, 2020	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770	Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html
+Drake et al., J. Clinical Sleep Medicine, 2013 (caffeine at 0, 3 or 6 hours)	https://jcsm.aasm.org/doi/10.5664/jcsm.3170	Ganio et al., British Journal of Nutrition, 2011	https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF
+Buffey et al., Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35147898/	Biswas et al., 2015 (journal full text)	https://www.acpjournals.org/doi/10.7326/M14-1651
+Ohly et al., Attention Restoration Theory review, 2016	https://www.tandfonline.com/doi/full/10.1080/10937404.2016.1196155	Ariga & Lleras, 2011 (ScienceDaily summary)	https://www.sciencedaily.com/releases/2011/02/110208131529.htm
+Rosekind et al., NASA Technical Memorandum 108839	https://ntrs.nasa.gov/citations/19950006379	Rosekind et al., J. Sleep Research, 1995 (strategic naps)	https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2869.1995.tb00229.x
+AOA: Computer vision syndrome	https://www.aoa.org/healthy-eyes/eye-and-vision-conditions/computer-vision-syndrome	Talens-Estarelles et al., Contact Lens & Anterior Eye, 2023	https://www.sciencedirect.com/science/article/pii/S1367048422001990
+Slow breathing and HRV, meta-analysis, Neurosci. & Biobehav. Reviews, 2022	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007	Zaccaro et al., Frontiers in Human Neuroscience, 2018	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6137615/
+Ariga & Lleras, Cognition, 2011	https://www.sciencedirect.com/science/article/abs/pii/S0010027710002994	Ohly et al., Attention Restoration Theory review, 2016	https://www.tandfonline.com/doi/full/10.1080/10937404.2016.1196155
+Drake et al., J. Clinical Sleep Medicine, 2013 (caffeine at 0, 3 or 6 hours)	https://jcsm.aasm.org/doi/10.5664/jcsm.3170	Pharmacology of caffeine and its effects on the human body, 2024	https://www.sciencedirect.com/science/article/pii/S2772417424000104
+Sleep Foundation: Does napping impact sleep at night?	https://www.sleepfoundation.org/how-sleep-works/does-napping-impact-sleep-at-night	Rosekind et al., J. Sleep Research, 1995 (strategic naps)	https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2869.1995.tb00229.x
+Light intervention and the post-lunch dip, 2018	https://pubmed.ncbi.nlm.nih.gov/30369519/	Monk, The Post-Lunch Dip in Performance, 2005	https://pubmed.ncbi.nlm.nih.gov/15892914/
+Monk, The Post-Lunch Dip in Performance, 2005	https://pubmed.ncbi.nlm.nih.gov/15892914/	Orr et al., Meal composition and postprandial sleepiness, Physiology & Behavior, 1997	https://pubmed.ncbi.nlm.nih.gov/9284488/	Food intake, blood glucose and postprandial sleepiness, Nutrients, 2025	https://pmc.ncbi.nlm.nih.gov/articles/PMC12566848/
+Buffey et al., Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35147898/	Biswas et al., Annals of Internal Medicine, 2015	https://pubmed.ncbi.nlm.nih.gov/25599350/
+Portello, Rosenfield & Chu, Optometry & Vision Science, 2013	https://pubmed.ncbi.nlm.nih.gov/23538437/	Cognitive demand and blink rate, Computers in Human Behavior, 2015	https://www.sciencedirect.com/science/article/abs/pii/S0747563215003829
+Rosekind et al., NASA Technical Memorandum 108839	https://ntrs.nasa.gov/citations/19950006379	Rosekind et al., J. Sleep Research, 1995 (strategic naps)	https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2869.1995.tb00229.x
+Stamatakis et al., Nature Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/36482104/	Jenkins et al., Applied Physiology, Nutrition & Metabolism, 2019	https://cdnsciencepub.com/doi/10.1139/apnm-2018-0675
+de Witte et al., Health Psychology Review, 2020	https://www.tandfonline.com/doi/full/10.1080/17437199.2019.1627897	Linnemann et al., Psychoneuroendocrinology, 2015	https://www.sciencedirect.com/science/article/abs/pii/S0306453015002127

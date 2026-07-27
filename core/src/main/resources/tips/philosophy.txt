@@ -1,0 +1,76 @@
+# GROUP: PHILOSOPHY (TipKind.PHILOSOPHY) — reflection and perspective.
+#
+# Mostly QUOTATIONS, each carrying the public-domain text it comes from so the attribution is
+# checkable rather than taken on trust. A handful of ORIGINAL reflections at the end carry no
+# source and claim none.
+#
+# WRITING RULE FOR THIS POOL: only quote what can be pinned to a specific chapter, letter, or
+# section in a public-domain edition, and quote that edition's actual wording. Popular
+# philosophy quotes are misattributed constantly: the thousand-miles line gets pinned on
+# Confucius, "we are what we repeatedly do" is Will Durant summarising Aristotle rather than
+# Aristotle, and "he who has a why to live can bear almost any how" is Viktor Frankl's
+# paraphrase, not Nietzsche's sentence. Nietzsche's actual line is the one below. Two more
+# worth knowing, because they read as if they belong here and do not: "the greatest weapon
+# against stress is our ability to choose one thought over another" is not William James, and
+# "be yourself in a world constantly trying to make you something else" is not Emerson. Every
+# line below was checked against the linked edition's text, not against a quotations site.
+#
+# SECOND WRITING RULE, on variety: this pool was once entirely Stoic plus a short tail (four
+# Marcus, three Epictetus, three Seneca), which is a school, not a subject. Stoicism keeps the
+# largest share because it suits the format, but the pool now also carries Confucian, Buddhist,
+# Taoist, transcendentalist and essayist voices, and the ratio is worth defending: before
+# adding another Roman, check whether a tradition below has only one line in it.
+#
+# Format is inline: "Tip text" alone, or "Tip text<TAB>Label<TAB>URL" for a quotation.
+
+# Stoic.
+Men are disturbed not by things, but by the views which they take of things.	Epictetus, Enchiridion V (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm	Epictetus, Enchiridion V (Perseus Digital Library)	https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0237:text%3Denc:chapter%3D5
+Some things are in our power, and some are not.	Epictetus, Enchiridion I (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm
+Seek not that things should happen as you wish, but wish them to be as they are.	Epictetus, Enchiridion VIII, tr. Long (Project Gutenberg)	https://www.gutenberg.org/files/10661/10661-h/10661-h.htm
+Very little is needed to make a happy life; it is all within yourself, in your way of thinking.	Marcus Aurelius, Meditations VII (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
+If you are distressed by anything external, the pain is not due to the thing itself but to your estimate of it.	Marcus Aurelius, Meditations VIII.47 (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
+Nowhere can a man find a quieter or more untroubled retreat than in his own soul.	Marcus Aurelius, Meditations IV.3 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_4
+Tranquillity is nothing else than the good ordering of the mind.	Marcus Aurelius, Meditations IV.3 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_4
+We suffer more often in imagination than in reality.	Seneca, Moral Letters to Lucilius 13 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_13
+There are more things likely to frighten us than there are to crush us.	Seneca, Moral Letters to Lucilius 13 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_13
+While we are postponing, life speeds by.	Seneca, Moral Letters to Lucilius 1 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_1
+
+# Taoist.
+The journey of a thousand miles begins beneath one's feet.	Lao Tzu, Tao Teh King 64, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
+He who knows other men is discerning; he who knows himself is intelligent.	Lao Tzu, Tao Teh King 33, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
+
+# Confucian.
+Learning without thought is labour lost; thought without learning is perilous.	Confucius, Analects II.XV, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/3330
+To have faults and not to reform them, this, indeed, should be pronounced having faults.	Confucius, Analects XV.XXIX, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/3330
+
+# Buddhist.
+All that we are is the result of what we have thought.	The Dhammapada 1, tr. Max Muller (Project Gutenberg)	https://www.gutenberg.org/ebooks/2017
+Let a man overcome anger by love, let him overcome evil by good.	The Dhammapada 223, tr. Max Muller (Project Gutenberg)	https://www.gutenberg.org/ebooks/2017
+
+# Greek.
+The unexamined life is not worth living.	Socrates, in Plato's Apology (Project Gutenberg)	https://www.gutenberg.org/ebooks/1656
+
+# Essayists and transcendentalists.
+The greatest thing in the world is for a man to know that he is his own.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
+We must reserve a backshop, wholly our own and entirely free, wherein to settle our true liberty.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
+Nothing is at last sacred but the integrity of your own mind.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
+Insist on yourself; never imitate.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
+To be great is to be misunderstood.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
+The mass of men lead lives of quiet desperation.	Thoreau, Walden, "Economy" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Economy
+I went to the woods because I wished to live deliberately, to front only the essential facts of life.	Thoreau, Walden, "Where I Lived, and What I Lived for" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Where_I_Lived,_and_What_I_Lived_for
+Ask yourself whether you are happy, and you cease to be so.	J. S. Mill, Autobiography, Chapter V (Wikisource)	https://en.wikisource.org/wiki/Autobiography_(Mill)/Chapter_V
+Although the world is full of suffering, it is full also of the overcoming of it.	Helen Keller, Optimism (Wikisource)	https://en.wikisource.org/wiki/Optimism_(Keller)
+Optimism is the faith that leads to achievement.	Helen Keller, Optimism (Wikisource)	https://en.wikisource.org/wiki/Optimism_(Keller)
+
+# German.
+If we have our own why in life, we shall get along with almost any how.	Nietzsche, Twilight of the Idols, Maxims and Arrows 12 (Project Gutenberg)	https://www.gutenberg.org/files/52263/52263-h/52263-h.htm
+
+# Original reflections. No source, and none claimed.
+You are not behind. There was never a schedule you agreed to.
+Attention is the most finite thing you own. Spend it on purpose.
+Patience isn't waiting. It's what you do while you wait.
+You won't remember most of today. Pick one part worth keeping.
+You can be wrong for years and still turn around in an afternoon.
+Certainty is cheap. Notice what it costs you to change your mind.
+The story you'll tell about today is already shorter than today is.
+You'll never have more time than you have now, only different reasons.

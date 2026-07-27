@@ -1,2 +1,2 @@
-# Citation for the single fixed message in sleep_early.txt: Label<TAB>URL.
-Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/
+# Citations for the single fixed message in sleep_early.txt: Label<TAB>URL, repeated.
+Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/	Chang et al., PNAS, 2015	https://www.pnas.org/doi/10.1073/pnas.1418490112

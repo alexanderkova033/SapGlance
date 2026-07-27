@@ -1,25 +1,29 @@
-# Citation for each line in evening.txt, same order, one per line: Label<TAB>URL.
-# See TIP_SOURCES.md at the repo root for the full research writeup behind each of these.
-Chang et al., PNAS, 2015 (light-emitting eReaders and sleep)	https://www.psu.edu/news/research/story/light-emitting-e-readers-detrimentally-shift-circadian-clock
-Chang et al., PNAS, 2015 (light-emitting eReaders and sleep)	https://www.psu.edu/news/research/story/light-emitting-e-readers-detrimentally-shift-circadian-clock
-Scullin et al., J. Exp. Psychology: General, 2018	https://news.web.baylor.edu/news/story/2018/can-writing-your-dos-help-you-doze-baylor-study-suggests-jotting-down-tasks-can
-Wood, Joseph, Lloyd & Atkins, J. Psychosomatic Research, 2009	https://pubmed.ncbi.nlm.nih.gov/19073292/
-Slow breathing & heart-rate variability, systematic review	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007
-Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/
-10-min walk after glucose intake, Nature Scientific Reports	https://www.nature.com/articles/s41598-025-07312-y
-Sleep regularity is a stronger predictor of mortality risk, SLEEP 2024	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10782501/
-Chang et al., PNAS, 2015 (light-emitting eReaders and sleep)	https://www.psu.edu/news/research/story/light-emitting-e-readers-detrimentally-shift-circadian-clock
-Slow breathing & heart-rate variability, systematic review	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007
-Sleep Foundation: The Best Temperature for Sleep	https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep
-Drake et al., J. Clinical Sleep Medicine, 2013	https://jcsm.aasm.org/doi/10.5664/jcsm.3170
-Haghayegh et al., Sleep Medicine Reviews, 2019	https://www.sciencedaily.com/releases/2019/07/190719173554.html
-Meta-analysis: alcohol and subsequent sleep in healthy adults	https://www.sciencedirect.com/science/article/pii/S1087079224001345
-Bootzin stimulus control, Stanford Health Care: CBT-I	https://stanfordhealthcare.org/medical-treatments/c/cognitive-behavioral-therapy-insomnia/procedures/stimulus-control.html
-Scullin et al., J. Exp. Psychology: General, 2018	https://news.web.baylor.edu/news/story/2018/can-writing-your-dos-help-you-doze-baylor-study-suggests-jotting-down-tasks-can
-Chang et al., PNAS, 2015 (light-emitting eReaders and sleep)	https://www.psu.edu/news/research/story/light-emitting-e-readers-detrimentally-shift-circadian-clock
-Haghayegh et al., Sleep Medicine Reviews, 2019	https://www.sciencedaily.com/releases/2019/07/190719173554.html
-Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/
-Sleep regularity is a stronger predictor of mortality risk, SLEEP 2024	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10782501/
-AJMC: Eating or drinking up to 1 hour before bedtime	https://www.ajmc.com/view/eating-or-drinking-up-to-one-hour-before-bedtime-may-impair-sleep-quality
-Wood, Joseph, Lloyd & Atkins, J. Psychosomatic Research, 2009	https://pubmed.ncbi.nlm.nih.gov/19073292/
-Bootzin stimulus control, Stanford Health Care: CBT-I	https://stanfordhealthcare.org/medical-treatments/c/cognitive-behavioral-therapy-insomnia/procedures/stimulus-control.html
+# Citations for each line in evening.txt, same order, one line per tip.
+# Format: Label<TAB>URL, repeated. Every tip carries at least two independent sources, and
+# the same source may back several tips. See TIP_SOURCES.md at the repo root for the writeup.
+Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/	Chang et al., PNAS, 2015	https://www.pnas.org/doi/10.1073/pnas.1418490112
+Chang et al., PNAS, 2015	https://www.pnas.org/doi/10.1073/pnas.1418490112	Chang et al., 2015 (Penn State summary)	https://www.psu.edu/news/research/story/light-emitting-e-readers-detrimentally-shift-circadian-clock
+Masicampo & Baumeister, J. Personality & Social Psychology, 2011	https://users.wfu.edu/masicaej/MasicampoBaumeister2011JPSP.pdf	Scullin et al., J. Exp. Psychology: General, 2018	https://pubmed.ncbi.nlm.nih.gov/29058942/
+Wood et al., J. Psychosomatic Research, 2009 (gratitude and sleep)	https://pubmed.ncbi.nlm.nih.gov/19073292/	Jackowska et al., brief gratitude intervention and sleep, 2016	https://pubmed.ncbi.nlm.nih.gov/25736389/
+Lundberg et al., stress and muscle tension, 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/	Slow breathing and HRV, meta-analysis, Neurosci. & Biobehav. Reviews, 2022	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007
+Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/	Day-time light intensity and melatonin suppression, PMC	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4491270/
+Hashimoto et al., Scientific Reports, 2025 (10-minute post-meal walk)	https://www.nature.com/articles/s41598-025-07312-y	Buffey et al., Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35147898/
+Sleep Regularity Index cohort study, SLEEP, 2024	https://academic.oup.com/sleep/article/47/1/zsad253/7280269	Sleep regularity and mortality risk, SLEEP, 2024	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10782501/
+Chang et al., PNAS, 2015	https://www.pnas.org/doi/10.1073/pnas.1418490112	Chang et al., 2015 (Penn State summary)	https://www.psu.edu/news/research/story/light-emitting-e-readers-detrimentally-shift-circadian-clock
+Slow breathing and HRV, meta-analysis, Neurosci. & Biobehav. Reviews, 2022	https://www.sciencedirect.com/science/article/abs/pii/S0149763422002007	Zaccaro et al., Frontiers in Human Neuroscience, 2018	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6137615/
+Okamoto-Mizuno & Mizuno, J. Physiological Anthropology, 2012	https://pubmed.ncbi.nlm.nih.gov/22738673/	Sleep Foundation: The best temperature for sleep	https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep
+Drake et al., J. Clinical Sleep Medicine, 2013 (caffeine at 0, 3 or 6 hours)	https://jcsm.aasm.org/doi/10.5664/jcsm.3170	Pharmacology of caffeine and its effects on the human body, 2024	https://www.sciencedirect.com/science/article/pii/S2772417424000104
+Haghayegh et al., Sleep Medicine Reviews, 2019	https://pubmed.ncbi.nlm.nih.gov/31102877/	Haghayegh et al., 2019 (UT Austin summary)	https://news.utexas.edu/2019/07/19/take-a-warm-bath-1-2-hours-before-bedtime-to-get-better-sleep-researchers-find/
+Alcohol and subsequent sleep, meta-analysis, Sleep Medicine Reviews, 2024	https://www.sciencedirect.com/science/article/pii/S1087079224001345	Ebrahim et al., Alcohol and Sleep I, Alcoholism: Clin. & Exp. Research, 2013	https://onlinelibrary.wiley.com/doi/abs/10.1111/acer.12006
+AASM clinical practice guideline, J. Clinical Sleep Medicine, 2021	https://jcsm.aasm.org/doi/10.5664/jcsm.8986	Stanford Health Care: Stimulus control and CBT-I	https://stanfordhealthcare.org/medical-treatments/c/cognitive-behavioral-therapy-insomnia/procedures/stimulus-control.html
+Scullin et al., J. Exp. Psychology: General, 2018	https://pubmed.ncbi.nlm.nih.gov/29058942/	Scullin et al., 2018 (Baylor University summary)	https://news.web.baylor.edu/news/story/2018/can-writing-your-dos-help-you-doze-baylor-study-suggests-jotting-down-tasks-can
+Chang et al., PNAS, 2015	https://www.pnas.org/doi/10.1073/pnas.1418490112	Day-time light intensity and melatonin suppression, PMC	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4491270/
+Haghayegh et al., Sleep Medicine Reviews, 2019	https://pubmed.ncbi.nlm.nih.gov/31102877/	Okamoto-Mizuno & Mizuno, J. Physiological Anthropology, 2012	https://pubmed.ncbi.nlm.nih.gov/22738673/
+Sleep regularity and mortality risk, SLEEP, 2024	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10782501/	Sleep Regularity Index cohort study, SLEEP, 2024	https://academic.oup.com/sleep/article/47/1/zsad253/7280269
+Chung et al., Nutrients, 2020 (meal proximity to bedtime)	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7215804/	AJMC: Eating or drinking within an hour of bedtime	https://www.ajmc.com/view/eating-or-drinking-up-to-one-hour-before-bedtime-may-impair-sleep-quality
+Wood et al., J. Psychosomatic Research, 2009 (gratitude and sleep)	https://pubmed.ncbi.nlm.nih.gov/19073292/	Jackowska et al., brief gratitude intervention and sleep, 2016	https://pubmed.ncbi.nlm.nih.gov/25736389/
+AASM clinical practice guideline, J. Clinical Sleep Medicine, 2021	https://jcsm.aasm.org/doi/10.5664/jcsm.8986	Stanford Health Care: Stimulus control and CBT-I	https://stanfordhealthcare.org/medical-treatments/c/cognitive-behavioral-therapy-insomnia/procedures/stimulus-control.html
+AASM clinical practice guideline, J. Clinical Sleep Medicine, 2021	https://jcsm.aasm.org/doi/10.5664/jcsm.8986	Stanford Health Care: Stimulus control and CBT-I	https://stanfordhealthcare.org/medical-treatments/c/cognitive-behavioral-therapy-insomnia/procedures/stimulus-control.html
+Stutz et al., Sports Medicine, 2019	https://link.springer.com/article/10.1007/s40279-018-1015-0	Frimpong et al., Sleep Medicine Reviews, 2021	https://www.sciencedirect.com/science/article/abs/pii/S1087079221001209
+Nagare, Plitnick & Figueiro, Lighting Research & Technology, 2019	https://pmc.ncbi.nlm.nih.gov/articles/PMC6561503/	Phillips et al., PNAS, 2019	https://www.pnas.org/doi/10.1073/pnas.1901824116
+Prather et al., Sleep, 2015	https://pubmed.ncbi.nlm.nih.gov/26118561/	Cohen et al., Archives of Internal Medicine, 2009	https://pubmed.ncbi.nlm.nih.gov/19139325/

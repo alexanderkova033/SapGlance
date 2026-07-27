@@ -1,25 +1,27 @@
-# Citation for each line in morning.txt, same order, one per line: Label<TAB>URL.
-# See TIP_SOURCES.md at the repo root for the full research writeup behind each of these.
-Circadian phase advance from morning light, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/
-Ganio et al., British Journal of Nutrition, 2011	https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF
-Meta-analysis: Affective Responses to Acute Exercise	https://www.ovid.com/jnls/bsam/abstract/10.1097/psy.0000000000001321
-Meta-analysis: Affective Responses to Acute Exercise	https://www.ovid.com/jnls/bsam/abstract/10.1097/psy.0000000000001321
-Sleep Regularity Index cohort study, SLEEP/Oxford Academic	https://academic.oup.com/sleep/article/47/1/zsad253/7280269
-Circadian phase advance from morning light, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/
-Rubinstein, Meyer & Evans, J. Exp. Psychology, 2001	https://pubmed.ncbi.nlm.nih.gov/11518143/
-Meta-analysis: Affective Responses to Acute Exercise	https://www.ovid.com/jnls/bsam/abstract/10.1097/psy.0000000000001321
-Lundberg et al., 1999	https://pubmed.ncbi.nlm.nih.gov/10431284/
-Rubinstein, Meyer & Evans, J. Exp. Psychology, 2001	https://pubmed.ncbi.nlm.nih.gov/11518143/
-Circadian phase advance from morning light, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/
-Mark, Gudith & Klocke, CHI 2008	https://dl.acm.org/doi/10.1145/1357054.1357072
-StatPearls: Physiology, Diving Reflex	https://www.ncbi.nlm.nih.gov/books/NBK538245/
-Meta-analysis: Affective Responses to Acute Exercise	https://www.ovid.com/jnls/bsam/abstract/10.1097/psy.0000000000001321
-High-protein breakfast and postprandial glucose, MDPI	https://www.mdpi.com/2072-6643/15/1/85
-Illuminance comparison, EngineeringToolBox	https://www.engineeringtoolbox.com/light-level-rooms-d_708.html
-Cortisol Awakening Response overview, ScienceDirect Topics	https://www.sciencedirect.com/topics/neuroscience/cortisol-awakening-response
-Sleep Regularity Index cohort study, SLEEP/Oxford Academic	https://academic.oup.com/sleep/article/47/1/zsad253/7280269
-Meta-analysis: Affective Responses to Acute Exercise	https://www.ovid.com/jnls/bsam/abstract/10.1097/psy.0000000000001321
-Sundelin et al., Is snoozing losing?, J. Sleep Research, 2024	https://onlinelibrary.wiley.com/doi/10.1111/jsr.14054
-Effects of day-time light intensity on melatonin suppression, PMC	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4491270/
-IFIC: 4 Metabolism Myths, Busted	https://ific.org/resources/articles/myths-about-your-metabolism/
-Cardiovascular and mood responses to cold water immersion	https://www.sciencedirect.com/science/article/abs/pii/S0306456523002681
+# Citations for each line in morning.txt, same order, one line per tip.
+# Format: Label<TAB>URL, repeated. Every tip carries at least two independent sources, and
+# the same source may back several tips. See TIP_SOURCES.md at the repo root for the writeup.
+Morning light and circadian phase advance, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/	Ambient light levels by location and condition, PMC, 2021	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8263252/
+Ganio et al., British Journal of Nutrition, 2011	https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF	Armstrong et al., Journal of Nutrition, 2012	https://jn.nutrition.org/article/S0022-3166(22)02889-9/fulltext
+Paluch et al., Lancet Public Health, 2022 (daily steps)	https://www.thelancet.com/journals/lanpub/article/PIIS2468-2667(21)00302-9/fulltext	Biswas et al., Annals of Internal Medicine, 2015	https://pubmed.ncbi.nlm.nih.gov/25599350/
+Weinstein et al., Psychosomatic Medicine, 2024 (acute exercise meta-analysis)	https://journals.lww.com/bsam/fulltext/2024/07000/affective_responses_to_acute_exercise__a.2.aspx	Weinstein et al., 2024 (open-access PDF)	https://research.tilburguniversity.edu/files/118328904/Affective_Responses_to_Acute_Exercise.pdf
+Sleep Regularity Index cohort study, SLEEP, 2024	https://academic.oup.com/sleep/article/47/1/zsad253/7280269	Sleep regularity and mortality risk, SLEEP, 2024	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10782501/
+Ambient light levels by location and condition, PMC, 2021	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8263252/	Morning light and circadian phase advance, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/
+Masicampo & Baumeister, J. Personality & Social Psychology, 2011	https://users.wfu.edu/masicaej/MasicampoBaumeister2011JPSP.pdf	Rubinstein, Meyer & Evans, J. Exp. Psychology, 2001	https://pubmed.ncbi.nlm.nih.gov/11518143/
+Oppezzo & Schwartz, J. Exp. Psychology: LMC, 2014	https://www.apa.org/pubs/journals/releases/xlm-a0036577.pdf	Ariga & Lleras, Cognition, 2011	https://www.sciencedirect.com/science/article/abs/pii/S0010027710002994
+Cornell University Ergonomics Web	https://ergo.human.cornell.edu/DEA6510/dea6512k/ergo12tips.html	Discomfort during prolonged sitting, Applied Ergonomics, 2020	https://www.sciencedirect.com/science/article/abs/pii/S0003687020301770
+Masicampo & Baumeister, J. Personality & Social Psychology, 2011	https://users.wfu.edu/masicaej/MasicampoBaumeister2011JPSP.pdf	Scullin et al., J. Exp. Psychology: General, 2018	https://pubmed.ncbi.nlm.nih.gov/29058942/
+Morning light and circadian phase advance, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/	Day-time light intensity and melatonin suppression, PMC	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4491270/
+Mark, Gudith & Klocke, CHI 2008	https://dl.acm.org/doi/10.1145/1357054.1357072	Reinecke et al., Media Psychology, 2017	https://www.tandfonline.com/doi/abs/10.1080/15213269.2015.1121832
+StatPearls: Physiology, Diving Reflex	https://www.ncbi.nlm.nih.gov/books/NBK538245/	Resting heart rate and cold-water face immersion, PMC, 2023	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10295257/
+Weinstein et al., Psychosomatic Medicine, 2024 (acute exercise meta-analysis)	https://journals.lww.com/bsam/fulltext/2024/07000/affective_responses_to_acute_exercise__a.2.aspx	Morning light and circadian phase advance, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/
+Xiao et al., Nutrients, 2023 (high-protein breakfast and glucose)	https://pmc.ncbi.nlm.nih.gov/articles/PMC9824806	Betts et al., Am. J. Clinical Nutrition, 2014 (Bath Breakfast Project)	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4095658/
+Cortisol Awakening Response, Endocrine Reviews, 2025	https://academic.oup.com/edrv/article/46/1/43/7739741	The circadian system modulates the CAR, PMC, 2022	https://pmc.ncbi.nlm.nih.gov/articles/PMC9669756/
+Sleep Regularity Index cohort study, SLEEP, 2024	https://academic.oup.com/sleep/article/47/1/zsad253/7280269	Morning light and circadian phase advance, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/
+Weinstein et al., Psychosomatic Medicine, 2024 (acute exercise meta-analysis)	https://journals.lww.com/bsam/fulltext/2024/07000/affective_responses_to_acute_exercise__a.2.aspx	Paluch et al., Lancet Public Health, 2022 (daily steps)	https://www.thelancet.com/journals/lanpub/article/PIIS2468-2667(21)00302-9/fulltext
+Sundelin et al., Is snoozing losing?, J. Sleep Research, 2024	https://pubmed.ncbi.nlm.nih.gov/37849039/	Sundelin et al., 2024 (full text, Wiley)	https://onlinelibrary.wiley.com/doi/10.1111/jsr.14054
+Day-time light intensity and melatonin suppression, PMC	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4491270/	Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/
+Betts et al., Am. J. Clinical Nutrition, 2014 (Bath Breakfast Project)	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4095658/	Chowdhury et al., Am. J. Clinical Nutrition, 2016	https://pubmed.ncbi.nlm.nih.gov/26864365/
+Buijze et al., PLoS ONE, 2016 (cold shower RCT)	https://pubmed.ncbi.nlm.nih.gov/27631616/	Cardiovascular and mood responses to cold water immersion, 2023	https://www.sciencedirect.com/science/article/abs/pii/S0306456523002681
+Morning light and circadian phase advance, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/	Day-time light intensity and melatonin suppression, PMC	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4491270/
+Bull et al., WHO 2020 physical activity guidelines, British J. Sports Medicine	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7719906/	Momma et al., British J. Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35228201/

@@ -6,8 +6,10 @@ package com.healthwidget.core.tips
  * so a hand-rolled line reader avoids pulling a JSON parsing dependency into a module whose
  * whole point is to stay dependency-free and trivially JVM-testable.
  *
- * Each `tips/<name>.txt` has a companion `tips/<name>_sources.txt` of the same length, one
- * citation per line as `Label<TAB>URL`, zipped in line-for-line — see `TIP_SOURCES.md` at the
+ * Each `tips/<name>.txt` has a companion `tips/<name>_sources.txt` of the same length, zipped
+ * in line-for-line. A source line is one or more `Label<TAB>URL` pairs, tab-separated end to
+ * end (so a line has an even number of fields), which keeps the one-line-per-tip correspondence
+ * intact now that a tip carries several citations rather than one — see `TIP_SOURCES.md` at the
  * repo root for the research those citations trace back to.
  */
 data class TipCatalog(
@@ -17,14 +19,18 @@ data class TipCatalog(
     val evening: List<Tip>,
     val sleepLate: Tip,
     val sleepEarlyHours: Tip,
-    // Foundation for the "more variety" toggle (see TipEngine.pick) — deliberately empty until
-    // actual motivational/philosophical and lighthearted content is written and loadDefault()
-    // is updated to load it from tips/philosophical.txt and tips/lighthearted.txt. Defaulted
-    // (rather than required) so every existing TipCatalog(...) construction, in tests and
-    // loadDefault() alike, keeps compiling unchanged until that content lands.
-    val philosophical: List<Tip> = emptyList(),
-    val lighthearted: List<Tip> = emptyList(),
+    // The three "tone" pools the "more variety" setting leans towards (see TipEngine.pick).
+    // Unlike the day-part pools above these are grouped by voice rather than by time of day,
+    // and none of them are TipKind.PRACTICAL, so they're exempt from the citation requirement
+    // (see TipKind). Still defaulted to empty so test constructions can opt in to just the
+    // pools a given case cares about.
+    val motivation: List<Tip> = emptyList(),
+    val philosophy: List<Tip> = emptyList(),
+    val wellbeing: List<Tip> = emptyList(),
 ) {
+    /** Every tone tip, in one list — what [TipEngine] weighs against the practical pools. */
+    val tonePools: List<Tip> get() = motivation + philosophy + wellbeing
+
     companion object {
         fun loadDefault(): TipCatalog =
             TipCatalog(
@@ -34,7 +40,42 @@ data class TipCatalog(
                 evening = loadPool("evening.txt"),
                 sleepLate = loadSingle("sleep_late.txt"),
                 sleepEarlyHours = loadSingle("sleep_early.txt"),
+                motivation = loadTonePool("motivation.txt", TipKind.MOTIVATION),
+                philosophy = loadTonePool("philosophy.txt", TipKind.PHILOSOPHY),
+                wellbeing = loadTonePool("wellbeing.txt", TipKind.WELLBEING),
             )
+
+        /**
+         * Tone pools keep their (usually absent) attribution inline on the tip's own line,
+         * `Text[<TAB>Label<TAB>URL]...`, rather than in a companion `_sources.txt`. Most lines
+         * in these pools have no source at all, so a parallel file would be almost entirely
+         * blank, and blank lines are exactly what [resourceLines] strips — the two files would
+         * silently stop lining up. The practical pools have the opposite shape (every tip has
+         * 2+ sources), which is why they keep the two-file layout.
+         */
+        private fun loadTonePool(
+            fileName: String,
+            kind: TipKind,
+        ): List<Tip> =
+            resourceLines(fileName).map { line ->
+                val fields = line.split("\t")
+                val sources = fields.drop(1)
+                require(sources.size % 2 == 0) {
+                    "Malformed line in 'tips/$fileName': \"$line\" (attribution must be whole " +
+                        "\"Label<TAB>URL\" pairs)"
+                }
+                Tip(
+                    text = fields.first(),
+                    kind = kind,
+                    sources =
+                        sources.chunked(2) { (label, url) ->
+                            require(label.isNotBlank() && url.isNotBlank()) {
+                                "Blank label or URL in 'tips/$fileName': \"$line\""
+                            }
+                            TipSource(label = label, url = url)
+                        },
+                )
+            }
 
         private fun loadPool(fileName: String): List<Tip> {
             val texts =
@@ -71,11 +112,19 @@ data class TipCatalog(
             sourceLine: String,
             sourceFileName: String,
         ): Tip {
-            val parts = sourceLine.split("\t")
-            require(parts.size == 2) {
-                "Malformed line in 'tips/$sourceFileName': \"$sourceLine\" (expected \"Label<TAB>URL\")"
+            val fields = sourceLine.split("\t")
+            require(fields.size >= Tip.MIN_SOURCES * 2 && fields.size % 2 == 0) {
+                "Malformed line in 'tips/$sourceFileName': \"$sourceLine\" (expected at least " +
+                    "${Tip.MIN_SOURCES} tab-separated \"Label<TAB>URL\" pairs)"
             }
-            return Tip(text = this, sourceLabel = parts[0], sourceUrl = parts[1])
+            val sources =
+                fields.chunked(2) { (label, url) ->
+                    require(label.isNotBlank() && url.isNotBlank()) {
+                        "Blank label or URL in 'tips/$sourceFileName': \"$sourceLine\""
+                    }
+                    TipSource(label = label, url = url)
+                }
+            return Tip(text = this, sources = sources)
         }
 
         private fun resourceLines(fileName: String): List<String> {

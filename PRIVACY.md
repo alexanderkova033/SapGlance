@@ -16,8 +16,11 @@ data, usage data, or analytics of any kind.
 The app stores a small amount of data **only on your device**, using Android's local
 DataStore mechanism:
 
-- The most recently shown tips (up to the last 30), so the same one doesn't come up again
-  too soon.
+- The most recently shown tips (up to the last 90), so the same one doesn't come up again
+  too soon. The last 30 are never repeated at all; the rest are remembered only so the app
+  can favour tips you haven't seen for a while over ones it showed you recently. This is a
+  list of tip texts and nothing else — no timestamps, no counts, no record of whether you
+  looked at any of them.
 
 HealthWidget itself never transmits any of this anywhere. There is no server for it to go
 to: the app has no network permission at all (it does not request `INTERNET`), so it is

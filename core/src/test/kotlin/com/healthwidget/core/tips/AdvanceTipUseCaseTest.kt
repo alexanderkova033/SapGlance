@@ -47,7 +47,15 @@ private class GroupChoiceRandom : Random() {
     override fun nextInt(until: Int): Int = if (until == 100) 50 else 0
 }
 
-private fun tip(text: String) = Tip(text = text, sourceLabel = "Test source", sourceUrl = "https://example.test")
+private fun tip(text: String) =
+    Tip(
+        text = text,
+        sources =
+            listOf(
+                TipSource("Test source A", "https://example.test/a"),
+                TipSource("Test source B", "https://example.test/b"),
+            ),
+    )
 
 class AdvanceTipUseCaseTest {
     private val catalog =
@@ -107,7 +115,7 @@ class AdvanceTipUseCaseTest {
     @Test
     fun `varietyLevel is forwarded to the engine's weighting`() =
         runTest {
-            val mixedCatalog = catalog.copy(philosophical = listOf(tip("Tone tip")))
+            val mixedCatalog = catalog.copy(philosophy = listOf(tip("Tone tip")))
             val repository = FakeTipHistoryRepository()
             val advanceTip = AdvanceTipUseCase(TipEngine(mixedCatalog, GroupChoiceRandom()), repository)
 

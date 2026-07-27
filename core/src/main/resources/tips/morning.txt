@@ -1,24 +1,26 @@
 # Morning-only micro-tips (06:00-11:59), appended to the general pool.
+# Each line has a matching line in morning_sources.txt carrying 2+ citations.
 Getting natural daylight before noon can help regulate your sleep tonight.
-Start the day with a glass of water — an easy, healthy habit.
-Set a step target for today — walking supports mood and heart health.
-A few minutes of morning movement can help you feel more alert.
+Have a glass of water before your first coffee, not after it.
+Aim for a daily step target rather than a workout. Steps track with living longer.
+Ten minutes of easy movement is enough to lift your mood. Intensity is optional.
 Waking up at roughly the same time each day keeps your body's rhythm steady.
-Open the curtains — even on a grey day, outdoor light is far brighter than indoors.
-Picking one top priority for today can make it easier to start.
-A short walk before starting work can improve focus later on.
-Stretch your back and shoulders before settling in for the day.
-A short task list for the day can make it feel more manageable.
+Open the curtains. Even a grey day outdoors is far brighter than any lit room.
+Pick the one thing that would make today count, and start with that.
+A short walk before work pays off in focus later, not just while you're walking.
+Stretch your back and shoulders once, properly, before you sit down to work.
+Writing the day's tasks down is what quiets them, before you do a single one.
 Getting outside within the first hour of waking can sharpen alertness.
 Waiting before reaching for your phone can help you start the day less reactively.
-A splash of cool water on your face triggers your dive reflex, slowing your heart rate.
-Even 10 minutes of morning activity can lift your mood for the day.
+A splash of cool water on your face triggers the dive reflex, slowing your heart rate.
+Morning movement outdoors does double duty: the activity and the light your clock needs.
 If you eat breakfast, pairing carbs with some protein can help keep energy steadier.
-Even on a cloudy day, outdoor light is far brighter than any indoor room.
-Your cortisol naturally peaks soon after waking — a normal part of waking up.
-A consistent wake time anchors your body clock more than a consistent bedtime.
-Morning exercise doesn't need to be intense — brisk walking alone boosts alertness.
-Repeatedly hitting snooze can leave you groggier than getting up with the first alarm.
-Natural light suppresses melatonin faster than indoor lighting, helping you feel awake sooner.
-Skipping breakfast doesn't slow your metabolism as often claimed — it's more about what you eat.
-A cold shower can briefly boost alertness via your stress response.
+Your cortisol naturally peaks soon after waking. That is a normal part of waking up.
+A consistent wake time anchors your body clock more than a consistent bedtime does.
+Morning exercise doesn't need to be intense. Brisk walking alone boosts alertness.
+If you snooze, a short one is fine. The research is kinder to it than its reputation.
+Natural light suppresses melatonin faster than indoor light, so you wake up sooner.
+Skipping breakfast doesn't slow your metabolism. What you eat matters more than when.
+A cold shower can briefly boost alertness through your body's stress response.
+Bright light early is the strongest single signal your body clock actually reads.
+Two sessions of muscle work a week is the guideline. Thirty to sixty minutes total is plenty.

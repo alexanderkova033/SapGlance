@@ -3,6 +3,9 @@ package com.healthwidget.app.widget
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,7 +42,9 @@ import com.healthwidget.app.HealthWidgetApp
 import com.healthwidget.app.R
 import com.healthwidget.app.settings.presentation.SettingsActivity
 import com.healthwidget.core.settings.WidgetStyle
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import java.time.LocalTime
 
 /**
@@ -47,11 +52,13 @@ import java.time.LocalTime
  * [RefreshTipAction], without opening the app); the small gear icon in the corner is the
  * only way into the settings screen — AppWidgets can't intercept long-press, the launcher
  * reserves that gesture for its own move/resize/remove UI, so a dedicated tap target is the
- * only reliable option. [WidgetRefreshWorker] is what normally advances the tip on a timer
- * and calls [GlanceAppWidget.updateAll]; this only computes a fallback tip itself on the very
- * first render (e.g. right after install, before any worker has run yet), reusing the same
- * persisted "last tip" that notifications also read/write so the anti-repeat guarantee (FR5)
- * holds across both surfaces.
+ * only reliable option. [WidgetRefreshWorker] is what normally advances the tip on a timer;
+ * this only computes a fallback tip itself on the very first render (e.g. right after install,
+ * before any worker has run yet), reusing the same persisted "last tip" that notifications also
+ * read/write so the anti-repeat guarantee (FR5) holds across both surfaces. Whichever trigger
+ * advances the tip, the widget repaints by *observing* the persisted history rather than by
+ * being handed a value — see the comment inside [provideGlance] for why that distinction is
+ * what makes the repaint happen at all.
  */
 class TipWidget : GlanceAppWidget() {
     override suspend fun provideGlance(
@@ -59,17 +66,41 @@ class TipWidget : GlanceAppWidget() {
         id: GlanceId,
     ) {
         val container = (context.applicationContext as HealthWidgetApp).container
-        val existingTip = container.tipHistoryRepository.recentTips.first().lastOrNull()
-        val tip =
-            existingTip ?: run {
-                val varietyLevel = container.settingsRepository.settings.first().varietyLevel
-                container.advanceTip(LocalTime.now(), varietyLevel = varietyLevel).text
-            }
-        val style = WidgetStyle.forTip(tip)
+        // Read once, synchronously, purely so the very first frame has something to draw
+        // (and so a fresh install, with no history yet, still gets a tip). Everything after
+        // that comes from the flow collected inside provideContent below.
+        val initialTip =
+            container.tipHistoryRepository.recentTips.first().lastOrNull()
+                ?: run {
+                    val varietyLevel = container.settingsRepository.settings.first().varietyLevel
+                    container.advanceTip(LocalTime.now(), varietyLevel = varietyLevel).text
+                }
 
         provideContent {
+            // The tip MUST be observed as Compose state from inside provideContent, not read
+            // into a local above it. provideGlance runs exactly once per Glance *session*, not
+            // once per updateAll() — a session outlives many refreshes. A tip captured above
+            // would therefore be frozen for the session's whole lifetime: updateAll() only
+            // refreshes AppWidgetSession's own `glanceState`/`options` state holders, so a
+            // composition that reads neither has no changed snapshot state, never recomposes,
+            // and never emits new RemoteViews for the host to draw. That was the real cause of
+            // "the tip data updates but the widget doesn't repaint" — confirmed on-device with
+            // the widget stuck three tips behind DataStore while its RemoteViews instance never
+            // changed. Collecting the flow here makes the repaint happen the moment a new tip
+            // is persisted, whichever trigger wrote it.
+            val tipFlow =
+                remember {
+                    container.tipHistoryRepository.recentTips
+                        .map { it.lastOrNull() ?: initialTip }
+                        // dataStore.data emits on *every* preference write, including the
+                        // unrelated screen-on tick counter the refresh worker bumps; without
+                        // this each one would cost a pointless recomposition and RemoteViews push.
+                        .distinctUntilChanged()
+                }
+            val tip by tipFlow.collectAsState(initial = initialTip)
+
             GlanceTheme {
-                TipWidgetContent(tip, style)
+                TipWidgetContent(tip, WidgetStyle.forTip(tip))
             }
         }
     }

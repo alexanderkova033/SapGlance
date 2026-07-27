@@ -12,11 +12,23 @@
     <string name="settings_variety_label_balanced">Balanced</string>
     <string name="settings_variety_label_playful">Reflective</string>
     <string name="settings_variety_state_practical">Mostly practical</string>
-    <string name="settings_variety_state_balanced">A mix of practical, philosophical, and lighthearted</string>
-    <string name="settings_variety_state_playful">Mostly philosophical &amp; lighthearted</string>
+    <string name="settings_variety_state_balanced">An even mix of practical tips and motivation, philosophy &amp; wellbeing</string>
+    <string name="settings_variety_state_playful">Mostly motivation, philosophy &amp; wellbeing</string>
 
     <string name="settings_tip_source_quote">“%1$s”</string>
     <string name="settings_tip_refresh_action">Get a different tip</string>
+    <plurals name="settings_tip_sources_header">
+        <item quantity="one">Backed by %1$d source</item>
+        <item quantity="other">Backed by %1$d sources</item>
+    </plurals>
+    <!-- A quotation is attributed, not evidenced: "Backed by 1 source" would misrepresent a
+         line of Stoic philosophy as a research finding. -->
+    <string name="settings_tip_source_attribution">Quoted from</string>
+
+    <string name="settings_tip_kind_motivation">Motivation</string>
+    <string name="settings_tip_kind_philosophy">Philosophy</string>
+    <string name="settings_tip_kind_wellbeing">Wellbeing</string>
+    <string name="settings_tip_label_combined">%1$s · %2$s</string>
 
     <string name="settings_daypart_morning">Morning</string>
     <string name="settings_daypart_afternoon">Afternoon</string>

@@ -1,2 +1,2 @@
-# Citation for the single fixed message in sleep_late.txt: Label<TAB>URL.
-Sleep regularity is a stronger predictor of mortality risk, SLEEP 2024	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10782501/
+# Citations for the single fixed message in sleep_late.txt: Label<TAB>URL, repeated.
+Sleep regularity and mortality risk, SLEEP, 2024	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10782501/	Sleep Regularity Index cohort study, SLEEP, 2024	https://academic.oup.com/sleep/article/47/1/zsad253/7280269

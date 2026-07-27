@@ -27,13 +27,16 @@ class AppContainer(context: Context) {
 
     // Serializes every push of the widget's UI to the home screen. Three independent triggers
     // can call this (the periodic tick worker, the manual "get a different tip" button, and
-    // tapping the widget itself) with no ordering guarantee between them — without a lock, two
-    // overlapping GlanceAppWidget.updateAll() calls could finish out of order and leave a stale
-    // render on screen (the real, reported cause of the widget background/tip only *sometimes*
-    // updating). Each call still re-reads the current tip from DataStore at execution time
-    // (nothing captures a stale snapshot), so serializing just the push itself is enough:
-    // whichever call runs last always renders whatever is actually persisted, regardless of
-    // which trigger queued first.
+    // tapping the widget itself) with no ordering guarantee between them, so the lock keeps two
+    // overlapping GlanceAppWidget.updateAll() calls from interleaving.
+    //
+    // This lock was once believed to be the fix for "the widget's tip/background only sometimes
+    // updates". It wasn't: that bug was TipWidget capturing the tip outside provideContent, so
+    // no updateAll() could ever change what was drawn (see the comment in TipWidget). Now that
+    // the widget observes the persisted tip directly, a new tip repaints as soon as it's
+    // written, and updateAll()'s remaining job is to *start* a Glance session when none is
+    // running (e.g. after process death) — still worth serializing, but no longer the mechanism
+    // that delivers a new tip.
     private val widgetRefreshMutex = Mutex()
 
     val settingsRepository: SettingsRepository by lazy {
