@@ -27,3 +27,5 @@ AASM clinical practice guideline, J. Clinical Sleep Medicine, 2021	https://jcsm.
 Stutz et al., Sports Medicine, 2019	https://link.springer.com/article/10.1007/s40279-018-1015-0	Frimpong et al., Sleep Medicine Reviews, 2021	https://www.sciencedirect.com/science/article/abs/pii/S1087079221001209
 Nagare, Plitnick & Figueiro, Lighting Research & Technology, 2019	https://pmc.ncbi.nlm.nih.gov/articles/PMC6561503/	Phillips et al., PNAS, 2019	https://www.pnas.org/doi/10.1073/pnas.1901824116
 Prather et al., Sleep, 2015	https://pubmed.ncbi.nlm.nih.gov/26118561/	Cohen et al., Archives of Internal Medicine, 2009	https://pubmed.ncbi.nlm.nih.gov/19139325/
+Mason et al., PNAS, 2022	https://pubmed.ncbi.nlm.nih.gov/35286195/	Obayashi et al., J. Clinical Endocrinology & Metabolism, 2013	https://pubmed.ncbi.nlm.nih.gov/23118419/
+WHO Night Noise Guidelines for Europe	https://www.who.int/europe/publications/i/item/9789289041737	Basner & McGuire, Int. J. Environmental Research and Public Health, 2018	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5877064/

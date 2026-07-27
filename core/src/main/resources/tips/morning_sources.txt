@@ -25,3 +25,5 @@ Betts et al., Am. J. Clinical Nutrition, 2014 (Bath Breakfast Project)	https://w
 Buijze et al., PLoS ONE, 2016 (cold shower RCT)	https://pubmed.ncbi.nlm.nih.gov/27631616/	Cardiovascular and mood responses to cold water immersion, 2023	https://www.sciencedirect.com/science/article/abs/pii/S0306456523002681
 Morning light and circadian phase advance, PMC	https://pmc.ncbi.nlm.nih.gov/articles/PMC7029701/	Day-time light intensity and melatonin suppression, PMC	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4491270/
 Bull et al., WHO 2020 physical activity guidelines, British J. Sports Medicine	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7719906/	Momma et al., British J. Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35228201/
+Hilditch & McHill, Nature and Science of Sleep, 2019	https://pubmed.ncbi.nlm.nih.gov/31692489/	Tassi & Muzet, Sleep Medicine Reviews, 2000	https://pubmed.ncbi.nlm.nih.gov/12531174/
+Wittmann et al., Chronobiology International, 2006	https://pubmed.ncbi.nlm.nih.gov/16687322/	Roenneberg et al., Current Biology, 2012	https://pubmed.ncbi.nlm.nih.gov/22578422/

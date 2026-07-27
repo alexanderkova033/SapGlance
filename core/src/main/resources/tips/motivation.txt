@@ -20,6 +20,11 @@
 # The joke is on the situation, never on the reader, and a line that only gets a laugh belongs
 # in wellbeing.txt. "Future you is not going to be more in the mood" earns its place because
 # it is an argument for starting; a line that just makes light of procrastinating is not.
+#
+# FOURTH WRITING RULE, on precision: name the mechanism, not the mood. "Just get started" is a
+# slogan; "put it where you will trip over it" and "name the time and the place" are things a
+# reader can do in the next minute, and they push harder for being specific. Where a line can
+# carry a number, a place, or an object without getting long, give it one.
 
 # Starting.
 Start badly. A bad start beats a perfect plan you never opened.
@@ -89,3 +94,19 @@ The task is nine minutes long. You've spent twenty avoiding it.
 Nobody is coming to do it for you. That was the plan and it fell through.
 You've rehearsed this in your head enough times to be off book. Go.
 Your list isn't going to read itself. That part, annoyingly, is yours.
+
+# Friction. Make the next step physically easier than not doing it.
+Put it where you will trip over it. Willpower loses to furniture.
+Name the time and the place. "Later" is where plans go to die.
+Stop today while you still know the next sentence. Tomorrow starts itself.
+
+# Deciding once.
+Decide it this morning and stop putting it back on trial at 3pm.
+Decide what done looks like before you start, or it will keep moving.
+Give it thirty minutes and a hard stop. A deadline does the deciding for you.
+
+# Right-sizing.
+If it takes two minutes, it costs more to remember than to do.
+Bad day? Do the ten percent version. The streak survives on those.
+Put the hard thing where your energy is, not where the calendar had a gap.
+Do it once and you are someone who does it. The rest is keeping the title.

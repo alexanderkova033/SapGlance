@@ -18,8 +18,14 @@
 # SECOND WRITING RULE, on variety: this pool was once entirely Stoic plus a short tail (four
 # Marcus, three Epictetus, three Seneca), which is a school, not a subject. Stoicism keeps the
 # largest share because it suits the format, but the pool now also carries Confucian, Buddhist,
-# Taoist, transcendentalist and essayist voices, and the ratio is worth defending: before
-# adding another Roman, check whether a tradition below has only one line in it.
+# Taoist, presocratic, rationalist, transcendentalist, essayist and nineteenth-century voices,
+# and the ratio is worth defending: before adding another Roman, check whether a tradition
+# below has only one line in it.
+#
+# THIRD WRITING RULE, on length: a quotation has to survive a small widget, so prefer the
+# sentence that is already short in the source over a long one trimmed with an ellipsis.
+# Cutting at a comma or a colon the original already has (as with the Dhammapada line below)
+# is fine; cutting mid-clause and hoping nobody checks is how a quotation becomes a paraphrase.
 #
 # Format is inline: "Tip text" alone, or "Tip text<TAB>Label<TAB>URL" for a quotation.
 
@@ -49,6 +55,7 @@ Let a man overcome anger by love, let him overcome evil by good.	The Dhammapada 
 
 # Greek.
 The unexamined life is not worth living.	Socrates, in Plato's Apology (Project Gutenberg)	https://www.gutenberg.org/ebooks/1656
+You cannot step twice into the same rivers; for fresh waters are ever flowing in upon you.	Heraclitus, Fragments 41-42, tr. Burnet (Wikisource)	https://en.wikisource.org/wiki/Fragments_of_Heraclitus_(annotated)
 
 # Essayists and transcendentalists.
 The greatest thing in the world is for a man to know that he is his own.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
@@ -65,6 +72,13 @@ Optimism is the faith that leads to achievement.	Helen Keller, Optimism (Wikisou
 # German.
 If we have our own why in life, we shall get along with almost any how.	Nietzsche, Twilight of the Idols, Maxims and Arrows 12 (Project Gutenberg)	https://www.gutenberg.org/files/52263/52263-h/52263-h.htm
 
+# Enlightenment rationalist.
+A free man thinks of death least of all things; and his wisdom is a meditation not of death but of life.	Spinoza, Ethics IV, Prop. LXVII, tr. Elwes (Wikisource)	https://en.wikisource.org/wiki/Ethics_(Spinoza)/Part_4
+
+# Nineteenth century.
+If there is no struggle there is no progress.	Frederick Douglass, West India Emancipation, 1857 (Wikisource)	https://en.wikisource.org/wiki/West_India_Emancipation
+The growing good of the world is partly dependent on unhistoric acts.	George Eliot, Middlemarch, Finale (Wikisource)	https://en.wikisource.org/wiki/Middlemarch_(1871)/Finale
+
 # Original reflections. No source, and none claimed.
 You are not behind. There was never a schedule you agreed to.
 Attention is the most finite thing you own. Spend it on purpose.
@@ -74,3 +88,5 @@ You can be wrong for years and still turn around in an afternoon.
 Certainty is cheap. Notice what it costs you to change your mind.
 The story you'll tell about today is already shorter than today is.
 You'll never have more time than you have now, only different reasons.
+The opinion you hold most confidently was handed to you by someone you have since forgotten.
+You will never be able to explain most of your life to anyone who was not there.

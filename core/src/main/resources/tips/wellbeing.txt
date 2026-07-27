@@ -16,12 +16,19 @@
 # tip in twenty costumes. The groupings below are the spread worth keeping: noticing, the
 # body, outside, play, other people, small acts of making things nicer, and lighter. Prefer
 # whichever group is thinnest, and keep the body lines invitations rather than corrections.
+# Add to an existing group rather than inventing a near-duplicate heading for it: a file with
+# both "Noticing" and "Closer attention" in it has stopped describing its own spread honestly.
 #
 # THIRD WRITING RULE, on the lighter group: this is the only pool allowed to be openly silly,
 # and the first rule still governs it. Humour that needs the reader to be having a bad day to
 # land ("at least it's not Monday") breaks that rule, and humour at the reader's expense
 # breaks the no-correcting rule. Aim at the situation or the object, not the person, and check
 # the line still works on a day that is going perfectly well.
+#
+# FOURTH WRITING RULE, on precision: prefer the specific instruction to the general invitation.
+# "Notice the sounds around you" is a mood; "notice which sounds are inside the room and which
+# are coming from outside it" is something a person can actually do, and the doing is the point.
+# Name a number, a body part, a direction, or an object wherever one fits.
 
 # Noticing.
 Look out of the nearest window for ten seconds. Just look.
@@ -34,6 +41,9 @@ Watch something moving that isn't a screen. Trees, traffic, clouds.
 Actually taste the next thing you eat, not just the first bite of it.
 Let the next good moment run about three seconds longer than usual.
 Something made you smile in the last day or so. See if you can find it again.
+Notice which sounds are inside the room and which are coming from outside it.
+Find the oldest object in the room. Something in here has been around.
+Find the furthest thing you can see from where you are sitting.
 
 # The body.
 Put both hands around something warm and stay there for a minute.
@@ -44,6 +54,8 @@ Roll your neck slowly, once each way.
 Put your bare feet on the floor and notice what that's like.
 Adjust one thing you're wearing so it sits more comfortably.
 Take up slightly more room than you're currently taking up.
+Shake out your hands for five seconds, like you have just washed them.
+Put a hand flat on your chest and follow one breath all the way in and out.
 
 # Outside.
 There's a plant, a tree, or a patch of sky within reach of your eyes.
@@ -51,12 +63,14 @@ Find the sky. Wherever you are, there's some of it.
 Step outside for one minute, even if the weather is unremarkable.
 Open a window a little, whatever the season is doing.
 Take the longer way to wherever you're going next.
+Notice what the air actually feels like on your face next time you step outside.
 
 # Play.
 Play the song you always skip back to.
 Sing along to something badly, where nobody can hear you.
 Do one small thing purely because it would be funny.
 Sit somewhere different for the next ten minutes and see how it lands.
+Walk to the next room at a completely different speed than usual.
 
 # Other people.
 Text someone you like, for no reason and with no occasion.
@@ -64,6 +78,8 @@ Someone would be glad to hear from you today. You probably know who.
 Tell someone the specific thing you like about them, not the general one.
 Say thank you to someone who won't be expecting it.
 Ask someone a better question than how they are.
+Send someone a photo of something they would like, with no message attached.
+Ask someone what they are looking forward to.
 
 # Making things nicer.
 If a small thing would make the next hour nicer, go and get it.
@@ -71,6 +87,7 @@ Put something you like where tomorrow-morning-you will find it.
 Make the next drink you have properly, without hurrying it.
 Clear one surface. Not the room, one surface.
 Rest gets to be enjoyable, not just necessary.
+Change one thing about the light where you are.
 
 # Lighter. Small and a bit silly, and just as welcome on a good day.
 Stand up and do the stretch that makes an involuntary noise.

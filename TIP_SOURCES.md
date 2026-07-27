@@ -146,6 +146,17 @@ that distinction rather than the broader "music reduces stress" claim.
   Psychoneuroendocrinology, 2015.
   [ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/S0306453015002127)
 
+**Cyclic sighing** (general.txt) — Balban et al.'s randomised controlled study compared three
+5-minute daily breathwork practices against an equal period of mindfulness meditation over a
+month. Exhale-focused cyclic sighing (a full inhale, a second short inhale on top, then a long
+exhale) produced the greatest improvement in mood and the largest drop in respiratory rate,
+beating the meditation arm. Paired with Zaccaro et al., already cited above for the
+longer-exhale mechanism, which is what the technique is exploiting.
+- Balban et al., *Brief structured respiration practices enhance mood and reduce physiological
+  arousal*, Cell Reports Medicine, 2023. [PubMed](https://pubmed.ncbi.nlm.nih.gov/36630953/)
+- Zaccaro et al., *How Breath-Control Can Change Your Life*, Frontiers in Human Neuroscience,
+  2018. [PMC](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6137615/)
+
 ## Sitting, movement, and posture
 
 **Sedentary time as an independent health risk** (general.txt) — Biswas et al.'s meta-analysis
@@ -269,6 +280,57 @@ task" tips.
 - Masicampo & Baumeister, *Consider It Done!*, J. Personality and Social Psychology, 2011.
   [Author PDF](https://users.wfu.edu/masicaej/MasicampoBaumeister2011JPSP.pdf)
 
+**Reading on paper versus on screen** (general.txt) — Two independent meta-analyses agree on a
+small but consistent screen-inferiority effect for comprehension. Delgado et al. (54 studies)
+found g = -0.21, present for expository text but not narrative, and significant specifically in
+studies where participants read under time pressure, which is why the tip mentions being
+rushed. Clinton (33 randomised studies) found ES = -0.25 and additionally that readers judge
+their own comprehension more accurately on paper, i.e. screen readers tend to overestimate how
+much they took in.
+- Delgado et al., *Don't throw away your printed books: a meta-analysis on the effects of
+  reading media on reading comprehension*, Educational Research Review, 2018.
+  [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S1747938X18300101)
+- Clinton, *Reading from paper compared to screens: a systematic review and meta-analysis*,
+  Journal of Research in Reading, 2019.
+  [Wiley](https://onlinelibrary.wiley.com/doi/10.1111/1467-9817.12269)
+
+**Blue-light filtering glasses and eye strain** (general.txt) — A deliberate myth-correction,
+and note it does *not* contradict the evening blue-light tips: those are about melatonin and
+sleep, this is about eye strain. The Cochrane review of 17 randomised trials found blue-light
+filtering lenses probably make no difference to short-term eyestrain from computer work, and
+rated the underlying evidence low to very low certainty. The American Academy of Ophthalmology
+independently declines to recommend them, attributing screen discomfort to reduced blink rate
+and dryness instead, which is the mechanism the existing blink and 20-20-20 tips already cover.
+- Singh et al., *Blue-light filtering spectacle lenses for visual performance, sleep, and
+  macular health in adults*, Cochrane Database of Systematic Reviews, 2023.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/37593770/)
+- [American Academy of Ophthalmology: Should You Be Worried About Blue Light?](https://www.aao.org/eye-health/tips-prevention/should-you-be-worried-about-blue-light)
+
+**Background speech versus steady noise** (general.txt) — The irrelevant speech effect: it is
+the *changing-state* and intelligible character of speech that disrupts verbal working memory,
+not loudness, which is why overheard conversation costs more than continuous noise at the same
+level and why performance losses appear at levels as low as 35 dB(A). Hongisto's model relates
+speech intelligibility (STI) to measured performance loss; the Scientific Reports study is a
+recent independent replication of the serial-recall disruption in both children and adults.
+- Hongisto, *A model predicting the effect of speech of varying intelligibility on work
+  performance*, Indoor Air, 2005. [PubMed](https://pubmed.ncbi.nlm.nih.gov/16268835/)
+- *Impact of irrelevant speech and non-speech sounds on serial recall of verbal and spatial
+  items in children and adults*, Scientific Reports, 2025.
+  [Scientific Reports](https://www.nature.com/articles/s41598-025-85855-w)
+
+**Indoor temperature and office task performance** (general.txt) — Seppänen, Fisk and Lei
+reanalysed studies using objective performance measures (text processing, simple calculations,
+call-centre throughput) and derived a curve peaking near 21.6 °C, with measurable decline in
+both directions; the relationship subsequently informed ASHRAE guidance. A later meta-analysis
+of 35 studies covers the same question independently. The tip rounds to "21 to 22C" rather than
+quoting 21.6 °C, since a decimal implies more precision than a person can act on.
+- Seppänen, Fisk & Lei, *Effect of temperature on task performance in office environment*,
+  Lawrence Berkeley National Laboratory, 2006.
+  [eScholarship](https://escholarship.org/uc/item/45g4n3rv)
+- *Meta-analysis of 35 studies examining the effect of indoor temperature on office work
+  performance*, Building and Environment, 2021.
+  [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S036013232100439X)
+
 ## Circadian rhythm and mornings
 
 **Morning/outdoor light and circadian entrainment** (morning.txt, general.txt) — Light is the
@@ -333,6 +395,29 @@ promise).
   [LWW](https://journals.lww.com/bsam/fulltext/2024/07000/affective_responses_to_acute_exercise__a.2.aspx) ·
   [Open-access PDF](https://research.tilburguniversity.edu/files/118328904/Affective_Responses_to_Acute_Exercise.pdf)
 
+**Sleep inertia** (morning.txt) — The grogginess on waking is a named, well-characterised state
+with a known time course, which is the point of the tip: it is normal and it passes. Tassi &
+Muzet's review puts typical dissipation at 15-30 minutes; Hilditch & McHill's more recent
+review agrees on that as the usual range while noting impairment can be detectable for longer
+on some measures. The tip gives the 15-30 minute figure both reviews share, and deliberately
+does not promise total clearance by then.
+- Hilditch & McHill, *Sleep inertia: current insights*, Nature and Science of Sleep, 2019.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/31692489/)
+- Tassi & Muzet, *Sleep inertia*, Sleep Medicine Reviews, 2000.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/12531174/)
+
+**Social jetlag** (morning.txt) — Wittmann, Roenneberg and colleagues coined the term for the
+discrepancy between sleep timing on work days and free days, measured as the difference in
+mid-sleep point, and argued it functions as a chronic, self-inflicted form of jetlag.
+Roenneberg et al.'s follow-up found social jetlag associated with higher BMI. This is
+deliberately a different claim from the existing "consistent wake time" tips: those are about
+holding one time, this names what the weekend shift actually is and why the body treats it as
+travel.
+- Wittmann et al., *Social jetlag: misalignment of biological and social time*, Chronobiology
+  International, 2006. [PubMed](https://pubmed.ncbi.nlm.nih.gov/16687322/)
+- Roenneberg et al., *Social jetlag and obesity*, Current Biology, 2012.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/22578422/)
+
 ## Afternoons
 
 **The early-afternoon dip is partly circadian** (afternoon.txt) — Monk's work shows the dip
@@ -379,6 +464,34 @@ in the day reduce sleep drive and make falling asleep at night harder.
 - Rosekind et al., *Alertness management: strategic naps in operational settings*, J. Sleep
   Research, 1995. [Wiley](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2869.1995.tb00229.x)
 - [Sleep Foundation: Does Napping Impact Sleep at Night?](https://www.sleepfoundation.org/how-sleep-works/does-napping-impact-sleep-at-night)
+
+**The caffeine nap** (afternoon.txt) — Caffeine takes roughly 20-30 minutes to reach effect, so
+drinking it immediately before a short nap means it arrives as you wake, and the two act
+together rather than competing. Reyner & Horne's driving-simulator study is the classic
+demonstration: the combination cut sleepiness-related incidents to 9% of placebo, versus 34%
+for caffeine alone, and worked even when participants only dozed rather than properly slept.
+Hayashi et al. independently compared post-nap countermeasures. Note this coexists with the
+existing "caffeine has a ~5 hour half-life" and "no naps after 3pm" tips rather than
+contradicting them: it is a same-afternoon tactic, and both constraints still apply.
+- Reyner & Horne, *Suppression of sleepiness in drivers: combination of caffeine with a short
+  nap*, Psychophysiology, 1997. [PubMed](https://pubmed.ncbi.nlm.nih.gov/9401427/)
+- Hayashi et al., *The alerting effects of caffeine, bright light and face washing after a
+  short daytime nap*, Clinical Neurophysiology, 2003.
+  [ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/S1388245703002554)
+
+**The synchrony effect, and its reversal for insight** (afternoon.txt) — A genuinely
+counterintuitive finding worth a tip. Wieth & Zacks had participants solve insight and analytic
+problems at their optimal and non-optimal times of day. Analytic performance showed no
+consistent time-of-day effect, but *insight* problem solving was consistently better at the
+non-optimal time, the proposed mechanism being that reduced inhibitory control when tired
+widens the associative search. A 2025 systematic review covers the broader synchrony
+literature. The tip is careful to say "open-ended problems", not "all creative work".
+- Wieth & Zacks, *Time of day effects on problem solving: when the non-optimal is optimal*,
+  Thinking & Reasoning, 2011.
+  [Taylor & Francis](https://www.tandfonline.com/doi/abs/10.1080/13546783.2011.625663)
+- *Chronotype and synchrony effects in human cognitive performance: a systematic review*,
+  Chronobiology International, 2025.
+  [Taylor & Francis](https://www.tandfonline.com/doi/full/10.1080/07420528.2025.2490495)
 
 ## Evenings and sleep
 
@@ -497,6 +610,32 @@ claim strong.
   2015. [PubMed](https://pubmed.ncbi.nlm.nih.gov/26118561/)
 - Cohen et al., *Sleep Habits and Susceptibility to the Common Cold*, Archives of Internal
   Medicine, 2009. [PubMed](https://pubmed.ncbi.nlm.nih.gov/19139325/)
+
+**Light during sleep, not just before it** (evening.txt) — Distinct from every other evening
+light tip in the catalog, which are all about the hours *before* bed and about melatonin. Mason
+et al. randomised healthy adults to one night under 100 lux overhead room light versus dim
+(<3 lx) light and found higher nighttime heart rate, reduced heart-rate variability, and
+increased next-morning insulin resistance, after a single night. Obayashi et al.'s HEIJO-KYO
+cohort measured actual bedroom light intensity in 528 older adults' homes and found light at
+night associated with obesity and dyslipidemia independent of melatonin excretion. The "dimmer
+than most hallways" comparison is there because 100 lux sounds like a lot and is not.
+- Mason et al., *Light exposure during sleep impairs cardiometabolic function*, PNAS, 2022.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/35286195/)
+- Obayashi et al., *Exposure to light at night, nocturnal urinary melatonin excretion, and
+  obesity/dyslipidemia in the elderly*, Journal of Clinical Endocrinology & Metabolism, 2013.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/23118419/)
+
+**Bedroom noise** (evening.txt) — The WHO's guidance for good-quality sleep is under 30 dB(A)
+of continuous noise indoors. The reason it earns a tip is the part people underestimate: noise
+produces measurable sleep fragmentation, cortical arousals and stage shifts, without
+necessarily producing a remembered awakening, so "it doesn't wake me" is not evidence it is
+harmless. Basner & McGuire's systematic review, commissioned for the WHO's environmental noise
+guidelines, is the evidence base for the exposure-response relationship.
+- [WHO Night Noise Guidelines for Europe](https://www.who.int/europe/publications/i/item/9789289041737)
+- Basner & McGuire, *WHO environmental noise guidelines for the European region: a systematic
+  review on environmental noise and effects on sleep*, International Journal of Environmental
+  Research and Public Health, 2018.
+  [PMC](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5877064/)
 
 ## Nature, connection, and mood
 

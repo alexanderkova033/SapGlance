@@ -35,11 +35,11 @@ Read these first, in order:
 
 ## What exists right now
 
-**Seven pools.** Four practical, day-part scoped (`general` 45 tips, `morning` 24, `afternoon`
-24, `evening` 26) plus two single fixed sleep-hours messages. Three *tone* pools grouped by
-voice rather than time: `motivation` (43), `philosophy` (36), `wellbeing` (45).
-`TipCatalog.tonePools` concatenates the three, so the tone blob is 124 tips against a
-day-part practical pool of 69-71.
+**Seven pools.** Four practical, day-part scoped (`general` 50 tips, `morning` 26, `afternoon`
+26, `evening` 28) plus two single fixed sleep-hours messages. Three *tone* pools grouped by
+voice rather than time: `motivation` (53), `philosophy` (42), `wellbeing` (55).
+`TipCatalog.tonePools` concatenates the three, so the tone blob is 150 tips against a
+day-part practical pool of 76-78.
 
 **Every tip has a `TipKind`** (`PRACTICAL` / `MOTIVATION` / `PHILOSOPHY` / `WELLBEING`), which
 governs how it may be presented: `PRACTICAL` tips must cite at least two independent research
@@ -84,7 +84,7 @@ Two properties here are deliberate and load-bearing. Keep both:
    sizes suggest it should. Consider recency weighting, or a shuffled-bag / deck-of-cards
    approach (deal the pool in a random permutation, reshuffle when exhausted) rather than
    independent draws. Note both sides of the catalog grew after this brief was written: the
-   tone pools from 54 tips to 124, and the practical pools from 109 to 119. That relieves the
+   tone pools from 54 tips to 150, and the practical pools from 109 to 130. That relieves the
    pressure but does nothing about the underlying independent-draw behaviour, which is the
    actual complaint.
 3. **`VarietyLevel` has three labels but four kinds to distribute across.** Decide whether the
