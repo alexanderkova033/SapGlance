@@ -1,9 +1,11 @@
-# HealthWidget
+# SapGlance
 
 ![CI](https://github.com/alexanderkova033/health-widget/actions/workflows/ci.yml/badge.svg)
 
-> The name is settled: **HealthWidget**, everywhere — `app_name` in `strings.xml`,
-> `applicationId` (`com.healthwidget.app`), the repo name. Nothing left to decide here.
+> The name is settled: **SapGlance**, everywhere — `app_name` in `strings.xml` and
+> `applicationId` (`com.sapglance.app`). The GitHub repo is still named `health-widget`;
+> that's cosmetic, and renaming it would break existing clone URLs and the CI badge above
+> for no benefit.
 
 A privacy-first Android wellness app for students and desk workers: no accounts, no
 tracking, no dashboards, no streaks, no notifications. Just a home-screen widget with one
@@ -27,10 +29,14 @@ v1 is intentionally passive — no notifications of any kind:
 - The tip advances on its own after it's actually had a chance to be seen — roughly every 90
   minutes of confirmed screen-on time since it was last shown, not a pure wall-clock timer
   that could rotate a tip nobody ever looked at (see "Notable design decisions" below).
-- The widget's background is one of nine styles (Forest, Ocean, Sunset, Midnight, Aurora,
-  Dawn, Rain, Autumn, Winter), deterministically derived from the currently-shown tip's text
-  (`WidgetStyle.forTip`) rather than a user preference — a new tip means a new-looking card,
-  not just new text. Not user-selectable; there's nothing to configure in Settings.
+- The widget's background is one of eleven styles — seven dark (Forest, Ocean, Sunset,
+  Midnight, Aurora, Dawn, Rain) and four light (Winter, Paper, Meadow, Blossom) —
+  deterministically derived from the currently-shown tip's text (`WidgetStyle.forTip`) rather
+  than a user preference; a new tip means a new-looking card, not just new text. Not
+  user-selectable; there's nothing to configure in Settings. The card's whole ink set (text,
+  chip, frame, gear) flips with the style rather than following the phone's day/night theme:
+  what the text has to contrast against is the artwork behind it, which the home screen's
+  theme says nothing about. See `WidgetInk` in `TipWidget.kt`.
 - Tips come from seven pools: four evidence-backed practical ones scoped by time of day
   (`general`/`morning`/`afternoon`/`evening`) plus three "tone" pools grouped by voice
   (`motivation`/`philosophy`/`wellbeing`). The Settings "More variety" control leans the mix
@@ -70,7 +76,7 @@ architecture) rather than on each other's concrete classes:
   - `settings/` — `AppSettings`/`SettingsRepository`, the one real persisted preference: a
     `VarietyLevel` (`PRACTICAL`/`BALANCED`/`PLAYFUL`), read by `TipEngine`'s weighting (see
     "Notable design decisions" below).
-  - `widget/` — `WidgetStyle` (the nine background styles and `WidgetStyle.forTip`'s pure
+  - `widget/` — `WidgetStyle` (the eleven background styles and `WidgetStyle.forTip`'s pure
     hash-based mapping from a tip's text to one of them). It lived under `settings/` until the
     package pass, which was wrong in a way worth naming: it is explicitly *not* a setting —
     not user-configurable, not backed by a repository — so filing it under `settings/` meant
@@ -450,13 +456,26 @@ CI (`.github/workflows/ci.yml`) runs all three plus a full build on every push a
       Oppenheimer (2014) failed to replicate in 2019, and a morning-spinal-flexion tip, because
       the sourcing was thinner than the confident phrasing it invited.
 - [x] More background styles beyond the original four (Forest/Ocean/Sunset/Midnight). Now
-      **nine**: Aurora, Dawn, Rain, Autumn and Winter join them, taking their cue from the
-      backdrop set in the Easy-poems workshop. Each is built the same way as the existing
-      four (a `<layer-list>` of base gradient + radial glows + a `widget_art_*` vector +
-      accent dots + the shared card frame), and each claims palette territory none of the
-      originals held: violet/green curtains, misty rose, desaturated slate, rust and amber,
-      icy blue. Because `forTip` is `hashCode() mod entries.size`, adding entries reshuffles
-      which tip gets which background — that's fine, nothing persists a style.
+      **eleven**, in two families, taking their cue from the backdrop set in the Easy-poems
+      workshop: seven dark (the original four plus Aurora, Dawn and Rain) and four light
+      (Winter, Paper, Meadow, Blossom). Each is built the same way (a `<layer-list>` of base
+      gradient + radial glows + a `widget_art_*` vector + accent dots + a footer scrim + the
+      card frame) and claims palette territory the originals didn't hold. Adding the light
+      family meant the card's ink had to stop being hardcoded white — see the ergonomics
+      item below. Because `forTip` is `hashCode() mod entries.size`, adding entries
+      reshuffles which tip gets which background; nothing persists a style, so that's free.
+- [x] Make the card's text legible on every style, not just the dark ones. The widget
+      hardcoded white text on a translucent *black* chip, which silently assumed every
+      background would stay dark. `WidgetInk` (in `TipWidget.kt`) now flips the whole set
+      together — text, chip polarity, card frame, and the settings gear's chip and glyph —
+      paired with each style's drawable in one exhaustive `when`, so a new style can't ship
+      having picked a background and forgotten its ink. Contrast was measured rather than
+      eyeballed, compositing each background's real layer stack at the points where text
+      actually sits: that found the **app-name label failing on two shipped styles**
+      (Ocean 2.7:1, Dawn 2.7:1 — it's the only text with no chip of its own, and it sits on
+      the bottom edge where these scenes put their brightest art). Fixed with a bottom-edge
+      scrim on every background plus a footer alpha bump; all eleven styles now clear WCAG
+      AA at 4.5:1, worst case 4.9:1.
 - [x] Remove em dashes from all app-facing text. Done for bundled tip content and enforced by
       `TipCatalogTest`'s "no tip text contains an em dash" case so it can't regress;
       `strings.xml` already had none. Docs still use them, deliberately — they're prose for
@@ -470,59 +489,44 @@ CI (`.github/workflows/ci.yml`) runs all three plus a full build on every push a
       "jot down tomorrow's top task" and the nine-minutes-faster sleep-lab finding; five
       overlapping "take a break" tips now cover the walk, the eye rest, the mechanism, the
       quiet minute, and when to break).
-- [ ] **Rewrite the clichés out of the practical pools.** The tone pools were explicitly
-      de-cliché'd; the practical ones never were, and roughly a sixth of their 130 tips are
-      lines the reader has already met on every ergonomics poster and sleep-hygiene leaflet
-      they've ever seen: the 20-20-20 rule, "check your posture", "adjust your chair so your
-      feet rest flat", "keep water within arm's reach", "take 3 slow, deep breaths", "open the
-      curtains", "dimming lights in the evening helps you wind down". None of them is *wrong* —
-      that's the trap. They're the tips everybody already agrees with and nobody acts on, and in
-      a widget that reappears several times a day, a line that lands once and then reads as
-      filler for its next sixty appearances is a worse failure than it would be in a leaflet
-      read once.
-      - **The fix is register, not topic.** Each pool already contains the interesting version
-        of its own clichés, which is what makes this tractable: `general.txt` says both "Check
-        your posture: ears, shoulders, and hips roughly stacked" *and* "Your best posture is
-        your next one. Changing position beats holding a perfect one"; it says "Take 3 slow,
-        deep breaths" *and* "Breathing out for longer than you breathe in is what triggers the
-        calming response." The good lines all do one of four things — bust a myth
-        (blue-light glasses, snoozing, breakfast and metabolism, night mode), name a mechanism
-        (the warm-bath paradox, the dive reflex), carry a real number (21-22C, 100 lux, WHO's
-        30 dB, NASA's 26 minutes), or invert an assumption (coffee *then* a nap; save
-        open-ended problems for when you're slightly tired). Keep the topic, change what the
-        line says about it. Same principle as the near-duplicate pass above, applied to
-        familiarity instead of overlap.
-      - **The clusters to look at first**, since familiarity concentrates: `morning.txt` still
-        carries six separate morning-light lines even after the near-duplicate pass removed two
-        of them, `afternoon.txt` has five near-interchangeable "get up / take a break" lines,
-        and `general.txt` has an ergonomics-poster run (chair height, screen distance, shoulder
-        rolls, wrist stretches, leg stretches) plus two hydration lines.
-      - **The evidence bar does not move.** The obvious failure mode of hunting for
-        counterintuitive lines is drifting toward findings that are interesting *because* they
-        are shaky — surprising results are exactly the ones that replicate worst. Every rewrite
-        still owes two independent primary citations per TIP_SOURCES.md, and where the only
-        non-obvious thing about a topic rests on a single small study, the boring
-        well-supported line stays. One or two of these are worth re-checking from the other
-        direction too: the 20-20-20 rule is stated in the catalog as an eye-doctor
-        recommendation, and whether the evidence actually supports those specific numbers is a
-        fair question to ask of it, in the same spirit as the blue-light-glasses line sitting
-        four rows below it.
-      - **Replace, don't net-cut.** `ANTI_REPEAT_WINDOW` is 30 against ~76 unique practical
-        tips per day part; shrinking the pools pushes the window toward the pool size and makes
-        rotation feel *more* repetitive, which is the opposite of the point.
-      - **Mechanical care.** The practical pools are the two-file layout: every rewritten line
-        has to move with its `_sources.txt` line (they're zipped line-for-line and `require` a
-        matching count) and its TIP_SOURCES.md entry. The specific thing to watch is a rewritten
-        tip quietly keeping the old tip's citation — if the claim changed, the sources have to
-        change with it. Also worth knowing: rewriting a tip's text orphans it in users' stored
-        history, since history is keyed by text, so a rewritten line can reappear immediately
-        for existing users once.
-      - **Nothing automated will catch this.** `TipCatalogTest` checks byte-identical
-        duplicates, em dashes, and citation counts; none of that detects "boring". The
-        durable form of the fix is the one the tone pools already use: a WRITING RULE header
-        comment in each practical file naming the four registers, mirrored into
-        CONTRIBUTING.md's "Adding a tip", so the next person adding a tip doesn't restock the
-        pool with poster lines.
+- [x] **Rewrite the clichés out of the practical pools.** The tone pools were explicitly
+      de-cliché'd; the practical ones never were, and roughly a sixth of their 130 tips were
+      lines the reader had already met on every ergonomics poster and sleep-hygiene leaflet.
+      Done as a register change, not a topic cull: posture, hydration, breaks and morning light
+      are clichés precisely because they're true, so they all stayed, and what the lines *say*
+      about them changed. Nine rewrites, 1:1 with no net cut (`ANTI_REPEAT_WINDOW` is 30, so
+      shrinking the pools would make rotation feel worse, not better):
+      - "Check your posture: ears, shoulders, and hips roughly stacked" became "Sitting up
+        straight isn't the goal. Neutral and supported beats upright and held."
+      - "Open the curtains. Even a grey day outdoors is far brighter than any lit room" became
+        "An overcast day is around 10,000 lux. A bright office is 500."
+      - "Take 3 slow, deep breaths" became "Slow to about six breaths a minute. That's where
+        heart-rate variability peaks" — which is what its own citation already said.
+      - "Dimming lights and screens in the evening helps your body start winding down" became
+        "Room light before bed shortened melatonin release by about 90 minutes in one study",
+        the actual headline finding of the Gooley paper already attached to it.
+      - The 20-20-20 line now says the benefit faded a week after people stopped, which is what
+        the trial cited beside it found. The roadmap flagged that rule as worth re-checking from
+        the sceptical side; it was, and the honest version is more interesting than the poster.
+      - Plus chair-height, screen-height, blink and fibre lines rewritten to a mechanism or a
+        number.
+      **Two of these were factual corrections, not just style.** "Coffee only half counts" was
+      cited to two papers about dehydration and cognition that say nothing about caffeine, and
+      is wrong on the evidence: it now says coffee counts toward your fluids, cited to Killer et
+      al. and Maughan & Griffin. "Keep water within arm's reach. You drink more when reaching
+      for it is free" carried the same two cognition papers, which do not support a claim about
+      reaching distance. Both are recorded in TIP_SOURCES.md's "Corrections" section.
+      **Enforcement is a header rule, not a test**, since a lint for "boring" would be gameable
+      nonsense. `tips/general.txt` now carries the full rule (the four registers a line must hit
+      — bust a myth, name a mechanism, carry a real number, invert an assumption — plus "change
+      the register, keep the topic" and a warning that the evidence bar does not move to make a
+      line interesting); the other three practical files point at it and add their own cluster
+      warning, and it is mirrored into CONTRIBUTING.md's "Adding a tip" list. The practical
+      files' headers were two lines of mechanical bookkeeping before, which is why nothing
+      pushed back when the poster lines went in.
+      **Still open**: the clusters are thinned, not resolved. `morning.txt` still carries six
+      morning-light lines and `afternoon.txt` five "get up / move" lines; both now have a header
+      warning telling the next person to rewrite one rather than add a seventh.
 - [x] **Rework how a tip is chosen, now that the tone pools exist.** Done, from the brief in
       [docs/TONE_ALGORITHM_PROMPT.md](docs/TONE_ALGORITHM_PROMPT.md). Selection is now three
       narrowing weighted choices (tier, then group, then tip) with anti-repeat applied to every

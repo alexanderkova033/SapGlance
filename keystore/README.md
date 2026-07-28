@@ -8,6 +8,13 @@ here is gitignored because it's a secret:
 - `keystore.properties` — `storeFile`/`storePassword`/`keyAlias`/`keyPassword` read by
   `app/build.gradle.kts` to sign the `release` build type.
 
+The filename and alias still say `healthwidget` — that predates the rename to SapGlance and
+is deliberately left alone. Neither is user-visible: under Play App Signing this key is only
+the *upload* key, and its certificate is seen by nobody outside Play Console. Renaming the
+file would mean editing `keystore.properties` in lockstep, and renaming the alias
+(`keytool -changealias`) would invalidate every backup copy already made of the old one — all
+risk, no benefit. Leave it.
+
 **Back up `healthwidget-release.jks` and the passwords in `keystore.properties` somewhere
 durable outside this repo (a password manager, encrypted cloud storage) right now.** If
 this file is lost after the app has been published, you cannot upload an update to the

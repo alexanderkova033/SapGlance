@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for considering a contribution to HealthWidget.
+Thanks for considering a contribution to SapGlance.
 
 ## Ground rules
 

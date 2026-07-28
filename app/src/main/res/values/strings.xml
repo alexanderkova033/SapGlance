@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">HealthWidget</string>
+    <string name="app_name">SapGlance</string>
 
     <string name="widget_description">A rotating wellness tip. Tap it for a new one, or the gear icon for settings.</string>
     <string name="widget_settings_action">Open settings</string>

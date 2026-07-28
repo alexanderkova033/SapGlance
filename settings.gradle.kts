@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "healthwidget"
+rootProject.name = "sapglance"
 
 include(":app")
 include(":core")

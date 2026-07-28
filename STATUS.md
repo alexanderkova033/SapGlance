@@ -101,7 +101,7 @@ Two follow-up passes after the initial build-out:
       a plain (non-expedited) one-time request, which is fine for a background periodic
       refresh but not for something tapped expecting to see change immediately.
     - Second attempt (current): call `TipWidget().updateAll()` directly again, but inside
-      `HealthWidgetApp.applicationScope` (a process-lifetime `CoroutineScope`, now
+      `SapGlanceApp.applicationScope` (a process-lifetime `CoroutineScope`, now
       `internal` instead of `private`) rather than the screen's own scope. This keeps the
       original problem fixed (the scope outlives the screen) while being as fast as the
       original direct call (no `WorkManager` queueing). `setExpedited()` on the
@@ -137,7 +137,7 @@ Two follow-up passes after the initial build-out:
     controls first, boilerplate last).
   - "Why this tip?" gained a refresh `IconButton` (`Icons.Filled.Refresh`) that calls the
     same `AdvanceTipUseCase` the periodic worker uses, then `TipWidget().updateAll()` via
-    `HealthWidgetApp.applicationScope` — picks a new tip out of turn and pushes it to the
+    `SapGlanceApp.applicationScope` — picks a new tip out of turn and pushes it to the
     home-screen widget immediately, same instant-update reasoning as the widget-style fix.
   - About is now collapsed by default (tap the row to expand/collapse; a plain `if`, no
     `AnimatedVisibility`, to avoid pulling in `androidx.compose.animation` on a fixed stack),
@@ -184,9 +184,11 @@ Two follow-up passes after the initial build-out:
   - **Branding centralized.** `settings_title` now references `@string/app_name` instead of
     duplicating the literal "HealthWidget," and the widget's small brand label (previously a
     hardcoded `"HEALTHWIDGET"` string in `TipWidget.kt`) is now `app_name` uppercased at
-    render time. A pre-release checklist warning about `applicationId` being permanent once
+    render time. This is why the 2026-07-28 rename to SapGlance touched only one string.
+    A pre-release checklist warning about `applicationId` being permanent once
     published was added to "Release readiness" below. `applicationId` itself was
-    deliberately left unchanged (`com.healthwidget.app`) — no final name has been chosen yet.
+    deliberately left unchanged at the time (`com.healthwidget.app`) — no final name had been
+    chosen yet.
   - **API 36.** AGP 8.7.3 to 8.10.1 (the minimum AGP version that supports `compileSdk 36`),
     Gradle wrapper 8.9 to 8.11.1 (AGP 8.10.1's minimum required version), `compileSdk`/
     `targetSdk` 35 to 36, `minSdk` unchanged at 26. Android SDK Platform 36 and Build-Tools 35
@@ -202,7 +204,7 @@ Two follow-up passes after the initial build-out:
     quiet-hours/permission-denial/notifications-disabled behavior, `BootReceiver`/
     `ClockChangeReceiver` rescheduling — but was then **deliberately dropped by request**
     before landing, along with the handful of test-only production changes it needed
-    (`HealthWidgetApp` made `open` for a test subclass, `WidgetScheduler`'s work-name
+    (`SapGlanceApp` made `open` for a test subclass, `WidgetScheduler`'s work-name
     constants made `internal`, `BootReceiver`/`ClockChangeReceiver` given an injectable
     `CoroutineScope`, a `junit-vintage-engine` dependency to run JUnit4-style Robolectric
     tests on the project's JUnit5 platform setup). All of that was reverted; only the `:core`
@@ -259,7 +261,7 @@ Two follow-up passes after the initial build-out:
     any more), and their tests. `AppSettings` is down to just `widgetStyle`;
     `SettingsRepository`/`DataStoreSettingsRepository` lost every notification-related
     method and DataStore key. Removed from the manifest: `POST_NOTIFICATIONS`, the
-    `ClockChangeReceiver` receiver declaration. `HealthWidgetApp.onCreate` and `BootReceiver`
+    `ClockChangeReceiver` receiver declaration. `SapGlanceApp.onCreate` and `BootReceiver`
     no longer touch notification channels or scheduling — `BootReceiver` doesn't even need
     `AppSettings` any more, since `WidgetScheduler` takes none. The Settings screen lost its
     entire Notifications card (master switch, frequency slider, sleep alert toggle, quiet
@@ -590,7 +592,9 @@ Two follow-up passes after the initial build-out:
     theme with bright drifts under the footer would have eaten it, so its snow reads through
     low-alpha pale accents instead). And with nine styles against only eight legal gradient
     angles, exactly one pair must share: Winter doubles Forest's 135°, the pair least likely
-    to be confused (icy blue vs. green, entirely different art).
+    to be confused (icy blue vs. green, entirely different art). **Superseded the same day** —
+    the "every background stays dark" constraint was an artifact of the hardcoded white ink,
+    not a real one; see the entry below.
   - Ripple rings in `widget_art_rain.xml` are four cubic segments rather than elliptical arc
     commands — same path vocabulary as the rest of the widget art, and no arc parsing to trip
     over at inflation time.
@@ -604,6 +608,50 @@ Two follow-up passes after the initial build-out:
     mid-session (`widget/` split into `presentation/`/`scheduling/`, `WidgetStyle` moved from
     `core/settings/` to `core/widget/`). The enum edit moved with it cleanly; one build failure
     partway through was a half-written `AppContainer.kt` from that pass, not this one.
+- **`feat:` light widget backgrounds + per-style ink (2026-07-27, later still)** — by request
+  ("I don't like autumn. Add some more light ones. Think about ergonomics of how you see the
+  text"). Autumn is deleted (enum entry, both drawables, nine colors) and the set is 4 light
+  + 7 dark = **eleven**: **Paper**, **Meadow** and **Blossom** are new, and **Winter flipped
+  from dark to light**.
+  - **The ergonomics ask turned out to be the whole job.** The card hardcoded white text on a
+    22%-black chip, an assumption that held only while every background was dark; on a cream
+    page it renders white-on-cream. `WidgetInk` (an enum in `TipWidget.kt`) now carries the
+    full set — text, chip, quote mark, footer, settings-button drawable, gear tint — and
+    `WidgetStyle.skin()` returns the drawable *and* the ink from one exhaustive `when`, so
+    the pair can't be set independently and a new style breaks the build until it picks both.
+    Flipping only the text color is what leaves a card looking half-inverted, so the chip
+    polarity (black→white), the card frame (`widget_card_border_dark`) and the gear chip
+    (`widget_settings_button_bg_light`, plus a `ColorFilter.tint` on the glyph, which is a
+    hardcoded white vector) all flip together.
+  - **Winter went light rather than a new snow style being added.** Its dark "winter dusk"
+    palette existed only to dodge the white-ink constraint, which no longer exists — a snow
+    theme that can't use white is a workaround, not a design.
+  - **Contrast was measured, not eyeballed**, by compositing each background's actual layer
+    stack (base gradient at its angle, each radial glow at its centre/radius, the art layers
+    covering the bottom edge) at the two points where text really sits, then computing WCAG
+    ratios. Worth doing: a first pass that ignored the art layers mis-blamed Sunset, and the
+    corrected model found **two genuinely failing styles that were already shipped** — the
+    app-name label at **2.7:1 on Ocean** (wave crests) and **2.7:1 on Dawn** (mist band). It
+    is the only text with no chip of its own and it sits exactly where these scenes put their
+    palest art. Three fixes came out of the numbers rather than taste:
+    - A **bottom-edge scrim** (`widget_footer_scrim`/`_light`, a 3-stop linear fading out by
+      mid-card) on all eleven backgrounds. 30% is the lightest value that clears AA
+      everywhere — it exists to floor the contrast, not to dim the art.
+    - Footer alpha 0.65 → **0.80** on both inks.
+    - **Meadow's grass band lightened** (`#547A2C` at 70% → `#649A39` at 60%): it was the one
+      new style whose art puts a mid-tone mass under the label, at 3.2:1.
+
+    All eleven styles now clear WCAG AA (4.5:1); worst case is Dawn's footer at 4.9:1 and the
+    worst tip is Sunset at 5.7:1. The measurement scripts were scratch, not committed.
+  - Verified: `ktlintCheck`, `:core:test` and `:app:assembleDebug` all green.  Still not seen
+    on a device — the contrast model is arithmetic on the layer stack, which is the right tool
+    for "can this be read" but says nothing about whether the art itself looks good.
+  - **Note on a concurrent pass (again)**: the app was renamed mid-session (the earlier
+    `applicationId`, recorded here originally, was lost to a careless bulk substitution during
+    the 2026-07-28 SapGlance rename — see that entry). All of this work moved with the rename
+    intact. Two `standard:import-ordering` ktlint violations came in with it (the application
+    class sorted before `R` in `TipWidget.kt` and `SettingsScreen.kt`) and are fixed here,
+    since they blocked the build gate.
 - **`docs:` second content pass, every pool, aiming for precision (2026-07-27, later still)** —
   a follow-on to the pass below, by request: more tips in *all seven* pools, no repeated ideas,
   and deliberately **more precise** than what was already there. Content only; no Kotlin
@@ -652,6 +700,59 @@ Two follow-up passes after the initial build-out:
   - **Not verified on a physical device.** Longest new line is the cyclic-sighing tip at 105
     characters; the sleep-and-colds tip from the previous pass (104) is still the other one to
     watch for clipping at 6 lines.
+- **`docs:` tips shortened to fit, and the practical pools de-cliché'd (2026-07-28)** — two
+  planned sections turned into work and deleted. Content only; no Kotlin touched.
+  - **Every tip is now ≤90 characters**, down from a 111-character longest. This is the
+    calibration half of the confirmed clipping defect, chosen deliberately over the layout half.
+    The philosophy quotations were shortened by quoting a *shorter verbatim span*, cut at
+    punctuation the source already has, never by trimming mid-clause: Spinoza now ends at the
+    original's semicolon ("A free man thinks of death least of all things."), Thoreau and
+    Montaigne at the original's comma, Marcus VIII.47 quotes the second clause alone. Each was
+    re-checked against the linked edition after cutting.
+  - **What shortening does not fix, and where that knowledge went.** The chrome is still the
+    structural half: ~90dp of padding, the `❝` glyph, the chip padding and the app-name label
+    are spent before a line of tip is drawn, against a declared `minHeight` of 90dp, so six
+    lines of 15sp still cannot fit at the small end of the advertised range. Shorter tips mean
+    ordinary lines now wrap to two or three, so it should stop biting in practice, but the
+    layout can still be asked to draw more than it can show. That analysis is preserved, in
+    condensed form, on the README's "widget size variants" roadmap item, which is the same
+    piece of work. **No length test was added**: the right number to encode is one measured
+    on-device at the smallest supported size, and 90 is a calibration, not that measurement.
+  - **De-cliché: nine practical rewrites, 1:1, no net cut.** Register changed, topic kept.
+    "Check your posture" → "Sitting up straight isn't the goal. Neutral and supported beats
+    upright and held." "Open the curtains" → "An overcast day is around 10,000 lux. A bright
+    office is 500." "Take 3 slow, deep breaths" → "Slow to about six breaths a minute. That's
+    where heart-rate variability peaks." "Dimming lights in the evening helps you wind down" →
+    the Gooley paper's actual finding, 90 minutes of melatonin release lost to room light. The
+    20-20-20 line now reports what the trial cited beside it found: the benefit faded a week
+    after people stopped. Six of the nine were supported by the citations **already attached to
+    the line** and needed no new sourcing, which is the strongest evidence that the problem was
+    register and not evidence.
+  - **Two were factual corrections, not style.** Both are now in TIP_SOURCES.md's "Corrections"
+    section:
+    - *"Coffee only half counts"* was cited to Ganio and Armstrong, two papers about dehydration
+      and cognition that say nothing about caffeine, and is wrong on the evidence. Replaced with
+      "Coffee counts toward your fluids", cited to Killer et al. (2014) and Maughan & Griffin
+      (2003).
+    - *"Keep water within arm's reach. You drink more when reaching for it is free"* carried the
+      same two cognition papers, which support nothing about reaching distance.
+  - **Enforcement is a header rule, not a test**, as planned. `tips/general.txt` carries the
+    full rule (the four registers: bust a myth, name a mechanism, carry a real number, invert an
+    assumption; plus "change the register, keep the topic" and an explicit warning that the
+    evidence bar does not move to make a line interesting). The other three practical files
+    point at it and add their own cluster warning. Mirrored into CONTRIBUTING.md's "Adding a
+    tip" list, whose stale ~115-character guidance was replaced with the ~90 ceiling.
+  - **Still open, deliberately**: the familiarity clusters are thinned, not resolved.
+    `morning.txt` still has six morning-light lines, `afternoon.txt` five "get up / move" lines.
+    Both now carry a header warning telling the next person to rewrite one rather than add
+    another. Also noticed and left alone: `afternoon.txt`'s break tip cites Ariga & Lleras plus
+    its own ScienceDaily press summary, which is one piece of evidence wearing two hats. Allowed
+    by the source-quality rules, weak in spirit.
+  - **Verified: `./gradlew ktlintCheck test lint build` BUILD SUCCESSFUL**, `TipCatalogTest`
+    13/13, pool counts unchanged at 50/26/26/28 practical and 53/42/55 tone (282 total), and
+    all four `_sources.txt` files still aligned line-for-line.
+  - **Not verified on a physical device.** Nobody has yet seen a 90-character tip render at the
+    smallest widget size, which is the whole point of the exercise.
 
 ## Verified for real (not just reviewed)
 
@@ -767,10 +868,15 @@ Two follow-up passes after the initial build-out:
 - **Store icon**: `store-assets/play-store-icon-512.png` — flattened 512×512 PNG for the
   Play Console listing.
 - **Not yet done**:
-  - **Naming is decided (2026-07-24): the app stays "HealthWidget," `applicationId` stays
-    `com.healthwidget.app`.** Nothing to change here before the first Play Store upload — the
-    three alternate names previously under consideration (Quiet Cue / MicroPause / Driftwell)
-    are dropped.
+  - ~~Naming.~~ **Done (2026-07-28): the app is "SapGlance," `applicationId`
+    `com.sapglance.app`.** This supersedes the 2026-07-24 decision to stay "HealthWidget,"
+    which was reopened because "health widget" sets the wrong expectation — people searching
+    it want step counts and Health Connect, would install, find quotations, and uninstall.
+    Alternates considered and dropped across both rounds: Quiet Cue, MicroPause, Driftwell,
+    Dayglance, Sapling. Note the "sap = drain/deplete" reading was raised and consciously
+    accepted; the intended sense is sap as a tree's living fluid, which matches the botanical
+    widget art (meadow, blossom, paper). **`applicationId` is now permanent from the first
+    upload onward — it cannot change after that.**
   - No Play Console developer account yet ($25, identity verification).
   - `PRIVACY.md` isn't hosted at a public URL yet (Play Console requires one — GitHub Pages
     on this repo is the easy option).
@@ -812,155 +918,6 @@ Two methodological notes for next time:
   confirmed working via screenshots, but the user caught a UX regression (lag) that no
   automated check here would have surfaced. Real user re-testing after "it's fixed" claims
   matters even when the automated signals are all green.
-
-## Known defect: long tips clip in the widget (confirmed on device, not fixed)
-
-**User-reported and confirmed on a real device (2026-07-27): some tips are too long and don't
-fit the widget.** This one is worth reading before the planned sections below, because two of
-them depend on the number it produces.
-
-The docs predicted this twice and both times flagged it as unverified — the 2026-07-27 content
-passes each closed with a note that the longest new line "should fit the 6-line limit, but that
-is inference from length, not something anyone has looked at." Somebody has now looked at it,
-and the inference was wrong.
-
-**Character count is measuring the wrong thing.** Every tip in the catalog is already inside
-CONTRIBUTING.md's ~115-character guidance — the longest line in all nine pools is a philosophy
-quotation at 111 characters, and the longest practical tip is 106. So the existing rule is
-being *followed* and things still clip. What decides fit is the number of wrapped lines at a
-fixed 15sp against a width the launcher picks, and the vertical space left after chrome —
-neither of which a character count sees. Width per line varies by launcher grid and device;
-word length matters too, since one long unbreakable word can push a shorter string onto an
-extra line than a longer string of short words.
-
-**The chrome is the bigger half of the problem, and it's structural.** The widget declares
-`android:minWidth="140dp"` and `android:minHeight="90dp"` in `tip_widget_info.xml`. Inside
-that, `TipWidget` spends vertical space on: 16dp root padding top and bottom (32dp), the
-decorative `❝` at 18sp plus a 4dp spacer (~26dp), the tip chip's own 6dp vertical padding
-(12dp), an 8dp spacer, and the 11sp "HEALTHWIDGET" label (~13dp). That is ~90dp of non-tip
-content — the entire declared minimum height — before a single line of tip text is drawn. Six
-lines of 15sp is roughly another 110dp. Arithmetic from declared sizes rather than a device
-measurement, and line-height factors are approximate, but the conclusion is robust: the layout
-needs on the order of 200dp of height to render the six lines it says it allows, against a
-minimum it advertises as 90dp. **A tip that wraps to six lines cannot fit at the small end of
-the size range the widget claims to support.** Shortening tips reduces how often this bites; it
-does not remove it.
-
-**This is the known cost of a deliberate decision, now come due.** Measure-and-fit font sizing
-was removed on purpose — the comment above `TIP_FONT_SIZE` in `TipWidget.kt` records why:
-predicting wrap against `LocalSize.current` disagreed with the width the real `RemoteViews`
-`TextView` actually got (different launchers, grid rounding), and picked wrong in both
-directions. That trade explicitly accepted clipped long tips as the lesser evil. Reopening it
-is justified now, but from a different angle than last time: `AndroidRemoteViews` hosting a
-layout with `android:autoSizeTextType="uniform"` hands the shrink-to-fit decision to the
-platform `TextView` at layout time, **with the real width in hand** — which is precisely the
-information the failed approach was trying to guess. Worth prototyping before anything else; it
-would make the whole class of problem go away rather than moving the threshold.
-
-**Options, roughly in order of value for effort:**
-
-1. **Cut chrome at small sizes.** The `❝` glyph and the app-name label, with their spacers,
-   cost ~45dp — half the declared minimum height — and are both purely decorative. Dropping
-   them below some size threshold buys about three lines of tip text.
-2. **Autosizing text** via `AndroidRemoteViews`, as above. Needs a real prototype; Glance's
-   `Text` has no autosize of its own, which is why this has to go through a RemoteViews layout.
-3. **Responsive layout** via Glance `SizeMode.Responsive`/`LocalSize`. This is already on the
-   roadmap as "widget size variants (small/medium)" and is almost certainly the same piece of
-   work, not a separate one.
-4. **Raise the declared minimum size** so the widget stops advertising a box it cannot render
-   its own maximum text in. Cheapest of all, and honest, but narrows where users can place it.
-5. **Shorten the tips.** Necessary as calibration, insufficient as a fix, and worth doing only
-   after there's a measured budget to shorten *to*.
-
-**Add the missing test, but measure before choosing its number.** `TipCatalogTest` has no
-length assertion at all: the em-dash rule got a guard, the length rule never did, so the ~115
-figure in CONTRIBUTING.md is honour-system guidance nothing enforces. That figure is also stale
-on its face — CONTRIBUTING justifies it as "5 lines of bold 16sp type", while the widget renders
-`maxLines = 6` at `TIP_FONT_SIZE = 15.sp`. The right sequence is: fix the layout, measure what
-actually fits at the smallest supported size on a real device, then encode *that* as a test,
-rather than promoting an unvalidated number into a build failure.
-
-**Two planned sections below depend on this.** The languages plan notes German and Russian
-typically run 20-30% longer than English, and the de-cliché plan's "carries a real number"
-register is its longest. Both are risky to execute against an unknown budget, which is an
-argument for fixing this first.
-
-## Planned next: de-cliché the practical tip pools (not started)
-
-Not started. Content-only work, in the same shape as the two 2026-07-27 content passes above,
-but pointed at the one group those passes left alone: the **practical** pools were grown and
-de-duplicated, never de-cliché'd. `motivation`/`philosophy`/`wellbeing` got that treatment
-(each pool's dominant angle capped, a variety rule added to its header); `general`/`morning`/
-`afternoon`/`evening` got new tips and a near-duplicate rewrite, which is a different problem.
-Two tips can be entirely distinct from each other and both be things the reader has read a
-hundred times.
-
-**The problem, stated precisely.** Roughly a sixth of the 130 practical tips are the standard
-ergonomics-poster and sleep-hygiene-leaflet lines: the 20-20-20 rule, "check your posture",
-"adjust your chair so your feet rest flat on the floor", "position your screen at eye level and
-an arm's length away", "keep water within arm's reach", "take 3 slow, deep breaths", "open the
-curtains", "dimming lights and screens in the evening helps your body start winding down".
-None of them is inaccurate, and that is exactly what makes them hard to argue with one at a
-time. The argument against them is specific to this product rather than to the advice: a widget
-reappears on the home screen several times a day for months, so a line that informs on first
-sight and then reads as wallpaper for its next sixty appearances costs more here than the same
-line costs in a leaflet somebody reads once. Novelty is a feature of the format, not a vanity.
-
-**The fix is register, not topic** — do not drop posture, hydration, breaks or morning light,
-which are clichés precisely because they're true and worth repeating. Change what the line
-*says* about them. This is tractable because each pool already contains the good version of its
-own clichés:
-
-- `general.txt` carries both "Check your posture: ears, shoulders, and hips roughly stacked"
-  and "Your best posture is your next one. Changing position beats holding a perfect one."
-- It carries both "Take 3 slow, deep breaths" and "Breathing out for longer than you breathe in
-  is what triggers the calming response."
-- Every line in the catalog that is actually worth re-reading does one of four things: **busts
-  a myth** (blue-light glasses and the Cochrane review, snoozing, breakfast and metabolism,
-  night mode vs dimming), **names a mechanism** (the warm-bath paradox, the dive reflex,
-  why breaks work), **carries a real number** (21-22C, 100 lux, WHO's 30 dB, NASA's 26-minute
-  nap, three-times-as-many colds), or **inverts an assumption** (coffee *then* a 15-minute nap;
-  save open-ended problems for when you're slightly tired). Those four registers are the spec.
-
-**Where the familiarity concentrates** (worth starting here rather than reading all 119 in
-order): `morning.txt` still has six separate morning-light lines even after the near-duplicate
-pass removed two, so the pool's biggest cluster is also its most familiar one; `afternoon.txt`
-has five near-interchangeable "get up / move / take a break" lines; `general.txt` has an
-ergonomics run (chair height, screen distance, shoulder rolls, wrist stretches, leg stretches)
-and two hydration lines. `evening.txt` is in the best shape already — the 100-lux, WHO-30-dB,
-warm-bath-paradox and night-mode lines are the model for the whole exercise.
-
-**Constraints this work must not break:**
-
-1. **The evidence bar stays where it is.** The obvious failure mode of chasing
-   counterintuitive lines is drifting toward findings that are interesting *because* they are
-   shaky; surprising results replicate worst. Two independent primary citations per tip,
-   TIP_SOURCES.md source-quality rules unchanged, and where a topic's only non-obvious angle
-   rests on one small study, the boring well-supported line stays. Worth pointing the same
-   scepticism back at the catalog while in there: the 20-20-20 rule is asserted as an
-   eye-doctor recommendation, and whether the evidence supports those specific numbers is a
-   fair question, in the same spirit as the blue-light-glasses line four rows below it.
-2. **Replace 1:1, don't net-cut.** `ANTI_REPEAT_WINDOW` is 30 against ~76 unique practical
-   tips per day part. Shrinking the pools moves the window closer to pool size and makes
-   rotation feel more repetitive — the opposite of the goal.
-3. **Two-file bookkeeping.** Practical pools zip `<pool>.txt` against `<pool>_sources.txt`
-   line-for-line with a `require` on count and field parity, so every rewritten line moves with
-   its sources line and its TIP_SOURCES.md entry. The specific thing to catch in review is a
-   rewritten tip silently inheriting the previous tip's citation: if the claim changed, the
-   sources must change too, and nothing in the build can tell the difference.
-4. **Length envelope**: still ~115 characters (CONTRIBUTING.md), and the "carries a real
-   number" register is the one that runs long.
-5. **Existing users' history is keyed by tip text**, so every rewrite orphans that line in
-   stored history and it can come back immediately once. Minor and acceptable; noted because
-   it's the same root cause as item 2 of the languages plan below.
-
-**Enforcement is a header rule, not a test.** `TipCatalogTest` catches byte-identical
-duplicates, em dashes, missing citations and malformed URLs; none of that detects "boring", and
-a lint for it would be gameable nonsense. The durable form is what the tone pools already do:
-a `WRITING RULE` header comment in each practical file naming the four registers and the
-"change the register, keep the topic" rule, mirrored into CONTRIBUTING.md's "Adding a tip"
-list. The practical files' headers are currently two lines of purely mechanical bookkeeping,
-which is why nothing pushed back when the poster lines went in.
 
 ## Planned next: languages beyond English (not started)
 

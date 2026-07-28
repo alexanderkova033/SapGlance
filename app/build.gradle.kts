@@ -19,13 +19,13 @@ val keystoreProperties =
     }
 
 android {
-    namespace = "com.healthwidget.app"
+    namespace = "com.sapglance.app"
     // minSdk 26 gives us java.time natively (no desugaring needed by TipEngine)
     // and Glance's minimum supported API level.
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.healthwidget.app"
+        applicationId = "com.sapglance.app"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

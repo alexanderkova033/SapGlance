@@ -13,24 +13,24 @@ Paste everything below the line into a fresh chat, in the repo root. It is writt
 self-contained: it states the current behaviour, the known problems, the constraints, and what
 "done" looks like, without assuming the other chat has any memory of this one.
 
-Before pasting, re-read `core/src/main/kotlin/com/healthwidget/core/tips/TipEngine.kt` yourself
+Before pasting, re-read `core/src/main/kotlin/com/sapglance/core/tips/TipEngine.kt` yourself
 and correct anything below that has drifted. A stale prompt is worse than no prompt.
 
 ---
 
 ## Context
 
-This is HealthWidget, a privacy-first Android wellness app (Kotlin, Glance widget, no network,
+This is SapGlance, a privacy-first Android wellness app (Kotlin, Glance widget, no network,
 no accounts). A home-screen widget shows one rotating tip. All tip-selection logic lives in the
 pure-JVM `:core` module and is fully unit-tested; there is no Android dependency in it.
 
 Read these first, in order:
 
-- `core/src/main/kotlin/com/healthwidget/core/tips/TipEngine.kt` — all selection logic
-- `core/src/main/kotlin/com/healthwidget/core/tips/TipCatalog.kt` — pools and how they load
-- `core/src/main/kotlin/com/healthwidget/core/tips/TipKind.kt` — what kinds of tip exist
-- `core/src/main/kotlin/com/healthwidget/core/settings/VarietyLevel.kt` — the user-facing setting
-- `core/src/test/kotlin/com/healthwidget/core/tips/TipEngineTest.kt` — existing guarantees
+- `core/src/main/kotlin/com/sapglance/core/tips/TipEngine.kt` — all selection logic
+- `core/src/main/kotlin/com/sapglance/core/tips/TipCatalog.kt` — pools and how they load
+- `core/src/main/kotlin/com/sapglance/core/tips/TipKind.kt` — what kinds of tip exist
+- `core/src/main/kotlin/com/sapglance/core/settings/VarietyLevel.kt` — the user-facing setting
+- `core/src/test/kotlin/com/sapglance/core/tips/TipEngineTest.kt` — existing guarantees
 - README.md, "Notable design decisions"
 
 ## What exists right now

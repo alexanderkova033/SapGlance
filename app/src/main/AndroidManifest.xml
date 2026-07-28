@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     No <uses-permission android:name="android.permission.INTERNET" /> here — and it must
-    stay that way. HealthWidget's entire value proposition is "100% offline, zero data
+    stay that way. SapGlance's entire value proposition is "100% offline, zero data
     collected"; adding INTERNET would silently break that promise for every future change.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".HealthWidgetApp"
+        android:name=".SapGlanceApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,12 +18,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HealthWidget">
+        android:theme="@style/Theme.SapGlance">
 
         <activity
             android:name=".settings.presentation.SettingsActivity"
             android:exported="true"
-            android:theme="@style/Theme.HealthWidget">
+            android:theme="@style/Theme.SapGlance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
