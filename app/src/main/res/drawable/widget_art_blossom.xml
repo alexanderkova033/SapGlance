@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A thin branch clipping the top-left corner with four petals adrift below it. The petals
+     are scattered around the card's edges rather than through the middle, so the falling
+     motion reads without anything crossing the tip. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_blossom_branch"
+        android:strokeWidth="2.6"
+        android:strokeLineCap="round"
+        android:pathData="M0,10 C28,16 52,8 76,20 C90,27 102,24 114,32" />
+    <path
+        android:fillColor="@color/widget_blossom_petal_far"
+        android:pathData="M28,44 C34,36 46,38 48,48 C42,56 30,54 28,44 Z" />
+    <path
+        android:fillColor="@color/widget_blossom_petal_near"
+        android:pathData="M246,66 C252,58 264,60 266,70 C260,78 248,76 246,66 Z" />
+    <path
+        android:fillColor="@color/widget_blossom_petal_far"
+        android:pathData="M58,112 C63,105 74,107 76,116 C70,123 60,121 58,112 Z" />
+    <path
+        android:fillColor="@color/widget_blossom_petal_near"
+        android:pathData="M212,124 C217,117 228,119 230,128 C224,135 214,133 212,124 Z" />
+</vector>

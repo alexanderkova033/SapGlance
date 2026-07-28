@@ -56,9 +56,7 @@ class AppContainer(context: Context) {
      * single most expensive step in the tip-refresh path and is pure CPU with no I/O dependency
      * on anything else the app is doing. See [warmUp].
      */
-    val tipEngine: TipEngine by lazy {
-        com.healthwidget.app.common.PerfLog.time("TipEngine()/loadDefault") { TipEngine() }
-    }
+    val tipEngine: TipEngine by lazy { TipEngine() }
 
     val advanceTip: AdvanceTipUseCase by lazy { AdvanceTipUseCase(tipEngine, tipHistoryRepository) }
 
@@ -84,9 +82,7 @@ class AppContainer(context: Context) {
 
     suspend fun refreshWidget() {
         widgetRefreshMutex.withLock {
-            val start = System.nanoTime()
             TipWidget().updateAll(appContext)
-            com.healthwidget.app.common.PerfLog.log("updateAll", (System.nanoTime() - start) / 1_000_000.0)
         }
     }
 }

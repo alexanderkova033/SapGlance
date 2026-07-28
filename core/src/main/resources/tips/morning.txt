@@ -1,11 +1,21 @@
 # Morning-only micro-tips (06:00-11:59), appended to the general pool.
 # Each line has a matching line in morning_sources.txt carrying 2+ citations.
+#
+# WRITING RULE: see the full version at the top of general.txt. In short, every line must bust a
+# myth, name a mechanism, carry a real number, or invert an assumption. Change the register,
+# keep the topic. Two independent primary citations per tip, and the evidence bar does not move
+# to make a line more interesting. Keep tips under ~90 characters.
+#
+# WATCH THIS POOL'S CLUSTER: morning light. Six of these lines are about it, which is correct on
+# the evidence and is also this pool's biggest familiarity risk, so each one has to earn its
+# place in a different register (the lux comparison, melatonin, the wake-time anchor, the
+# outdoors-does-double-duty point). Before adding a seventh, rewrite one of the six instead.
 Getting natural daylight before noon can help regulate your sleep tonight.
 Have a glass of water before your first coffee, not after it.
 Aim for a daily step target rather than a workout. Steps track with living longer.
 Ten minutes of easy movement is enough to lift your mood. Intensity is optional.
 Waking up at roughly the same time each day keeps your body's rhythm steady.
-Open the curtains. Even a grey day outdoors is far brighter than any lit room.
+An overcast day is around 10,000 lux. A bright office is 500.
 Pick the one thing that would make today count, and start with that.
 A short walk before work pays off in focus later, not just while you're walking.
 Stretch your back and shoulders once, properly, before you sit down to work.
@@ -23,6 +33,6 @@ Natural light suppresses melatonin faster than indoor light, so you wake up soon
 Skipping breakfast doesn't slow your metabolism. What you eat matters more than when.
 A cold shower can briefly boost alertness through your body's stress response.
 Bright light early is the strongest single signal your body clock actually reads.
-Two sessions of muscle work a week is the guideline. Thirty to sixty minutes total is plenty.
-That thick-headed feeling on waking is sleep inertia. It usually clears in 15 to 30 minutes.
-Sleeping hours later at weekends is social jetlag. Your body reads it as changing time zone.
+Two sessions of muscle work a week. Thirty to sixty minutes total is plenty.
+That thick-headed feeling on waking is sleep inertia. It clears in 15 to 30 minutes.
+Sleeping hours later at weekends is social jetlag. Your body reads it as travel.

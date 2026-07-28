@@ -1,27 +1,56 @@
 # General micro-tips shown across morning/afternoon/evening, one per line.
 # Each line has a matching line in general_sources.txt carrying 2+ citations.
-Many eye doctors recommend the 20-20-20 rule: every 20 minutes, look 20 feet away for 20 seconds.
-Blink fully, not just often. Incomplete blinks during screen use are linked to dry, tired eyes.
+#
+# WRITING RULE FOR THE PRACTICAL POOLS (the full version; morning/afternoon/evening point here).
+# Accuracy is the floor, not the bar. A widget reappears on the home screen several times a day
+# for months, so a line that informs on first sight and then reads as wallpaper for its next
+# sixty appearances costs more here than the same line costs in a leaflet somebody reads once.
+# Novelty is a feature of the format, not a vanity. Every line should do at least one of these:
+#
+#   1. BUST A MYTH           blue-light glasses, snoozing, breakfast and metabolism, night mode
+#   2. NAME A MECHANISM      the warm-bath paradox, the dive reflex, why breaks actually work
+#   3. CARRY A REAL NUMBER   21-22C, 100 lux, WHO's 30 dB, NASA's 26-minute nap
+#   4. INVERT AN ASSUMPTION  coffee *then* a nap; open-ended problems when slightly tired
+#
+# CHANGE THE REGISTER, KEEP THE TOPIC. Posture, hydration, breaks and morning light are clichés
+# precisely because they are true and worth repeating, so do not drop them. Change what the line
+# *says* about them: "check your posture: ears, shoulders and hips roughly stacked" became
+# "sitting up straight isn't the goal, neutral and supported beats upright and held", and "open
+# the curtains" became "an overcast day is around 10,000 lux, a bright office is 500".
+#
+# THE EVIDENCE BAR DOES NOT MOVE TO MAKE A LINE INTERESTING. The obvious failure mode of hunting
+# for counterintuitive tips is drifting toward findings that are interesting *because* they are
+# shaky; surprising results replicate worst. Two independent primary citations per tip, and
+# where a topic's only non-obvious angle rests on one small study, the boring well-supported
+# line stays. If you rewrite a line and the claim changes, the sources must change with it,
+# because nothing in the build can tell a rewritten tip from one that inherited the wrong
+# citation.
+#
+# LENGTH: keep tips under ~90 characters. Long tips were confirmed clipping in the widget on a
+# real device. 90 is a calibration, not a measured budget, so leave headroom rather than
+# spending it, and prefer the shorter phrasing when both say the same thing.
+The 20-20-20 rule helps while you keep it up. The benefit faded a week after stopping.
+Blink fully, not just often. Half-blinks are linked to dry, tired eyes.
 Stand up and give your legs a proper stretch before you sit back down.
 Uncross your legs and roll your ankles right now.
-Take 3 slow, deep breaths. Slow breathing shifts you toward calm within about a minute.
+Slow to about six breaths a minute. That's where heart-rate variability peaks.
 Match your screen brightness to the room to reduce eye strain.
 A quick 5-minute walk resets focus better than pushing through does.
 Screen-free breaks count twice: your eyes and your attention both get a rest.
-Keep water within arm's reach. You drink more when reaching for it is free.
+Coffee counts toward your fluids. Moderate intake hydrates about as well as water does.
 Roll your shoulders slowly backward five times and let them drop.
 Unclench your jaw. Most people hold tension there without ever noticing.
-Check your posture: ears, shoulders, and hips roughly stacked.
+Sitting up straight isn't the goal. Neutral and supported beats upright and held.
 Glare is a common and easily missed cause of eye strain. Tilt the screen away.
 Wiggle your fingers and stretch your wrists if you've been typing a while.
 Breaks work because your brain stops tuning the task out, not because you rest.
 Breathing out for longer than you breathe in is what triggers the calming response.
-Adjust your chair so your feet rest flat on the floor.
+Feet dangling? Anything solid under them takes the load off your lower back.
 One quiet minute with no screen and no sound is enough to feel a difference.
 Break at a natural pause rather than mid-thought. It costs less to pick back up.
 Loosen your grip on the mouse. You're holding it tighter than the job needs.
 Two minutes of walking every half hour blunts the effect of a long sit.
-Position your screen at eye level and an arm's length away to ease strain.
+Top of the screen at or just below eye level. Above that, your neck takes the difference.
 Let your chair's backrest support your lower back instead of leaning forward.
 Mild dehydration dents focus and mood well before you actually feel thirsty.
 Tip one ear toward your shoulder and hold ten seconds. Then the other side.
@@ -44,9 +73,9 @@ Daytime light exposure helps anchor your body clock too, not just mornings.
 Two hours a week outdoors, in one go or spread across the week, tracks with better health.
 Strong social ties predict how long people live about as well as giving up smoking does.
 Doing something kind for someone else gives your own mood a small, reliable lift.
-Fibre is the nutrient most people fall short on. The benefits show up around 25 to 30g a day.
-Inhale, add a second short inhale on top, then a long exhale. Five minutes a day beat meditation for mood.
+Most people fall short on fibre. Benefits show up around 25 to 30g a day.
+Two inhales, then a long exhale out. Five minutes a day beat meditation for mood.
 Long text sinks in better on paper than on screen, and the gap widens when you're rushed.
-Blue-light glasses probably don't help eye strain. A Cochrane review of 17 trials found no benefit.
+Blue-light glasses probably don't help eye strain. A Cochrane review found no benefit.
 Overheard speech breaks concentration more than steady noise does, even at low volume.
 Office task performance peaks near 21 to 22C. Warmer or cooler both measurably cost you.

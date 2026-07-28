@@ -67,11 +67,14 @@ architecture) rather than on each other's concrete classes:
     design decisions". `ToneProfile` holds the per-day-part tone mix.
     `TipEngine.findByText` resolves a persisted tip's text back to its full `Tip`
     (citation included) for the settings screen to display.
-  - `settings/` — `WidgetStyle` (the nine background styles, `WidgetStyle.forTip`'s pure
-    hash-based mapping from a tip's text to one of them — not user-configurable, not backed by
-    a repository) alongside `AppSettings`/`SettingsRepository`, which *is* a real persisted
-    preference again: a `VarietyLevel` (`PRACTICAL`/`BALANCED`/`PLAYFUL`), read by `TipEngine`'s
-    weighting (see "Notable design decisions" below).
+  - `settings/` — `AppSettings`/`SettingsRepository`, the one real persisted preference: a
+    `VarietyLevel` (`PRACTICAL`/`BALANCED`/`PLAYFUL`), read by `TipEngine`'s weighting (see
+    "Notable design decisions" below).
+  - `widget/` — `WidgetStyle` (the nine background styles and `WidgetStyle.forTip`'s pure
+    hash-based mapping from a tip's text to one of them). It lived under `settings/` until the
+    package pass, which was wrong in a way worth naming: it is explicitly *not* a setting —
+    not user-configurable, not backed by a repository — so filing it under `settings/` meant
+    the package said the opposite of what the type's own documentation said.
   - `scheduling/` — `TipRefreshSchedule` (`shouldAdvanceTip`, the tick-threshold math behind
     the ~90-minutes-of-screen-on-time tip advance) and `WidgetRefreshRepository` (interface),
     the persisted screen-on tick counter (see "Notable design decisions" below).
@@ -80,12 +83,26 @@ architecture) rather than on each other's concrete classes:
   `Class.getResourceAsStream` are the two JVM APIs a Kotlin Multiplatform build would have to
   work around. See the iOS item under "Roadmap".
 - **`:app`** — the Android application, organized by feature rather than by technical
-  layer (`settings/`, `tips/`, `widget/`, `boot/`). `settings/`, `tips/`, and `widget/` each
-  have a `data/` sub-package with the DataStore-backed implementation of the matching
-  `:core` interface (`DataStoreSettingsRepository`, `DataStoreTipHistoryRepository`,
-  `DataStoreWidgetRefreshRepository`) — dependents (workers, `AppContainer`, the settings
-  screen) hold the `:core` interface type, never the concrete DataStore class, per the
-  Dependency Inversion Principle.
+  layer (`settings/`, `tips/`, `widget/`, `boot/`). Each feature splits the same way:
+  `data/` holds the DataStore-backed implementation of the matching `:core` interface
+  (`DataStoreSettingsRepository`, `DataStoreTipHistoryRepository`,
+  `DataStoreWidgetRefreshRepository`), `presentation/` holds what the user actually sees, and
+  `scheduling/` (widget only) holds the WorkManager plumbing. Dependents (workers,
+  `AppContainer`, the settings screen) hold the `:core` interface type, never the concrete
+  DataStore class, per the Dependency Inversion Principle.
+
+  Two placements are deliberate rather than accidental, both settled in the package pass:
+
+  - **`TipWidgetReceiver` stays at the `widget/` root** while the rest of the feature moved
+    down into `presentation/`/`scheduling/`/`data/`. Its fully-qualified name is not an
+    implementation detail — it is the `ComponentName` the launcher persists for every widget
+    the user has placed, so renaming it makes Android find no matching provider on the next
+    install and drop every placed widget off the home screen. A tidier package is not worth
+    making people re-add their widgets.
+  - **The Compose theme lives under `settings/presentation/theme/`**, not at the top level. It
+    has exactly one caller (`SettingsActivity`) — the widget uses Glance's own `GlanceTheme`,
+    not this one — so a top-level `theme/` package was naming a technical layer that only one
+    feature used, which is the thing feature-first packaging exists to avoid.
 
 ```mermaid
 graph TD
@@ -517,59 +534,41 @@ CI (`.github/workflows/ci.yml`) runs all three plus a full build on every push a
       deliberately stayed a three-way choice rather than gaining per-group weights. Full
       rationale for each, including what was rejected and why, is in "Notable design decisions"
       above.
-- [ ] **Confirm what actually makes tapping for a new tip feel laggy.** Still open, and still
-      unconfirmed — but the tip-selection algorithm is now ruled out by measurement rather than
-      by argument: against the real catalog on a desktop JVM, `messageFor` costs ~7µs per draw
-      while `TipCatalog.loadDefault()` costs ~3-5ms, i.e. the selection path is well under 1% of
-      just parsing the catalog, and neither is a multi-second lag on its own. The remaining
-      suspect is unchanged: `TipEngine`'s default constructor calls `TipCatalog.loadDefault()`,
-      which parses all 12 bundled `tips/*.txt`/`*_sources.txt` resource files from scratch.
-      `AppContainer` only pays that once per living process (`tipEngine` is a `by lazy`
-      singleton), but if the process is being killed and cold-started between taps (plausible
-      for a backgrounded widget-only app with no persistent foreground presence), every tap
-      pays it again on ART — plausibly 10-20× the desktop JVM figure — plus Glance's own
-      composition-startup cost, which together would produce this symptom. Needs real on-device
-      timing/logcat evidence before anything is treated as the fix; a desktop JVM number is a
-      bound, not a measurement of the thing users are feeling.
-- [ ] **Long tips get clipped in the widget — confirmed on a real device, not yet fixed.**
-      The catalog's own length rule is not catching it, and can't: every tip is already inside
-      CONTRIBUTING.md's ~115-character guidance (the longest in the whole catalog is 111), so
-      character count is measuring the wrong thing. What actually decides whether a tip fits is
-      how many *lines* it wraps to at a fixed 15sp against a width the launcher chooses, and
-      how much vertical room is left after the card's chrome.
-      - **The chrome is the bigger half of the problem.** The widget advertises
-        `minWidth="140dp"`/`minHeight="90dp"` (`tip_widget_info.xml`), and inside that box the
-        text competes with 16dp of vertical padding top and bottom, the decorative `❝` glyph
-        plus its 4dp spacer, the tip chip's own 6dp padding, an 8dp spacer, and the
-        "HEALTHWIDGET" label. Six lines of 15sp type is roughly 110dp on its own; add the
-        chrome and the layout wants ~200dp of height to render its own stated maximum, against
-        a declared minimum of 90. So a tip that wraps to six lines cannot fit at the small end
-        of the range the widget claims to support — the clipping isn't a few unlucky long tips,
-        it's structural, and shortening tips alone won't remove it.
-      - **This is the known cost of a deliberate decision, now come due.** Measure-and-fit
-        sizing was removed on purpose (see the comment above `TIP_FONT_SIZE` in `TipWidget.kt`)
-        because predicting wrap width against `LocalSize.current` disagreed with the real
-        `RemoteViews` width and picked wrong sizes in both directions. That trade accepted
-        clipping for long tips as the lesser evil. Worth reopening now, but from the other
-        side: `AndroidRemoteViews` with a layout using `android:autoSizeTextType="uniform"`
-        lets the platform's own `TextView` shrink to fit *at layout time, with the real width*
-        — which is exactly the information the abandoned approach was trying and failing to
-        predict.
-      - **Cheapest first moves**, in rough order of value: drop the `❝` and the app-name label
-        at small sizes (together they and their spacers cost ~45dp, a third of the declared
-        minimum height, and they're both decorative); then either autosize as above or make the
-        layout genuinely responsive, which is the item below rather than a separate job.
-      - **Add the missing test.** There is no length check in `TipCatalogTest` at all — the em
-        dash rule got a guard, the length rule never did, so the ~115 figure in CONTRIBUTING.md
-        is honour-system guidance that nothing enforces. It also appears to be stale: it's
-        justified there as "5 lines of bold 16sp", while the widget renders 6 lines at 15sp.
-        Derive the real budget by measuring on-device at the smallest supported size, then
-        write *that* number into a test rather than keeping a figure nobody has validated.
-      - **Two other plans depend on this number.** Translations run 20-30% longer than English,
-        and the de-cliché work's "carries a real number" register is the long one. Both get
-        much harder to do safely while the real budget is unknown.
-- [ ] Widget size variants (small/medium) via Glance's responsive sizing. Overlaps heavily with
-      the clipping item above — likely the same piece of work.
+- [x] **Measured on-device where the tip-refresh time actually goes.** Done with real logcat
+      timings on a Galaxy A34 (temporary instrumentation, since removed). The headline: **it is
+      mostly not our code.** A cold start reaches Glance's `provideGlance` about **1036ms** into
+      the process, and the activity's total cold start is ~1263ms — process creation plus
+      Glance's own session setup dominate, and neither is something the app controls. Of the
+      rest: `TipCatalog.loadDefault()` **122ms** on its first call, `recentTips.first()` (the
+      first DataStore read) **46ms**, `updateAll()` **35-115ms**.
+
+      Two things this corrected. The catalog parse is **25-40× worse on ART than on the desktop
+      JVM** (122ms vs 3-5ms), not the 10-20× guessed above. But repeating that same parse costs
+      only ~55ms, so roughly 65ms of the first call is one-time class loading and JIT rather
+      than work — which is why "make the parse faster" is the wrong lever and *"stop making the
+      tap wait for it"* is the right one. That is what `AppContainer.warmUp()` now does.
+
+      Deliberately **not** done, both recorded so they aren't rediscovered as ideas: collapsing
+      the 15 tip resources into one packaged file would save maybe 45ms of zip-entry opens, but
+      needs a Gradle concatenation step to preserve the one-file-per-pool authoring format with
+      its editorial headers — real build complexity to optimise work `warmUp` already hides
+      behind the ~1s of process start. And dropping the `updateAll()` call when a Glance session
+      is already live would save 35-115ms, but risks re-opening the "widget doesn't repaint" bug
+      that took several attempts to fix, which is a bad trade at this size.
+- [ ] **Make a cold tap *feel* faster, given ~1s of it is process start.** The measurement above
+      says the remaining win isn't in shaving milliseconds off our own code — it's that a tap on
+      a dead process cannot repaint quickly no matter what selection does. Open question, no
+      obvious answer yet: a Glance widget has no cheap way to acknowledge a tap before its
+      process exists, and the alternatives that would (a foreground service, a persistent
+      process) are exactly what this app refuses to be.
+- [ ] Widget size variants (small/medium) via Glance's responsive sizing. Worth knowing while
+      doing it: the tip text is the constraint. The card spends roughly 90dp on chrome (16dp
+      padding top and bottom, the `❝` glyph and its spacer, the chip's own padding, the
+      app-name label) before a line of tip is drawn, against a declared `minHeight` of 90dp, so
+      six lines of 15sp cannot fit at the small end of the range the widget advertises. The
+      catalog is now capped at ~90 characters a tip, which keeps ordinary tips inside two or
+      three lines and was the cheap fix; dropping the decorative chrome at small sizes is the
+      structural one, and belongs with this item rather than as a separate job.
 - [ ] **Languages beyond `en`.** The UI half is nearly free: every user-facing string is
       already externalized to `app/src/main/res/values/strings.xml` (one decorative `❝` glyph in
       `TipWidget.kt` aside), so a `values-<lang>/strings.xml` per locale is all Android needs,

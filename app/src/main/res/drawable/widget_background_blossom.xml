@@ -3,9 +3,9 @@
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:angle="0"
-                android:startColor="@color/widget_autumn_start"
-                android:endColor="@color/widget_autumn_end"
+                android:angle="225"
+                android:startColor="@color/widget_blossom_start"
+                android:endColor="@color/widget_blossom_end"
                 android:type="linear" />
         </shape>
     </item>
@@ -13,10 +13,10 @@
         <shape android:shape="rectangle">
             <gradient
                 android:type="radial"
-                android:gradientRadius="140dp"
-                android:centerX="0.12"
-                android:centerY="0.3"
-                android:startColor="@color/widget_autumn_sun_glow"
+                android:gradientRadius="150dp"
+                android:centerX="0.8"
+                android:centerY="0.15"
+                android:startColor="@color/widget_blossom_glow"
                 android:endColor="@android:color/transparent" />
         </shape>
     </item>
@@ -25,47 +25,48 @@
             <gradient
                 android:type="radial"
                 android:gradientRadius="170dp"
-                android:centerX="0.6"
-                android:centerY="1.0"
-                android:startColor="@color/widget_autumn_haze"
+                android:centerX="0.15"
+                android:centerY="0.95"
+                android:startColor="@color/widget_blossom_shade"
                 android:endColor="@android:color/transparent" />
         </shape>
     </item>
-    <item android:drawable="@drawable/widget_art_autumn" />
+    <item android:drawable="@drawable/widget_art_blossom" />
     <item
-        android:width="2.5dp"
-        android:height="2.5dp"
+        android:width="2.4dp"
+        android:height="2.4dp"
         android:gravity="top|right"
-        android:right="64dp"
-        android:top="30dp">
+        android:right="72dp"
+        android:top="40dp">
         <shape android:shape="oval">
-            <solid android:color="@color/widget_autumn_ember" />
+            <solid android:color="@color/widget_blossom_mote" />
         </shape>
     </item>
     <item
         android:width="2dp"
         android:height="2dp"
         android:gravity="center_vertical|left"
-        android:left="30dp">
+        android:left="28dp">
         <shape android:shape="oval">
-            <solid android:color="@color/widget_autumn_ember" />
+            <solid android:color="@color/widget_blossom_mote" />
         </shape>
     </item>
     <item
         android:width="1.8dp"
         android:height="1.8dp"
-        android:gravity="bottom|center_horizontal"
-        android:bottom="26dp">
+        android:gravity="bottom|right"
+        android:right="36dp"
+        android:bottom="24dp">
         <shape android:shape="oval">
-            <solid android:color="@color/widget_autumn_ember" />
+            <solid android:color="@color/widget_blossom_mote" />
         </shape>
     </item>
-    <!-- Card frame: a thin translucent edge on top of everything else, so the widget reads as
-         a bounded card rather than a borderless block of color on the home screen. -->
+    <!-- Card frame, in the dark rim the light styles use — the white one every dark style
+         carries would be invisible against pale rose. -->
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@android:color/transparent" />
-            <stroke android:width="1.5dp" android:color="@color/widget_card_border" />
+            <stroke android:width="1.5dp" android:color="@color/widget_card_border_dark" />
         </shape>
     </item>
 </layer-list>

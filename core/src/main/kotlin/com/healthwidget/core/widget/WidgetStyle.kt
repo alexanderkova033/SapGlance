@@ -6,6 +6,7 @@ package com.healthwidget.core.widget
  * resource concept).
  */
 enum class WidgetStyle {
+    // Dark cards (pale text on deep artwork).
     FOREST,
     OCEAN,
     SUNSET,
@@ -13,8 +14,14 @@ enum class WidgetStyle {
     AURORA,
     DAWN,
     RAIN,
-    AUTUMN,
+
+    // Light cards (dark text on pale artwork). Which group a style belongs to isn't recorded
+    // here — `:app` pairs each one with both its drawable and its ink in a single `when`, so
+    // the two can't be set independently and a new style can't ship without an ink choice.
     WINTER,
+    PAPER,
+    MEADOW,
+    BLOSSOM,
     ;
 
     companion object {

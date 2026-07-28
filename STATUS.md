@@ -655,6 +655,30 @@ Two follow-up passes after the initial build-out:
 
 ## Verified for real (not just reviewed)
 
+- **The tip-refresh path was measured on the physical device (2026-07-28)** — a Galaxy A34
+  (`RFCW30CHWEP`), via temporary `PerfLog` instrumentation that has since been removed. This is
+  the on-device evidence the roadmap had been demanding before anyone "fixed" the lag:
+
+  | Step | Cost |
+  | --- | --- |
+  | Activity cold start, total (`am start -W`) | 1263ms |
+  | Glance `provideGlance` begins | 1036ms into the process |
+  | `TipCatalog.loadDefault()`, first call | 122ms |
+  | the same parse, repeated (×3) | 54 / 74 / 46ms |
+  | `recentTips.first()` (first DataStore read) | 46ms |
+  | `updateAll()` | 35-115ms |
+
+  **The lag is dominated by process start plus Glance's session setup, not by app code** — our
+  own work is roughly 200ms of a ~1.3s cold tap. The catalog parse turned out 25-40× worse on
+  ART than on the desktop JVM (122ms vs 3-5ms), worse than the 10-20× previously guessed, but
+  the repeat figures show ~65ms of that first call is one-time class loading and JIT. That is
+  why the fix landed as `AppContainer.warmUp()` (start the parse from `Application.onCreate` on
+  a background thread, so it overlaps the DataStore read instead of following it) rather than as
+  an attempt to make the parser itself faster.
+  **Still not measured**: the end-to-end widget *tap*, cold and warm. `APPWIDGET_UPDATE` is a
+  protected broadcast so it can't be triggered from `adb`, and synthetic taps were avoided per
+  the methodological note below. The component costs above are what the tap is made of, but the
+  total has not been observed directly.
 - **The 2026-07-27 selection rework is build-verified**: `./gradlew ktlintCheck test lint build`
   all green against the scratch JDK 17 + Android SDK (see "Local environment notes" — both
   survived from the previous session and needed no re-setup). `:core` 71 tests, `:app` 12, 0

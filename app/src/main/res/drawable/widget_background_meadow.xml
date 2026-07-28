@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="@color/widget_meadow_start"
+                android:endColor="@color/widget_meadow_end"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="140dp"
+                android:centerX="0.15"
+                android:centerY="0.1"
+                android:startColor="@color/widget_meadow_sun"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="170dp"
+                android:centerX="0.5"
+                android:centerY="1.0"
+                android:startColor="@color/widget_meadow_haze"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/widget_art_meadow" />
+    <!-- Two pale seed heads and a pollen mote. Pale-on-pale reads as light catching something
+         in the air; a dark dot at this size would just look like a dead pixel. -->
+    <item
+        android:width="3dp"
+        android:height="3dp"
+        android:gravity="bottom|left"
+        android:left="98dp"
+        android:bottom="26dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_meadow_petal" />
+        </shape>
+    </item>
+    <item
+        android:width="2.4dp"
+        android:height="2.4dp"
+        android:gravity="bottom|right"
+        android:right="86dp"
+        android:bottom="32dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_meadow_petal" />
+        </shape>
+    </item>
+    <item
+        android:width="2dp"
+        android:height="2dp"
+        android:gravity="top|right"
+        android:right="54dp"
+        android:top="34dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_meadow_pollen" />
+        </shape>
+    </item>
+    <!-- Card frame, in the dark rim the light styles use — the white one every dark style
+         carries would be invisible against a pale sky. -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1.5dp" android:color="@color/widget_card_border_dark" />
+        </shape>
+    </item>
+</layer-list>

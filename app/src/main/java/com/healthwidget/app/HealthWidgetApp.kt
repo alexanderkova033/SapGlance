@@ -18,7 +18,6 @@ class HealthWidgetApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        com.healthwidget.app.common.PerfLog.mark("Application.onCreate")
         // Parsing the tip catalog is the most expensive step in answering a widget tap, and it
         // depends on nothing the tap provides — see AppContainer.warmUp. Starting it here lets it
         // run alongside the DataStore read instead of after it. Deliberately its own launch, so

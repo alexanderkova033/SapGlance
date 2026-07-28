@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two grass banks along the bottom with a few blades standing out of the near one. Kept to
+     the lower third so the horizon sits below the tip rather than running through it. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_meadow_grass_back"
+        android:pathData="M0,150 L0,116 C46,104 92,120 140,112 C190,104 244,118 300,108 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_meadow_grass_front"
+        android:pathData="M0,150 L0,134 C54,122 104,138 162,130 C214,123 258,134 300,127 L300,150 Z" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_meadow_blade"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:pathData="M40,132 C38,122 42,116 48,110 M74,128 C76,118 73,112 68,106 M228,126 C226,116 230,110 236,104 M262,130 C264,120 261,114 256,109" />
+</vector>

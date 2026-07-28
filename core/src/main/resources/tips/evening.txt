@@ -1,6 +1,17 @@
 # Evening-only micro-tips (18:00-22:59), appended to the general pool.
 # Each line has a matching line in evening_sources.txt carrying 2+ citations.
-Dimming lights and screens in the evening helps your body start winding down.
+#
+# WRITING RULE: see the full version at the top of general.txt. In short, every line must bust a
+# myth, name a mechanism, carry a real number, or invert an assumption. Change the register,
+# keep the topic. Two independent primary citations per tip, and the evidence bar does not move
+# to make a line more interesting. Keep tips under ~90 characters.
+#
+# THIS POOL IS THE MODEL FOR THE OTHERS. The 100-lux line, the WHO 30 dB line, the warm-bath
+# paradox and night-mode-vs-dimming are what the register rule is asking for everywhere else,
+# so it is the pool to read first when writing a replacement elsewhere. The light lines here
+# are deliberately layered rather than duplicated: one carries the magnitude (90 minutes of
+# melatonin), one makes the it-is-not-only-screens point, one is about light *during* sleep.
+Room light before bed shortened melatonin release by about 90 minutes in one study.
 Reading on a lit screen before bed suppresses melatonin more than a printed book does.
 Jot down tomorrow's top task so your brain can stop holding onto it.
 Name one good thing about today before you go back to scrolling.
@@ -23,8 +34,8 @@ Heavy meals close to bedtime can disrupt sleep. Try to finish 2-3 hours before.
 People who feel more grateful tend to fall asleep faster and sleep better.
 Keeping your bed for sleep only strengthens the mental link between the two.
 If sleep isn't coming after a while, getting up beats lying there frustrated.
-Evening exercise won't wreck your sleep. Finishing an hour or two before bed is what matters.
+Evening exercise won't wreck your sleep. Finish an hour or two before bed.
 Night mode alone doesn't do much. Dimming the screen matters more than warming its colour.
-In two virus-exposure studies, people sleeping under seven hours caught colds about three times as often.
-One night with a 100-lux light on, dimmer than most hallways, raised next-morning insulin resistance.
-The WHO puts the bedroom target under 30 decibels. Noise fragments sleep without ever waking you.
+People sleeping under seven hours caught colds about three times as often.
+A 100-lux light left on overnight raised next-morning insulin resistance.
+The WHO bedroom target is under 30 decibels. Noise breaks up sleep without waking you.

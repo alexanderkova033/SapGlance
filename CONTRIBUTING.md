@@ -82,13 +82,22 @@ Keep new tips:
   (e.g. a caffeine half-life, a recommended bedroom temperature range) is fine; an
   invented-sounding one is not.
 - Phrased as a gentle suggestion ("can help", "is linked to"), never a guaranteed outcome.
-- Short enough to read at a glance in a small widget. The working figure is ~115 characters,
-  but treat it as provisional and aim well under it: the widget caps tip text at `maxLines = 6`
-  of bold 15sp type (`TipWidget.kt`) and has to fit the smallest home-screen widget size, and
-  long tips are currently known to clip on real devices *while still obeying this rule* — the
-  longest tip in the catalog is 111 characters and does not reliably fit. Nothing enforces the
-  number yet either; `TipCatalogTest` has no length assertion. See "Known defect: long tips clip
-  in the widget" in [STATUS.md](STATUS.md) before relying on it.
+- Short enough to read at a glance in a small widget: **under ~90 characters**. The whole
+  catalog was shortened to that ceiling after long tips were seen clipping on a real device
+  while still obeying the previous ~115 guidance. 90 is a calibration rather than a measured
+  budget, so leave headroom rather than spending it, and prefer the shorter phrasing when two
+  say the same thing. Nothing enforces it: `TipCatalogTest` has no length assertion, because
+  the number to encode should be measured on-device at the smallest supported widget size
+  first.
+- **Interesting, not just true** (practical pools). Accuracy is the floor, not the bar: a widget
+  reappears several times a day for months, so a line that informs once and then reads as
+  wallpaper is a real cost. Every practical tip should **bust a myth**, **name a mechanism**,
+  **carry a real number**, or **invert an assumption**. Keep the topic and change the register:
+  posture, hydration, breaks and morning light are clichés precisely because they are true, so
+  don't drop them, change what the line says about them. The full rule, with worked examples,
+  is the header comment at the top of `tips/general.txt`; the other three practical files point
+  at it and add their own cluster warning. This is enforced by review, not by a test, because
+  a lint for "boring" would be gameable nonsense.
 - Free of em dashes. `TipCatalogTest` fails the build on one; use a comma, a period, or "and".
 - Distinct from what's already there. `TipCatalogTest` only catches byte-identical duplicates,
   so check by hand that you aren't restating an existing tip in different words — and if the

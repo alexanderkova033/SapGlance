@@ -8,20 +8,31 @@
 
     <!-- Thin translucent edge drawn on top of every widget style's background, so the card
          reads as a distinct object against arbitrary home-screen wallpaper instead of a bare
-         rectangle of color with no boundary. Same value across all styles for a consistent
-         "frame" language. -->
+         rectangle of color with no boundary. One value per ink direction rather than one
+         globally: a white rim is invisible on the light styles, and a dark rim is invisible on
+         the dark ones, so the "frame" language only stays consistent by flipping with the ink. -->
     <color name="widget_card_border">#4DFFFFFF</color>
+    <color name="widget_card_border_dark">#38000000</color>
 
     <!-- Glass-chip look behind the settings gear icon (widget_settings_button_bg.xml): a
          top-lit translucent gradient plus a small highlight and a soft offset shadow, rather
          than a single flat scrim tone. Kept neutral (white/black, no brand hue) so it reads
-         against all four background styles alike, unlike a style-matched tint would — paired
+         against every dark background style alike, unlike a style-matched tint would — paired
          with widget_card_border for the rim, so the button reads as part of the same "frame"
          language as the card itself. -->
     <color name="widget_settings_button_fill_top">#59FFFFFF</color>
     <color name="widget_settings_button_fill_bottom">#40000000</color>
     <color name="widget_settings_button_highlight">#4DFFFFFF</color>
     <color name="widget_settings_button_shadow">#33000000</color>
+
+    <!-- The same chip re-tuned for the light styles (widget_settings_button_bg_light.xml).
+         Not a tint of the dark one: on a pale card the dark chip's black lower half turns the
+         gear into a dark blob, so this stays bright and earns its edge from a dark rim and a
+         stronger drop shadow instead. The gear glyph itself is tinted dark at the call site. -->
+    <color name="widget_settings_button_light_fill_top">#F2FFFFFF</color>
+    <color name="widget_settings_button_light_fill_bottom">#B8FFFFFF</color>
+    <color name="widget_settings_button_light_highlight">#99FFFFFF</color>
+    <color name="widget_settings_button_light_shadow">#2E1A2436</color>
 
     <!-- Deep emerald-to-near-black green (previously drifted into blue-gray, which read as
          generic rather than "forest" and blurred together with Ocean/Midnight's cool tones). -->
@@ -95,27 +106,57 @@
     <color name="widget_rain_ripple">#4DBFD8EA</color>
     <color name="widget_rain_drop">#99D6E8F5</color>
 
-    <!-- Late autumn: rust and amber over near-black brown, with a bare branch and drifting
-         leaves. Shares Sunset's warmth but not its hue range (earth/rust rather than
-         magenta/orange) and reads as daylight through trees rather than a horizon. -->
-    <color name="widget_autumn_start">#7A3510</color>
-    <color name="widget_autumn_end">#150C06</color>
-    <color name="widget_autumn_sun_glow">#59E08B32</color>
-    <color name="widget_autumn_haze">#40B4551A</color>
-    <color name="widget_autumn_branch">#E62A1608</color>
-    <color name="widget_autumn_leaf_far">#A6C8641F</color>
-    <color name="widget_autumn_leaf_near">#CCE8912F</color>
-    <color name="widget_autumn_litter">#E61A0D05</color>
-    <color name="widget_autumn_ember">#B3FFB05A</color>
+    <!-- Winter, now a genuinely bright snow scene. It was originally forced into a dark "winter
+         dusk" because the card's text was white everywhere and bright drifts would have eaten
+         the footer label; the ink now flips per style (see WidgetInk in TipWidget.kt), so the
+         snow can actually be snow-colored. -->
+    <color name="widget_winter_start">#F1F8FD</color>
+    <color name="widget_winter_end">#AECBE6</color>
+    <color name="widget_winter_halo">#66FFFFFF</color>
+    <color name="widget_winter_shade">#33587FA8</color>
+    <color name="widget_winter_drift_far">#B3FFFFFF</color>
+    <color name="widget_winter_drift_near">#F2FFFFFF</color>
+    <color name="widget_winter_flake">#7A5E86A8</color>
 
-    <!-- Winter dusk. Kept deliberately dark for a "snow" theme: the widget's footer label is
-         white at 65% alpha and sits directly over the bottom of the card, so bright drifts
-         there would eat it. The snow reads through low-alpha pale accents instead. -->
-    <color name="widget_winter_start">#35597A</color>
-    <color name="widget_winter_end">#0F1A2E</color>
-    <color name="widget_winter_halo">#40DCEEFF</color>
-    <color name="widget_winter_shade">#4D0B1526</color>
-    <color name="widget_winter_drift_far">#33D3E9FA</color>
-    <color name="widget_winter_drift_near">#4DE9F5FF</color>
-    <color name="widget_winter_flake">#CCF2FAFF</color>
+    <!-- Warm paper. The plainest card in the set on purpose: no scene, no horizon, just a page
+         with a faint rule, a soft fold shadow and a lamp glow. Every other style competes with
+         the tip for attention to some degree; this one is the null option, and on a light card
+         with near-black text it is also the most legible thing the rotation can produce. -->
+    <color name="widget_paper_start">#FAF3E2</color>
+    <color name="widget_paper_end">#E2D2B2</color>
+    <color name="widget_paper_lamp">#59FFFBEC</color>
+    <color name="widget_paper_shade">#2E8A6F3C</color>
+    <color name="widget_paper_rule">#2E7A6033</color>
+    <color name="widget_paper_fold">#38A98A55</color>
+    <color name="widget_paper_speck">#598A6E45</color>
+
+    <!-- Spring meadow: pale sky above, sunlit grass below. The one light style that keeps a
+         horizon, so the light group isn't three flat washes. Sits opposite Forest in the same
+         hue family — deep and nocturnal there, bright and open here. -->
+    <color name="widget_meadow_start">#DFEFF8</color>
+    <color name="widget_meadow_end">#CFE2A4</color>
+    <color name="widget_meadow_sun">#59FFF3B0</color>
+    <color name="widget_meadow_haze">#2E7FA83C</color>
+    <!-- The grass is much paler than a grass silhouette "should" be, and measured rather than
+         eyeballed: the footer label sits on this band, and at the saturation this started at
+         (#547A2C at 70%) dark text on it came to 3.2:1, under the 4.5:1 floor. Lightened until
+         the label clears it. Nothing else on the light cards was close — this is the only
+         style whose art puts a mid-tone mass under text. -->
+    <color name="widget_meadow_grass_back">#7A82AC53</color>
+    <color name="widget_meadow_grass_front">#99649A39</color>
+    <color name="widget_meadow_blade">#7A4F7330</color>
+    <color name="widget_meadow_petal">#CCF2F0FA</color>
+    <color name="widget_meadow_pollen">#B3C79A2E</color>
+
+    <!-- Blossom: pale rose with petals adrift. Carries over the falling-things motion that the
+         removed Autumn style had, without its heavy rust palette — the motion was the part
+         worth keeping. -->
+    <color name="widget_blossom_start">#FDF1F4</color>
+    <color name="widget_blossom_end">#EFC5D5</color>
+    <color name="widget_blossom_glow">#59FFF3E4</color>
+    <color name="widget_blossom_shade">#2ED2789C</color>
+    <color name="widget_blossom_branch">#8C6B4A52</color>
+    <color name="widget_blossom_petal_far">#99E894B4</color>
+    <color name="widget_blossom_petal_near">#B3D96C99</color>
+    <color name="widget_blossom_mote">#8CC97D9E</color>
 </resources>

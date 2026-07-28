@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Faint ruling lines and a turned-up corner at the bottom-right. The rules stop well clear
+     of the card's centre: the tip sits there, and a line running behind text is the one piece
+     of decoration that actively costs legibility rather than just adding noise. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_paper_rule"
+        android:strokeWidth="1"
+        android:pathData="M18,20 L282,20 M18,32 L282,32 M18,130 L282,130" />
+    <path
+        android:fillColor="@color/widget_paper_fold"
+        android:pathData="M300,150 L262,150 L300,116 Z" />
+</vector>

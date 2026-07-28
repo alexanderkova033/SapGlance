@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Shares Forest's 135° base angle: there are only eight legal gradient angles and more
-         styles than that, so some doubling up is unavoidable — a deep green forest against a
-         bright snowfield is a pair nobody will confuse. -->
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:angle="135"
-                android:startColor="@color/widget_winter_start"
-                android:endColor="@color/widget_winter_end"
+                android:angle="315"
+                android:startColor="@color/widget_paper_start"
+                android:endColor="@color/widget_paper_end"
                 android:type="linear" />
         </shape>
     </item>
@@ -16,10 +13,10 @@
         <shape android:shape="rectangle">
             <gradient
                 android:type="radial"
-                android:gradientRadius="130dp"
-                android:centerX="0.8"
+                android:gradientRadius="150dp"
+                android:centerX="0.75"
                 android:centerY="0.12"
-                android:startColor="@color/widget_winter_halo"
+                android:startColor="@color/widget_paper_lamp"
                 android:endColor="@android:color/transparent" />
         </shape>
     </item>
@@ -28,43 +25,44 @@
             <gradient
                 android:type="radial"
                 android:gradientRadius="170dp"
-                android:centerX="0.15"
-                android:centerY="0.9"
-                android:startColor="@color/widget_winter_shade"
+                android:centerX="0.1"
+                android:centerY="0.95"
+                android:startColor="@color/widget_paper_shade"
                 android:endColor="@android:color/transparent" />
         </shape>
     </item>
-    <item android:drawable="@drawable/widget_art_winter" />
-    <item
-        android:width="2.5dp"
-        android:height="2.5dp"
-        android:gravity="top|left"
-        android:left="36dp"
-        android:top="16dp">
-        <shape android:shape="oval">
-            <solid android:color="@color/widget_winter_flake" />
-        </shape>
-    </item>
+    <item android:drawable="@drawable/widget_art_paper" />
     <item
         android:width="2dp"
         android:height="2dp"
-        android:gravity="center_vertical|right"
-        android:right="28dp">
+        android:gravity="top|left"
+        android:left="44dp"
+        android:top="46dp">
         <shape android:shape="oval">
-            <solid android:color="@color/widget_winter_flake" />
+            <solid android:color="@color/widget_paper_speck" />
         </shape>
     </item>
     <item
-        android:width="1.8dp"
-        android:height="1.8dp"
-        android:gravity="top|center_horizontal"
-        android:top="34dp">
+        android:width="1.6dp"
+        android:height="1.6dp"
+        android:gravity="center_vertical|right"
+        android:right="32dp">
         <shape android:shape="oval">
-            <solid android:color="@color/widget_winter_flake" />
+            <solid android:color="@color/widget_paper_speck" />
+        </shape>
+    </item>
+    <item
+        android:width="1.4dp"
+        android:height="1.4dp"
+        android:gravity="bottom|left"
+        android:left="62dp"
+        android:bottom="30dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_paper_speck" />
         </shape>
     </item>
     <!-- Card frame, in the dark rim the light styles use — the white one every dark style
-         carries would be invisible against snow. -->
+         carries would be invisible against a cream page. -->
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@android:color/transparent" />

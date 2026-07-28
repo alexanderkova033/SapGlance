@@ -1,8 +1,18 @@
 # Afternoon-only micro-tips (12:00-17:59), appended to the general pool.
 # Each line has a matching line in afternoon_sources.txt carrying 2+ citations.
+#
+# WRITING RULE: see the full version at the top of general.txt. In short, every line must bust a
+# myth, name a mechanism, carry a real number, or invert an assumption. Change the register,
+# keep the topic. Two independent primary citations per tip, and the evidence bar does not move
+# to make a line more interesting. Keep tips under ~90 characters.
+#
+# WATCH THIS POOL'S CLUSTER: "get up / move / take a break". Roughly five of these lines say
+# that, and they are the most interchangeable text in the catalog. The good versions are the
+# ones that explain or quantify rather than instruct (why breaks work, the 26-minute nap, the
+# caffeine nap). A new break line has to add a mechanism or a number, not another nudge.
 Feeling a slump? A short walk or fresh air often helps more than another coffee.
-Step outside for a few minutes. Daylight has a direct alerting effect, not just a mood one.
-When did you last actually drink something? Coffee only half counts.
+Step outside. Daylight has a direct alerting effect, not just a mood one.
+When did you last actually drink something? Thirst lags behind the dip in focus.
 The early-afternoon dip is partly circadian. It shows up even on days you skip lunch.
 If focus is fading, a 5-minute break usually beats pushing through.
 Stand up and move. Even one lap of the room interrupts the slump.
@@ -24,5 +34,5 @@ Screen use can roughly halve your blink rate, which is why eyes feel dry by now.
 In NASA's pilot study, a nap averaging 26 minutes measurably restored alertness.
 Short bursts of hard effort count. One brisk flight of stairs is doing real work.
 Music put on deliberately to relax lowers stress. Music as background does less.
-Coffee, then a 15-minute nap. The caffeine lands as you wake, and it beats either one alone.
-Save open-ended problems for when you're slightly tired. Insight does better off-peak than analysis.
+Coffee, then a 15-minute nap. The caffeine lands as you wake.
+Save open-ended problems for when you're slightly tired. Insight does better off-peak.

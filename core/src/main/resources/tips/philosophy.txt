@@ -33,8 +33,8 @@
 Men are disturbed not by things, but by the views which they take of things.	Epictetus, Enchiridion V (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm	Epictetus, Enchiridion V (Perseus Digital Library)	https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0237:text%3Denc:chapter%3D5
 Some things are in our power, and some are not.	Epictetus, Enchiridion I (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm
 Seek not that things should happen as you wish, but wish them to be as they are.	Epictetus, Enchiridion VIII, tr. Long (Project Gutenberg)	https://www.gutenberg.org/files/10661/10661-h/10661-h.htm
-Very little is needed to make a happy life; it is all within yourself, in your way of thinking.	Marcus Aurelius, Meditations VII (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
-If you are distressed by anything external, the pain is not due to the thing itself but to your estimate of it.	Marcus Aurelius, Meditations VIII.47 (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
+Very little is needed to make a happy life.	Marcus Aurelius, Meditations VII (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
+The pain is not due to the thing itself but to your estimate of it.	Marcus Aurelius, Meditations VIII.47 (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
 Nowhere can a man find a quieter or more untroubled retreat than in his own soul.	Marcus Aurelius, Meditations IV.3 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_4
 Tranquillity is nothing else than the good ordering of the mind.	Marcus Aurelius, Meditations IV.3 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_4
 We suffer more often in imagination than in reality.	Seneca, Moral Letters to Lucilius 13 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_13
@@ -55,16 +55,16 @@ Let a man overcome anger by love, let him overcome evil by good.	The Dhammapada 
 
 # Greek.
 The unexamined life is not worth living.	Socrates, in Plato's Apology (Project Gutenberg)	https://www.gutenberg.org/ebooks/1656
-You cannot step twice into the same rivers; for fresh waters are ever flowing in upon you.	Heraclitus, Fragments 41-42, tr. Burnet (Wikisource)	https://en.wikisource.org/wiki/Fragments_of_Heraclitus_(annotated)
+You cannot step twice into the same rivers.	Heraclitus, Fragments 41-42, tr. Burnet (Wikisource)	https://en.wikisource.org/wiki/Fragments_of_Heraclitus_(annotated)
 
 # Essayists and transcendentalists.
 The greatest thing in the world is for a man to know that he is his own.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
-We must reserve a backshop, wholly our own and entirely free, wherein to settle our true liberty.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
+We must reserve a backshop, wholly our own and entirely free.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
 Nothing is at last sacred but the integrity of your own mind.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
 Insist on yourself; never imitate.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
 To be great is to be misunderstood.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
 The mass of men lead lives of quiet desperation.	Thoreau, Walden, "Economy" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Economy
-I went to the woods because I wished to live deliberately, to front only the essential facts of life.	Thoreau, Walden, "Where I Lived, and What I Lived for" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Where_I_Lived,_and_What_I_Lived_for
+I went to the woods because I wished to live deliberately.	Thoreau, Walden, "Where I Lived, and What I Lived for" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Where_I_Lived,_and_What_I_Lived_for
 Ask yourself whether you are happy, and you cease to be so.	J. S. Mill, Autobiography, Chapter V (Wikisource)	https://en.wikisource.org/wiki/Autobiography_(Mill)/Chapter_V
 Although the world is full of suffering, it is full also of the overcoming of it.	Helen Keller, Optimism (Wikisource)	https://en.wikisource.org/wiki/Optimism_(Keller)
 Optimism is the faith that leads to achievement.	Helen Keller, Optimism (Wikisource)	https://en.wikisource.org/wiki/Optimism_(Keller)
@@ -73,7 +73,7 @@ Optimism is the faith that leads to achievement.	Helen Keller, Optimism (Wikisou
 If we have our own why in life, we shall get along with almost any how.	Nietzsche, Twilight of the Idols, Maxims and Arrows 12 (Project Gutenberg)	https://www.gutenberg.org/files/52263/52263-h/52263-h.htm
 
 # Enlightenment rationalist.
-A free man thinks of death least of all things; and his wisdom is a meditation not of death but of life.	Spinoza, Ethics IV, Prop. LXVII, tr. Elwes (Wikisource)	https://en.wikisource.org/wiki/Ethics_(Spinoza)/Part_4
+A free man thinks of death least of all things.	Spinoza, Ethics IV, Prop. LXVII, tr. Elwes (Wikisource)	https://en.wikisource.org/wiki/Ethics_(Spinoza)/Part_4
 
 # Nineteenth century.
 If there is no struggle there is no progress.	Frederick Douglass, West India Emancipation, 1857 (Wikisource)	https://en.wikisource.org/wiki/West_India_Emancipation
@@ -88,5 +88,5 @@ You can be wrong for years and still turn around in an afternoon.
 Certainty is cheap. Notice what it costs you to change your mind.
 The story you'll tell about today is already shorter than today is.
 You'll never have more time than you have now, only different reasons.
-The opinion you hold most confidently was handed to you by someone you have since forgotten.
-You will never be able to explain most of your life to anyone who was not there.
+The opinion you hold most confidently came from someone you have forgotten.
+You cannot explain most of your life to anyone who was not there.
