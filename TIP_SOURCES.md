@@ -55,6 +55,27 @@ Checking whether each source actually supported its tip turned up four real prob
    alternate-uses test). The tip itself only ever said "more than sitting," which is fine; this
    document's summary was the thing that overreached, and is fixed below.
 
+Two more found during the 2026-07-28 de-cliché pass, both in the same place — hydration tips
+that had inherited citations about something else:
+
+5. **"Coffee only half counts" was wrong, and cited to papers that never mentioned caffeine.**
+   The afternoon tip implied caffeinated drinks contribute less to hydration, citing Ganio et
+   al. (2011) and Armstrong et al. (2012) — both studies of *mild dehydration and cognition*,
+   neither of which says anything about caffeine. The claim is also not what the evidence
+   shows: Killer et al. randomised habitual coffee drinkers to 4×200 mL of coffee versus water
+   over three days, measuring total body water by deuterium oxide dilution, and found no
+   difference in hydration status; Maughan & Griffin's review reaches the same conclusion for
+   moderate intake. The tip now says coffee counts toward your fluids and carries those two.
+   - Killer, Blannin & Jeukendrup, *No evidence of dehydration with moderate daily coffee
+     intake*, PLoS ONE, 2014. [PubMed](https://pubmed.ncbi.nlm.nih.gov/24416202/)
+   - Maughan & Griffin, *Caffeine ingestion and fluid balance: a review*, Journal of Human
+     Nutrition and Dietetics, 2003. [PubMed](https://pubmed.ncbi.nlm.nih.gov/19774754/)
+6. **"Keep water within arm's reach. You drink more when reaching for it is free"** carried the
+   same Ganio and Armstrong citations, which support the claim that mild dehydration dents
+   focus — a claim a *different* general tip already makes and cites correctly — but say
+   nothing about how proximity affects drinking behaviour. The behavioural half was unsourced.
+   The line was replaced rather than re-sourced, since the pool already covered hydration.
+
 Sources dropped for quality and what replaced them: Wikipedia → Monk/Orr/*Nutrients*;
 ResearchGate (Reinecke) → the Taylor & Francis DOI page; EngineeringToolBox illuminance table
 → a peer-reviewed ambient-light measurement study; ScienceDirect Topics (an auto-generated

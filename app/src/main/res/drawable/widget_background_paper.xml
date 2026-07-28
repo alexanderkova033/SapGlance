@@ -61,6 +61,19 @@
             <solid android:color="@color/widget_paper_speck" />
         </shape>
     </item>
+    <!-- Bottom-edge scrim: floors the contrast under the app-name label, which is the only
+         text on the card without a chip behind it. Fades out by mid-card so it grounds the
+         artwork rather than dimming it. -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:startColor="@color/widget_footer_scrim_light"
+                android:centerColor="@android:color/transparent"
+                android:endColor="@android:color/transparent"
+                android:type="linear" />
+        </shape>
+    </item>
     <!-- Card frame, in the dark rim the light styles use — the white one every dark style
          carries would be invisible against a cream page. -->
     <item>

@@ -14,6 +14,18 @@
     <color name="widget_card_border">#4DFFFFFF</color>
     <color name="widget_card_border_dark">#38000000</color>
 
+    <!-- Bottom-edge scrim, drawn on every style just under the card frame: opaque-ish at the
+         very bottom, gone by mid-card. The app-name label sits on the bottom edge and is the
+         only text with no chip of its own, so whatever the artwork happens to do down there is
+         what it has to be read against — and the art *does* do things down there, since a
+         bottom-anchored horizon is how most of these scenes are built. Measured: without this,
+         Ocean's wave crests and Dawn's mist band put the label at 2.7:1, and no amount of text
+         alpha fixes it because the label is already pale-on-pale at that point. With it the
+         worst style is 4.9:1. Kept at 30% — the lightest value that clears AA everywhere —
+         since its job is to floor the contrast, not to visibly darken the artwork. -->
+    <color name="widget_footer_scrim">#4D000000</color>
+    <color name="widget_footer_scrim_light">#4DFFFFFF</color>
+
     <!-- Glass-chip look behind the settings gear icon (widget_settings_button_bg.xml): a
          top-lit translucent gradient plus a small highlight and a soft offset shadow, rather
          than a single flat scrim tone. Kept neutral (white/black, no brand hue) so it reads

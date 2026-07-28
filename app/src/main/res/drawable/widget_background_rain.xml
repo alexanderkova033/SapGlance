@@ -60,6 +60,19 @@
             <solid android:color="@color/widget_rain_drop" />
         </shape>
     </item>
+    <!-- Bottom-edge scrim: floors the contrast under the app-name label, which is the only
+         text on the card without a chip behind it. Fades out by mid-card so it grounds the
+         artwork rather than dimming it. -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:startColor="@color/widget_footer_scrim"
+                android:centerColor="@android:color/transparent"
+                android:endColor="@android:color/transparent"
+                android:type="linear" />
+        </shape>
+    </item>
     <!-- Card frame: a thin translucent edge on top of everything else, so the widget reads as
          a bounded card rather than a borderless block of color on the home screen. -->
     <item>

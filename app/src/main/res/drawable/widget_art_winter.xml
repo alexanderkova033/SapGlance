@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Two snow drifts along the bottom edge. Both fills are low-alpha pale blue rather than
-     opaque white: this band sits directly behind the widget's footer label, and solid snow
-     there would leave the label unreadable. -->
+<!-- Two snow drifts along the bottom edge, in near-white. They were pale washes on a dark sky
+     when Winter was a dusk theme and white text ran over this band; the card now draws dark
+     ink on light styles, so bright snow behind the footer label helps it rather than hiding
+     it. The drifts still sit under the bottom scrim, which is what actually floors the
+     label's contrast. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="300dp"
     android:height="150dp"
