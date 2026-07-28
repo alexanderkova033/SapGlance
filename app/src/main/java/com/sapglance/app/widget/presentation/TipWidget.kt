@@ -73,7 +73,7 @@ class TipWidget : GlanceAppWidget() {
     // the confirmed defect this addresses. Glance composes once per declared size and hands
     // the host a RemoteViews per bucket, so the launcher picks the right one without the app
     // re-rendering on every resize.
-    override val sizeMode = SizeMode.Responsive(setOf(COMPACT_CARD, MEDIUM_CARD, LARGE_CARD))
+    override val sizeMode = SizeMode.Responsive(setOf(TINY_CARD, COMPACT_CARD, MEDIUM_CARD, LARGE_CARD))
 
     override suspend fun provideGlance(
         context: Context,
@@ -183,9 +183,12 @@ private fun WidgetStyle.skin(): Pair<Int, WidgetInk> =
         WidgetStyle.BLOSSOM -> R.drawable.widget_background_blossom to WidgetInk.ON_LIGHT
     }
 
-// The three shapes the card is composed for. Glance picks the largest that fits the space the
-// launcher actually gave the widget, so these are buckets to design against, not sizes anyone
-// is forced into.
+// The shapes the card is composed for. Glance picks the largest that fits the space the launcher
+// actually gave the widget, so these are buckets to design against, not sizes anyone is forced
+// into. They span a 2x2 square up to a 4x4 block deliberately: the first version of this covered
+// only wide-and-short shapes, which made the widget refuse to fit a small square slot at all.
+// Each bucket costs one composition and one RemoteViews, so the set stays small.
+private val TINY_CARD = DpSize(110.dp, 110.dp)
 private val COMPACT_CARD = DpSize(180.dp, 110.dp)
 private val MEDIUM_CARD = DpSize(250.dp, 180.dp)
 private val LARGE_CARD = DpSize(320.dp, 250.dp)
@@ -220,44 +223,68 @@ private data class CardMetrics(
     val chipPaddingVertical: Dp,
 )
 
-// Thresholds on height rather than equality against the DpSizes above: the host can hand back a
-// size that isn't exactly one of the declared buckets, and a `when` on ranges degrades sensibly
-// where an exhaustive match on exact values would have to guess.
-private fun metricsFor(size: DpSize): CardMetrics =
-    when {
-        size.height < 140.dp ->
-            CardMetrics(
-                tipFontSize = 12.sp,
-                maxTipLines = 5,
-                showQuoteMark = false,
-                showFooter = false,
-                cardPadding = 10.dp,
-                cardPaddingVertical = 10.dp,
-                chipPaddingVertical = 4.dp,
-            )
+/**
+ * Derived from the size rather than matched against the buckets above, so any size the host hands
+ * back lands somewhere sensible instead of falling into a `when` branch that had to guess.
+ *
+ * The two axes are treated separately because they constrain different things, and conflating
+ * them is what made the first version of this too rigid:
+ *
+ * - **Width sets the font size**, because width is what decides characters per line. A narrow
+ *   card at 15sp fits about twelve characters before wrapping, which turns a 90-character tip
+ *   into eight lines no card that narrow can show.
+ * - **Height sets how much decoration survives**, because the `❝` glyph and the app-name footer
+ *   cost fixed vertical space that a short card needs for the tip itself.
+ *
+ * `maxTipLines` then falls out of the arithmetic rather than being another hand-tuned constant:
+ * whatever height is left after chrome, divided by the line height the font implies. Note this is
+ * still not measuring the *text* — it never asks how a particular tip will wrap, which is the
+ * prediction that failed before. It only asks how many lines of any text this card can display.
+ */
+private fun metricsFor(size: DpSize): CardMetrics {
+    // 10sp is small, and it is the right call at 2x2: the alternative is not "bigger text", it
+    // is the end of a 90-character tip being cut off, because at 11sp that card can display six
+    // lines and the longest tips need seven. Someone who shrinks the widget to a small square
+    // has chosen density; losing the last few words is not a trade they asked for.
+    val fontSize =
+        when {
+            size.width < 130.dp -> 10.sp
+            size.width < 160.dp -> 11.sp
+            size.width < 230.dp -> 13.sp
+            else -> 15.sp
+        }
+    val showQuoteMark = size.height >= 170.dp
+    val showFooter = size.height >= 140.dp
+    val padding = if (size.height < 140.dp) 8.dp else 12.dp
+    val chipPadding = if (size.height < 140.dp) 4.dp else 6.dp
 
-        size.height < 210.dp ->
-            CardMetrics(
-                tipFontSize = 14.sp,
-                maxTipLines = 6,
-                showQuoteMark = true,
-                showFooter = true,
-                cardPadding = 14.dp,
-                cardPaddingVertical = 14.dp,
-                chipPaddingVertical = 5.dp,
-            )
+    // Glyph and footer costs include their spacers. Line height follows the usual ~1.25x of
+    // font size; both are estimates, and both only ever make the line count more conservative.
+    val chromeHeight =
+        padding * 2 + chipPadding * 2 +
+            (if (showQuoteMark) QUOTE_MARK_HEIGHT else 0.dp) +
+            (if (showFooter) FOOTER_HEIGHT else 0.dp)
+    val lineHeight = fontSize.value * 1.25f
+    val usableLines = ((size.height - chromeHeight).value / lineHeight).toInt()
 
-        else ->
-            CardMetrics(
-                tipFontSize = 15.sp,
-                maxTipLines = 6,
-                showQuoteMark = true,
-                showFooter = true,
-                cardPadding = 12.dp,
-                cardPaddingVertical = 16.dp,
-                chipPaddingVertical = 6.dp,
-            )
-    }
+    return CardMetrics(
+        tipFontSize = fontSize,
+        maxTipLines = usableLines.coerceIn(MIN_TIP_LINES, MAX_TIP_LINES),
+        showQuoteMark = showQuoteMark,
+        showFooter = showFooter,
+        cardPadding = padding,
+        cardPaddingVertical = padding,
+        chipPaddingVertical = chipPadding,
+    )
+}
+
+/** The `❝` glyph plus its spacer, and the footer label plus its spacer. */
+private val QUOTE_MARK_HEIGHT = 26.dp
+private val FOOTER_HEIGHT = 22.dp
+
+/** Floor so a tiny card still shows a couple of lines; ceiling so a huge one doesn't sprawl. */
+private const val MIN_TIP_LINES = 2
+private const val MAX_TIP_LINES = 8
 
 @Composable
 private fun TipWidgetContent(
