@@ -217,9 +217,10 @@ private data class CardMetrics(
     val tipFontSize: TextUnit,
     val maxTipLines: Int,
     val showQuoteMark: Boolean,
-    val showFooter: Boolean,
+    val quoteMarkSize: TextUnit,
+    val footerFontSize: TextUnit,
+    val footerSpacing: Dp,
     val cardPadding: Dp,
-    val cardPaddingVertical: Dp,
     val chipPaddingVertical: Dp,
 )
 
@@ -242,28 +243,41 @@ private data class CardMetrics(
  * prediction that failed before. It only asks how many lines of any text this card can display.
  */
 private fun metricsFor(size: DpSize): CardMetrics {
-    // 10sp is small, and it is the right call at 2x2: the alternative is not "bigger text", it
-    // is the end of a 90-character tip being cut off, because at 11sp that card can display six
-    // lines and the longest tips need seven. Someone who shrinks the widget to a small square
-    // has chosen density; losing the last few words is not a trade they asked for.
+    // The tip's own size scales the whole way up rather than stopping at 15sp. A large card
+    // holding 15sp text was the "clunky" complaint: the type stayed the size it needed to be on
+    // a small card while the card around it grew, so the layout read as a small widget with a
+    // lot of nothing in it. 10sp at the bottom is equally deliberate — at 2x2 the alternative
+    // is not bigger text, it is the end of a 90-character tip being cut off.
     val fontSize =
         when {
             size.width < 130.dp -> 10.sp
             size.width < 160.dp -> 11.sp
             size.width < 230.dp -> 13.sp
-            else -> 15.sp
+            size.width < 290.dp -> 15.sp
+            else -> 18.sp
         }
-    val showQuoteMark = size.height >= 170.dp
-    val showFooter = size.height >= 140.dp
-    val padding = if (size.height < 140.dp) 8.dp else 12.dp
-    val chipPadding = if (size.height < 140.dp) 4.dp else 6.dp
 
-    // Glyph and footer costs include their spacers. Line height follows the usual ~1.25x of
-    // font size; both are estimates, and both only ever make the line count more conservative.
-    val chromeHeight =
-        padding * 2 + chipPadding * 2 +
-            (if (showQuoteMark) QUOTE_MARK_HEIGHT else 0.dp) +
-            (if (showFooter) FOOTER_HEIGHT else 0.dp)
+    // Short cards give up the quote glyph, but never the name: an unbranded card reads as an
+    // empty one. The footer instead shrinks with the card, which costs far less height than the
+    // glyph does and keeps the widget identifiable at every size.
+    val compact = size.height < 140.dp
+    val showQuoteMark = size.height >= 170.dp
+    val quoteMarkSize = if (size.height >= 230.dp) 24.sp else 18.sp
+    val footerFontSize =
+        when {
+            compact -> 8.sp
+            size.height < 210.dp -> 10.sp
+            else -> 11.sp
+        }
+    val footerSpacing = if (compact) 3.dp else 8.dp
+    val padding = if (compact) 6.dp else 12.dp
+    val chipPadding = if (compact) 4.dp else 6.dp
+
+    // Line height follows the usual ~1.25x of font size. Every figure here is an estimate, and
+    // each one only ever makes the resulting line count more conservative.
+    val quoteMarkHeight = if (showQuoteMark) (quoteMarkSize.value * 1.25f).dp + 4.dp else 0.dp
+    val footerHeight = (footerFontSize.value * 1.25f).dp + footerSpacing
+    val chromeHeight = padding * 2 + chipPadding * 2 + quoteMarkHeight + footerHeight
     val lineHeight = fontSize.value * 1.25f
     val usableLines = ((size.height - chromeHeight).value / lineHeight).toInt()
 
@@ -271,16 +285,13 @@ private fun metricsFor(size: DpSize): CardMetrics {
         tipFontSize = fontSize,
         maxTipLines = usableLines.coerceIn(MIN_TIP_LINES, MAX_TIP_LINES),
         showQuoteMark = showQuoteMark,
-        showFooter = showFooter,
+        quoteMarkSize = quoteMarkSize,
+        footerFontSize = footerFontSize,
+        footerSpacing = footerSpacing,
         cardPadding = padding,
-        cardPaddingVertical = padding,
         chipPaddingVertical = chipPadding,
     )
 }
-
-/** The `❝` glyph plus its spacer, and the footer label plus its spacer. */
-private val QUOTE_MARK_HEIGHT = 26.dp
-private val FOOTER_HEIGHT = 22.dp
 
 /** Floor so a tiny card still shows a couple of lines; ceiling so a huge one doesn't sprawl. */
 private const val MIN_TIP_LINES = 2
@@ -313,7 +324,7 @@ private fun TipWidgetContent(
                 // Whole-card tap: refreshes the tip in place. The settings icon below has its
                 // own clickable modifier, which takes the tap over this one within its bounds.
                 .clickable(actionRunCallback<RefreshTipAction>())
-                .padding(horizontal = metrics.cardPadding, vertical = metrics.cardPaddingVertical),
+                .padding(metrics.cardPadding),
         contentAlignment = Alignment.Center,
     ) {
         // The settings button used to sit in its own header Row above this Column, which
@@ -340,7 +351,7 @@ private fun TipWidgetContent(
                             text = "❝",
                             style =
                                 TextStyle(
-                                    fontSize = 18.sp,
+                                    fontSize = metrics.quoteMarkSize,
                                     fontWeight = FontWeight.Bold,
                                     fontStyle = FontStyle.Italic,
                                     fontFamily = FontFamily.Serif,
@@ -377,25 +388,23 @@ private fun TipWidgetContent(
                     }
                 }
             }
-            // Branding is the other thing that yields on a compact card, for the same reason as
-            // the quote glyph: the tip is what the widget is for. The name still reaches the
-            // user through the launcher, the settings screen and the widget picker.
-            if (metrics.showFooter) {
-                Spacer(GlanceModifier.height(8.dp))
-                Text(
-                    // Derived from the centralized app_name resource (rather than a second
-                    // hardcoded string) so changing the final product name only ever means
-                    // editing strings.xml in one place.
-                    text = context.getString(R.string.app_name).uppercase(),
-                    style =
-                        TextStyle(
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Center,
-                            color = ColorProvider(ink.footer),
-                        ),
-                )
-            }
+            // Shown at every size. An earlier version dropped this on small cards to buy height,
+            // which made the widget look unfinished rather than minimal — a card with no name on
+            // it reads as empty. Scaling the label down costs a few dp where hiding it saved
+            // about twenty, and that difference is affordable.
+            Spacer(GlanceModifier.height(metrics.footerSpacing))
+            Text(
+                // Derived from the centralized app_name resource (rather than a second hardcoded
+                // string) so changing the product name only ever means editing strings.xml.
+                text = context.getString(R.string.app_name).uppercase(),
+                style =
+                    TextStyle(
+                        fontSize = metrics.footerFontSize,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center,
+                        color = ColorProvider(ink.footer),
+                    ),
+            )
         }
 
         // Corner overlay, stacked on top of the content above rather than occupying a row of
