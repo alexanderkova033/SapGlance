@@ -60,8 +60,8 @@ import java.time.LocalTime
  * reserves that gesture for its own move/resize/remove UI, so a dedicated tap target is the
  * only reliable option. [WidgetRefreshWorker] is what normally advances the tip on a timer;
  * this only computes a fallback tip itself on the very first render (e.g. right after install,
- * before any worker has run yet), reusing the same persisted "last tip" that notifications also
- * read/write so the anti-repeat guarantee (FR5) holds across both surfaces. Whichever trigger
+ * before any worker has run yet), reusing the same persisted "last tip" every other trigger
+ * reads and writes so the anti-repeat guarantee (FR5) holds across all of them. Whichever trigger
  * advances the tip, the widget repaints by *observing* the persisted history rather than by
  * being handed a value — see the comment inside [provideGlance] for why that distinction is
  * what makes the repaint happen at all.

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 
 /**
  * [TipHistoryRepository] backed by Jetpack DataStore, so recent tips survive process death
- * (FR7) and are shared between the widget and notifications (FR5). Stored as a single
+ * (FR7) and are shared across every surface that advances a tip (FR5). Stored as a single
  * newline-joined string rather than a `Set` preference, since a `Set` doesn't preserve the
  * order needed to trim the oldest entries first — tips are always single-line (one per line
  * in the bundled catalog resources), so newline is a safe delimiter.

@@ -13,8 +13,8 @@ import java.time.LocalTime
  * the last [TipHistoryRepository.MAX_RECENT_TIPS] tips) to actually hold. Pulled out here so
  * those three call sites share one implementation instead of each re-deriving it.
  *
- * Read-select-persist is otherwise a classic read-modify-write race: a widget refresh and a
- * notification worker calling this concurrently could both read the same [recentTips][TipHistoryRepository.recentTips]
+ * Read-select-persist is otherwise a classic read-modify-write race: the periodic worker and a
+ * widget tap calling this concurrently could both read the same [recentTips][TipHistoryRepository.recentTips]
  * snapshot before either has persisted, and independently pick (and possibly repeat) the same
  * tip. [mutex] serializes the whole operation per process; it's a field on this class rather
  * than a `companion object`/top-level lock so it stays scoped to one [AdvanceTipUseCase]

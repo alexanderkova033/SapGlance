@@ -13,9 +13,9 @@ import java.time.LocalTime
  * Ticks every [com.sapglance.core.scheduling.TICK_INTERVAL_MINUTES] (see
  * [WidgetScheduler]) and only advances the tip once [com.sapglance.core.scheduling.shouldAdvanceTip]
  * says enough confirmed screen-on ticks have accumulated since it was last shown — see
- * `TipRefreshSchedule.kt` for why. Quiet hours intentionally never gated this (there's no
- * notification here to silence) and that stays true now that ticks are gated on the screen
- * being on instead: a passive widget refresh isn't an interruption.
+ * `TipRefreshSchedule.kt` for why. Nothing here is ever gated on quiet hours: a passive widget
+ * refresh isn't an interruption, so there is nothing to silence. (v1 has no notifications at
+ * all — they were built and then deliberately removed.)
  *
  * [KEY_FORCE] bypasses the tick logic entirely and just re-renders the widget's current
  * state — used by [WidgetScheduler.refreshNow] (e.g. right after boot) where the point isn't
