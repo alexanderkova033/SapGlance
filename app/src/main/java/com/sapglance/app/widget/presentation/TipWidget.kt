@@ -52,6 +52,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.time.LocalTime
+import kotlin.math.ceil
 
 /**
  * FR1: shows the current tip. Tapping the card itself gets a new tip on the spot (via
@@ -67,13 +68,15 @@ import java.time.LocalTime
  * what makes the repaint happen at all.
  */
 class TipWidget : GlanceAppWidget() {
-    // Responsive rather than Single: the card has to survive being resized, and its chrome
-    // costs roughly 90dp of height before a line of tip is drawn. At the small end of the
-    // range the widget used to advertise, that left the tip *negative* space and it clipped —
-    // the confirmed defect this addresses. Glance composes once per declared size and hands
-    // the host a RemoteViews per bucket, so the launcher picks the right one without the app
-    // re-rendering on every resize.
-    override val sizeMode = SizeMode.Responsive(setOf(TINY_CARD, COMPACT_CARD, MEDIUM_CARD, LARGE_CARD))
+    // Exact, not Responsive. Responsive composes once per *declared* bucket and the launcher
+    // picks the largest bucket that fits — which quietly wastes whatever space falls between
+    // buckets. A real 154x183dp card on a 4-column phone matched only the 110x110 bucket
+    // (every wider bucket was too wide to fit), so a third of its height went unused and it
+    // drew the cramped small-card layout: 10sp type, no quote glyph, and a lot of nothing.
+    // [metricsFor] already derives every dimension from the size continuously, so buckets add
+    // nothing but rounding error. Exact costs a recomposition per resize, which is cheap for a
+    // card this simple and only happens while the user is actually dragging a handle.
+    override val sizeMode = SizeMode.Exact
 
     override suspend fun provideGlance(
         context: Context,
@@ -183,15 +186,27 @@ private fun WidgetStyle.skin(): Pair<Int, WidgetInk> =
         WidgetStyle.BLOSSOM -> R.drawable.widget_background_blossom to WidgetInk.ON_LIGHT
     }
 
-// The shapes the card is composed for. Glance picks the largest that fits the space the launcher
-// actually gave the widget, so these are buckets to design against, not sizes anyone is forced
-// into. They span a 2x2 square up to a 4x4 block deliberately: the first version of this covered
-// only wide-and-short shapes, which made the widget refuse to fit a small square slot at all.
-// Each bucket costs one composition and one RemoteViews, so the set stays small.
-private val TINY_CARD = DpSize(110.dp, 110.dp)
-private val COMPACT_CARD = DpSize(180.dp, 110.dp)
-private val MEDIUM_CARD = DpSize(250.dp, 180.dp)
-private val LARGE_CARD = DpSize(320.dp, 250.dp)
+/**
+ * Tip font sizes, smallest first. The layout picks the largest one whose worst case still fits
+ * the card rather than mapping size ranges to a font by hand, which is what left a tall card
+ * holding type sized for a short one.
+ */
+private val TIP_FONT_LADDER = listOf(10.sp, 11.sp, 13.sp, 15.sp, 18.sp, 21.sp)
+
+/**
+ * The longest tip the catalog allows. The pools are capped at roughly this, and the cap is a
+ * content rule rather than something enforced in code — see `tips/general.txt`. Sizing against
+ * the worst case is what keeps this from being a per-tip measurement: every tip renders at the
+ * same size on a given card, so nothing shifts underneath the reader when the tip changes.
+ */
+private const val LONGEST_TIP_CHARS = 90
+
+/** Rough advance width of the bold serif face as a fraction of font size, and the usual line box. */
+private const val CHAR_WIDTH_RATIO = 0.5f
+private const val LINE_HEIGHT_RATIO = 1.25f
+
+/** Horizontal padding inside the chip, both sides, which the text never gets to use. */
+private val CHIP_HORIZONTAL_PADDING = 8.dp
 
 /**
  * How much card there is to spend, per size bucket.
@@ -243,20 +258,6 @@ private data class CardMetrics(
  * prediction that failed before. It only asks how many lines of any text this card can display.
  */
 private fun metricsFor(size: DpSize): CardMetrics {
-    // The tip's own size scales the whole way up rather than stopping at 15sp. A large card
-    // holding 15sp text was the "clunky" complaint: the type stayed the size it needed to be on
-    // a small card while the card around it grew, so the layout read as a small widget with a
-    // lot of nothing in it. 10sp at the bottom is equally deliberate — at 2x2 the alternative
-    // is not bigger text, it is the end of a 90-character tip being cut off.
-    val fontSize =
-        when {
-            size.width < 130.dp -> 10.sp
-            size.width < 160.dp -> 11.sp
-            size.width < 230.dp -> 13.sp
-            size.width < 290.dp -> 15.sp
-            else -> 18.sp
-        }
-
     // Short cards give up the quote glyph, but never the name: an unbranded card reads as an
     // empty one. The footer instead shrinks with the card, which costs far less height than the
     // glyph does and keeps the widget identifiable at every size.
@@ -273,13 +274,33 @@ private fun metricsFor(size: DpSize): CardMetrics {
     val padding = if (compact) 6.dp else 12.dp
     val chipPadding = if (compact) 4.dp else 6.dp
 
-    // Line height follows the usual ~1.25x of font size. Every figure here is an estimate, and
-    // each one only ever makes the resulting line count more conservative.
-    val quoteMarkHeight = if (showQuoteMark) (quoteMarkSize.value * 1.25f).dp + 4.dp else 0.dp
-    val footerHeight = (footerFontSize.value * 1.25f).dp + footerSpacing
+    // Chrome first, because none of it depends on the tip's font size — so what's left is a
+    // fixed budget the type has to fit inside. Every ratio here is an estimate, and each one
+    // errs towards a smaller font rather than a clipped tip.
+    val quoteMarkHeight =
+        if (showQuoteMark) (quoteMarkSize.value * LINE_HEIGHT_RATIO).dp + 4.dp else 0.dp
+    val footerHeight = (footerFontSize.value * LINE_HEIGHT_RATIO).dp + footerSpacing
     val chromeHeight = padding * 2 + chipPadding * 2 + quoteMarkHeight + footerHeight
-    val lineHeight = fontSize.value * 1.25f
-    val usableLines = ((size.height - chromeHeight).value / lineHeight).toInt()
+    val availableHeight = (size.height - chromeHeight).value
+    val textWidth = (size.width - padding * 2 - CHIP_HORIZONTAL_PADDING * 2).value
+
+    // Largest font whose worst case still fits, rather than a hand-drawn map from width ranges
+    // to font sizes. That map had no way to notice spare *height*, so a narrow-but-tall card —
+    // the shape a 2-column phone slot actually produces — got type sized for a short card and
+    // looked half empty. This asks the question that matters instead: how big can the type be
+    // before the longest tip in the catalog stops fitting?
+    val fontSize =
+        TIP_FONT_LADDER.lastOrNull { candidate ->
+            val charsPerLine = textWidth / (candidate.value * CHAR_WIDTH_RATIO)
+            if (charsPerLine < 1f) {
+                false
+            } else {
+                val linesNeeded = ceil(LONGEST_TIP_CHARS / charsPerLine)
+                linesNeeded * candidate.value * LINE_HEIGHT_RATIO <= availableHeight
+            }
+        } ?: TIP_FONT_LADDER.first()
+
+    val usableLines = (availableHeight / (fontSize.value * LINE_HEIGHT_RATIO)).toInt()
 
     return CardMetrics(
         tipFontSize = fontSize,
