@@ -31,6 +31,25 @@ data class TipCatalog(
     /** Every tone tip, in one list — what [TipEngine] weighs against the practical pools. */
     val tonePools: List<Tip> get() = motivation + philosophy + wellbeing
 
+    /**
+     * Text to kind, for the history — which stores plain text and nothing else — to be read back
+     * as kinds. [TipEngine] needs this on the selection path to enforce its run limit, so it is
+     * built once per catalog and cached rather than re-derived per lookup: `findByText` walks a
+     * freshly concatenated list of all 282 tips, which is fine for one Settings lookup and wrong
+     * for something a widget tap waits on.
+     */
+    private val kindsByText: Map<String, TipKind> by lazy {
+        val all = general + morning + afternoon + evening + tonePools + listOf(sleepLate, sleepEarlyHours)
+        all.associate { it.text to it.kind }
+    }
+
+    /**
+     * Null for a text this catalog doesn't know — a tip that has since been reworded or dropped
+     * can still be sitting in a user's persisted history, and that must degrade to "no opinion"
+     * rather than throwing.
+     */
+    fun kindOf(text: String): TipKind? = kindsByText[text]
+
     companion object {
         fun loadDefault(): TipCatalog =
             TipCatalog(

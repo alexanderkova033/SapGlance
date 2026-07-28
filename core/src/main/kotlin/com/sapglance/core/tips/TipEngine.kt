@@ -56,7 +56,29 @@ class TipEngine(
         varietyLevel: VarietyLevel = VarietyLevel.PRACTICAL,
     ): Tip {
         val dayPart = dayPartFor(time)
-        return pick(tiersFor(dayPart, manual, varietyLevel), recentTips)
+        val tiers = tiersFor(dayPart, manual, varietyLevel, exhaustedToneKind(recentTips))
+        return pick(tiers, recentTips)
+    }
+
+    /**
+     * The tone kind that has just used up its run and must sit this draw out, or null if none has.
+     *
+     * Anti-repeat already guarantees no *tip* comes back too soon, but it says nothing about
+     * *kind*, and three wellbeing lines in a row read as a rut even when all three are different
+     * sentences — the pools are distinct voices, and hearing one voice three times running is
+     * what makes the rotation feel narrower than it is. So a kind that fills
+     * [MAX_CONSECUTIVE_SAME_TONE] consecutive draws yields the next one.
+     *
+     * Only the three tone kinds are limited. [TipKind.PRACTICAL] deliberately is not: it is the
+     * app's default register rather than a voice, it is what the user asked for at
+     * [VarietyLevel.PRACTICAL], and capping it would mean forcing tone in at exactly the setting
+     * that says not to.
+     */
+    private fun exhaustedToneKind(recentTips: List<String>): TipKind? {
+        if (recentTips.size < MAX_CONSECUTIVE_SAME_TONE) return null
+        val run = recentTips.takeLast(MAX_CONSECUTIVE_SAME_TONE).map { catalog.kindOf(it) }
+        val candidate = run.first()
+        return if (candidate in TONE_KINDS && run.all { it == candidate }) candidate else null
     }
 
     /**
@@ -90,11 +112,12 @@ class TipEngine(
         dayPart: DayPart,
         manual: Boolean,
         varietyLevel: VarietyLevel,
+        blockedTone: TipKind?,
     ): List<Tier> {
         val toneChance = toneChancePercent(dayPart, varietyLevel)
         return listOf(
             Tier(PERCENT - toneChance, practicalGroups(dayPart, manual)),
-            Tier(toneChance, toneGroups(dayPart)),
+            Tier(toneChance, toneGroups(dayPart, blockedTone)),
         )
     }
 
@@ -136,13 +159,23 @@ class TipEngine(
             listOf(Group(PERCENT, listOf(windDown), exemptFromAntiRepeat = true))
         }
 
-    private fun toneGroups(dayPart: DayPart): List<Group> {
+    /**
+     * [blockedTone] drops that kind's group outright for this draw. Because [availableTiers]
+     * redistributes rather than shrinks, the tone tier keeps its full share and it flows to the
+     * other two voices — so the run limit changes *which* tone comes next, never how much tone
+     * the user gets. That is the same property that makes an exhausted pool harmless, reused.
+     */
+    private fun toneGroups(
+        dayPart: DayPart,
+        blockedTone: TipKind?,
+    ): List<Group> {
         val profile = ToneProfile.forDayPart(dayPart)
         return listOf(
-            Group(profile.motivation, catalog.motivation),
-            Group(profile.philosophy, catalog.philosophy),
-            Group(profile.wellbeing, catalog.wellbeing),
-        )
+            Triple(TipKind.MOTIVATION, profile.motivation, catalog.motivation),
+            Triple(TipKind.PHILOSOPHY, profile.philosophy, catalog.philosophy),
+            Triple(TipKind.WELLBEING, profile.wellbeing, catalog.wellbeing),
+        ).filterNot { (kind, _, _) -> kind == blockedTone }
+            .map { (_, weight, pool) -> Group(weight, pool) }
     }
 
     /**
@@ -285,6 +318,16 @@ class TipEngine(
 
     private companion object {
         const val PERCENT = 100
+
+        /**
+         * How many draws in a row one tone kind may take before it has to yield to another.
+         * Two, so a pair still happens (it reads as a theme) and a third never does (it reads
+         * as the app being stuck).
+         */
+        const val MAX_CONSECUTIVE_SAME_TONE = 2
+
+        /** The kinds the run limit applies to — every kind that is a *voice*, so not PRACTICAL. */
+        val TONE_KINDS = setOf(TipKind.MOTIVATION, TipKind.PHILOSOPHY, TipKind.WELLBEING)
 
         /** The tone tier's share of a draw at each [VarietyLevel], during waking hours. */
         const val TONE_DOMINANT_CHANCE_PERCENT = 80

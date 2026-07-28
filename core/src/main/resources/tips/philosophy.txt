@@ -27,6 +27,14 @@
 # Cutting at a comma or a colon the original already has (as with the Dhammapada line below)
 # is fine; cutting mid-clause and hoping nobody checks is how a quotation becomes a paraphrase.
 #
+# OPEN CRITICISM OF THIS POOL, 2026-07-28, not yet acted on: it is conventional. Every rule
+# above is about being *accurate*, and the pool clears that bar; none of them is about being
+# worth stopping on, and it does not clear that one. What is here is the philosophy everyone
+# has already met, in the register of a poster. The suspected cause is selecting for
+# quotability — a line short enough for a widget and instantly legible is usually a line that
+# has been quoted to death. Prefer passages that need a beat to land, and ideas that cut
+# against the reader rather than reassure them. See STATUS.md "the tone pools are too soft".
+#
 # Format is inline: "Tip text" alone, or "Tip text<TAB>Label<TAB>URL" for a quotation.
 
 # Stoic.

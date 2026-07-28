@@ -526,6 +526,125 @@ class TipEngineTest {
         assertThat(seen).isEqualTo(expectedPool.toSet())
     }
 
+    @Test
+    fun `a tone kind never appears three times in a row`() {
+        val engine = TipEngine(tonedCatalog, Random(seed = 11))
+
+        // Two wellbeing lines already shown back to back: the third draw must be anything else.
+        // PLAYFUL so the tone tier wins most draws, which is exactly when the rut would show.
+        repeat(SAMPLE_DRAWS) {
+            val next =
+                engine.messageFor(
+                    time = LocalTime.of(14, 0),
+                    recentTips = listOf("WEL1", "WEL2"),
+                    varietyLevel = VarietyLevel.PLAYFUL,
+                )
+            assertThat(next.kind).isNotEqualTo(TipKind.WELLBEING)
+        }
+    }
+
+    @Test
+    fun `the run limit applies to each tone kind, not just wellbeing`() {
+        val engine = TipEngine(tonedCatalog, Random(seed = 12))
+
+        val runsByKind =
+            listOf(
+                TipKind.MOTIVATION to listOf("MOT1", "MOT2"),
+                TipKind.PHILOSOPHY to listOf("PHI1", "PHI2"),
+                TipKind.WELLBEING to listOf("WEL1", "WEL2"),
+            )
+
+        for ((kind, run) in runsByKind) {
+            repeat(SAMPLE_DRAWS / 4) {
+                val next =
+                    engine.messageFor(
+                        time = LocalTime.of(14, 0),
+                        recentTips = run,
+                        varietyLevel = VarietyLevel.PLAYFUL,
+                    )
+                assertThat(next.kind).isNotEqualTo(kind)
+            }
+        }
+    }
+
+    @Test
+    fun `two of the same tone in a row is still allowed`() {
+        val engine = TipEngine(tonedCatalog, Random(seed = 13))
+
+        // One wellbeing line shown; a second is a pair, not a rut, so it must stay reachable.
+        val kinds =
+            (1..SAMPLE_DRAWS).map {
+                engine
+                    .messageFor(
+                        time = LocalTime.of(14, 0),
+                        recentTips = listOf("WEL1"),
+                        varietyLevel = VarietyLevel.PLAYFUL,
+                    ).kind
+            }
+
+        assertThat(kinds).contains(TipKind.WELLBEING)
+    }
+
+    @Test
+    fun `the run limit does not apply to practical tips`() {
+        val engine = TipEngine(tonedCatalog, Random(seed = 14))
+
+        // Two practical tips back to back, at PRACTICAL. A third must remain reachable: the
+        // user asked for practical, and capping it would force tone in against that setting.
+        val kinds =
+            (1..SAMPLE_DRAWS).map {
+                engine
+                    .messageFor(
+                        time = LocalTime.of(14, 0),
+                        recentTips = listOf("G1", "G2"),
+                        varietyLevel = VarietyLevel.PRACTICAL,
+                    ).kind
+            }
+
+        assertThat(kinds).contains(TipKind.PRACTICAL)
+    }
+
+    @Test
+    fun `a blocked tone kind gives its share to the other voices rather than to practical`() {
+        val engine = TipEngine(tonedCatalog, Random(seed = 15))
+
+        // The run limit is about *which* tone comes next, not about how much tone there is:
+        // blocking wellbeing must not quietly hand the tier's share back to the practical pool.
+        val toneShare =
+            (1..SAMPLE_DRAWS).count {
+                engine
+                    .messageFor(
+                        time = LocalTime.of(14, 0),
+                        recentTips = listOf("WEL1", "WEL2"),
+                        varietyLevel = VarietyLevel.PLAYFUL,
+                    ).kind != TipKind.PRACTICAL
+            } / SAMPLE_DRAWS.toDouble()
+
+        // Same 80% target as the unblocked PLAYFUL case, same generous tolerance.
+        assertThat(toneShare).isAtLeast(0.65)
+        assertThat(toneShare).isAtMost(0.95)
+    }
+
+    @Test
+    fun `an unrecognised history entry does not block anything`() {
+        val engine = TipEngine(tonedCatalog, Random(seed = 16))
+
+        // A tip reworded or dropped since it was persisted resolves to no kind at all. That has
+        // to degrade to "no opinion" rather than blocking a pool or throwing.
+        val kinds =
+            (1..SAMPLE_DRAWS).map {
+                engine
+                    .messageFor(
+                        time = LocalTime.of(14, 0),
+                        recentTips = listOf("a tip that no longer exists", "nor does this one"),
+                        varietyLevel = VarietyLevel.PLAYFUL,
+                    ).kind
+            }
+
+        assertThat(kinds.toSet())
+            .containsAtLeast(TipKind.MOTIVATION, TipKind.PHILOSOPHY, TipKind.WELLBEING)
+    }
+
     companion object {
         @JvmStatic
         fun dayPartBoundaries(): Stream<Arguments> =

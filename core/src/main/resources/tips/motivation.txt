@@ -8,6 +8,19 @@
 # to be productive") are warm but they are not motivating, and they belong in wellbeing.txt
 # where they won't dilute this pool's job.
 #
+# OPEN CRITICISM OF THIS POOL, 2026-07-28, not yet acted on: the first rule above has not held.
+# Much of what is here now reads as gentle encouragement, which is wellbeing.txt's job, and the
+# two pools have become hard to tell apart. That is not only a flatness problem — ToneProfile
+# weights motivation at 5/10 in the morning and 0/10 at night, and that table only means
+# anything if the two pools actually sound different. If they don't, the time-of-day mechanism
+# is shuffling weight between two names for the same thing.
+#
+# It needs to be stronger. Nothing external is holding it back: this pool carries no citation
+# burden at all (original writing, none implied), so how hard it pushes is entirely a choice.
+# A pass should re-audit every line against the first rule and move the failures into
+# wellbeing.txt rather than softening the rule to match the drift. See STATUS.md "the tone
+# pools are too soft".
+#
 # SECOND WRITING RULE, on variety: "just start" is the easiest motivational line to write and
 # the pool drifts towards it if nobody is watching. It was once ten of eighteen lines, which
 # made a big pool feel like a small one. Starting is one angle among many, so it is capped at

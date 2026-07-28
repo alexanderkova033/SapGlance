@@ -919,6 +919,46 @@ Two methodological notes for next time:
   automated check here would have surfaced. Real user re-testing after "it's fixed" claims
   matters even when the automated signals are all green.
 
+## Planned next: the tone pools are too soft, and two of them overlap (not started)
+
+User judgement, recorded 2026-07-28, on reading the pools in ordinary use. Nothing below is
+implemented. This is a *content* problem in `motivation.txt` and `philosophy.txt`, not a
+selection one — the run limit added the same day stops one voice repeating three times over,
+but a rut of three is not why these two read the way they do.
+
+**Philosophy is not really serious. It is conventional.** The pool is well-sourced and the
+verification discipline is real: every quotation is checked verbatim against a public-domain
+edition, and the header lists the misattributions it deliberately avoids. But sourcing is not
+the same as depth. What comes out is the philosophy everyone has already met — the greatest
+hits, in the register of a poster. Accuracy was the bar it was built to clear, and it clears
+it; being *worth stopping on* is a different bar and it has not been aimed at. The likely
+cause is selection-for-quotability: a line short enough for a widget and instantly legible is
+also, usually, a line that has been quoted to death. Worth trying: passages that need a beat
+to land rather than none, and ideas that cut against the reader instead of reassuring them.
+Note the tension with the ~90-character cap — a harder idea in fewer words is the actual
+craft problem here, and "it did not fit" is how the pool got conventional in the first place.
+
+**Motivation is nearly indistinguishable from wellbeing, and needs to be stronger.** The two
+pools are supposed to be different voices — `motivation.txt`'s own header says the pool
+"pushes", with short sentences, verbs up front, and an actual imperative where it fits, and it
+explicitly banishes permission-giving lines to `wellbeing.txt` "where they won't dilute this
+pool's job". In practice the rule has not held: much of motivation now reads as gentle
+encouragement, which is wellbeing's job. That makes the `ToneProfile` table quietly dishonest,
+since weighting motivation at 5/10 in the morning and 0/10 at night only means anything if the
+two pools actually sound different — if they don't, the whole time-of-day mechanism is moving
+weight between two names for the same thing.
+
+Worth knowing before the rewrite: this is the pool with no citation burden at all
+(`TipKind.MOTIVATION`, original writing, none implied), so nothing external constrains how
+hard it can push. The constraint is entirely self-imposed and can simply be changed. A pass
+should re-audit every line against the header's own rule and move the ones that fail into
+`wellbeing.txt` rather than softening the rule to match the drift.
+
+**A test would help here and does not exist.** There is no check that motivation and wellbeing
+are distinguishable, so the drift was invisible to CI and only surfaced by someone reading the
+widget. Hard to assert well — but "no line in `motivation.txt` may lack a verb in the
+imperative" is crude, mechanical, and would have caught most of this.
+
 ## Planned next: languages beyond English (not started)
 
 Nothing below is implemented — this is the plan of record for the README roadmap's "Languages
