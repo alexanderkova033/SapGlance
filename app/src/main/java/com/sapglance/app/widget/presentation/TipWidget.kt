@@ -7,6 +7,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -16,8 +19,10 @@ import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.LocalSize
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
@@ -62,6 +67,14 @@ import java.time.LocalTime
  * what makes the repaint happen at all.
  */
 class TipWidget : GlanceAppWidget() {
+    // Responsive rather than Single: the card has to survive being resized, and its chrome
+    // costs roughly 90dp of height before a line of tip is drawn. At the small end of the
+    // range the widget used to advertise, that left the tip *negative* space and it clipped —
+    // the confirmed defect this addresses. Glance composes once per declared size and hands
+    // the host a RemoteViews per bucket, so the launcher picks the right one without the app
+    // re-rendering on every resize.
+    override val sizeMode = SizeMode.Responsive(setOf(COMPACT_CARD, MEDIUM_CARD, LARGE_CARD))
+
     override suspend fun provideGlance(
         context: Context,
         id: GlanceId,
@@ -170,17 +183,81 @@ private fun WidgetStyle.skin(): Pair<Int, WidgetInk> =
         WidgetStyle.BLOSSOM -> R.drawable.widget_background_blossom to WidgetInk.ON_LIGHT
     }
 
-// A single fixed size, rather than measuring each tip and picking a size to match, was a
-// deliberate simplification (by request) after the measure-and-fit approach turned out to be
-// unreliable in practice: it predicts wrapping with a StaticLayout measurement against
-// LocalSize.current, but that's only ever an estimate of the width the real RemoteViews
-// TextView gets on the actual home screen, and the two can disagree (different launchers, grid
-// rounding). When they did, the picked size was wrong in both directions — too large for long
-// tips (clipped past maxLines, unreadable without opening Settings) and too small for short
-// ones (wrapped into far more lines than the text needed, one word per line). A fixed size
-// removes the prediction entirely: real text wrapping already makes short tips use fewer lines
-// and long tips use more, with no measurement to drift out of sync with reality.
-private val TIP_FONT_SIZE = 15.sp
+// The three shapes the card is composed for. Glance picks the largest that fits the space the
+// launcher actually gave the widget, so these are buckets to design against, not sizes anyone
+// is forced into.
+private val COMPACT_CARD = DpSize(180.dp, 110.dp)
+private val MEDIUM_CARD = DpSize(250.dp, 180.dp)
+private val LARGE_CARD = DpSize(320.dp, 250.dp)
+
+/**
+ * How much card there is to spend, per size bucket.
+ *
+ * Note carefully what this does *not* do: it does not measure the tip. An earlier
+ * measure-and-fit attempt predicted wrapping with a StaticLayout measurement against
+ * `LocalSize.current` and picked a font size per tip, which was unreliable — that estimate is
+ * only ever a guess at the width the real RemoteViews TextView gets on the actual home screen,
+ * and the two disagree across launchers and grid rounding. When they did, the guess was wrong
+ * in both directions: too large for long tips (clipped past `maxLines`) and too small for short
+ * ones (one word per line). That approach stays rejected.
+ *
+ * Keying off the *card's* size instead has none of that failure mode. The size is given to us
+ * rather than predicted, and it doesn't vary per tip, so the same tip always renders identically
+ * at a given widget size — nothing can drift out of sync with reality. Real text wrapping still
+ * decides the line count; this only decides how much room wrapping gets to happen in.
+ *
+ * The decorative chrome is what gives way first as the card shrinks, because it is the only part
+ * that isn't the point: at [COMPACT_CARD] the `❝` glyph and the app-name footer are dropped
+ * entirely, which buys back ~64dp of the ~92dp the full layout spends before drawing any tip.
+ */
+private data class CardMetrics(
+    val tipFontSize: TextUnit,
+    val maxTipLines: Int,
+    val showQuoteMark: Boolean,
+    val showFooter: Boolean,
+    val cardPadding: Dp,
+    val cardPaddingVertical: Dp,
+    val chipPaddingVertical: Dp,
+)
+
+// Thresholds on height rather than equality against the DpSizes above: the host can hand back a
+// size that isn't exactly one of the declared buckets, and a `when` on ranges degrades sensibly
+// where an exhaustive match on exact values would have to guess.
+private fun metricsFor(size: DpSize): CardMetrics =
+    when {
+        size.height < 140.dp ->
+            CardMetrics(
+                tipFontSize = 12.sp,
+                maxTipLines = 5,
+                showQuoteMark = false,
+                showFooter = false,
+                cardPadding = 10.dp,
+                cardPaddingVertical = 10.dp,
+                chipPaddingVertical = 4.dp,
+            )
+
+        size.height < 210.dp ->
+            CardMetrics(
+                tipFontSize = 14.sp,
+                maxTipLines = 6,
+                showQuoteMark = true,
+                showFooter = true,
+                cardPadding = 14.dp,
+                cardPaddingVertical = 14.dp,
+                chipPaddingVertical = 5.dp,
+            )
+
+        else ->
+            CardMetrics(
+                tipFontSize = 15.sp,
+                maxTipLines = 6,
+                showQuoteMark = true,
+                showFooter = true,
+                cardPadding = 12.dp,
+                cardPaddingVertical = 16.dp,
+                chipPaddingVertical = 6.dp,
+            )
+    }
 
 @Composable
 private fun TipWidgetContent(
@@ -198,6 +275,7 @@ private fun TipWidgetContent(
     // style-driven flip is also the only one that stays correct when the tip — and with it the
     // background — changes underneath a widget nobody is looking at.
     val (backgroundRes, ink) = style.skin()
+    val metrics = metricsFor(LocalSize.current)
 
     Box(
         modifier =
@@ -208,7 +286,7 @@ private fun TipWidgetContent(
                 // Whole-card tap: refreshes the tip in place. The settings icon below has its
                 // own clickable modifier, which takes the tap over this one within its bounds.
                 .clickable(actionRunCallback<RefreshTipAction>())
-                .padding(horizontal = 12.dp, vertical = 16.dp),
+                .padding(horizontal = metrics.cardPadding, vertical = metrics.cardPaddingVertical),
         contentAlignment = Alignment.Center,
     ) {
         // The settings button used to sit in its own header Row above this Column, which
@@ -227,18 +305,23 @@ private fun TipWidgetContent(
                     modifier = GlanceModifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(
-                        text = "❝",
-                        style =
-                            TextStyle(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontStyle = FontStyle.Italic,
-                                fontFamily = FontFamily.Serif,
-                                color = ColorProvider(ink.quoteMark),
-                            ),
-                    )
-                    Spacer(GlanceModifier.height(4.dp))
+                    // Dropped outright on a compact card. It is the single most expensive piece
+                    // of pure decoration in the layout (~22dp of glyph plus its spacer), and a
+                    // tip nobody can read costs more than a missing flourish.
+                    if (metrics.showQuoteMark) {
+                        Text(
+                            text = "❝",
+                            style =
+                                TextStyle(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    fontStyle = FontStyle.Italic,
+                                    fontFamily = FontFamily.Serif,
+                                    color = ColorProvider(ink.quoteMark),
+                                ),
+                        )
+                        Spacer(GlanceModifier.height(4.dp))
+                    }
                     // A translucent "chip" behind the tip, rather than bare text over the
                     // gradient/art: guarantees contrast no matter where on the gradient (or
                     // over which piece of background art) the text lands, and gives the tip
@@ -250,14 +333,14 @@ private fun TipWidgetContent(
                             GlanceModifier
                                 .background(ColorProvider(ink.chip))
                                 .cornerRadius(14.dp)
-                                .padding(horizontal = 8.dp, vertical = 6.dp),
+                                .padding(horizontal = 8.dp, vertical = metrics.chipPaddingVertical),
                     ) {
                         Text(
                             text = tip,
-                            maxLines = 6,
+                            maxLines = metrics.maxTipLines,
                             style =
                                 TextStyle(
-                                    fontSize = TIP_FONT_SIZE,
+                                    fontSize = metrics.tipFontSize,
                                     fontWeight = FontWeight.Bold,
                                     fontFamily = FontFamily.Serif,
                                     textAlign = TextAlign.Center,
@@ -267,20 +350,25 @@ private fun TipWidgetContent(
                     }
                 }
             }
-            Spacer(GlanceModifier.height(8.dp))
-            Text(
-                // Derived from the centralized app_name resource (rather than a second
-                // hardcoded string) so changing the final product name only ever means editing
-                // strings.xml in one place.
-                text = context.getString(R.string.app_name).uppercase(),
-                style =
-                    TextStyle(
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Center,
-                        color = ColorProvider(ink.footer),
-                    ),
-            )
+            // Branding is the other thing that yields on a compact card, for the same reason as
+            // the quote glyph: the tip is what the widget is for. The name still reaches the
+            // user through the launcher, the settings screen and the widget picker.
+            if (metrics.showFooter) {
+                Spacer(GlanceModifier.height(8.dp))
+                Text(
+                    // Derived from the centralized app_name resource (rather than a second
+                    // hardcoded string) so changing the final product name only ever means
+                    // editing strings.xml in one place.
+                    text = context.getString(R.string.app_name).uppercase(),
+                    style =
+                        TextStyle(
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center,
+                            color = ColorProvider(ink.footer),
+                        ),
+                )
+            }
         }
 
         // Corner overlay, stacked on top of the content above rather than occupying a row of

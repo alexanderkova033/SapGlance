@@ -7,10 +7,30 @@
     widgetCategory includes keyguard (in addition to home_screen) so TipWidget is eligible for
     lock-screen/communal-hub widget pickers, not just the home screen — without it, the OS
     filters this widget out of that picker before the app is ever involved.
+
+    On the sizes: a tip is up to ~90 characters of 15sp serif, and the card spends chrome on
+    padding, the quote glyph and the app-name label before drawing any of it. The old
+    140x90dp minimum could not fit that on either axis — ~12 characters per line against a
+    6-line cap, with the chrome alone exceeding the declared height — which is what made long
+    tips clip. Width is the cheaper axis to buy: a wide, short card fits a tip in few lines,
+    so the default is 4 cells wide by 2 tall (250x110dp on the standard 70n-30 grid).
+
+    minResize* stays lower than min*: the launcher lets a user shrink the widget below the
+    default, and TipWidget's SizeMode.Responsive has a compact layout (no quote glyph, no
+    footer, 12sp) built for exactly that. It is a real fallback, not an accident.
+
+    targetCellWidth/Height are API 31+ and draw two expected `UnusedAttribute` lint warnings
+    against minSdk 26. They are kept anyway: on 31+ they let the launcher place the widget by
+    grid cells directly, and on 26-30 they are ignored in favour of minWidth/minHeight above,
+    which describe the same shape. Both are needed to cover the whole range.
 -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="140dp"
-    android:minHeight="90dp"
+    android:minWidth="250dp"
+    android:minHeight="110dp"
+    android:minResizeWidth="180dp"
+    android:minResizeHeight="110dp"
+    android:targetCellWidth="4"
+    android:targetCellHeight="2"
     android:updatePeriodMillis="0"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
