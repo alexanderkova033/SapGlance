@@ -190,8 +190,18 @@ private fun WidgetStyle.skin(): Pair<Int, WidgetInk> =
  * Tip font sizes, smallest first. The layout picks the largest one whose worst case still fits
  * the card rather than mapping size ranges to a font by hand, which is what left a tall card
  * holding type sized for a short one.
+ *
+ * The rungs are close together on purpose. A ladder only ever rounds *down* — the card gets the
+ * largest size that fits and forfeits the remainder — so a gap between rungs is type the card
+ * had room for and didn't use. The old 11→13→15→18→21 tail had gaps of up to 18%, and a 3x2
+ * card landed on 13sp with enough spare height for 17sp. Filling in the missing sizes costs one
+ * extra iteration of a loop over a dozen elements and hands that space back.
  */
-private val TIP_FONT_LADDER = listOf(8.sp, 9.sp, 10.sp, 11.sp, 13.sp, 15.sp, 18.sp, 21.sp)
+private val TIP_FONT_LADDER =
+    listOf(
+        8.sp, 9.sp, 10.sp, 11.sp, 12.sp, 13.sp, 14.sp,
+        15.sp, 16.sp, 17.sp, 18.sp, 20.sp, 22.sp, 24.sp,
+    )
 
 /**
  * The longest tip the catalog allows. The pools are capped at roughly this, and the cap is a
@@ -238,8 +248,15 @@ private const val LINE_HEIGHT_RATIO = 1.25f
  * decides the line count; this only decides how much room wrapping gets to happen in.
  *
  * The decorative chrome is what gives way first as the card shrinks, because it is the only part
- * that isn't the point: at [COMPACT_CARD] the `❝` glyph and the app-name footer are dropped
- * entirely, which buys back ~64dp of the ~92dp the full layout spends before drawing any tip.
+ * that isn't the point. Chrome is charged before the type is sized, so every dp of it is a dp the
+ * ladder cannot spend — and the arithmetic is unsentimental about which dp those are. On the
+ * default 2x2 (~154x183dp) the layout used to spend 45% of the card's height on padding, a quote
+ * glyph and a footer gap before drawing a single word, which left 11sp type: the shape the phrase
+ * "small text on an empty card" actually describes. Trimming the doubled-up padding and holding
+ * the `❝` glyph back for cards tall enough to afford it brings that to 24% and the type to 13sp.
+ *
+ * The app-name footer is charged at every size and never dropped — a card with no name on it
+ * reads as unfinished rather than minimal, and the label is cheap next to the glyph.
  */
 private data class CardMetrics(
     val tipFontSize: TextUnit,
@@ -251,6 +268,8 @@ private data class CardMetrics(
     val cardPadding: Dp,
     val chipPaddingVertical: Dp,
     val chipPaddingHorizontal: Dp,
+    val settingsButtonSize: Dp,
+    val settingsGlyphSize: Dp,
 )
 
 /**
@@ -276,26 +295,54 @@ private fun metricsFor(size: DpSize): CardMetrics {
     // empty one. The footer instead shrinks with the card, which costs far less height than the
     // glyph does and keeps the widget identifiable at every size.
     val compact = size.height < 140.dp
-    val showQuoteMark = size.height >= 170.dp
-    val quoteMarkSize = if (size.height >= 230.dp) 24.sp else 18.sp
+
+    // The glyph now needs a genuinely tall card rather than a merely average one. At the old
+    // 170dp threshold the *default* 2x2 (~154x183dp) drew it, and the ~26dp it costs is 14% of
+    // that card's height — enough on its own to push the tip two rungs down the ladder. That is
+    // the hollow failure exactly: the ornament ends up the largest thing on the card and the
+    // sentence the smallest. Past 200dp there is room for the flourish and full-size type both,
+    // so the glyph comes back the moment the card can actually afford it.
+    val showQuoteMark = size.height >= 200.dp
+    val quoteMarkSize = if (size.height >= 250.dp) 22.sp else 17.sp
     val footerFontSize =
         when {
             compact -> 8.sp
             size.height < 210.dp -> 10.sp
             else -> 11.sp
         }
-    // A 2x2 card is tight enough that padding is the difference between fitting the catalog's
-    // longest tip and truncating it, so the compact figures are deliberately mean.
-    val footerSpacing = if (compact) 2.dp else 8.dp
-    val padding = if (compact) 4.dp else 12.dp
+    // The footer read as adrift because of the gap above it, not its size, so the gap is what
+    // shrinks here. Scaling the label down instead would have made the card look emptier, not
+    // tighter.
+    val footerSpacing = if (compact) 2.dp else 4.dp
+    // Horizontal padding gets charged twice — once by the card, once by the chip inside it — so
+    // the old 12+8 spent 40dp of a 154dp card, a full quarter of its width, on margin alone.
+    // Every dp handed back widens the text column, and the column width is what sets characters
+    // per line and so the largest font the ladder can afford. A 2x2 card is tight enough that
+    // this is the difference between fitting the catalog's longest tip and truncating it, which
+    // is why the compact figures are meaner still.
+    val padding =
+        when {
+            compact -> 4.dp
+            size.height < 240.dp -> 8.dp
+            else -> 10.dp
+        }
     val chipPadding = if (compact) 3.dp else 6.dp
-    val chipHorizontalPadding = if (compact) 6.dp else 8.dp
+    val chipHorizontalPadding = if (compact) 5.dp else 7.dp
+    // The gear scales with the card for the same reason the type does. A fixed 36dp circle is
+    // 23% of a 154dp card's width, which reads as a button with a card attached rather than a
+    // card with a button on it.
+    val settingsButtonSize =
+        when {
+            compact -> 26.dp
+            size.height < 200.dp -> 30.dp
+            else -> 34.dp
+        }
 
     // Chrome first, because none of it depends on the tip's font size — so what's left is a
     // fixed budget the type has to fit inside. Every ratio here is an estimate, and each one
     // errs towards a smaller font rather than a clipped tip.
     val quoteMarkHeight =
-        if (showQuoteMark) (quoteMarkSize.value * LINE_HEIGHT_RATIO).dp + 4.dp else 0.dp
+        if (showQuoteMark) (quoteMarkSize.value * LINE_HEIGHT_RATIO).dp + 2.dp else 0.dp
     val footerHeight = (footerFontSize.value * LINE_HEIGHT_RATIO).dp + footerSpacing
     val chromeHeight = padding * 2 + chipPadding * 2 + quoteMarkHeight + footerHeight
     val availableHeight = (size.height - chromeHeight).value
@@ -321,7 +368,7 @@ private fun metricsFor(size: DpSize): CardMetrics {
 
     return CardMetrics(
         tipFontSize = fontSize,
-        maxTipLines = usableLines.coerceIn(MIN_TIP_LINES, MAX_TIP_LINES),
+        maxTipLines = usableLines.coerceAtLeast(MIN_TIP_LINES),
         showQuoteMark = showQuoteMark,
         quoteMarkSize = quoteMarkSize,
         footerFontSize = footerFontSize,
@@ -329,12 +376,27 @@ private fun metricsFor(size: DpSize): CardMetrics {
         cardPadding = padding,
         chipPaddingVertical = chipPadding,
         chipPaddingHorizontal = chipHorizontalPadding,
+        settingsButtonSize = settingsButtonSize,
+        settingsGlyphSize = settingsButtonSize * 0.55f,
     )
 }
 
-/** Floor so a tiny card still shows a couple of lines; ceiling so a huge one doesn't sprawl. */
+/**
+ * Floor so a tiny card still shows a couple of lines. There is deliberately no ceiling any more.
+ *
+ * A flat `MAX_TIP_LINES = 8` used to sit opposite this, justified as stopping a huge card from
+ * sprawling — but it could never do that job, because `usableLines` above is already derived from
+ * the height the card actually has. The ceiling's only reachable effect was to truncate tips on
+ * cards *narrow* enough to need more lines than eight, which is the shape a 2-column slot
+ * produces: sweeping the whole declared 110–320dp resize range, the 90-character worst case was
+ * cut short at roughly 1,700 of the sizes in it, every one of them by this constant rather than by
+ * a lack of room. Removing it clips at none of them.
+ *
+ * Nothing sprawls in its absence: [TIP_FONT_LADDER] only ever selects a size whose worst case
+ * already fits `availableHeight`, so `usableLines` is bounded by the card and the ceiling was
+ * never what bounded it.
+ */
 private const val MIN_TIP_LINES = 2
-private const val MAX_TIP_LINES = 8
 
 @Composable
 private fun TipWidgetContent(
@@ -397,7 +459,7 @@ private fun TipWidgetContent(
                                     color = ColorProvider(ink.quoteMark),
                                 ),
                         )
-                        Spacer(GlanceModifier.height(4.dp))
+                        Spacer(GlanceModifier.height(2.dp))
                     }
                     // A translucent "chip" behind the tip, rather than bare text over the
                     // gradient/art: guarantees contrast no matter where on the gradient (or
@@ -405,9 +467,18 @@ private fun TipWidgetContent(
                     // its own visible frame instead of floating loose over the artwork. Which
                     // way it pushes the local background — darker or lighter — comes from the
                     // ink, since "add contrast" means opposite things on the two card families.
+                    //
+                    // It spans the full width rather than hugging the text. Wrapping made the
+                    // chip's own width depend on how the longest line happened to break, so a
+                    // short tip drew a small pill adrift in the middle of the card and the
+                    // frame moved every time the tip changed. Full width makes it a panel: a
+                    // fixed, deliberate-looking block the text sits inside, and one that stays
+                    // put across refreshes. It costs the tip no room — the text already got
+                    // this width whenever it wrapped at all.
                     Box(
                         modifier =
                             GlanceModifier
+                                .fillMaxWidth()
                                 .background(ColorProvider(ink.chip))
                                 .cornerRadius(14.dp)
                                 .padding(
@@ -418,6 +489,15 @@ private fun TipWidgetContent(
                         Text(
                             text = tip,
                             maxLines = metrics.maxTipLines,
+                            // Must fill the chip, now that the chip is wider than the text.
+                            // `textAlign` centres lines within the *TextView's own* measured
+                            // width, and a wrap-content TextView inside the Box (a FrameLayout,
+                            // gravity start) is exactly as wide as its longest line — so a tip
+                            // short enough not to wrap would centre inside itself and then sit
+                            // flush against the panel's left edge, looking un-centred for the
+                            // one case where the centring is most obvious. Filling the width
+                            // makes the two agree.
+                            modifier = GlanceModifier.fillMaxWidth(),
                             style =
                                 TextStyle(
                                     fontSize = metrics.tipFontSize,
@@ -450,20 +530,30 @@ private fun TipWidgetContent(
         }
 
         // Corner overlay, stacked on top of the content above rather than occupying a row of
-        // its own: same visual spot as before (inset by the root Box's own 12dp/16dp padding),
-        // but it no longer costs the quote+tip block any of the card's vertical space.
+        // its own, so it costs the quote+tip block none of the card's vertical space.
+        //
+        // Bottom corner, not the top one it used to sit in. An overlay this size always covers
+        // some of the panel behind it, so the question is only *which* line it lands on, and the
+        // two corners answer that very differently. The tip is centre-aligned, so its first line
+        // runs the full width of the panel whenever the tip is long — a top-end button therefore
+        // sat squarely on real words, and freeing the top for full-size type (see the quote-mark
+        // threshold in [metricsFor]) would have pushed the text further under it. The last line of
+        // centre-aligned wrapped text is the short one, and it is centred, so the bottom-end
+        // corner is the part of the panel most reliably empty. It also lands mostly over the
+        // footer strip, where a centred one-word label leaves the ends genuinely unused — so the
+        // same move that stops the button covering text also stops that strip looking bare.
         Box(
             modifier = GlanceModifier.fillMaxSize(),
-            contentAlignment = Alignment.TopEnd,
+            contentAlignment = Alignment.BottomEnd,
         ) {
             // A shaded, ringed circle behind the icon — rather than a bare glyph — so the
-            // button reads as tappable at a glance, and so the whole 36dp circle (not just
-            // the 20dp glyph inside it) is the actual tap target.
+            // button reads as tappable at a glance, and so the whole circle (not just the
+            // glyph inside it) is the actual tap target.
             Box(
                 modifier =
                     GlanceModifier
-                        .size(36.dp)
-                        .cornerRadius(18.dp)
+                        .size(metrics.settingsButtonSize)
+                        .cornerRadius(metrics.settingsButtonSize / 2)
                         .background(ImageProvider(ink.settingsButtonRes))
                         .clickable(actionStartActivity(Intent(context, SettingsActivity::class.java))),
                 contentAlignment = Alignment.Center,
@@ -471,7 +561,7 @@ private fun TipWidgetContent(
                 Image(
                     provider = ImageProvider(R.drawable.ic_widget_settings),
                     contentDescription = context.getString(R.string.widget_settings_action),
-                    modifier = GlanceModifier.size(20.dp),
+                    modifier = GlanceModifier.size(metrics.settingsGlyphSize),
                     // The gear vector is a hardcoded white fill (it only ever sat on dark
                     // cards), so it's tinted here rather than duplicated as a second drawable.
                     colorFilter = ColorFilter.tint(ColorProvider(ink.settingsGlyph)),
