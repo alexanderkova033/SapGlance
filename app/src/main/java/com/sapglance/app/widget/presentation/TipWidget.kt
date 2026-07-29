@@ -149,10 +149,10 @@ private enum class WidgetInk(
         // happened to be behind it. Deeper enough to actually sit the words on something, and
         // still translucent enough that the artwork reads through it.
         //
-        // Deepened again for the monospaced face, which is drawn light and has no bold weight
-        // available (see [TIP_FACE]). Contrast is one of the only two things that can still be
-        // spent on making thin strokes read as solid; the other is size.
-        chip = Color.Black.copy(alpha = 0.44f),
+        // Deepened once for a light monospaced face, then eased back a couple of points when the
+        // face changed to one with a real bold: the panel no longer has to do the work of making
+        // thin strokes read as solid, so it can go back to letting more of the artwork through.
+        chip = Color.Black.copy(alpha = 0.42f),
         quoteMark = Color.White.copy(alpha = 0.6f),
         footer = Color.White.copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg,
@@ -165,7 +165,7 @@ private enum class WidgetInk(
     // darkening a scene behind pale text, it's flattening whatever art the dark text crosses.
     ON_LIGHT(
         text = Color(0xFF17181C),
-        chip = Color.White.copy(alpha = 0.72f),
+        chip = Color.White.copy(alpha = 0.70f),
         quoteMark = Color(0xFF17181C).copy(alpha = 0.5f),
         footer = Color(0xFF17181C).copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg_light,
@@ -661,19 +661,19 @@ private fun TipWidgetContent(
         // Corner overlay, stacked on top of the content above rather than occupying a row of
         // its own, so it costs the quote+tip block none of the card's vertical space.
         //
-        // Bottom corner, not the top one it used to sit in. An overlay this size always covers
-        // some of the panel behind it, so the question is only *which* line it lands on, and the
-        // two corners answer that very differently. The tip is centre-aligned, so its first line
-        // runs the full width of the panel whenever the tip is long — a top-end button therefore
-        // sat squarely on real words, and freeing the top for full-size type (see the quote-mark
-        // threshold in [metricsFor]) would have pushed the text further under it. The last line of
-        // centre-aligned wrapped text is the short one, and it is centred, so the bottom-end
-        // corner is the part of the panel most reliably empty. It also lands mostly over the
-        // footer strip, where a centred one-word label leaves the ends genuinely unused — so the
-        // same move that stops the button covering text also stops that strip looking bare.
+        // Top corner. It sat here originally, moved to the bottom because it was landing on real
+        // words, and has come back now that the thing which caused that is gone.
+        //
+        // What changed is the centring. While the tip was centred in the card *minus* the footer
+        // strip it rode high, and a top-end button overlapped its first line — the worst line to
+        // cover, because centre-aligned text runs full width there whenever the tip is long. Now
+        // that the footer is an overlay and the tip centres in the whole card, the panel sits
+        // lower and symmetrically: on the 187x226dp card a six-line tip starts about 47dp down
+        // while this button ends at 42dp, so they no longer meet. The longest tips close that gap
+        // to a few dp of the panel's corner, above the text rather than on it.
         Box(
             modifier = GlanceModifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomEnd,
+            contentAlignment = Alignment.TopEnd,
         ) {
             // A shaded, ringed circle behind the icon — rather than a bare glyph — so the
             // button reads as tappable at a glance, and so the whole circle (not just the

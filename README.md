@@ -233,11 +233,17 @@ Completed work lives in the git history rather than here. What's open:
       - The dark/light split is not recorded in `:core` at all: `:app` pairs each style with its
         drawable *and* its ink in one exhaustive `when`, deliberately, so a style cannot ship with
         mismatched text colour. Moving group membership into `:core` needs to preserve that.
-- [ ] **A plain-English pass over the whole catalog.** Some tips are hard to follow or phrased
-      unnaturally — awkward constructions and sentences that need re-reading. Read every pool
-      aloud and rewrite what stumbles. Note this collides with the ~90-character cap and with
-      tip-text-as-identity: rewording orphans a user's stored history, so do it in one pass
-      rather than continuously.
+- [ ] **A plain-English pass, worst in the medical/practical pools.** Some tips are genuinely hard
+      to understand on a glance — awkward constructions, sentences that need re-reading. It is
+      concentrated in the evidence-backed practical pools (`general`, `morning`, `afternoon`,
+      `evening`) rather than the tone ones, and the cause is structural rather than careless: a
+      tip that has to stay faithful to what its two citations actually support, inside ~90
+      characters, drifts towards the register of the abstract it came from. "Mild dehydration
+      dents focus" is a finding restated, not a thing a person says. Rewrite for the glance and
+      re-check each line still matches its sources — the citation is the constraint that made it
+      read this way, so it is also the thing that can silently be broken by fixing it.
+      Note the collision with tip-text-as-identity: rewording orphans a user's stored history and
+      changes the tip's `WidgetStyle`, so do it in one pass rather than continuously.
 - [ ] **Make a cold tap *feel* faster.** ~1s of a cold tap is process start plus Glance session
       setup, not app code, and `warmUp()` already hides the catalog parse behind it. No obvious
       answer left: a widget has no cheap way to acknowledge a tap before its process exists, and
