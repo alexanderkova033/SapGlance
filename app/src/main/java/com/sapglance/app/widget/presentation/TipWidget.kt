@@ -259,48 +259,49 @@ private data class TipFace(
  * `source-sans-pro`, `sans-serif-smallcaps` (Carrois Gothic SC), `serif-monospace` (Cutive Mono),
  * `casual` (Coming Soon) and `cursive` (Dancing Script).
  *
- * Cutive Mono — a typewriter, for a card that should not look like every other widget on the home
- * screen.
+ * Noto Serif Bold. A monospaced typewriter was tried here and is the reason this doc is long,
+ * because it failed for a reason that is not obvious until you see it: in a fixed-width face the
+ * space character is as wide as an `m`, so the gaps between words are roughly two and a half
+ * times a proportional font's (0.605 em against this face's 0.260) and the text reads as though
+ * it has been pulled apart. That is not tunable; it is what monospace *is*.
  *
- * It is drawn light, and the read on the device was that it looked too thin. The obvious fix is a
- * heavier monospace, and there isn't one: this device carries exactly two, `serif-monospace`
- * (Cutive Mono) and `monospace` (Droid Sans Mono, the sturdier drawing), and **`monospace` does
- * not resolve here** — it silently falls back to the proportional default even though
- * `/system/etc/fonts.xml` defines it, while `serif-monospace` renders correctly. That was caught
- * by arithmetic rather than by eye: a rendered line of 18 characters needs 173dp at 16sp with a
- * 0.60 em advance, and the column is 157dp, so what drew it cannot have been monospaced. Every
- * face on the device with a *real* bold weight (`serif`, `sans-serif`, `source-sans-pro`) is a
- * plain one; every characterful face is Regular-only. Widgets are RemoteViews and cannot use an
- * app-bundled font, so that exhausts the options.
+ * It also cost size twice over. Every glyph takes the width of the widest, so fewer characters
+ * fit per line, so more lines are needed for the same tip — and under a line cap (see
+ * [MAX_TIP_LINES]) that shortfall is paid back in font size: 14sp where this face gets 16sp and
+ * Source Sans Pro would get 18sp.
  *
- * So weight is fixed and the two remaining levers are contrast and size: the panel behind the text
- * was deepened (see [WidgetInk]) and the `❝` glyph now needs a much taller card before it is
- * allowed to spend height (see [metricsFor]), which is worth two points of type on the common
- * card. Thin strokes read as thin mostly when they are also small.
+ * Two constraints eliminated everything more decorative. Every face on the device with a *real*
+ * bold (`serif`, `sans-serif`, `source-sans-pro`) is a plain one, and every characterful face
+ * (Cutive Mono, Coming Soon, Dancing Script, Carrois Gothic SC) is Regular-only — those all read
+ * as too thin over the gradients, and synthesized bold does very little for them. Widgets are
+ * RemoteViews and cannot use an app-bundled font, so that is the whole menu. Worth knowing too:
+ * `monospace` does not even resolve on this device, falling back silently to the proportional
+ * default despite `/system/etc/fonts.xml` defining it, while `serif-monospace` renders correctly.
  *
- * Monospace costs type size in the first place: every glyph takes the width of the widest, so the
- * economical lowercase a proportional face relies on is gone and fewer characters fit per line.
- * That price is bounded rather than guessed — see the ratio below.
+ * A serif carries more character than the grotesques, has a genuinely drawn bold, and spaces its
+ * words tightly. That is the whole of the reasoning.
  */
 private val TIP_FACE =
     TipFace(
-        family = FontFamily("serif-monospace"),
-        // Derived from the font file, not eyeballed. CutiveMono.ttf's `hmtx` table gives a uniform
-        // 0.6055 em advance — uniform because it is genuinely monospaced; space, 'm' and 'i' all
-        // measure the same. (Droid Sans Mono's is 0.6001, within 1%, so this figure would cover
-        // that face too if it ever becomes reachable.)
+        family = FontFamily.Serif,
+        // Derived from the font file rather than eyeballed. NotoSerif-Bold.ttf's `hmtx` table
+        // averages 0.5010 em over real tip text (space 0.260, 'm' 0.986, 'i' 0.352 — proportional,
+        // unlike the monospaced face this replaced, where all three measured 0.605).
         //
-        // Advance is only half of it. The rest is wrap waste, calibrated against a previous face
-        // rather than assumed: Source Sans Pro Bold averages 0.4363 em over real tip text and
-        // rendered at an effective 0.49, so wrapping cost 1.13x. Monospace loses proportionally
-        // more, because a line holds fewer characters and forfeits a larger share to the
-        // part-word at the end — about 17 per line here, so nearer 1.19. 0.6055 x 1.19 is ~0.72.
+        // Advance is only half of it; the rest is wrap waste. Checked against a real render: an
+        // 88-character tip — the catalog's worst case is 90 — set in 6 lines at 16sp on the
+        // 187x226dp card, so ~14.7 characters a line and an effective 0.67. Wrap waste is
+        // therefore running about 1.33x for this face, rather than the 1.13x measured for Source
+        // Sans Pro; a wider face fits fewer characters per line and forfeits proportionally more
+        // to the part-word at the end.
         //
-        // Shipped at 0.75, above that, because the error is asymmetric: too high wastes a little
-        // space, too low clips the tip outright. Confirmed against a real render — an 80-character
-        // tip took 6 lines at 16sp on the 187x226dp card, an effective 0.738 — and it clips at
-        // none of the sizes in the declared 110-320dp range.
-        effectiveCharWidthRatio = 0.75f,
+        // Shipped at 0.62, which is *below* that measurement rather than above it, and that is
+        // safe only because of how [MAX_TIP_LINES] now works. It biases the ladder one rung larger
+        // (16sp rather than 15sp) and means the very longest tips may take a seventh line instead
+        // of six — which the rendered `maxLines` allows, since it follows the card's real height.
+        // Under the old hard cap this exact under-estimate is what truncated tips. Read the two
+        // together: the ratio may be optimistic about *line count*, never about *height*.
+        effectiveCharWidthRatio = 0.62f,
     )
 
 /**
@@ -459,7 +460,9 @@ private fun metricsFor(size: DpSize): CardMetrics {
 
     return CardMetrics(
         tipFontSize = fontSize,
-        maxTipLines = usableLines.coerceIn(MIN_TIP_LINES, MAX_TIP_LINES),
+        // Note this is *not* clamped to [MAX_TIP_LINES]. That ceiling shapes which font gets
+        // picked; it must never be what a tip is cut off at. See [MAX_TIP_LINES].
+        maxTipLines = usableLines.coerceAtLeast(MIN_TIP_LINES),
         showQuoteMark = showQuoteMark,
         quoteMarkSize = quoteMarkSize,
         footerFontSize = footerFontSize,
@@ -477,29 +480,28 @@ private fun metricsFor(size: DpSize): CardMetrics {
 private const val MIN_TIP_LINES = 2
 
 /**
- * Ceiling on how many lines a tip may wrap to. Six, because past that a glance turns into a
+ * How many lines a tip should *aim* to wrap to. Six, because past that a glance turns into a
  * paragraph — the card stops being read and starts being skimmed.
  *
- * **This is a constraint on font selection, not a truncation**, and the difference is the whole
- * reason it is safe. A flat ceiling used to sit here, applied only as `maxLines` on the `Text`
- * after the size had already been chosen, and it silently cut the ends off tips: sweeping the
- * declared 110–320dp range, the 90-character worst case was clipped at roughly 1,700 sizes, every
- * one by that constant rather than by a lack of room. It was removed for exactly that.
+ * **A target for choosing the font, never a limit on what gets drawn.** This distinction has now
+ * been got wrong twice, in both directions, so it is worth stating plainly.
  *
- * What makes the number safe now is that [metricsFor] refuses any font size whose worst case would
- * *need* more than this, so by the time the ceiling is applied nothing can exceed it. It costs
- * type size rather than words, which is the right way round: fewer lines of the same text means
- * more characters per line, which means a smaller font. On the common 187x226dp card that is 18sp
- * down to 13sp.
+ * The first version was a flat `maxLines` applied after the size had been chosen. It cut the ends
+ * off tips at roughly 1,700 sizes across the declared range, and was removed.
  *
- * That cost is mostly the monospaced face, not the cap. A fixed-width font fits far fewer
- * characters per line, so it needs more lines for the same tip and gives up more size when told it
- * cannot have them — a proportional face reaches six lines at 20sp on the same card. If this ever
- * feels too small, the face is the thing to reconsider, not this number.
+ * The second version constrained font selection — correctly — but *also* clamped the rendered
+ * `maxLines` to the same number, and that quietly reintroduced the clipping. The selection can
+ * only reason about an average tip, because [effectiveCharWidthRatio] folds in an *average* wrap
+ * waste; a particular tip with long words wraps worse than average and needs a seventh line. The
+ * font was sized so six lines usually suffice, and then the seventh was chopped off.
  *
- * [TIP_FONT_LADDER] runs down to 6sp so the constraint stays satisfiable: a 110dp-wide card cannot
- * fit 90 characters into six lines at any larger size, and a cap that cannot be met would put the
- * clipping straight back.
+ * So the two numbers are now deliberately different. Font selection targets this ceiling; the
+ * rendered `maxLines` is whatever the card's height genuinely allows, which is always more. Tips
+ * come out at six lines or fewer nearly always, occasionally seven, and never truncated — because
+ * a line count is a matter of taste and a cut-off sentence is a defect.
+ *
+ * [TIP_FONT_LADDER] runs down to 6sp so the target stays reachable: a 110dp-wide card cannot fit
+ * 90 characters into six lines at any larger size.
  */
 private const val MAX_TIP_LINES = 6
 
@@ -533,16 +535,25 @@ private fun TipWidgetContent(
                 .padding(metrics.cardPadding),
         contentAlignment = Alignment.Center,
     ) {
-        // The settings button used to sit in its own header Row above this Column, which
-        // reserved a full-width strip purely for a 36dp circle and squeezed the quote+tip
-        // block into whatever height was left. It's now a corner overlay (below) instead, so
-        // this Column — and the quote+tip inside it — gets the card's entire height.
-        Column(
+        // Centred in the *whole* card, not in what is left after the footer.
+        //
+        // This used to be a Column of [weighted box | spacer | footer], which centred the tip
+        // inside the card minus the footer strip and so sat it about 9dp high — subtle in
+        // isolation, obvious once you look for it, and it made the card read as top-heavy. The
+        // footer is a corner overlay now (below), exactly like the settings button, so this box
+        // gets the full height and its centre is the card's centre.
+        //
+        // Nothing collides, and the margin is arithmetic rather than luck: `availableHeight` in
+        // [metricsFor] already deducts the footer, so the tallest possible block is
+        // `card - 2*cardPadding - 2*chipPadding - footer`. Centring that leaves
+        // `cardPadding + chipPadding` of clearance below it, which is comfortably more than the
+        // footer strip it must clear.
+        Box(
             modifier = GlanceModifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            contentAlignment = Alignment.Center,
         ) {
             Box(
-                modifier = GlanceModifier.fillMaxWidth().defaultWeight(),
+                modifier = GlanceModifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
@@ -615,11 +626,20 @@ private fun TipWidgetContent(
                     }
                 }
             }
-            // Shown at every size. An earlier version dropped this on small cards to buy height,
-            // which made the widget look unfinished rather than minimal — a card with no name on
-            // it reads as empty. Scaling the label down costs a few dp where hiding it saved
-            // about twenty, and that difference is affordable.
-            Spacer(GlanceModifier.height(metrics.footerSpacing))
+        }
+
+        // Shown at every size. An earlier version dropped this on small cards to buy height,
+        // which made the widget look unfinished rather than minimal — a card with no name on it
+        // reads as empty. Scaling the label down costs a few dp where hiding it saved about
+        // twenty, and that difference is affordable.
+        //
+        // An overlay rather than the last row of a Column: in the flow it pushed the tip off the
+        // card's true centre by half its own height. Its height is still *charged* against the
+        // tip's budget in [metricsFor] — it just no longer decides where the tip sits.
+        Box(
+            modifier = GlanceModifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
             Text(
                 // Derived from the centralized app_name resource (rather than a second hardcoded
                 // string) so changing the product name only ever means editing strings.xml.
