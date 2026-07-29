@@ -1,7 +1,13 @@
 package com.sapglance.core.tips
 
 import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth.assertWithMessage
+import com.sapglance.core.settings.VarietyLevel
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
+import java.time.LocalTime
+import kotlin.random.Random
 
 class TipCatalogTest {
     private val catalog = TipCatalog.loadDefault()
@@ -142,7 +148,63 @@ class TipCatalogTest {
         }
     }
 
+    /**
+     * The bundled content must be able to *afford* the anti-repeat promise
+     * ([TipHistoryRepository.ANTI_REPEAT_WINDOW]), which is a fact about the catalog rather than
+     * about [TipEngine] — hence a catalog test. The engine's own tests prove the rule is applied
+     * correctly against small synthetic pools; only this one proves the real pools are deep
+     * enough for the number actually shipped, so a content trim (or a raised window) that makes
+     * the promise unkeepable fails here instead of on someone's home screen.
+     *
+     * The stress case is one day part, not the whole catalog. A user who only ever sees the
+     * widget in the morning reaches `general` + `morning` for practical draws, and at
+     * [VarietyLevel.PRACTICAL] roughly 80% of draws want to come from exactly that set — the
+     * narrowest reachable pool in the app, and far smaller than the catalog total that a naive
+     * "is 100 < 280?" check would look at.
+     */
+    @ParameterizedTest
+    @MethodSource("singleDayPartHours")
+    fun `the real catalog sustains the anti-repeat window in every single day part`(hour: Int) {
+        VarietyLevel.entries.forEach { variety ->
+            val engine = TipEngine(catalog, Random(seed = 20260729))
+            val history = ArrayDeque<String>()
+            val time = LocalTime.of(hour, 0)
+
+            repeat(DRAWS) {
+                val tip = engine.messageFor(time, history.toList(), varietyLevel = variety)
+                assertWithMessage(
+                    "at %s, %s: %s repeated within the %s-draw window",
+                    time,
+                    variety,
+                    tip.text,
+                    TipHistoryRepository.ANTI_REPEAT_WINDOW,
+                ).that(history.toList().takeLast(TipHistoryRepository.ANTI_REPEAT_WINDOW))
+                    .doesNotContain(tip.text)
+
+                history.addLast(tip.text)
+                while (history.size > TipHistoryRepository.MAX_RECENT_TIPS) history.removeFirst()
+            }
+        }
+    }
+
     private fun allTips(): List<Tip> =
         catalog.general + catalog.morning + catalog.afternoon + catalog.evening +
             catalog.tonePools + listOf(catalog.sleepLate, catalog.sleepEarlyHours)
+
+    private companion object {
+        /**
+         * Long enough that the pools have to recycle many times over, so a window the content
+         * cannot sustain shows up as a repeat rather than merely being untested.
+         */
+        const val DRAWS = 2000
+
+        /**
+         * One waking hour per day part. The 23:00-05:59 sleep hours are deliberately excluded:
+         * their practical side is a single fixed wind-down message that is exempt from
+         * anti-repeat by design (see `TipEngine.sleepGroups`), so asserting no-repeat there
+         * would be asserting against an intended exception.
+         */
+        @JvmStatic
+        fun singleDayPartHours() = listOf(9, 14, 20)
+    }
 }
