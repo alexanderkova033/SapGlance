@@ -571,7 +571,7 @@ private fun TipWidgetContent(
         ) {
             Column(
                 modifier = GlanceModifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.Start,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 // Dropped outright on a compact card. It is the single most expensive piece of
                 // pure decoration in the layout, and a tip nobody can read costs more than a
@@ -593,19 +593,24 @@ private fun TipWidgetContent(
                 Text(
                     text = tip,
                     maxLines = metrics.maxTipLines,
+                    // Load-bearing for the centring, not decoration. `textAlign` centres lines
+                    // within the *TextView's own* measured width, and a wrap-content TextView
+                    // inside a Box (a FrameLayout, gravity start) is exactly as wide as its
+                    // longest line — so a tip short enough not to wrap would centre inside itself
+                    // and then sit flush left, looking un-centred in the one case where the
+                    // centring is most obvious. Filling the width makes the two agree.
                     modifier = GlanceModifier.fillMaxWidth(),
                     style =
                         TextStyle(
                             fontSize = metrics.tipFontSize,
                             fontWeight = FontWeight.Bold,
                             fontFamily = TIP_FACE.family,
-                            // Ranged down one edge rather than centred. Centring is what a
-                            // two-line epigraph wants; these are up to seven lines of a sentence,
-                            // where it leaves both edges ragged, hands the reader a new starting
-                            // point on every line, and strands the last two words in the middle
-                            // of the card. A straight left edge also gives the composition the
-                            // one hard line it was missing once the panel's border went away.
-                            textAlign = TextAlign.Start,
+                            // Centred, which is the quote-card reading of this rather than the
+                            // typographic one. Worth knowing what it costs, since ranging the
+                            // text left was tried and rejected here: at up to seven lines,
+                            // centring leaves both edges ragged and can strand a two-word last
+                            // line mid-card. It is a deliberate trade of that for the symmetry.
+                            textAlign = TextAlign.Center,
                             color = ColorProvider(ink.text),
                         ),
                 )
