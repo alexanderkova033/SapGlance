@@ -148,7 +148,11 @@ private enum class WidgetInk(
         // a smudge rather than a surface, so the text still took its contrast from whatever art
         // happened to be behind it. Deeper enough to actually sit the words on something, and
         // still translucent enough that the artwork reads through it.
-        chip = Color.Black.copy(alpha = 0.34f),
+        //
+        // Deepened again for the monospaced face, which is drawn light and has no bold weight
+        // available (see [TIP_FACE]). Contrast is one of the only two things that can still be
+        // spent on making thin strokes read as solid; the other is size.
+        chip = Color.Black.copy(alpha = 0.44f),
         quoteMark = Color.White.copy(alpha = 0.6f),
         footer = Color.White.copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg,
@@ -161,7 +165,7 @@ private enum class WidgetInk(
     // darkening a scene behind pale text, it's flattening whatever art the dark text crosses.
     ON_LIGHT(
         text = Color(0xFF17181C),
-        chip = Color.White.copy(alpha = 0.62f),
+        chip = Color.White.copy(alpha = 0.72f),
         quoteMark = Color(0xFF17181C).copy(alpha = 0.5f),
         footer = Color(0xFF17181C).copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg_light,
@@ -255,33 +259,47 @@ private data class TipFace(
  * `source-sans-pro`, `sans-serif-smallcaps` (Carrois Gothic SC), `serif-monospace` (Cutive Mono),
  * `casual` (Coming Soon) and `cursive` (Dancing Script).
  *
- * Cutive Mono — a typewriter face, chosen for character. It is the one option here that cannot be
- * mistaken for a system default, which on a card whose whole job is to be looked at is worth
- * paying for. And it does cost: monospace gives every glyph the same width, so the economical
- * lowercase a proportional face relies on is gone and fewer characters fit per line.
+ * Cutive Mono — a typewriter, for a card that should not look like every other widget on the home
+ * screen.
  *
- * The price is smaller type, and it is bounded rather than guessed — see the ratio below. Its
- * other cost is weight: the family ships Regular only, so `FontWeight.Bold` is synthesized. That
- * is survivable here only because the panel behind the text now carries real contrast of its own
- * (see [WidgetInk]); against the bare gradient this face would be too thin to use.
+ * It is drawn light, and the read on the device was that it looked too thin. The obvious fix is a
+ * heavier monospace, and there isn't one: this device carries exactly two, `serif-monospace`
+ * (Cutive Mono) and `monospace` (Droid Sans Mono, the sturdier drawing), and **`monospace` does
+ * not resolve here** — it silently falls back to the proportional default even though
+ * `/system/etc/fonts.xml` defines it, while `serif-monospace` renders correctly. That was caught
+ * by arithmetic rather than by eye: a rendered line of 18 characters needs 173dp at 16sp with a
+ * 0.60 em advance, and the column is 157dp, so what drew it cannot have been monospaced. Every
+ * face on the device with a *real* bold weight (`serif`, `sans-serif`, `source-sans-pro`) is a
+ * plain one; every characterful face is Regular-only. Widgets are RemoteViews and cannot use an
+ * app-bundled font, so that exhausts the options.
+ *
+ * So weight is fixed and the two remaining levers are contrast and size: the panel behind the text
+ * was deepened (see [WidgetInk]) and the `❝` glyph now needs a much taller card before it is
+ * allowed to spend height (see [metricsFor]), which is worth two points of type on the common
+ * card. Thin strokes read as thin mostly when they are also small.
+ *
+ * Monospace costs type size in the first place: every glyph takes the width of the widest, so the
+ * economical lowercase a proportional face relies on is gone and fewer characters fit per line.
+ * That price is bounded rather than guessed — see the ratio below.
  */
 private val TIP_FACE =
     TipFace(
         family = FontFamily("serif-monospace"),
-        // Derived from the font file, not eyeballed. Reading CutiveMono.ttf's `hmtx` table gives a
-        // uniform advance of 0.6055 em — uniform because it is genuinely monospaced; every glyph,
-        // space and 'm' and 'i' alike, measures the same.
+        // Derived from the font file, not eyeballed. CutiveMono.ttf's `hmtx` table gives a uniform
+        // 0.6055 em advance — uniform because it is genuinely monospaced; space, 'm' and 'i' all
+        // measure the same. (Droid Sans Mono's is 0.6001, within 1%, so this figure would cover
+        // that face too if it ever becomes reachable.)
         //
-        // Advance is only half of it. The rest is wrap waste, which was calibrated against the
-        // previous face rather than assumed: Source Sans Pro Bold averages 0.4363 em over real tip
-        // text, and its rendered effective figure measured 0.49, so wrapping was costing 1.13x.
-        // Monospace wastes proportionally more, because a line holds fewer characters and so
-        // loses a larger share to the part-word at the end — about 17 characters per line here,
-        // which puts the factor nearer 1.19. 0.6055 x 1.19 is ~0.72.
+        // Advance is only half of it. The rest is wrap waste, calibrated against a previous face
+        // rather than assumed: Source Sans Pro Bold averages 0.4363 em over real tip text and
+        // rendered at an effective 0.49, so wrapping cost 1.13x. Monospace loses proportionally
+        // more, because a line holds fewer characters and forfeits a larger share to the
+        // part-word at the end — about 17 per line here, so nearer 1.19. 0.6055 x 1.19 is ~0.72.
         //
-        // Shipped at 0.75, a little above that. The error is asymmetric: too high wastes a little
-        // space, too low clips the tip. 0.75 clips at none of the sizes in the declared 110-320dp
-        // range.
+        // Shipped at 0.75, above that, because the error is asymmetric: too high wastes a little
+        // space, too low clips the tip outright. Confirmed against a real render — an 80-character
+        // tip took 6 lines at 16sp on the 187x226dp card, an effective 0.738 — and it clips at
+        // none of the sizes in the declared 110-320dp range.
         effectiveCharWidthRatio = 0.75f,
     )
 
@@ -351,14 +369,18 @@ private fun metricsFor(size: DpSize): CardMetrics {
     // glyph does and keeps the widget identifiable at every size.
     val compact = size.height < 140.dp
 
-    // The glyph now needs a genuinely tall card rather than a merely average one. At the old
-    // 170dp threshold the *default* 2x2 (~154x183dp) drew it, and the ~26dp it costs is 14% of
-    // that card's height — enough on its own to push the tip two rungs down the ladder. That is
-    // the hollow failure exactly: the ornament ends up the largest thing on the card and the
-    // sentence the smallest. Past 200dp there is room for the flourish and full-size type both,
-    // so the glyph comes back the moment the card can actually afford it.
-    val showQuoteMark = size.height >= 200.dp
-    val quoteMarkSize = if (size.height >= 250.dp) 22.sp else 17.sp
+    // The glyph has to earn its height, and the bar has risen twice. It began at 170dp, where the
+    // default 2x2 (~154x183dp) drew it and the ~26dp it costs — 14% of that card — pushed the tip
+    // two rungs down the ladder. That is the hollow failure exactly: the ornament ends up the
+    // largest thing on the card and the sentence the smallest.
+    //
+    // 200dp fixed that card and not the next one up. On a real 187x226dp 2x2 the glyph was still
+    // costing 23dp, which is the difference between 16sp and 18sp — and with a monospaced face
+    // that cannot be made any heavier (see [TIP_FACE]), size is one of only two levers left
+    // against type that reads as thin. An ornament is not worth two points of type on the card
+    // most people will actually have. Past 250dp there is genuinely room for both.
+    val showQuoteMark = size.height >= 250.dp
+    val quoteMarkSize = if (size.height >= 290.dp) 24.sp else 20.sp
     val footerFontSize =
         when {
             compact -> 8.sp
