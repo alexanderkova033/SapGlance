@@ -41,7 +41,7 @@ backup like any other app's local data. That's the one path data can leave the p
 - **A "Why this tip?" card in settings** showing where the current tip came from: the research
   behind a practical tip, the text behind a philosophy quotation, or nothing at all for an
   original line.
-- **The same tip never repeats within the last 30 shown**, and no tone voice appears three
+- **The same tip never repeats within the last 100 shown**, and no tone voice appears three
   draws in a row.
 
 Explicitly **not** here: accounts, streaks, gamification, history views, notifications, or any
@@ -70,88 +70,42 @@ Two Gradle modules. Folders are organised by feature, with each feature split in
 Two placements are deliberate:
 
 - **`TipWidgetReceiver` stays at the `widget/` root.** Its fully-qualified name is the
-  `ComponentName` the launcher persists for every placed widget, so renaming it makes Android
-  find no provider on the next install and drop every widget off the home screen. A tidier
-  package isn't worth making people re-add their widgets.
-- **The Compose theme lives under `settings/presentation/theme/`.** It has exactly one caller;
-  the widget uses Glance's own `GlanceTheme`. A top-level `theme/` package would name a
-  technical layer that only one feature uses.
+  `ComponentName` the launcher persists for every placed widget, so renaming it drops every
+  widget off the home screen on the next install.
+- **The Compose theme lives under `settings/presentation/theme/`.** It has one caller; the
+  widget uses Glance's own `GlanceTheme`.
+
+The shape that matters is the dependency inversion: every writer of a tip goes through one use
+case, and `:core` owns the interfaces that `:app` implements.
 
 ```mermaid
 graph TD
-    subgraph core["core (domain layer — pure Kotlin, JVM, zero Android imports)"]
-        subgraph coreTips["tips"]
-            Tip
-            TipEngine
-            TipCatalog
-            ToneProfile
-            TipHistoryRepository["TipHistoryRepository (interface)"]
-            AdvanceTipUseCase
-        end
-        subgraph coreSettings["settings"]
-            AppSettings
-            SettingsRepository["SettingsRepository (interface)"]
-        end
-        subgraph coreWidget["widget"]
-            WidgetStyle["WidgetStyle (forTip)"]
-        end
-        subgraph coreScheduling["scheduling"]
-            TipRefreshSchedule["shouldAdvanceTip"]
-            WidgetRefreshRepository["WidgetRefreshRepository (interface)"]
-        end
+    subgraph core["core — pure Kotlin, JVM, zero Android imports"]
+        TipEngine --> TipCatalog
+        TipEngine --> ToneProfile
+        AdvanceTipUseCase --> TipEngine
+        AdvanceTipUseCase --> TipHistoryRepository["TipHistoryRepository (interface)"]
     end
 
-    subgraph app["app (Android — organized by feature, not by layer)"]
-        subgraph settingsFeature["settings"]
-            DataStoreSettingsRepository["data/DataStoreSettingsRepository"]
-            SettingsActivity["presentation/SettingsActivity"]
-            SettingsScreen["presentation/SettingsScreen"]
-        end
-        subgraph tipsFeature["tips"]
-            DataStoreTipHistoryRepository["data/DataStoreTipHistoryRepository"]
-        end
-        subgraph widget["widget"]
-            TipWidget
-            RefreshTipAction
-            WidgetRefreshWorker
-            WidgetScheduler
-            DataStoreWidgetRefreshRepository["data/DataStoreWidgetRefreshRepository"]
-        end
-        AppContainer
-        BootReceiver
-        DataStore[("DataStore<Preferences>")]
+    subgraph app["app — Android, organised by feature"]
+        TipWidget
+        RefreshTipAction
+        WidgetRefreshWorker
+        SettingsScreen
+        DataStoreTipHistoryRepository
+        DataStore[("DataStore&lt;Preferences&gt;")]
     end
 
-    DataStoreTipHistoryRepository -.implements.-> TipHistoryRepository
-    DataStoreWidgetRefreshRepository -.implements.-> WidgetRefreshRepository
-    DataStoreSettingsRepository -.implements.-> SettingsRepository
-    DataStoreTipHistoryRepository --> DataStore
-    DataStoreWidgetRefreshRepository --> DataStore
-    DataStoreSettingsRepository --> DataStore
-    TipCatalog --> Tip
-    TipEngine --> TipCatalog
-    TipEngine --> ToneProfile
-    AdvanceTipUseCase --> TipEngine
-    AdvanceTipUseCase --> TipHistoryRepository
-
-    SettingsScreen --> TipHistoryRepository
-    SettingsScreen --> TipEngine
-    SettingsScreen --> SettingsRepository
-    SettingsScreen --> AppContainer
-
-    WidgetRefreshWorker --> AdvanceTipUseCase
-    WidgetRefreshWorker --> TipRefreshSchedule
-    WidgetRefreshWorker --> WidgetRefreshRepository
-    WidgetRefreshWorker --> SettingsRepository
-    WidgetRefreshWorker --> AppContainer
-    RefreshTipAction --> AppContainer
     TipWidget --> AdvanceTipUseCase
-    TipWidget --> TipHistoryRepository
-    TipWidget --> SettingsRepository
-    TipWidget --> WidgetStyle
-
-    BootReceiver --> WidgetScheduler
+    RefreshTipAction --> AdvanceTipUseCase
+    WidgetRefreshWorker --> AdvanceTipUseCase
+    SettingsScreen --> AdvanceTipUseCase
+    DataStoreTipHistoryRepository -.implements.-> TipHistoryRepository
+    DataStoreTipHistoryRepository --> DataStore
 ```
+
+`SettingsRepository` and `WidgetRefreshRepository` follow the same interface-in-`:core`,
+DataStore-implementation-in-`:app` pattern.
 
 ## How a tip is chosen
 
@@ -166,68 +120,58 @@ of those while another group had fresh options sitting unused.
 
 ## Notable design decisions
 
-- **The tip only advances after it's had a chance to be seen.** `WidgetRefreshWorker` ticks
-  every 15 minutes (WorkManager's minimum) and only counts a tick if `PowerManager.isInteractive`
-  is true at that instant; the tip advances at 6 counted ticks. It's a sampling approximation,
-  not a stopwatch, but it needs no extra permissions or a live receiver, and the count is
-  persisted so it survives the process dying between ticks. There is no "notify me when the
-  screen turns on" primitive, and a real screen-state listener can't survive process death
-  without a foreground service — which is exactly what this app refuses to be.
-- **The widget observes its tip from inside `provideContent`.** This is what makes it repaint
-  at all. `provideGlance` runs once per Glance *session*, not once per `updateAll()`, so a tip
-  read into a local above `provideContent` stays frozen for the session's whole life:
-  `updateAll()` only refreshes `AppWidgetSession`'s own state holders, so a composition reading
-  neither never recomposes and never emits new RemoteViews. That was the real cause of "the tip
-  updates but the widget doesn't" — confirmed on-device with the widget stuck three tips behind
-  DataStore.
-- **A tip's `TipKind` decides how it may be presented.** The catalog began as evidence-backed
-  advice only, so every tip needed 2+ citations. That bar is right for "mild dehydration dents
-  focus" and nonsense for "you're allowed to begin again" — there is no study behind
-  encouragement, and inventing one is exactly the dishonesty the citation model exists to
-  prevent. So the requirement is per-kind, and the UI renders sources, an attribution, or
-  nothing accordingly.
-- **Every practical tip carries at least two independent citations.** One reads as one study's
-  opinion; two or three that independently agree is an evidence claim worth putting on
-  someone's home screen. `TipCatalogTest` enforces the floor, HTTPS URLs, and that a tip's own
-  sources are distinct — citing one URL twice would otherwise satisfy the count without adding
-  evidence.
-- **Quotations are only used where the attribution is checkable.** Popular philosophy quotes
-  are misattributed constantly, so `philosophy.txt` only quotes lines traceable to a specific
-  chapter or letter in a public-domain edition, and cites that edition.
-- **"More variety" is a lean, never a filter.** `VarietyLevel` sets the tone tier's share
-  (20/50/80%) rather than switching either tier off. It stays a three-way choice rather than
-  gaining per-group weights, which would be three more controls for a judgement the user has no
-  basis to make ("how much Stoicism, exactly?").
-- **Which tone suits the hour is editorial, not a setting.** `ToneProfile.forDayPart` splits the
-  tone share by time of day: motivation leads the morning and fades, wellbeing and philosophy do
-  the reverse. Night zeroes motivation outright — "Two minutes. Set a timer. Go." at 3am isn't a
-  weaker version of good advice, it's the opposite of what the hour calls for.
-- **No tone voice runs three draws in a row.** Anti-repeat guarantees no *tip* returns too soon
-  but says nothing about *kind*, and three different wellbeing lines running still reads as a
-  rut. A kind that fills two consecutive draws yields the next one. The block drops that group
-  and its share flows to the other two voices, so the rule changes *which* tone comes next,
-  never how much tone the user gets. `PRACTICAL` is exempt: it's the default register rather
-  than a voice, and capping it would force tone in at the setting that says not to.
-- **Recency weighting, not a shuffled bag.** Within a group, tips are weighted by how long since
-  they were shown. Uniform random is maximum-entropy *per draw* but says nothing about the gaps
-  *between* draws, and it's early returns that read as "I keep seeing the same ones." A shuffled
-  bag was rejected because the pool that matters is composed and changes four times a day, so a
-  deck over it gets abandoned mid-deal — and it fights the anti-repeat window.
-- **The anti-repeat window and the stored history are two numbers.** `ANTI_REPEAT_WINDOW` (30)
-  is the product guarantee; `MAX_RECENT_TIPS` (90) is how much is remembered. They were one
-  constant once, which made recency weighting impossible in principle: everything inside the
-  window is hard-excluded, so a history exactly as long as the window carries no signal at all.
-- **The widget's layout derives from its size, and never from the text.** Width sets the font
-  size (width decides characters per line); height sets how much decoration survives. An earlier
-  attempt measured each *tip* with `StaticLayout` to pick a font, and that prediction disagreed
-  with the real RemoteViews `TextView` across launchers and grid rounding — too large for long
-  tips, one word per line for short ones. Keying off the given size has no such failure mode.
-- **No DI framework and no ViewModel.** `AppContainer` is a hand-written composition root and
-  the settings screen collects `Flow`s directly. Both are deliberate for an app this size.
-- **Tip content is bundled plain text**, not JSON, to avoid pulling a JSON dependency into a
-  module whose whole point is to stay dependency-free. Practical pools use a line-for-line
-  `*_sources.txt` companion; tone pools keep attribution inline, because a mostly-blank
-  companion file would silently stop lining up once the loader stripped blank lines.
+- **The tip advances only after it's had a chance to be seen.** `WidgetRefreshWorker` ticks every
+  15 minutes (WorkManager's minimum), counts a tick only if the screen is interactive, and
+  advances at 6. A real screen-state listener can't survive process death without a foreground
+  service, which is what this app refuses to be.
+- **The widget observes its tip from inside `provideContent`.** `provideGlance` runs once per
+  Glance *session*, not per `updateAll()`, so a tip read into a local above it stays frozen for
+  the session's life and the widget never repaints. This was a real bug, found on-device with
+  the widget stuck three tips behind DataStore.
+- **A tip's `TipKind` decides how it may be presented.** 2+ citations is the right bar for "mild
+  dehydration dents focus" and nonsense for "you're allowed to begin again" — there is no study
+  behind encouragement, and inventing one is the dishonesty the citation model exists to prevent.
+  So the requirement is per-kind, and the UI shows sources, an attribution, or nothing.
+- **Every practical tip carries two independent citations.** One reads as one study's opinion.
+  `TipCatalogTest` enforces the floor, HTTPS, and that a tip's own sources are distinct.
+- **Quotations are only used where the attribution is checkable** — traceable to a chapter or
+  letter in a named public-domain edition, because popular philosophy quotes are misattributed
+  constantly.
+- **Variety is a lean, never a filter.** `VarietyLevel` sets the tone tier's share (20/50/80%)
+  rather than switching a tier off. It stays three choices rather than per-group weights, which
+  would ask the user a question they have no basis to answer ("how much Stoicism, exactly?").
+- **Which tone suits the hour is editorial, not a setting.** Motivation leads the morning and
+  fades; wellbeing and philosophy do the reverse. Night zeroes motivation — "Two minutes. Set a
+  timer. Go." at 3am is the opposite of what the hour calls for.
+- **No tone voice runs three draws in a row.** Anti-repeat covers *tips*, not *kinds*, and three
+  different wellbeing lines still reads as a rut. The blocked group's share flows to the other
+  voices, so the rule changes *which* tone comes next, never how much. `PRACTICAL` is exempt: it
+  is the default register, not a voice.
+- **Recency weighting, not a shuffled bag.** Uniform random is maximum-entropy per draw but says
+  nothing about the gaps *between* draws, and early returns are what read as repetitive. A
+  shuffled bag was rejected: the pool is composed and changes four times a day, so a deck over it
+  gets abandoned mid-deal, and it fights the anti-repeat window.
+- **The anti-repeat window and the stored history are two numbers.** `ANTI_REPEAT_WINDOW` (100)
+  is the guarantee; `MAX_RECENT_TIPS` (160) is what's remembered. One constant made recency
+  weighting impossible in principle — everything inside the window is hard-excluded, so a history
+  as long as the window carries no signal. The 60 between them is what the weighting scales by.
+- **The window is capped by the narrowest reachable pool, not the catalog total.** A
+  single-day-part user reaches only `general` plus one pool (76-78 tips) for practical draws, and
+  ~80% of draws want that set at the practical level. It holds because an exhausted tier
+  redistributes into tone instead of repeating. `TipCatalogTest` runs the real catalog for 2000
+  draws per day part, so over-raising this fails a test rather than shipping.
+- **The widget's layout derives from its size, never from the text.** Width sets the font size,
+  height sets how much decoration survives. An earlier attempt measured each *tip* with
+  `StaticLayout`, and that prediction disagreed with the real `TextView` across launchers — too
+  large for long tips, one word per line for short ones.
+- **Chrome is charged before the type is sized**, so every decorative dp comes out of the font.
+  That is why the quote glyph needs a tall card to appear at all, and why padding isn't spent
+  twice over.
+- **No DI framework and no ViewModel.** `AppContainer` is a hand-written composition root; the
+  settings screen collects `Flow`s directly.
+- **Tip content is bundled plain text**, not JSON, to keep `:core` dependency-free. Practical
+  pools use a line-for-line `*_sources.txt`; tone pools keep attribution inline, because a
+  mostly-blank companion file would silently stop lining up once blank lines were stripped.
 
 ## Tech stack
 
@@ -241,7 +185,7 @@ Requires JDK 17.
 
 ```bash
 ./gradlew build        # everything, including assembleRelease
-./gradlew test         # unit tests — :core 77, :app 6 per variant
+./gradlew test         # unit tests — :core 80, :app 6 per variant
 ./gradlew ktlintCheck  # formatting
 ./gradlew lint         # Android lint
 ```
@@ -260,17 +204,32 @@ Completed work lives in the git history rather than here. What's open:
       and motivation has drifted into wellbeing's register despite its own header forbidding
       exactly that. See STATUS.md for the full write-up; this is the highest-value content work
       outstanding.
-- [ ] **Make a cold tap *feel* faster.** Measurement on a Galaxy A34 found ~1s of a cold tap is
-      process start plus Glance session setup, not app code, and `warmUp()` already hides the
-      catalog parse behind it. No obvious answer left: a Glance widget has no cheap way to
-      acknowledge a tap before its process exists, and the things that would (a foreground
-      service, a persistent process) are what this app refuses to be.
+- [ ] **A jokes pool.** A fourth tone voice, alongside motivation, philosophy and wellbeing.
+      **Source them, don't write them** — collect from existing public-domain and clearly-attributed
+      humour rather than composing new lines, because written-to-order jokes read as generated and
+      that is precisely the failure. Needs: a licence check per source, the ~90-character cap,
+      a `ToneProfile` share per day part, and a decision on whether jokes belong at night.
+- [ ] **A plain-English pass over the whole catalog.** Some tips are hard to follow or phrased
+      unnaturally — awkward constructions and sentences that need re-reading. Read every pool
+      aloud and rewrite what stumbles. Note this collides with the ~90-character cap and with
+      tip-text-as-identity: rewording orphans a user's stored history, so do it in one pass
+      rather than continuously.
+- [ ] **Re-measure `EFFECTIVE_CHAR_WIDTH_RATIO` against the condensed face.** It was measured
+      from a *serif* render the widget no longer uses, so it now over-estimates the room the type
+      needs. Harmless (it can only under-size, never clip) but it is leaving font size on the
+      table. Count the rendered lines from a device screenshot, as before.
+- [ ] **Make a cold tap *feel* faster.** ~1s of a cold tap is process start plus Glance session
+      setup, not app code, and `warmUp()` already hides the catalog parse behind it. No obvious
+      answer left: a widget has no cheap way to acknowledge a tap before its process exists, and
+      the things that would are what this app refuses to be.
 - [ ] **Languages beyond `en`.** The UI half is nearly free — every string is externalised. The
       content half is the actual project: 282 tips loaded via a classpath lookup that knows
-      nothing about `Locale`, and tips are identified by their text everywhere it matters.
-- [ ] **iOS port**, gated on hardware. See STATUS.md for the constraint list; the headline is
-      that the privacy promise doesn't translate literally, since no iOS app can declaratively
-      renounce network access.
+      nothing about `Locale`, tips identified by their text everywhere it matters, and citations
+      pointing at English-language sources a translated reader can't use.
+- [ ] **iOS port**, gated on hardware. The headline constraint: the privacy promise doesn't
+      translate literally, since no iOS app can declaratively renounce network access. Also
+      WidgetKit has no background execution, so tap-to-refresh needs iOS 17+ and the rotation
+      model would become wall-clock — the model this project deliberately rejected.
 
 ## License
 
