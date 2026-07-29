@@ -216,6 +216,23 @@ Completed work lives in the git history rather than here. What's open:
       humour rather than composing new lines, because written-to-order jokes read as generated and
       that is precisely the failure. Needs: a licence check per source, the ~90-character cap,
       a `ToneProfile` share per day part, and a decision on whether jokes belong at night.
+- [ ] **Tie the background to the tip's kind and the hour, not to a hash.** `WidgetStyle.forTip`
+      currently picks from `entries` by `tipText.hashCode()`, so the pairing is arbitrary — a
+      philosophy line at 2am can land on the bright Meadow card, and a morning stretch tip on
+      Midnight. The 11 styles already split into a dark group (Forest, Ocean, Sunset, Midnight,
+      Aurora, Dawn, Rain) and a light one (Winter, Paper, Meadow, Blossom), which is most of the
+      vocabulary needed: pale cards suit morning and practical advice, deep ones suit evening,
+      night and philosophy. Design notes for whoever picks this up:
+      - Keep the property that a *new tip means a new-looking card* — that is why the hash exists,
+        and mapping kind+day-part alone would leave the background unchanged across consecutive
+        tips of the same kind in the same hour. The likely shape is to narrow to a candidate
+        *set* by kind and hour, then keep hashing within it.
+      - `forTip` is pure and lives in `:core`, which has no `Android` or clock access. Day part is
+        `TipEngine.dayPartFor`, and kind is `TipCatalog.kindOf(text)`, so both would have to be
+        passed in rather than read — matching how `TipEngine` already takes `LocalTime`.
+      - The dark/light split is not recorded in `:core` at all: `:app` pairs each style with its
+        drawable *and* its ink in one exhaustive `when`, deliberately, so a style cannot ship with
+        mismatched text colour. Moving group membership into `:core` needs to preserve that.
 - [ ] **A plain-English pass over the whole catalog.** Some tips are hard to follow or phrased
       unnaturally — awkward constructions and sentences that need re-reading. Read every pool
       aloud and rewrite what stumbles. Note this collides with the ~90-character cap and with
