@@ -20,8 +20,8 @@ These aren't up for debate on a per-PR basis — they're the whole point of the 
 ## Getting set up
 
 ```bash
-git clone <repo-url>
-cd health-widget
+git clone https://github.com/alexanderkova033/SapGlance.git
+cd SapGlance
 ./gradlew build
 ```
 

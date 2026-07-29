@@ -1,14 +1,14 @@
 # SapGlance
 
-![CI](https://github.com/alexanderkova033/health-widget/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/alexanderkova033/SapGlance/actions/workflows/ci.yml/badge.svg)
 
 A privacy-first Android wellness widget for students and desk workers. One card on the home
 screen showing one rotating tip — practical advice with real citations, or a line of
 motivation, philosophy or wellbeing. No accounts, no tracking, no streaks, no notifications.
 
-> The GitHub repo is still named `health-widget` while the app is `SapGlance`
-> (`com.sapglance.app`). That's cosmetic; renaming it would break clone URLs and the CI badge
-> above for no benefit.
+> The repo was renamed from `health-widget` to `SapGlance` to match the app. GitHub redirects
+> the old URL, so existing clones keep working, but `git remote set-url origin` is worth running
+> on any checkout that still points at the old name.
 
 ## The privacy promise
 
