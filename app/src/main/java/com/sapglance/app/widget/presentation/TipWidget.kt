@@ -207,8 +207,8 @@ private fun WidgetStyle.skin(): Pair<Int, WidgetInk> =
  */
 private val TIP_FONT_LADDER =
     listOf(
-        8.sp, 9.sp, 10.sp, 11.sp, 12.sp, 13.sp, 14.sp,
-        15.sp, 16.sp, 17.sp, 18.sp, 20.sp, 22.sp, 24.sp,
+        6.sp, 7.sp, 8.sp, 9.sp, 10.sp, 11.sp, 12.sp, 13.sp,
+        14.sp, 15.sp, 16.sp, 17.sp, 18.sp, 20.sp, 22.sp, 24.sp,
     )
 
 /**
@@ -447,7 +447,11 @@ private fun metricsFor(size: DpSize): CardMetrics {
                 false
             } else {
                 val linesNeeded = ceil(LONGEST_TIP_CHARS / charsPerLine)
-                linesNeeded * candidate.value * LINE_HEIGHT_RATIO <= availableHeight
+                // Two conditions, and the line count is the *stricter* of them on a tall card:
+                // height alone would happily allow eight or nine lines of small type, which is
+                // a paragraph rather than a glance. See [MAX_TIP_LINES].
+                linesNeeded <= MAX_TIP_LINES &&
+                    linesNeeded * candidate.value * LINE_HEIGHT_RATIO <= availableHeight
             }
         } ?: TIP_FONT_LADDER.first()
 
@@ -455,7 +459,7 @@ private fun metricsFor(size: DpSize): CardMetrics {
 
     return CardMetrics(
         tipFontSize = fontSize,
-        maxTipLines = usableLines.coerceAtLeast(MIN_TIP_LINES),
+        maxTipLines = usableLines.coerceIn(MIN_TIP_LINES, MAX_TIP_LINES),
         showQuoteMark = showQuoteMark,
         quoteMarkSize = quoteMarkSize,
         footerFontSize = footerFontSize,
@@ -469,22 +473,35 @@ private fun metricsFor(size: DpSize): CardMetrics {
     )
 }
 
-/**
- * Floor so a tiny card still shows a couple of lines. There is deliberately no ceiling any more.
- *
- * A flat `MAX_TIP_LINES = 8` used to sit opposite this, justified as stopping a huge card from
- * sprawling — but it could never do that job, because `usableLines` above is already derived from
- * the height the card actually has. The ceiling's only reachable effect was to truncate tips on
- * cards *narrow* enough to need more lines than eight, which is the shape a 2-column slot
- * produces: sweeping the whole declared 110–320dp resize range, the 90-character worst case was
- * cut short at roughly 1,700 of the sizes in it, every one of them by this constant rather than by
- * a lack of room. Removing it clips at none of them.
- *
- * Nothing sprawls in its absence: [TIP_FONT_LADDER] only ever selects a size whose worst case
- * already fits `availableHeight`, so `usableLines` is bounded by the card and the ceiling was
- * never what bounded it.
- */
+/** Floor so a tiny card still shows a couple of lines. */
 private const val MIN_TIP_LINES = 2
+
+/**
+ * Ceiling on how many lines a tip may wrap to. Six, because past that a glance turns into a
+ * paragraph — the card stops being read and starts being skimmed.
+ *
+ * **This is a constraint on font selection, not a truncation**, and the difference is the whole
+ * reason it is safe. A flat ceiling used to sit here, applied only as `maxLines` on the `Text`
+ * after the size had already been chosen, and it silently cut the ends off tips: sweeping the
+ * declared 110–320dp range, the 90-character worst case was clipped at roughly 1,700 sizes, every
+ * one by that constant rather than by a lack of room. It was removed for exactly that.
+ *
+ * What makes the number safe now is that [metricsFor] refuses any font size whose worst case would
+ * *need* more than this, so by the time the ceiling is applied nothing can exceed it. It costs
+ * type size rather than words, which is the right way round: fewer lines of the same text means
+ * more characters per line, which means a smaller font. On the common 187x226dp card that is 18sp
+ * down to 13sp.
+ *
+ * That cost is mostly the monospaced face, not the cap. A fixed-width font fits far fewer
+ * characters per line, so it needs more lines for the same tip and gives up more size when told it
+ * cannot have them — a proportional face reaches six lines at 20sp on the same card. If this ever
+ * feels too small, the face is the thing to reconsider, not this number.
+ *
+ * [TIP_FONT_LADDER] runs down to 6sp so the constraint stays satisfiable: a 110dp-wide card cannot
+ * fit 90 characters into six lines at any larger size, and a cap that cannot be met would put the
+ * clipping straight back.
+ */
+private const val MAX_TIP_LINES = 6
 
 @Composable
 private fun TipWidgetContent(
