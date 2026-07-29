@@ -191,7 +191,7 @@ private fun WidgetStyle.skin(): Pair<Int, WidgetInk> =
  * the card rather than mapping size ranges to a font by hand, which is what left a tall card
  * holding type sized for a short one.
  */
-private val TIP_FONT_LADDER = listOf(10.sp, 11.sp, 13.sp, 15.sp, 18.sp, 21.sp)
+private val TIP_FONT_LADDER = listOf(8.sp, 9.sp, 10.sp, 11.sp, 13.sp, 15.sp, 18.sp, 21.sp)
 
 /**
  * The longest tip the catalog allows. The pools are capped at roughly this, and the cap is a
@@ -201,12 +201,25 @@ private val TIP_FONT_LADDER = listOf(10.sp, 11.sp, 13.sp, 15.sp, 18.sp, 21.sp)
  */
 private const val LONGEST_TIP_CHARS = 90
 
-/** Rough advance width of the bold serif face as a fraction of font size, and the usual line box. */
-private const val CHAR_WIDTH_RATIO = 0.5f
-private const val LINE_HEIGHT_RATIO = 1.25f
+/**
+ * Effective width of one character as a fraction of font size — **measured against a real render,
+ * not derived from the font's metrics.**
+ *
+ * The first version of this used 0.5, reasoning from the bold serif face's nominal advance width,
+ * and it clipped on the device: a 79-character tip in a 114dp column at 13sp took seven lines
+ * where the formula predicted five. Counting the rendered lines put the real figure near 0.78.
+ *
+ * The gap is word wrapping. A line breaks at the last word that fits, so every line but the last
+ * ends with dead space, and a narrow column wastes proportionally more of it — which is exactly
+ * the case that matters here. This constant therefore folds glyph width and wrap waste together
+ * rather than modelling them separately, because only their product affects the answer, and only
+ * their product can be measured from a screenshot. Re-measure it the same way if the face or the
+ * chip padding changes.
+ */
+private const val EFFECTIVE_CHAR_WIDTH_RATIO = 0.8f
 
-/** Horizontal padding inside the chip, both sides, which the text never gets to use. */
-private val CHIP_HORIZONTAL_PADDING = 8.dp
+/** The usual line box as a multiple of font size. */
+private const val LINE_HEIGHT_RATIO = 1.25f
 
 /**
  * How much card there is to spend, per size bucket.
@@ -237,6 +250,7 @@ private data class CardMetrics(
     val footerSpacing: Dp,
     val cardPadding: Dp,
     val chipPaddingVertical: Dp,
+    val chipPaddingHorizontal: Dp,
 )
 
 /**
@@ -270,9 +284,12 @@ private fun metricsFor(size: DpSize): CardMetrics {
             size.height < 210.dp -> 10.sp
             else -> 11.sp
         }
-    val footerSpacing = if (compact) 3.dp else 8.dp
-    val padding = if (compact) 6.dp else 12.dp
-    val chipPadding = if (compact) 4.dp else 6.dp
+    // A 2x2 card is tight enough that padding is the difference between fitting the catalog's
+    // longest tip and truncating it, so the compact figures are deliberately mean.
+    val footerSpacing = if (compact) 2.dp else 8.dp
+    val padding = if (compact) 4.dp else 12.dp
+    val chipPadding = if (compact) 3.dp else 6.dp
+    val chipHorizontalPadding = if (compact) 6.dp else 8.dp
 
     // Chrome first, because none of it depends on the tip's font size — so what's left is a
     // fixed budget the type has to fit inside. Every ratio here is an estimate, and each one
@@ -282,7 +299,7 @@ private fun metricsFor(size: DpSize): CardMetrics {
     val footerHeight = (footerFontSize.value * LINE_HEIGHT_RATIO).dp + footerSpacing
     val chromeHeight = padding * 2 + chipPadding * 2 + quoteMarkHeight + footerHeight
     val availableHeight = (size.height - chromeHeight).value
-    val textWidth = (size.width - padding * 2 - CHIP_HORIZONTAL_PADDING * 2).value
+    val textWidth = (size.width - padding * 2 - chipHorizontalPadding * 2).value
 
     // Largest font whose worst case still fits, rather than a hand-drawn map from width ranges
     // to font sizes. That map had no way to notice spare *height*, so a narrow-but-tall card —
@@ -291,7 +308,7 @@ private fun metricsFor(size: DpSize): CardMetrics {
     // before the longest tip in the catalog stops fitting?
     val fontSize =
         TIP_FONT_LADDER.lastOrNull { candidate ->
-            val charsPerLine = textWidth / (candidate.value * CHAR_WIDTH_RATIO)
+            val charsPerLine = textWidth / (candidate.value * EFFECTIVE_CHAR_WIDTH_RATIO)
             if (charsPerLine < 1f) {
                 false
             } else {
@@ -311,6 +328,7 @@ private fun metricsFor(size: DpSize): CardMetrics {
         footerSpacing = footerSpacing,
         cardPadding = padding,
         chipPaddingVertical = chipPadding,
+        chipPaddingHorizontal = chipHorizontalPadding,
     )
 }
 
@@ -392,7 +410,10 @@ private fun TipWidgetContent(
                             GlanceModifier
                                 .background(ColorProvider(ink.chip))
                                 .cornerRadius(14.dp)
-                                .padding(horizontal = 8.dp, vertical = metrics.chipPaddingVertical),
+                                .padding(
+                                    horizontal = metrics.chipPaddingHorizontal,
+                                    vertical = metrics.chipPaddingVertical,
+                                ),
                     ) {
                         Text(
                             text = tip,
