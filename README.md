@@ -167,6 +167,13 @@ of those while another group had fresh options sitting unused.
 - **Chrome is charged before the type is sized**, so every decorative dp comes out of the font.
   That is why the quote glyph needs a tall card to appear at all, and why padding isn't spent
   twice over.
+- **The typeface and its width calibration are one value, not two.** `TipFace` pairs the font with
+  the character-width figure measured for *that* font. They were separate constants once and
+  drifted apart immediately — the face changed and the figure, measured against the old one,
+  stayed put, so the card sized type for a font it no longer used and gave back a third of its
+  height. Nothing failed loudly, because a stale figure over-reserves rather than clipping, which
+  is exactly what made it survive. The figure is derived from the font file's `hmtx` advance times
+  a wrap-waste factor, then checked against a real render.
 - **No DI framework and no ViewModel.** `AppContainer` is a hand-written composition root; the
   settings screen collects `Flow`s directly.
 - **Tip content is bundled plain text**, not JSON, to keep `:core` dependency-free. Practical
@@ -214,10 +221,6 @@ Completed work lives in the git history rather than here. What's open:
       aloud and rewrite what stumbles. Note this collides with the ~90-character cap and with
       tip-text-as-identity: rewording orphans a user's stored history, so do it in one pass
       rather than continuously.
-- [ ] **Re-measure `EFFECTIVE_CHAR_WIDTH_RATIO` against the condensed face.** It was measured
-      from a *serif* render the widget no longer uses, so it now over-estimates the room the type
-      needs. Harmless (it can only under-size, never clip) but it is leaving font size on the
-      table. Count the rendered lines from a device screenshot, as before.
 - [ ] **Make a cold tap *feel* faster.** ~1s of a cold tap is process start plus Glance session
       setup, not app code, and `warmUp()` already hides the catalog parse behind it. No obvious
       answer left: a widget has no cheap way to acknowledge a tap before its process exists, and
