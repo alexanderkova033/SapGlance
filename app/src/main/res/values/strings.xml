@@ -11,9 +11,13 @@
     <string name="settings_variety_label_practical">Practical</string>
     <string name="settings_variety_label_balanced">Balanced</string>
     <string name="settings_variety_label_playful">Reflective</string>
-    <string name="settings_variety_state_practical">Mostly practical</string>
-    <string name="settings_variety_state_balanced">An even mix of practical tips and motivation, philosophy &amp; wellbeing</string>
-    <string name="settings_variety_state_playful">Mostly motivation, philosophy &amp; wellbeing</string>
+    <!-- Written to sound like a person, not a spec. The original set named the internal pools
+         ("Mostly motivation, philosophy & wellbeing"), which made Practical the real option and
+         Reflective the leftovers. Keep all three the same length and register: whichever one
+         you pick should sound like the good choice. -->
+    <string name="settings_variety_state_practical">Little things you can try today</string>
+    <string name="settings_variety_state_balanced">A bit of both</string>
+    <string name="settings_variety_state_playful">Something to mull over</string>
 
     <string name="settings_tip_source_quote">“%1$s”</string>
     <string name="settings_tip_refresh_action">Get a different tip</string>

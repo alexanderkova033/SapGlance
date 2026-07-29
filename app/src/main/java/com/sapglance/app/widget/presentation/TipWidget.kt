@@ -144,7 +144,11 @@ private enum class WidgetInk(
 ) {
     ON_DARK(
         text = Color.White,
-        chip = Color.Black.copy(alpha = 0.22f),
+        // 0.22 was doing too little to be worth drawing: on the busier styles the panel read as
+        // a smudge rather than a surface, so the text still took its contrast from whatever art
+        // happened to be behind it. Deeper enough to actually sit the words on something, and
+        // still translucent enough that the artwork reads through it.
+        chip = Color.Black.copy(alpha = 0.34f),
         quoteMark = Color.White.copy(alpha = 0.6f),
         footer = Color.White.copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg,
@@ -157,7 +161,7 @@ private enum class WidgetInk(
     // darkening a scene behind pale text, it's flattening whatever art the dark text crosses.
     ON_LIGHT(
         text = Color(0xFF17181C),
-        chip = Color.White.copy(alpha = 0.5f),
+        chip = Color.White.copy(alpha = 0.62f),
         quoteMark = Color(0xFF17181C).copy(alpha = 0.5f),
         footer = Color(0xFF17181C).copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg_light,
@@ -232,6 +236,26 @@ private const val EFFECTIVE_CHAR_WIDTH_RATIO = 0.8f
 private const val LINE_HEIGHT_RATIO = 1.25f
 
 /**
+ * The tip's typeface, named once so it is a one-line change to try another.
+ *
+ * `FontFamily` takes any family name the platform resolves, not just the four constants Glance
+ * predefines, so the whole Android system set is available: `serif`, `sans-serif`,
+ * `sans-serif-condensed`, `sans-serif-medium`, `serif-monospace`, `casual`, `cursive`.
+ *
+ * Condensed rather than the previous `serif`. Noto Serif Bold is a wide, even face, and on a
+ * card this narrow that width is the whole problem: it is what forces the long tips onto eight
+ * lines, and eight lines is what forces the type small. A condensed face buys roughly a
+ * character and a half per line at the same point size and has a sharper vertical rhythm, which
+ * reads as deliberate on a quote card where the serif read as merely default.
+ *
+ * Note the direction of the risk. [EFFECTIVE_CHAR_WIDTH_RATIO] was measured against the *serif*
+ * render, so it now over-estimates how much room this face needs — the type is sized as though
+ * still set in serif, which wastes a little space but cannot clip. Re-measuring it against a
+ * condensed render is the follow-up, and only ever makes the type bigger.
+ */
+private val TIP_FONT_FAMILY = FontFamily("sans-serif-condensed")
+
+/**
  * How much card there is to spend, per size bucket.
  *
  * Note carefully what this does *not* do: it does not measure the tip. An earlier
@@ -268,6 +292,7 @@ private data class CardMetrics(
     val cardPadding: Dp,
     val chipPaddingVertical: Dp,
     val chipPaddingHorizontal: Dp,
+    val chipCornerRadius: Dp,
     val settingsButtonSize: Dp,
     val settingsGlyphSize: Dp,
 )
@@ -328,6 +353,16 @@ private fun metricsFor(size: DpSize): CardMetrics {
         }
     val chipPadding = if (compact) 3.dp else 6.dp
     val chipHorizontalPadding = if (compact) 5.dp else 7.dp
+    // Rounder than the old flat 14dp, and scaled so the panel keeps its proportions instead of
+    // looking progressively boxier as the card grows. Nested inside the card's own 20dp corner,
+    // a softer radius reads as one shape sitting inside another rather than as a rectangle
+    // pasted over artwork — which, with the fuller-width panel, is the shape most visible now.
+    val chipCornerRadius =
+        when {
+            compact -> 12.dp
+            size.height < 240.dp -> 18.dp
+            else -> 22.dp
+        }
     // The gear scales with the card for the same reason the type does. A fixed 36dp circle is
     // 23% of a 154dp card's width, which reads as a button with a card attached rather than a
     // card with a button on it.
@@ -376,6 +411,7 @@ private fun metricsFor(size: DpSize): CardMetrics {
         cardPadding = padding,
         chipPaddingVertical = chipPadding,
         chipPaddingHorizontal = chipHorizontalPadding,
+        chipCornerRadius = chipCornerRadius,
         settingsButtonSize = settingsButtonSize,
         settingsGlyphSize = settingsButtonSize * 0.55f,
     )
@@ -480,7 +516,7 @@ private fun TipWidgetContent(
                             GlanceModifier
                                 .fillMaxWidth()
                                 .background(ColorProvider(ink.chip))
-                                .cornerRadius(14.dp)
+                                .cornerRadius(metrics.chipCornerRadius)
                                 .padding(
                                     horizontal = metrics.chipPaddingHorizontal,
                                     vertical = metrics.chipPaddingVertical,
@@ -502,7 +538,7 @@ private fun TipWidgetContent(
                                 TextStyle(
                                     fontSize = metrics.tipFontSize,
                                     fontWeight = FontWeight.Bold,
-                                    fontFamily = FontFamily.Serif,
+                                    fontFamily = TIP_FONT_FAMILY,
                                     textAlign = TextAlign.Center,
                                     color = ColorProvider(ink.text),
                                 ),
@@ -523,6 +559,10 @@ private fun TipWidgetContent(
                     TextStyle(
                         fontSize = metrics.footerFontSize,
                         fontWeight = FontWeight.Medium,
+                        // Same face as the tip, so the card reads as one thing. The `❝` glyph
+                        // above deliberately stays serif — it is an ornament rather than text,
+                        // and the serif drawing of it is simply a better mark.
+                        fontFamily = TIP_FONT_FAMILY,
                         textAlign = TextAlign.Center,
                         color = ColorProvider(ink.footer),
                     ),
