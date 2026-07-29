@@ -14,8 +14,8 @@
             <gradient
                 android:type="radial"
                 android:gradientRadius="130dp"
-                android:centerX="0.82"
-                android:centerY="0.18"
+                android:centerX="0.18"
+                android:centerY="0.14"
                 android:startColor="@color/widget_midnight_moon_glow"
                 android:endColor="@android:color/transparent" />
         </shape>
@@ -31,34 +31,41 @@
                 android:endColor="@android:color/transparent" />
         </shape>
     </item>
-    <!-- Crescent moon: a solid pale disc, then a second disc in the base gradient's own dark
-         tone painted over part of it, "biting" a crescent shape out rather than a full circle. -->
+    <!-- The moon: one pale disc, in the left corner.
+
+         Two things changed here and they are worth keeping straight. It sat in the *right*
+         corner, and that is where the settings button lives on every style, so the button landed
+         on the moon and the pair read as two overlapping discs — the one place in the set where
+         the chrome covered a style's subject rather than empty artwork. Nothing else in any
+         background puts more than a 2.5dp speck in that corner, so this is the only drawable that
+         had to move.
+
+         Moving it also retired a trick that had never really worked: the moon used to be a
+         crescent, made by painting a second disc of the gradient's own start color over part of
+         the first to bite a shape out of it. A flat bite can only disappear where the gradient
+         happens to be that exact color, and behind the moon it never is — it is a linear ramp
+         crossed by the moon glow's radial, and where along the ramp the corner falls moves with
+         the card's aspect ratio. So the "crescent" rendered as a pale disc with a black disc
+         punched through it at every size. A full moon needs nothing to match and cannot come
+         apart. Held clear of the top of the longest tip by a couple of dp, which is why this is
+         8dp rather than the 12 it was. -->
     <item
         android:width="28dp"
         android:height="28dp"
-        android:gravity="top|right"
-        android:right="22dp"
-        android:top="12dp">
+        android:gravity="top|left"
+        android:left="20dp"
+        android:top="8dp">
         <shape android:shape="oval">
             <solid android:color="@color/widget_midnight_moon_body" />
         </shape>
     </item>
-    <item
-        android:width="26dp"
-        android:height="26dp"
-        android:gravity="top|right"
-        android:right="10dp"
-        android:top="6dp">
-        <shape android:shape="oval">
-            <solid android:color="@color/widget_midnight_start" />
-        </shape>
-    </item>
+    <!-- Moved out of the moon's new corner, and kept clear of the settings button's own. -->
     <item
         android:width="2.5dp"
         android:height="2.5dp"
-        android:gravity="top|left"
-        android:left="28dp"
-        android:top="12dp">
+        android:gravity="top|right"
+        android:right="54dp"
+        android:top="30dp">
         <shape android:shape="oval">
             <solid android:color="@color/widget_midnight_star" />
         </shape>

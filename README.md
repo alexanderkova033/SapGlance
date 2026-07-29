@@ -30,7 +30,7 @@ backup like any other app's local data. That's the one path data can leave the p
 - **The card's background is one of eleven styles**, derived from the current tip's text rather
   than from a setting, so a new tip means a new-looking card. Seven dark (Forest, Ocean,
   Sunset, Midnight, Aurora, Dawn, Rain) and four light (Winter, Paper, Meadow, Blossom). The
-  whole ink set — text, chip, frame, gear — flips with the style rather than following the
+  whole ink set — text, scrim, frame, gear — flips with the style rather than following the
   phone's day/night theme, because what the text contrasts against is the artwork behind it.
 - **The widget resizes** from a 2x2 square to a 4x4 block, with a layout built for each end of
   that range rather than one layout stretched across it.

@@ -52,7 +52,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.time.LocalTime
-import kotlin.math.ceil
 
 /**
  * FR1: shows the current tip. Tapping the card itself gets a new tip on the spot (via
@@ -126,17 +125,17 @@ class TipWidget : GlanceAppWidget() {
 /**
  * Every color the card draws text and chrome in, for one direction of contrast.
  *
- * The widget used to hardcode white text with a translucent *black* chip behind it, which
+ * The widget used to hardcode white text with a translucent *black* wash behind it, which
  * silently assumed every background would stay dark — and did, for as long as they all were.
  * The moment a pale style exists that assumption produces white-on-cream: technically rendered,
  * practically invisible. So the whole ink set flips together rather than the text color alone;
- * a light card needs a *lighter* chip than its background (not a darker one), a dark card
+ * a light card needs a *lighter* wash than its background (not a darker one), a dark card
  * frame instead of a white one, and a dark gear glyph on a bright button instead of the
  * reverse. Flipping only some of those is what leaves a card looking half-inverted.
  */
 private enum class WidgetInk(
     val text: Color,
-    val chip: Color,
+    val scrim: Color,
     val quoteMark: Color,
     val footer: Color,
     val settingsButtonRes: Int,
@@ -144,15 +143,13 @@ private enum class WidgetInk(
 ) {
     ON_DARK(
         text = Color.White,
-        // 0.22 was doing too little to be worth drawing: on the busier styles the panel read as
-        // a smudge rather than a surface, so the text still took its contrast from whatever art
-        // happened to be behind it. Deeper enough to actually sit the words on something, and
-        // still translucent enough that the artwork reads through it.
-        //
-        // Deepened once for a light monospaced face, then eased back a couple of points when the
-        // face changed to one with a real bold: the panel no longer has to do the work of making
-        // thin strokes read as solid, so it can go back to letting more of the artwork through.
-        chip = Color.Black.copy(alpha = 0.42f),
+        // Held at exactly the alpha the old text panel used, because the contrast arithmetic
+        // under the words is unchanged by spreading the same wash over the whole card — every
+        // pixel of artwork the text crosses is composited against the same 0.42 as before. What
+        // *did* change is everything the text doesn't cross, which is now toned to match rather
+        // than framing a darker rectangle. Anything shallower would trade real legibility for
+        // a brighter card; see [TipWidgetContent] for why the rectangle went away.
+        scrim = Color.Black.copy(alpha = 0.42f),
         quoteMark = Color.White.copy(alpha = 0.6f),
         footer = Color.White.copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg,
@@ -160,12 +157,17 @@ private enum class WidgetInk(
     ),
 
     // Not pure black: against a bright card, #000 has a hard glare-y edge that a near-black
-    // with a trace of the background's own warmth doesn't. The chip goes white and *up* in
-    // alpha compared to ON_DARK's, because on a light style its job changes — it isn't
-    // darkening a scene behind pale text, it's flattening whatever art the dark text crosses.
+    // with a trace of the background's own warmth doesn't.
+    //
+    // The wash goes white here, and much shallower than the 0.70 the old panel needed. A panel
+    // had to flatten the artwork it covered into something uniform; a whole-card wash only has
+    // to lift the *darkest* thing the near-black text can cross, and on these styles that is
+    // Meadow's grass and Blossom's branch, which measure 6.4:1 against this ink with no wash at
+    // all. 0.30 takes the worst of them to 9.7:1 and still leaves the pale styles their color —
+    // at 0.70 a whole-card wash bleaches Blossom's blush out of the card entirely.
     ON_LIGHT(
         text = Color(0xFF17181C),
-        chip = Color.White.copy(alpha = 0.70f),
+        scrim = Color.White.copy(alpha = 0.30f),
         quoteMark = Color(0xFF17181C).copy(alpha = 0.5f),
         footer = Color(0xFF17181C).copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg_light,
@@ -194,6 +196,12 @@ private fun WidgetStyle.skin(): Pair<Int, WidgetInk> =
         WidgetStyle.BLOSSOM -> R.drawable.widget_background_blossom to WidgetInk.ON_LIGHT
     }
 
+/** The card's own corner. The tip is laid on the card now, so nothing has to nest inside it. */
+private val CARD_CORNER_RADIUS = 20.dp
+
+/** Gap under the `❝` glyph, charged in [metricsFor] and drawn in [TipWidgetContent]. */
+private val QUOTE_MARK_GAP = 2.dp
+
 /**
  * Tip font sizes, smallest first. The layout picks the largest one whose worst case still fits
  * the card rather than mapping size ranges to a font by hand, which is what left a tall card
@@ -212,18 +220,22 @@ private val TIP_FONT_LADDER =
     )
 
 /**
- * The longest tip the catalog allows. The pools are capped at roughly this, and the cap is a
- * content rule rather than something enforced in code — see `tips/general.txt`. Sizing against
- * the worst case is what keeps this from being a per-tip measurement: every tip renders at the
- * same size on a given card, so nothing shifts underneath the reader when the tip changes.
+ * The height of one line box, as a multiple of the *rendered* font height.
+ *
+ * Measured, not assumed: a 16sp tip on the test device draws its lines 20.9dp apart, and Noto
+ * Serif's own metrics (ascent 0.93em, descent 0.25em, zero leading) say the same 1.19. This was
+ * 1.25 for a long time, which is a plausible-looking number that belongs to no particular
+ * font — it happened to over-reserve here, which is the harmless direction, but the point of
+ * measuring is that neither direction is then a matter of luck.
+ *
+ * Glance 1.1.1's `TextStyle` has no `lineHeight`, so this is a reading of what the platform
+ * does rather than a value the card gets to set. If a future Glance adds one, this constant and
+ * that call have to agree.
  */
-private const val LONGEST_TIP_CHARS = 90
-
-/** The usual line box as a multiple of font size. */
-private const val LINE_HEIGHT_RATIO = 1.25f
+private const val LINE_HEIGHT_RATIO = 1.19f
 
 /**
- * A typeface together with the character-width figure measured for *that* face.
+ * A typeface together with the fitting figure measured for *that* face.
  *
  * These are one type rather than two constants because they are one decision. They were separate
  * once, and the predictable happened: the face changed from serif to condensed and the width
@@ -232,20 +244,22 @@ private const val LINE_HEIGHT_RATIO = 1.25f
  * longer using and gave back a third of its own height. Pairing them means changing the face
  * without re-measuring is not something you can forget to do; it is something you cannot express.
  *
- * [effectiveCharWidthRatio] is the effective width of one character as a fraction of font size,
- * **measured from a real render, never derived from the font's metrics.** It deliberately folds
- * two things together — glyph advance and word-wrap waste — because only their product affects
- * the line count, and only their product can be counted off a screenshot. A line breaks at the
- * last word that fits, so every line but the last ends in dead space, and the narrower the column
- * the larger that share.
+ * [minColumnRatio] is the narrowest text column, as a multiple of the rendered font height, in
+ * which *every* tip in the catalog still wraps to at most [MAX_TIP_LINES] lines. It replaced a
+ * "characters × average character width" estimate, which was the wrong shape of answer twice
+ * over: a per-character average can only describe a typical tip, so the tips that wrap worst
+ * than typical were exactly the ones it under-served, and the fix for that was a spare line of
+ * height that every card then paid for.
  *
- * To re-measure: screenshot the widget, count the rendered lines of a tip of known length, and
- * take `textWidth / (fontSize * charsPerLine)` where `charsPerLine` is the tip's length divided by
- * the line count. Round *up* — over-estimating costs a little space, under-estimating clips.
+ * To re-measure: load the face and greedily wrap all 282 lines of `core/src/main/resources/tips`
+ * at a range of column widths, and take the widest column any single tip needs to come in at
+ * [MAX_TIP_LINES] lines. Greedy is the safe algorithm to measure with — Android's TextView
+ * defaults to a balanced line breaker, which never uses *more* lines than greedy does. Round up:
+ * over-reserving costs a rung of type, under-reserving truncates a sentence.
  */
 private data class TipFace(
     val family: FontFamily,
-    val effectiveCharWidthRatio: Float,
+    val minColumnRatio: Float,
 )
 
 /**
@@ -262,13 +276,10 @@ private data class TipFace(
  * Noto Serif Bold. A monospaced typewriter was tried here and is the reason this doc is long,
  * because it failed for a reason that is not obvious until you see it: in a fixed-width face the
  * space character is as wide as an `m`, so the gaps between words are roughly two and a half
- * times a proportional font's (0.605 em against this face's 0.260) and the text reads as though
- * it has been pulled apart. That is not tunable; it is what monospace *is*.
- *
- * It also cost size twice over. Every glyph takes the width of the widest, so fewer characters
- * fit per line, so more lines are needed for the same tip — and under a line cap (see
- * [MAX_TIP_LINES]) that shortfall is paid back in font size: 14sp where this face gets 16sp and
- * Source Sans Pro would get 18sp.
+ * times a proportional font's and the text reads as though it has been pulled apart. That is not
+ * tunable; it is what monospace *is*. It also cost size twice over, since every glyph takes the
+ * width of the widest, so fewer characters fit per line and more lines are needed for the same
+ * tip.
  *
  * Two constraints eliminated everything more decorative. Every face on the device with a *real*
  * bold (`serif`, `sans-serif`, `source-sans-pro`) is a plain one, and every characterful face
@@ -284,24 +295,13 @@ private data class TipFace(
 private val TIP_FACE =
     TipFace(
         family = FontFamily.Serif,
-        // Derived from the font file rather than eyeballed. NotoSerif-Bold.ttf's `hmtx` table
-        // averages 0.5010 em over real tip text (space 0.260, 'm' 0.986, 'i' 0.352 — proportional,
-        // unlike the monospaced face this replaced, where all three measured 0.605).
-        //
-        // Advance is only half of it; the rest is wrap waste. Checked against a real render: an
-        // 88-character tip — the catalog's worst case is 90 — set in 6 lines at 16sp on the
-        // 187x226dp card, so ~14.7 characters a line and an effective 0.67. Wrap waste is
-        // therefore running about 1.33x for this face, rather than the 1.13x measured for Source
-        // Sans Pro; a wider face fits fewer characters per line and forfeits proportionally more
-        // to the part-word at the end.
-        //
-        // Shipped at 0.62, which is *below* that measurement rather than above it, and that is
-        // safe only because of how [MAX_TIP_LINES] now works. It biases the ladder one rung larger
-        // (16sp rather than 15sp) and means the very longest tips may take a seventh line instead
-        // of six — which the rendered `maxLines` allows, since it follows the card's real height.
-        // Under the old hard cap this exact under-estimate is what truncated tips. Read the two
-        // together: the ratio may be optimistic about *line count*, never about *height*.
-        effectiveCharWidthRatio = 0.62f,
+        // Measured against the real NotoSerif-Bold.ttf off the device, over all 282 tips: the
+        // widest-wrapping line in the catalog ("Morning movement outdoors does double duty…")
+        // needs 8.69 line-heights of column to come in at seven lines, and the next few crowd
+        // just under it. Shipped 3% over that, which covers the small disagreement between a
+        // measurement made with desktop font metrics and Android's own hinted advances — checked
+        // against three on-device renders, where the two differ by under 2%.
+        minColumnRatio = 8.95f,
     )
 
 /**
@@ -317,19 +317,15 @@ private val TIP_FACE =
  *
  * Keying off the *card's* size instead has none of that failure mode. The size is given to us
  * rather than predicted, and it doesn't vary per tip, so the same tip always renders identically
- * at a given widget size — nothing can drift out of sync with reality. Real text wrapping still
- * decides the line count; this only decides how much room wrapping gets to happen in.
+ * at a given widget size — nothing can drift out of sync with reality, and nothing shifts
+ * underneath the reader when the tip changes. Real text wrapping still decides the line count;
+ * this only decides how much room wrapping gets to happen in.
  *
  * The decorative chrome is what gives way first as the card shrinks, because it is the only part
  * that isn't the point. Chrome is charged before the type is sized, so every dp of it is a dp the
- * ladder cannot spend — and the arithmetic is unsentimental about which dp those are. On the
- * default 2x2 (~154x183dp) the layout used to spend 45% of the card's height on padding, a quote
- * glyph and a footer gap before drawing a single word, which left 11sp type: the shape the phrase
- * "small text on an empty card" actually describes. Trimming the doubled-up padding and holding
- * the `❝` glyph back for cards tall enough to afford it brings that to 24% and the type to 13sp.
- *
- * The app-name footer is charged at every size and never dropped — a card with no name on it
- * reads as unfinished rather than minimal, and the label is cheap next to the glyph.
+ * ladder cannot spend. The app-name footer is charged at every size and never dropped — a card
+ * with no name on it reads as unfinished rather than minimal, and the label is cheap next to the
+ * `❝` glyph, which is held back for cards tall enough to afford it.
  */
 private data class CardMetrics(
     val tipFontSize: TextUnit,
@@ -337,25 +333,24 @@ private data class CardMetrics(
     val showQuoteMark: Boolean,
     val quoteMarkSize: TextUnit,
     val footerFontSize: TextUnit,
-    val footerSpacing: Dp,
-    val cardPadding: Dp,
-    val chipPaddingVertical: Dp,
-    val chipPaddingHorizontal: Dp,
-    val chipCornerRadius: Dp,
+    val footerInset: Dp,
+    val textMargin: Dp,
+    val settingsTapSize: Dp,
+    val settingsInset: Dp,
     val settingsButtonSize: Dp,
     val settingsGlyphSize: Dp,
 )
 
 /**
- * Derived from the size rather than matched against the buckets above, so any size the host hands
- * back lands somewhere sensible instead of falling into a `when` branch that had to guess.
+ * Derived from the size rather than matched against buckets, so any size the host hands back
+ * lands somewhere sensible instead of falling into a `when` branch that had to guess.
  *
  * The two axes are treated separately because they constrain different things, and conflating
  * them is what made the first version of this too rigid:
  *
- * - **Width sets the font size**, because width is what decides characters per line. A narrow
- *   card at 15sp fits about twelve characters before wrapping, which turns a 90-character tip
- *   into eight lines no card that narrow can show.
+ * - **Width sets the font size**, because width is what decides how a tip wraps. A column narrower
+ *   than [TipFace.minColumnRatio] line-heights turns the longest tips into more lines than a
+ *   glance is, and eventually into more lines than the card can show at all.
  * - **Height sets how much decoration survives**, because the `❝` glyph and the app-name footer
  *   cost fixed vertical space that a short card needs for the tip itself.
  *
@@ -363,8 +358,19 @@ private data class CardMetrics(
  * whatever height is left after chrome, divided by the line height the font implies. Note this is
  * still not measuring the *text* — it never asks how a particular tip will wrap, which is the
  * prediction that failed before. It only asks how many lines of any text this card can display.
+ *
+ * [fontScale] is the system font-size setting, and every `sp` here has to be multiplied through
+ * it before it can be compared against a `dp`. Leaving it out is not a rounding error: the test
+ * device sits at 1.1, so a card that believed it was drawing 16sp of type was really drawing
+ * 17.6dp of it, under-reserved every height by a tenth, and finished 3dp short of the settings
+ * button. At the 1.3 an accessibility setting can ask for, the same arithmetic truncated tips.
  */
-private fun metricsFor(size: DpSize): CardMetrics {
+private fun metricsFor(
+    size: DpSize,
+    fontScale: Float,
+): CardMetrics {
+    fun TextUnit.lineHeight(): Dp = (value * fontScale * LINE_HEIGHT_RATIO).dp
+
     // Short cards give up the quote glyph, but never the name: an unbranded card reads as an
     // empty one. The footer instead shrinks with the card, which costs far less height than the
     // glyph does and keeps the widget identifiable at every size.
@@ -373,104 +379,109 @@ private fun metricsFor(size: DpSize): CardMetrics {
     // The glyph has to earn its height, and the bar has risen twice. It began at 170dp, where the
     // default 2x2 (~154x183dp) drew it and the ~26dp it costs — 14% of that card — pushed the tip
     // two rungs down the ladder. That is the hollow failure exactly: the ornament ends up the
-    // largest thing on the card and the sentence the smallest.
-    //
-    // 200dp fixed that card and not the next one up. On a real 187x226dp 2x2 the glyph was still
-    // costing 23dp, which is the difference between 16sp and 18sp — and with a monospaced face
-    // that cannot be made any heavier (see [TIP_FACE]), size is one of only two levers left
-    // against type that reads as thin. An ornament is not worth two points of type on the card
-    // most people will actually have. Past 250dp there is genuinely room for both.
+    // largest thing on the card and the sentence the smallest. 200dp fixed that card and not the
+    // next one up; on a real 187x226dp 2x2 the glyph was still costing the difference between
+    // 16sp and 18sp. Past 250dp there is genuinely room for both.
     val showQuoteMark = size.height >= 250.dp
     val quoteMarkSize = if (size.height >= 290.dp) 24.sp else 20.sp
+
+    // The tip's margin from the card edge — one margin now, where there used to be two nested
+    // ones. It is charged once against the column width instead of twice, which is what pays for
+    // the roomier figure: the old 8dp card padding plus 7dp panel padding came to the same 15dp
+    // of edge while leaving the text 7dp from a visible panel border, i.e. reading as crammed
+    // into a box rather than set on a card.
+    val textMargin =
+        when {
+            compact -> 8.dp
+            size.height < 240.dp -> 14.dp
+            else -> 18.dp
+        }
     val footerFontSize =
         when {
             compact -> 8.sp
             size.height < 210.dp -> 10.sp
             else -> 11.sp
         }
-    // The footer read as adrift because of the gap above it, not its size, so the gap is what
-    // shrinks here. Scaling the label down instead would have made the card look emptier, not
-    // tighter.
-    val footerSpacing = if (compact) 2.dp else 4.dp
-    // Horizontal padding gets charged twice — once by the card, once by the chip inside it — so
-    // the old 12+8 spent 40dp of a 154dp card, a full quarter of its width, on margin alone.
-    // Every dp handed back widens the text column, and the column width is what sets characters
-    // per line and so the largest font the ladder can afford. A 2x2 card is tight enough that
-    // this is the difference between fitting the catalog's longest tip and truncating it, which
-    // is why the compact figures are meaner still.
-    val padding =
+    val footerInset =
         when {
-            compact -> 4.dp
-            size.height < 240.dp -> 8.dp
-            else -> 10.dp
+            compact -> 6.dp
+            size.height < 240.dp -> 10.dp
+            else -> 12.dp
         }
-    val chipPadding = if (compact) 3.dp else 6.dp
-    val chipHorizontalPadding = if (compact) 5.dp else 7.dp
-    // Rounder than the old flat 14dp, and scaled so the panel keeps its proportions instead of
-    // looking progressively boxier as the card grows. Nested inside the card's own 20dp corner,
-    // a softer radius reads as one shape sitting inside another rather than as a rectangle
-    // pasted over artwork — which, with the fuller-width panel, is the shape most visible now.
-    val chipCornerRadius =
-        when {
-            compact -> 12.dp
-            size.height < 240.dp -> 18.dp
-            else -> 22.dp
-        }
-    // The gear scales with the card for the same reason the type does. A fixed 36dp circle is
-    // 23% of a 154dp card's width, which reads as a button with a card attached rather than a
-    // card with a button on it.
+    // Two sizes, not one: the circle is what the eye has to find and the box is what the thumb
+    // has to hit, and those wanted opposite things. A 34dp circle that was also its own tap
+    // target read as the loudest thing on the card while still landing under Material's 48dp
+    // minimum — 28dp on screen once the launcher's own 0.83 scale is applied. Splitting them
+    // makes the mark quieter *and* the target half again bigger; the extra area is invisible and
+    // costs the tip nothing, since only the drawn circle is charged as chrome below.
     val settingsButtonSize =
         when {
+            compact -> 18.dp
+            size.height < 200.dp -> 24.dp
+            else -> 28.dp
+        }
+    val settingsTapSize =
+        when {
             compact -> 26.dp
-            size.height < 200.dp -> 30.dp
-            else -> 34.dp
+            size.height < 200.dp -> 40.dp
+            else -> 48.dp
+        }
+    // The circle rides in the corner of that box rather than the middle of it, which is worth
+    // two things. It hands the tip back the difference — the rail below is charged from where
+    // the circle ends, not where the target does — and it happens to be where the card's own
+    // corner has most room: at half the card's 20dp radius the button is concentric with the
+    // corner arc, so the gap between them is even the whole way round instead of pinching at
+    // 45°. Further in *or* further out both crowd it.
+    val settingsInset =
+        when {
+            compact -> 4.dp
+            size.height < 200.dp -> 5.dp
+            else -> 6.dp
         }
 
-    // Chrome first, because none of it depends on the tip's font size — so what's left is a
-    // fixed budget the type has to fit inside. Every ratio here is an estimate, and each one
-    // errs towards a smaller font rather than a clipped tip.
-    val quoteMarkHeight =
-        if (showQuoteMark) (quoteMarkSize.value * LINE_HEIGHT_RATIO).dp + 2.dp else 0.dp
-    val footerHeight = (footerFontSize.value * LINE_HEIGHT_RATIO).dp + footerSpacing
-    val chromeHeight = padding * 2 + chipPadding * 2 + quoteMarkHeight + footerHeight
-    val availableHeight = (size.height - chromeHeight).value
-    val textWidth = (size.width - padding * 2 - chipHorizontalPadding * 2).value
+    // What the tip has to stay clear of, at *both* ends, because it is centred in the whole card:
+    // room left only at the top would move the centre, and the card reading as top-heavy is the
+    // defect this replaced. So one rail, sized to whichever corner overlay is taller, charged
+    // twice. Note it is the drawn circle that is charged and not the tap box: an invisible target
+    // overlapping the first line of a long tip harms nothing, while reserving 48dp at both ends
+    // of a 226dp card would cost two rungs of type.
+    val rail =
+        maxOf(
+            settingsInset + settingsButtonSize,
+            footerInset + footerFontSize.lineHeight(),
+        )
+    val quoteMarkHeight = if (showQuoteMark) quoteMarkSize.lineHeight() + QUOTE_MARK_GAP else 0.dp
+    val available = size.height - rail * 2 - quoteMarkHeight
+    val column = size.width - textMargin * 2
 
-    // Largest font whose worst case still fits, rather than a hand-drawn map from width ranges
+    // Largest font that clears both constraints, rather than a hand-drawn map from width ranges
     // to font sizes. That map had no way to notice spare *height*, so a narrow-but-tall card —
     // the shape a 2-column phone slot actually produces — got type sized for a short card and
-    // looked half empty. This asks the question that matters instead: how big can the type be
-    // before the longest tip in the catalog stops fitting?
+    // looked half empty.
+    //
+    // The first condition is the one that guarantees the line count, and it is a measurement of
+    // the catalog rather than an estimate of a tip (see [TipFace.minColumnRatio]); the second
+    // only asks whether that many lines fit. Both are needed: height alone would happily allow
+    // nine lines of small type, which is a paragraph rather than a glance.
     val fontSize =
         TIP_FONT_LADDER.lastOrNull { candidate ->
-            val charsPerLine = textWidth / (candidate.value * TIP_FACE.effectiveCharWidthRatio)
-            if (charsPerLine < 1f) {
-                false
-            } else {
-                val linesNeeded = ceil(LONGEST_TIP_CHARS / charsPerLine)
-                // Two conditions, and the line count is the *stricter* of them on a tall card:
-                // height alone would happily allow eight or nine lines of small type, which is
-                // a paragraph rather than a glance. See [MAX_TIP_LINES].
-                linesNeeded <= MAX_TIP_LINES &&
-                    linesNeeded * candidate.value * LINE_HEIGHT_RATIO <= availableHeight
-            }
+            column >= (candidate.value * fontScale * TIP_FACE.minColumnRatio).dp &&
+                candidate.lineHeight() * MAX_TIP_LINES <= available
         } ?: TIP_FONT_LADDER.first()
-
-    val usableLines = (availableHeight / (fontSize.value * LINE_HEIGHT_RATIO)).toInt()
 
     return CardMetrics(
         tipFontSize = fontSize,
-        // Note this is *not* clamped to [MAX_TIP_LINES]. That ceiling shapes which font gets
-        // picked; it must never be what a tip is cut off at. See [MAX_TIP_LINES].
-        maxTipLines = usableLines.coerceAtLeast(MIN_TIP_LINES),
+        // Whatever the card can physically show, which the font choice above has already made at
+        // least [MAX_TIP_LINES]. Deliberately not clamped to that number: it is a target for
+        // choosing type, never a knife to cut a sentence with. See [MAX_TIP_LINES].
+        maxTipLines = (available / fontSize.lineHeight()).toInt().coerceAtLeast(MIN_TIP_LINES),
         showQuoteMark = showQuoteMark,
         quoteMarkSize = quoteMarkSize,
         footerFontSize = footerFontSize,
-        footerSpacing = footerSpacing,
-        cardPadding = padding,
-        chipPaddingVertical = chipPadding,
-        chipPaddingHorizontal = chipHorizontalPadding,
-        chipCornerRadius = chipCornerRadius,
+        footerInset = footerInset,
+        textMargin = textMargin,
+        settingsTapSize = settingsTapSize,
+        settingsInset = settingsInset,
         settingsButtonSize = settingsButtonSize,
         settingsGlyphSize = settingsButtonSize * 0.55f,
     )
@@ -480,30 +491,27 @@ private fun metricsFor(size: DpSize): CardMetrics {
 private const val MIN_TIP_LINES = 2
 
 /**
- * How many lines a tip should *aim* to wrap to. Six, because past that a glance turns into a
- * paragraph — the card stops being read and starts being skimmed.
+ * How many lines a tip may wrap to. Seven: past that a glance turns into a paragraph, and the
+ * card stops being read and starts being skimmed.
  *
- * **A target for choosing the font, never a limit on what gets drawn.** This distinction has now
- * been got wrong twice, in both directions, so it is worth stating plainly.
+ * **A target for choosing the font, never a limit on what gets drawn.** This distinction has been
+ * got wrong twice, in both directions, so it is worth stating plainly. The first version was a
+ * flat `maxLines` applied after the size had been chosen, and it cut the ends off tips at roughly
+ * 1,700 sizes across the declared range. The second constrained font selection — correctly — but
+ * *also* clamped the rendered `maxLines` to the same number, which quietly reintroduced the
+ * clipping for any tip that wrapped worse than the average the estimate was built on.
  *
- * The first version was a flat `maxLines` applied after the size had been chosen. It cut the ends
- * off tips at roughly 1,700 sizes across the declared range, and was removed.
+ * Six was the number while the fit was an estimate, and the estimate is what made six unreliable:
+ * a per-character average said six, real wrapping delivered seven for the longest tips, and the
+ * card had to carry a spare line of height to survive the difference. Now that the fit is
+ * measured across the whole catalog (see [TipFace.minColumnRatio]), seven is simply what the
+ * longest tips have always taken on the default card — the constant describes the render instead
+ * of contradicting it, and admitting that is worth two rungs of type size.
  *
- * The second version constrained font selection — correctly — but *also* clamped the rendered
- * `maxLines` to the same number, and that quietly reintroduced the clipping. The selection can
- * only reason about an average tip, because [effectiveCharWidthRatio] folds in an *average* wrap
- * waste; a particular tip with long words wraps worse than average and needs a seventh line. The
- * font was sized so six lines usually suffice, and then the seventh was chopped off.
- *
- * So the two numbers are now deliberately different. Font selection targets this ceiling; the
- * rendered `maxLines` is whatever the card's height genuinely allows, which is always more. Tips
- * come out at six lines or fewer nearly always, occasionally seven, and never truncated — because
- * a line count is a matter of taste and a cut-off sentence is a defect.
- *
- * [TIP_FONT_LADDER] runs down to 6sp so the target stays reachable: a 110dp-wide card cannot fit
- * 90 characters into six lines at any larger size.
+ * [TIP_FONT_LADDER] runs down to 6sp so the target stays reachable on the narrowest declared
+ * card, which cannot fit 90 characters into seven lines at any larger size.
  */
-private const val MAX_TIP_LINES = 6
+private const val MAX_TIP_LINES = 7
 
 @Composable
 private fun TipWidgetContent(
@@ -521,110 +529,86 @@ private fun TipWidgetContent(
     // style-driven flip is also the only one that stays correct when the tip — and with it the
     // background — changes underneath a widget nobody is looking at.
     val (backgroundRes, ink) = style.skin()
-    val metrics = metricsFor(LocalSize.current)
+    val metrics = metricsFor(LocalSize.current, context.resources.configuration.fontScale)
 
     Box(
         modifier =
             GlanceModifier
                 .fillMaxSize()
-                .cornerRadius(20.dp)
+                .cornerRadius(CARD_CORNER_RADIUS)
                 .background(ImageProvider(backgroundRes))
                 // Whole-card tap: refreshes the tip in place. The settings icon below has its
                 // own clickable modifier, which takes the tap over this one within its bounds.
-                .clickable(actionRunCallback<RefreshTipAction>())
-                .padding(metrics.cardPadding),
+                .clickable(actionRunCallback<RefreshTipAction>()),
         contentAlignment = Alignment.Center,
     ) {
-        // Centred in the *whole* card, not in what is left after the footer.
+        // The surface the tip is read against, and the whole card is it.
         //
-        // This used to be a Column of [weighted box | spacer | footer], which centred the tip
-        // inside the card minus the footer strip and so sat it about 9dp high — subtle in
-        // isolation, obvious once you look for it, and it made the card read as top-heavy. The
-        // footer is a corner overlay now (below), exactly like the settings button, so this box
-        // gets the full height and its centre is the card's centre.
+        // This was a rounded panel drawn just behind the words, and the panel is what made the
+        // card look wrong. It is worth being specific about why, because "add a surface for
+        // contrast" was the right instinct and only the shape of it was wrong. A panel sized to
+        // its text is a second, competing rectangle inside a rounded card: its corners fight the
+        // card's own, it slices whatever artwork it crosses in half, it changes size on every
+        // refresh, and — measured on the test device — its edge came within 2dp of the settings
+        // button. Worse, it charged the horizontal margin twice, once as card padding and once as
+        // its own padding, so the words ended up 7dp from a visible border with no room to
+        // breathe, while a short tip drew a small box adrift in a large empty card.
         //
-        // Nothing collides, and the margin is arithmetic rather than luck: `availableHeight` in
-        // [metricsFor] already deducts the footer, so the tallest possible block is
-        // `card - 2*cardPadding - 2*chipPadding - footer`. Centring that leaves
-        // `cardPadding + chipPadding` of clearance below it, which is comfortably more than the
-        // footer strip it must clear.
+        // Spreading the same wash over the whole card fixes all of that at once and costs nothing
+        // in contrast: the pixels under the text are composited against exactly the alpha they
+        // were before (see [WidgetInk]). What it buys is a single margin instead of two nested
+        // ones — which is a rung of type size handed back — one shape instead of three, and
+        // artwork that reads as artwork rather than as a frame around a box.
+        Box(modifier = GlanceModifier.fillMaxSize().background(ColorProvider(ink.scrim))) {}
+
+        // Centred in the *whole* card, not in what is left after the footer. Both the footer and
+        // the settings button are corner overlays rather than rows in a column, so this block
+        // gets the full height and its centre is the card's centre; the clearance either side is
+        // reserved as a rail in [metricsFor] rather than being left to luck.
         Box(
-            modifier = GlanceModifier.fillMaxSize(),
+            modifier = GlanceModifier.fillMaxSize().padding(horizontal = metrics.textMargin),
             contentAlignment = Alignment.Center,
         ) {
-            Box(
+            Column(
                 modifier = GlanceModifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center,
+                horizontalAlignment = Alignment.Start,
             ) {
-                Column(
-                    modifier = GlanceModifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    // Dropped outright on a compact card. It is the single most expensive piece
-                    // of pure decoration in the layout (~22dp of glyph plus its spacer), and a
-                    // tip nobody can read costs more than a missing flourish.
-                    if (metrics.showQuoteMark) {
-                        Text(
-                            text = "❝",
-                            style =
-                                TextStyle(
-                                    fontSize = metrics.quoteMarkSize,
-                                    fontWeight = FontWeight.Bold,
-                                    fontStyle = FontStyle.Italic,
-                                    fontFamily = FontFamily.Serif,
-                                    color = ColorProvider(ink.quoteMark),
-                                ),
-                        )
-                        Spacer(GlanceModifier.height(2.dp))
-                    }
-                    // A translucent "chip" behind the tip, rather than bare text over the
-                    // gradient/art: guarantees contrast no matter where on the gradient (or
-                    // over which piece of background art) the text lands, and gives the tip
-                    // its own visible frame instead of floating loose over the artwork. Which
-                    // way it pushes the local background — darker or lighter — comes from the
-                    // ink, since "add contrast" means opposite things on the two card families.
-                    //
-                    // It spans the full width rather than hugging the text. Wrapping made the
-                    // chip's own width depend on how the longest line happened to break, so a
-                    // short tip drew a small pill adrift in the middle of the card and the
-                    // frame moved every time the tip changed. Full width makes it a panel: a
-                    // fixed, deliberate-looking block the text sits inside, and one that stays
-                    // put across refreshes. It costs the tip no room — the text already got
-                    // this width whenever it wrapped at all.
-                    Box(
-                        modifier =
-                            GlanceModifier
-                                .fillMaxWidth()
-                                .background(ColorProvider(ink.chip))
-                                .cornerRadius(metrics.chipCornerRadius)
-                                .padding(
-                                    horizontal = metrics.chipPaddingHorizontal,
-                                    vertical = metrics.chipPaddingVertical,
-                                ),
-                    ) {
-                        Text(
-                            text = tip,
-                            maxLines = metrics.maxTipLines,
-                            // Must fill the chip, now that the chip is wider than the text.
-                            // `textAlign` centres lines within the *TextView's own* measured
-                            // width, and a wrap-content TextView inside the Box (a FrameLayout,
-                            // gravity start) is exactly as wide as its longest line — so a tip
-                            // short enough not to wrap would centre inside itself and then sit
-                            // flush against the panel's left edge, looking un-centred for the
-                            // one case where the centring is most obvious. Filling the width
-                            // makes the two agree.
-                            modifier = GlanceModifier.fillMaxWidth(),
-                            style =
-                                TextStyle(
-                                    fontSize = metrics.tipFontSize,
-                                    fontWeight = FontWeight.Bold,
-                                    fontFamily = TIP_FACE.family,
-                                    textAlign = TextAlign.Center,
-                                    color = ColorProvider(ink.text),
-                                ),
-                        )
-                    }
+                // Dropped outright on a compact card. It is the single most expensive piece of
+                // pure decoration in the layout, and a tip nobody can read costs more than a
+                // missing flourish.
+                if (metrics.showQuoteMark) {
+                    Text(
+                        text = "❝",
+                        style =
+                            TextStyle(
+                                fontSize = metrics.quoteMarkSize,
+                                fontWeight = FontWeight.Bold,
+                                fontStyle = FontStyle.Italic,
+                                fontFamily = FontFamily.Serif,
+                                color = ColorProvider(ink.quoteMark),
+                            ),
+                    )
+                    Spacer(GlanceModifier.height(QUOTE_MARK_GAP))
                 }
+                Text(
+                    text = tip,
+                    maxLines = metrics.maxTipLines,
+                    modifier = GlanceModifier.fillMaxWidth(),
+                    style =
+                        TextStyle(
+                            fontSize = metrics.tipFontSize,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = TIP_FACE.family,
+                            // Ranged down one edge rather than centred. Centring is what a
+                            // two-line epigraph wants; these are up to seven lines of a sentence,
+                            // where it leaves both edges ragged, hands the reader a new starting
+                            // point on every line, and strands the last two words in the middle
+                            // of the card. A straight left edge also gives the composition the
+                            // one hard line it was missing once the panel's border went away.
+                            textAlign = TextAlign.Start,
+                            color = ColorProvider(ink.text),
+                        ),
+                )
             }
         }
 
@@ -632,12 +616,8 @@ private fun TipWidgetContent(
         // which made the widget look unfinished rather than minimal — a card with no name on it
         // reads as empty. Scaling the label down costs a few dp where hiding it saved about
         // twenty, and that difference is affordable.
-        //
-        // An overlay rather than the last row of a Column: in the flow it pushed the tip off the
-        // card's true centre by half its own height. Its height is still *charged* against the
-        // tip's budget in [metricsFor] — it just no longer decides where the tip sits.
         Box(
-            modifier = GlanceModifier.fillMaxSize(),
+            modifier = GlanceModifier.fillMaxSize().padding(bottom = metrics.footerInset),
             contentAlignment = Alignment.BottomCenter,
         ) {
             Text(
@@ -658,43 +638,44 @@ private fun TipWidgetContent(
             )
         }
 
-        // Corner overlay, stacked on top of the content above rather than occupying a row of
-        // its own, so it costs the quote+tip block none of the card's vertical space.
+        // Corner overlay, stacked on top of the content above rather than occupying a row of its
+        // own, so it costs the quote+tip block none of the card's vertical space beyond the rail.
         //
-        // Top corner. It sat here originally, moved to the bottom because it was landing on real
-        // words, and has come back now that the thing which caused that is gone.
-        //
-        // What changed is the centring. While the tip was centred in the card *minus* the footer
-        // strip it rode high, and a top-end button overlapped its first line — the worst line to
-        // cover, because centre-aligned text runs full width there whenever the tip is long. Now
-        // that the footer is an overlay and the tip centres in the whole card, the panel sits
-        // lower and symmetrically: on the 187x226dp card a six-line tip starts about 47dp down
-        // while this button ends at 42dp, so they no longer meet. The longest tips close that gap
-        // to a few dp of the panel's corner, above the text rather than on it.
+        // The outer box is the tap target and is deliberately larger than anything it draws: it
+        // sits flush in the card's corner, so the whole corner is within reach, and its padding
+        // is what places the visible circle — which means the target grows inwards, over card
+        // the tip is not using, instead of pushing the button towards the middle.
         Box(
             modifier = GlanceModifier.fillMaxSize(),
             contentAlignment = Alignment.TopEnd,
         ) {
-            // A shaded, ringed circle behind the icon — rather than a bare glyph — so the
-            // button reads as tappable at a glance, and so the whole circle (not just the
-            // glyph inside it) is the actual tap target.
             Box(
                 modifier =
                     GlanceModifier
-                        .size(metrics.settingsButtonSize)
-                        .cornerRadius(metrics.settingsButtonSize / 2)
-                        .background(ImageProvider(ink.settingsButtonRes))
+                        .size(metrics.settingsTapSize)
+                        .padding(top = metrics.settingsInset, end = metrics.settingsInset)
                         .clickable(actionStartActivity(Intent(context, SettingsActivity::class.java))),
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.TopEnd,
             ) {
-                Image(
-                    provider = ImageProvider(R.drawable.ic_widget_settings),
-                    contentDescription = context.getString(R.string.widget_settings_action),
-                    modifier = GlanceModifier.size(metrics.settingsGlyphSize),
-                    // The gear vector is a hardcoded white fill (it only ever sat on dark
-                    // cards), so it's tinted here rather than duplicated as a second drawable.
-                    colorFilter = ColorFilter.tint(ColorProvider(ink.settingsGlyph)),
-                )
+                // A shaded, ringed circle behind the icon — rather than a bare glyph — so the
+                // button reads as tappable at a glance.
+                Box(
+                    modifier =
+                        GlanceModifier
+                            .size(metrics.settingsButtonSize)
+                            .cornerRadius(metrics.settingsButtonSize / 2)
+                            .background(ImageProvider(ink.settingsButtonRes)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Image(
+                        provider = ImageProvider(R.drawable.ic_widget_settings),
+                        contentDescription = context.getString(R.string.widget_settings_action),
+                        modifier = GlanceModifier.size(metrics.settingsGlyphSize),
+                        // The gear vector is a hardcoded white fill (it only ever sat on dark
+                        // cards), so it's tinted here rather than duplicated as a second drawable.
+                        colorFilter = ColorFilter.tint(ColorProvider(ink.settingsGlyph)),
+                    )
+                }
             }
         }
     }
