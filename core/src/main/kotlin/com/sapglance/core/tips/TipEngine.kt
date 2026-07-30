@@ -95,6 +95,18 @@ class TipEngine(
                 catalog.tonePools
         ).find { it.text == text }
 
+    /**
+     * Just the kind of a tip, from the same plain text the history stores — what
+     * [com.sapglance.core.widget.WidgetStyle.forTip] narrows the card's palette by, so a
+     * philosophy line doesn't arrive on a bright card.
+     *
+     * Deliberately not `findByText(text)?.kind`: that concatenates the whole catalog afresh on
+     * every call, which is fine for one Settings lookup and wasteful for something resolved
+     * again every time a new tip is drawn. This goes through [TipCatalog.kindOf]'s cached map.
+     * Null for a text the catalog no longer knows, which callers must treat as "no opinion".
+     */
+    fun kindOf(text: String): TipKind? = catalog.kindOf(text)
+
     /** One candidate pool and its share of the draw. */
     private class Group(val weight: Int, val tips: List<Tip>)
 

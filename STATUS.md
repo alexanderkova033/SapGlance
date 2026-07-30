@@ -1,6 +1,6 @@
 # Project status
 
-_Last updated: 2026-07-30_
+_Last updated: 2026-07-31_
 
 Where things stand, what's actually been checked, and what's open. **Not a changelog** — how
 the code got here is in `git log`. If this file and the repo disagree, the repo is right.
@@ -17,11 +17,12 @@ the code.
 - **Catalog**: 312 tips — 151 practical (`general` 50, `morning` 26, `afternoon` 26, `evening`
   28, `sleep_late` 11, `sleep_early` 10) and 161 tone (`motivation` 59, `philosophy` 47,
   `wellbeing` 55).
-- **Widget**: 11 tip-derived background styles, resizing from 2x2 to 4x4.
+- **Widget**: 11 background styles, picked by a per-hour palette narrowed by the tip's kind and
+  then hashed on the tip's text; resizes from 2x2 to 4x4.
 - **Selection**: three narrowing weighted picks, anti-repeat applied before all of them,
   recency weighting over a 160-tip history, per-day-part `ToneProfile`, no tone voice three
   draws running.
-- **Build gate**: `ktlintCheck` clean; `:core` 81 tests, `:app` 6 per variant, 0 failures;
+- **Build gate**: `ktlintCheck` clean; `:core` 89 tests, `:app` 6 per variant, 0 failures;
   `lint` 0 errors, 26 warnings; full `build` including `assembleRelease` with R8.
 
 The lint warnings are all `VectorRaster`, `GradleDependency`, `MonochromeLauncherIcon`, `UseKtx`,
@@ -59,6 +60,12 @@ against real numbers because of it.
    and are recorded in the headers; whether philosophy is now worth stopping on, and whether
    motivation pushes, is a judgement the build cannot make.
 5. **Tap-to-refresh lag** since `warmUp()` landed (~1s is process start, not app code).
+6. **Whether the card palettes read right.** The mapping is pinned by tests for the things that
+   are checkable (no pale card at night, no Midnight in daylight, every style still reachable),
+   but whether a philosophy line borrowing the evening palette at noon *looks* right is a
+   judgement no test makes. It also costs variety, knowingly: a palette of six means roughly a
+   1-in-6 chance two consecutive tips share a background, against 1-in-11 when the hash ran over
+   all eleven styles. Night is 1-in-4. Worth watching for whether that reads as repetitive.
 
 Two methodological notes:
 

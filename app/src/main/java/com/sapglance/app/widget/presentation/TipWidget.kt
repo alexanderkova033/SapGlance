@@ -113,9 +113,23 @@ class TipWidget : GlanceAppWidget() {
                         .distinctUntilChanged()
                 }
             val tip by tipFlow.collectAsState(initial = initialTip)
+            // Keyed on the tip, so the background is fixed for as long as that tip is on screen
+            // and is chosen for the hour the tip actually arrived in. Reading the clock on every
+            // recomposition instead would let a card restyle itself under the same words as the
+            // hour ticked over, which reads as a glitch rather than as the card following the
+            // day. The catalog lookup behind `kindOf` is a cached map hit, and the parse that
+            // fills it is already warmed at process start (see AppContainer.warmUp).
+            val style =
+                remember(tip) {
+                    WidgetStyle.forTip(
+                        tipText = tip,
+                        kind = container.tipEngine.kindOf(tip),
+                        dayPart = container.tipEngine.dayPartFor(LocalTime.now()),
+                    )
+                }
 
             GlanceTheme {
-                TipWidgetContent(tip, WidgetStyle.forTip(tip))
+                TipWidgetContent(tip, style)
             }
         }
     }
@@ -175,25 +189,35 @@ private enum class WidgetInk(
 }
 
 /**
- * The drawable *and* the ink for a style, resolved in one `when` on purpose: they are a matched
- * pair, and a background whose ink says the opposite of its artwork is unreadable rather than
- * merely ugly. Adding a `WidgetStyle` entry breaks this exhaustive `when` at compile time, so
- * a new style cannot ship having picked one and forgotten the other.
+ * The artwork for a style. Adding a `WidgetStyle` entry breaks this exhaustive `when` at compile
+ * time, so a new style cannot ship without one.
  */
-private fun WidgetStyle.skin(): Pair<Int, WidgetInk> =
+private fun WidgetStyle.background(): Int =
     when (this) {
-        WidgetStyle.FOREST -> R.drawable.widget_quote_background to WidgetInk.ON_DARK
-        WidgetStyle.OCEAN -> R.drawable.widget_background_ocean to WidgetInk.ON_DARK
-        WidgetStyle.SUNSET -> R.drawable.widget_background_sunset to WidgetInk.ON_DARK
-        WidgetStyle.MIDNIGHT -> R.drawable.widget_background_midnight to WidgetInk.ON_DARK
-        WidgetStyle.AURORA -> R.drawable.widget_background_aurora to WidgetInk.ON_DARK
-        WidgetStyle.DAWN -> R.drawable.widget_background_dawn to WidgetInk.ON_DARK
-        WidgetStyle.RAIN -> R.drawable.widget_background_rain to WidgetInk.ON_DARK
-        WidgetStyle.WINTER -> R.drawable.widget_background_winter to WidgetInk.ON_LIGHT
-        WidgetStyle.PAPER -> R.drawable.widget_background_paper to WidgetInk.ON_LIGHT
-        WidgetStyle.MEADOW -> R.drawable.widget_background_meadow to WidgetInk.ON_LIGHT
-        WidgetStyle.BLOSSOM -> R.drawable.widget_background_blossom to WidgetInk.ON_LIGHT
+        WidgetStyle.FOREST -> R.drawable.widget_quote_background
+        WidgetStyle.OCEAN -> R.drawable.widget_background_ocean
+        WidgetStyle.SUNSET -> R.drawable.widget_background_sunset
+        WidgetStyle.MIDNIGHT -> R.drawable.widget_background_midnight
+        WidgetStyle.AURORA -> R.drawable.widget_background_aurora
+        WidgetStyle.DAWN -> R.drawable.widget_background_dawn
+        WidgetStyle.RAIN -> R.drawable.widget_background_rain
+        WidgetStyle.WINTER -> R.drawable.widget_background_winter
+        WidgetStyle.PAPER -> R.drawable.widget_background_paper
+        WidgetStyle.MEADOW -> R.drawable.widget_background_meadow
+        WidgetStyle.BLOSSOM -> R.drawable.widget_background_blossom
     }
+
+/**
+ * The ink for a style, *derived* from it rather than chosen beside it.
+ *
+ * These used to be picked together in one exhaustive `when`, so that adding a style forced a
+ * choice of both and you would notice a mismatch. That was convention; this is construction.
+ * `WidgetStyle.isLight` is now the single fact about a style's luminance in the codebase —
+ * `:core` needs it anyway, to keep pale cards out of the small hours — and reading the ink off
+ * it means a card whose text fights its artwork is not merely unlikely, it is unrepresentable.
+ */
+private val WidgetStyle.ink: WidgetInk
+    get() = if (isLight) WidgetInk.ON_LIGHT else WidgetInk.ON_DARK
 
 /** The card's own corner. The tip is laid on the card now, so nothing has to nest inside it. */
 private val CARD_CORNER_RADIUS = 20.dp
@@ -529,7 +553,8 @@ private fun TipWidgetContent(
     // against is the style behind it, which the home screen's theme says nothing about. A
     // style-driven flip is also the only one that stays correct when the tip — and with it the
     // background — changes underneath a widget nobody is looking at.
-    val (backgroundRes, ink) = style.skin()
+    val backgroundRes = style.background()
+    val ink = style.ink
     val metrics = metricsFor(LocalSize.current, context.resources.configuration.fontScale)
 
     Box(

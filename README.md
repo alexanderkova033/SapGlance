@@ -22,9 +22,10 @@ says so plainly rather than glossing over it.
   settings. (AppWidgets can't intercept long-press, so a dedicated target is the only way in.)
 - **The tip advances once it's had a chance to be seen** — roughly 90 minutes of confirmed
   screen-on time, not a wall-clock timer that could rotate a tip nobody looked at.
-- **Eleven card backgrounds**, derived from the tip's text rather than from a setting, so a new
-  tip means a new-looking card. The whole ink set flips with the artwork, not with the phone's
-  day/night theme.
+- **Eleven card backgrounds**, chosen by what the tip is and when it arrived — a palette per
+  hour, narrowed by the tip's kind, then the tip's own text picks within it, so a new tip still
+  means a new-looking card. No pale card in the small hours; no Midnight in the morning. The
+  whole ink set flips with the artwork, not with the phone's day/night theme.
 - **Resizes** from a 2x2 square to a 4x4 block, with a layout built for each end of that range.
 - **312 tips in nine pools** — six practical, scoped by time of day (`general` 50, `morning` 26,
   `afternoon` 26, `evening` 28, `sleep_late` 11, `sleep_early` 10), and three tone pools grouped
@@ -87,7 +88,7 @@ version catalog (AGP 8.10.1) · `minSdk 26`, `compileSdk`/`targetSdk 36`. Requir
 
 ```bash
 ./gradlew build        # everything, including assembleRelease
-./gradlew test         # unit tests — :core 81, :app 6 per variant
+./gradlew test         # unit tests — :core 89, :app 6 per variant
 ./gradlew ktlintCheck  # formatting
 ./gradlew lint         # Android lint
 ```
@@ -102,11 +103,6 @@ Completed work lives in the git history. What's open:
       the only one allowed to be silly, so no new `ToneProfile` share has to be invented and they
       inherit its night weighting. Source them from public-domain humour rather than writing
       them; wellbeing's own rules bind, so the joke is aimed at the situation, never the reader.
-- [ ] **Tie the card background to the tip's kind and the hour**, not to `tipText.hashCode()`,
-      which currently lands philosophy at 2am on the bright Meadow card. Keep the "new tip, new
-      card" property by narrowing to a candidate set by kind and hour, then hashing within it.
-      `forTip` is pure and lives in `:core`, so both would have to be passed in; the dark/light
-      split stays in `:app`, where each style is paired with its ink in one exhaustive `when`.
 - [ ] **A plain-English pass over the practical pools.** A tip held to ~90 characters *and* to
       what its two citations support drifts into the register of the abstract it came from.
       Rewriting has to re-check each line against its sources, and it orphans stored history, so
