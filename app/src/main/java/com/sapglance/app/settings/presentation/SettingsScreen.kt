@@ -336,13 +336,17 @@ private fun VarietyLevel.icon(): ImageVector =
         VarietyLevel.PLAYFUL -> Icons.Filled.AutoAwesome
     }
 
-/** `null` for [TipKind.PRACTICAL] — the default kind isn't labelled, see [TipSourceSection]. */
+/**
+ * `null` for [TipKind.PRACTICAL] — the default kind isn't labelled *here*, see [TipSourceSection].
+ * The widget does label it (as "Health"), because there the label is the only thing naming the tip;
+ * on this card the day part already holds that line.
+ */
 private fun TipKind.labelRes(): Int? =
     when (this) {
         TipKind.PRACTICAL -> null
-        TipKind.MOTIVATION -> R.string.settings_tip_kind_motivation
-        TipKind.PHILOSOPHY -> R.string.settings_tip_kind_philosophy
-        TipKind.WELLBEING -> R.string.settings_tip_kind_wellbeing
+        TipKind.MOTIVATION -> R.string.tip_kind_motivation
+        TipKind.PHILOSOPHY -> R.string.tip_kind_philosophy
+        TipKind.WELLBEING -> R.string.tip_kind_wellbeing
     }
 
 private fun VarietyLevel.labelRes(): Int =

@@ -95,6 +95,15 @@ class TipEngine(
         ).find { it.text == text }
 
     /**
+     * Just the kind of a tip, from the same plain text — for callers that want to *label* a tip
+     * rather than cite it. Deliberately not `findByText(text)?.kind`: that concatenates all 282
+     * tips afresh on every call, which is fine for one Settings lookup and wrong for the widget's
+     * kind label, which is resolved again every time a new tip is drawn. This goes through
+     * [TipCatalog.kindOf]'s cached map instead. Null for a text the catalog no longer knows.
+     */
+    fun kindOf(text: String): TipKind? = catalog.kindOf(text)
+
+    /**
      * One candidate pool and its share of the draw. [exemptFromAntiRepeat] is only ever true for
      * the fixed single-message sleep-hours pools, where there is nothing to rotate and excluding
      * the message after one showing would delete the wind-down nudge for the rest of the night.

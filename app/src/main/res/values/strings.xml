@@ -29,9 +29,14 @@
          line of Stoic philosophy as a research finding. -->
     <string name="settings_tip_source_attribution">Quoted from</string>
 
-    <string name="settings_tip_kind_motivation">Motivation</string>
-    <string name="settings_tip_kind_philosophy">Philosophy</string>
-    <string name="settings_tip_kind_wellbeing">Wellbeing</string>
+    <!-- Tip kinds, shared by the widget's top label and the settings hero card (which uses only
+         the three tone kinds — see TipKind.labelRes in each). "Health" rather than "Practical"
+         names what the tip is about instead of its register, and keeps the label distinct from
+         the "Practical" *variety setting* above, which is a different thing entirely. -->
+    <string name="tip_kind_health">Health</string>
+    <string name="tip_kind_motivation">Motivation</string>
+    <string name="tip_kind_philosophy">Philosophy</string>
+    <string name="tip_kind_wellbeing">Wellbeing</string>
     <string name="settings_tip_label_combined">%1$s · %2$s</string>
 
     <string name="settings_daypart_morning">Morning</string>
