@@ -28,8 +28,10 @@ android {
         applicationId = "com.sapglance.app"
         minSdk = 26
         targetSdk = 36
+        // versionCode is what Play orders uploads by and must increase with every upload;
+        // versionName is only ever read by humans. 1 is correct for a first upload.
         versionCode = 1
-        versionName = "0.1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

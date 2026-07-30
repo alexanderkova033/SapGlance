@@ -10,7 +10,7 @@ the code got here is in `git log`. If this file and the repo disagree, the repo 
 Feature-complete for v1 and building clean. Not released; the blocker is the Play account, not
 the code.
 
-- **App**: SapGlance, `com.sapglance.app`, versionCode 1, versionName 0.1.0.
+- **App**: SapGlance, `com.sapglance.app`, versionCode 1, versionName 1.0.0.
 - **Modules**: `:core` (pure Kotlin domain) and `:app` (Android). Same three features in both
   (`tips`/`settings`/`widget`). `:core` is flat per feature; `:app` splits each into
   `data`/`presentation`/`framework`, which are real differences in kind.
@@ -60,12 +60,13 @@ against real numbers because of it.
    and are recorded in the headers; whether philosophy is now worth stopping on, and whether
    motivation pushes, is a judgement the build cannot make.
 5. **Tap-to-refresh lag** since `warmUp()` landed (~1s is process start, not app code).
-6. **Whether the card palettes read right.** The mapping is pinned by tests for the things that
-   are checkable (no pale card at night, no Midnight in daylight, every style still reachable),
-   but whether a philosophy line borrowing the evening palette at noon *looks* right is a
-   judgement no test makes. It also costs variety, knowingly: a palette of six means roughly a
-   1-in-6 chance two consecutive tips share a background, against 1-in-11 when the hash ran over
-   all eleven styles. Night is 1-in-4. Worth watching for whether that reads as repetitive.
+6. **Whether the card palettes read right in daylight.** The night case is confirmed on device:
+   a Confucius line at 01:43 drew a deep card with correctly paired ink, which is exactly the
+   "philosophy at 2am on the bright Meadow card" defect the change existed to remove. What is
+   still only argued is the daylight half — whether philosophy borrowing the evening palette at
+   noon *looks* right. It also costs variety, knowingly: a palette of six means roughly a 1-in-6
+   chance two consecutive tips share a background, against 1-in-11 when the hash ran over all
+   eleven styles. Night is 1-in-4. Worth watching for whether that reads as repetitive.
 
 Two methodological notes:
 
@@ -112,9 +113,9 @@ tester installs, so recruiting is the long pole — realistically three weeks fr
 | --- | --- |
 | Signing config (keystore applied when present, unsigned when absent, so CI is unaffected) | No Play Console account |
 | `store-assets/play-store-icon-512.png` | Keystore not backed up |
-| `store-assets/play-listing.md`, drafted against the quote-widget category, recommending **Personalization** | `PRIVACY.md` not hosted at a public URL |
+| `store-assets/play-listing.md`, drafted against the quote-widget category, recommending **Personalization** | `PRIVACY.md` has a Pages workflow but Settings > Pages > Source is still not set to "GitHub Actions", so no URL exists yet |
 | `targetSdk 36` clears the Aug 2026 requirement | No feature graphic (1024x500) or screenshots |
-| | `versionName` still `0.1.0`; worth `1.0.0` for launch |
+| `versionName 1.0.0` | |
 
 ## Local environment
 

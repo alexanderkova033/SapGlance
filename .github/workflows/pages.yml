@@ -1,0 +1,72 @@
+# Publishes PRIVACY.md as a web page, because Google Play requires a privacy policy at a
+# publicly reachable URL and a link to a .md file in a repo is a file, not a page.
+#
+# PRIVACY.md stays the single source: this renders the file that is already in the repo rather
+# than keeping a second copy under docs/. Two copies of a privacy policy is exactly the kind of
+# thing that drifts, and the copy that would go stale is the one users are shown.
+#
+# One manual step before the first run: set Settings > Pages > Source to "GitHub Actions".
+name: Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - PRIVACY.md
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never cancel a deploy half-done: a partly-published site is worse than an old one, and this
+# runs rarely enough that queueing costs nothing.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      - name: Stage the policy as the site's index
+        run: |
+          mkdir -p site
+          # Front matter is prepended here rather than committed into PRIVACY.md, so the file
+          # stays clean when read on GitHub or in an editor.
+          cat > site/index.md <<'FRONTMATTER'
+          ---
+          layout: default
+          title: SapGlance Privacy Policy
+          description: SapGlance collects nothing. No server, no analytics, no INTERNET permission.
+          ---
+
+          FRONTMATTER
+          cat PRIVACY.md >> site/index.md
+          cat > site/_config.yml <<'CONFIG'
+          theme: jekyll-theme-minimal
+          title: SapGlance
+          CONFIG
+
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./site
+          destination: ./_site
+
+      - uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
