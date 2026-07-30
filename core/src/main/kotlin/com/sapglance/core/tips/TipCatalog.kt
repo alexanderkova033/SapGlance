@@ -1,4 +1,4 @@
-package com.sapglance.core.tips.model
+package com.sapglance.core.tips
 
 /**
  * Bundled tip content, grouped by [DayPart]. Loaded from plain-text resources (one tip per

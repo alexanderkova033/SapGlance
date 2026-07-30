@@ -11,9 +11,9 @@ Feature-complete for v1 and building clean. Not released; the blocker is the Pla
 the code.
 
 - **App**: SapGlance, `com.sapglance.app`, versionCode 1, versionName 0.1.0.
-- **Modules**: `:core` (pure Kotlin domain) and `:app` (Android). Both are laid out
-  feature-first then layer: `tips`/`settings`/`widget`, then `model`/`usecase`/`port` in `:core`
-  and `data`/`presentation`/`framework` in `:app`. The layer names are the dependency rule.
+- **Modules**: `:core` (pure Kotlin domain) and `:app` (Android). Same three features in both
+  (`tips`/`settings`/`widget`). `:core` is flat per feature; `:app` splits each into
+  `data`/`presentation`/`framework`, which are real differences in kind.
 - **Catalog**: 312 tips — 151 practical (`general` 50, `morning` 26, `afternoon` 26, `evening`
   28, `sleep_late` 11, `sleep_early` 10) and 161 tone (`motivation` 59, `philosophy` 47,
   `wellbeing` 55).

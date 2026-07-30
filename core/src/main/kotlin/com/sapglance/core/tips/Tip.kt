@@ -1,4 +1,4 @@
-package com.sapglance.core.tips.model
+package com.sapglance.core.tips
 
 /**
  * One citation backing a [Tip]: a human-readable [label] and a [url] the UI can open in the

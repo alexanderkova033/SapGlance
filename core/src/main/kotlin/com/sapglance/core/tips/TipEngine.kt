@@ -1,12 +1,6 @@
-package com.sapglance.core.tips.usecase
+package com.sapglance.core.tips
 
-import com.sapglance.core.settings.model.VarietyLevel
-import com.sapglance.core.tips.model.DayPart
-import com.sapglance.core.tips.model.Tip
-import com.sapglance.core.tips.model.TipCatalog
-import com.sapglance.core.tips.model.TipKind
-import com.sapglance.core.tips.model.ToneProfile
-import com.sapglance.core.tips.port.TipHistoryRepository
+import com.sapglance.core.settings.VarietyLevel
 import java.time.LocalTime
 import kotlin.random.Random
 

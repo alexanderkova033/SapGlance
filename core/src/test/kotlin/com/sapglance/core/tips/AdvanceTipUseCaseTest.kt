@@ -1,11 +1,7 @@
-package com.sapglance.core.tips.usecase
+package com.sapglance.core.tips
 
 import com.google.common.truth.Truth.assertThat
-import com.sapglance.core.settings.model.VarietyLevel
-import com.sapglance.core.tips.model.Tip
-import com.sapglance.core.tips.model.TipCatalog
-import com.sapglance.core.tips.model.TipSource
-import com.sapglance.core.tips.port.TipHistoryRepository
+import com.sapglance.core.settings.VarietyLevel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow

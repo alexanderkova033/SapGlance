@@ -1,4 +1,4 @@
-package com.sapglance.core.tips.port
+package com.sapglance.core.tips
 
 import kotlinx.coroutines.flow.Flow
 

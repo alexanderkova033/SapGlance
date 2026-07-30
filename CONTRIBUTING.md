@@ -19,23 +19,22 @@ These aren't up for debate on a per-PR basis — they're the whole point of the 
 
 ## Where a new file goes
 
-Both modules are laid out feature-first, then layer: `tips/`, `settings/`, `widget/`, and under
-each of those a layer package. Pick the feature first, then answer one question:
+Pick the feature first — `tips`, `settings` or `widget`, the same three in both modules — then:
 
-| It is... | `:core` | `:app` |
-| --- | --- | --- |
-| a thing, with rules about itself | `<feature>/model/` | |
-| something the app *does* | `<feature>/usecase/` | |
-| an interface `:app` must implement | `<feature>/port/` | |
-| the DataStore side of one of those interfaces | | `<feature>/data/` |
-| Compose or Glance UI | | `<feature>/presentation/` |
-| a class **Android** instantiates by name (receiver, worker, scheduler) | | `<feature>/framework/` |
+- **In `:core`, that's the whole answer.** One folder per feature, flat. Don't add layer
+  subfolders; that was tried and reverted, and the README's Architecture section says why.
+- **In `:app`, pick a layer too**, because the kinds of file there are genuinely different:
 
-The layer names are a dependency rule, so they can be checked rather than argued about:
-`model` imports nothing from `usecase` or `port`, and nothing in `:core` imports anything from
-`:app`. If a file needs an import that points the wrong way, it is in the wrong package. See
-the README's Architecture section for the full map and for which class names are expensive to
-change (the OS binds four of them by name).
+| It is... | Goes in |
+| --- | --- |
+| the DataStore implementation of a `:core` interface | `<feature>/data/` |
+| Compose or Glance UI | `<feature>/presentation/` |
+| a class **Android** instantiates by name (receiver, worker, scheduler) | `<feature>/framework/` |
+
+Business logic goes in `:core` regardless, per ground rule 5. The one hard structural rule is
+the module boundary: `:core` declares the interfaces and `:app` implements them, so a `:core`
+file never imports from `:app`. See the README's Architecture section for the full map and for
+which class names are expensive to change (the OS binds four of them by name).
 
 ## Getting set up
 

@@ -2,7 +2,7 @@ package com.sapglance.app.tips.data
 
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import com.google.common.truth.Truth.assertThat
-import com.sapglance.core.tips.port.TipHistoryRepository
+import com.sapglance.core.tips.TipHistoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach

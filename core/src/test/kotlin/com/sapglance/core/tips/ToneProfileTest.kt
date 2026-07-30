@@ -1,4 +1,4 @@
-package com.sapglance.core.tips.model
+package com.sapglance.core.tips
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test

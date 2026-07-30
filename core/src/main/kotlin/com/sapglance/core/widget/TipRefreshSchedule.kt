@@ -1,4 +1,4 @@
-package com.sapglance.core.widget.usecase
+package com.sapglance.core.widget
 
 /**
  * The tip should only change once it's actually been on screen for a while — not on a pure

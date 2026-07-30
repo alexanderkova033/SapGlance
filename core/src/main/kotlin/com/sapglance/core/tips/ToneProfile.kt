@@ -1,4 +1,4 @@
-package com.sapglance.core.tips.model
+package com.sapglance.core.tips
 
 /**
  * How a draw's *tone* share splits across the three tone pools at a given [DayPart].

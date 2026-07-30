@@ -1,13 +1,7 @@
-package com.sapglance.core.tips.usecase
+package com.sapglance.core.tips
 
 import com.google.common.truth.Truth.assertThat
-import com.sapglance.core.settings.model.VarietyLevel
-import com.sapglance.core.tips.model.DayPart
-import com.sapglance.core.tips.model.Tip
-import com.sapglance.core.tips.model.TipCatalog
-import com.sapglance.core.tips.model.TipKind
-import com.sapglance.core.tips.model.TipSource
-import com.sapglance.core.tips.port.TipHistoryRepository
+import com.sapglance.core.settings.VarietyLevel
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments

@@ -1,4 +1,4 @@
-package com.sapglance.core.widget.model
+package com.sapglance.core.widget
 
 /**
  * Which background style the home-screen widget renders with. Purely a symbolic choice here —

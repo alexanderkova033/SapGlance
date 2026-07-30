@@ -1,4 +1,4 @@
-package com.sapglance.core.tips.model
+package com.sapglance.core.tips
 
 /**
  * What *kind* of thing a tip is, which determines how it can honestly be presented.

@@ -7,7 +7,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.sapglance.core.widget.usecase.TICK_INTERVAL_MINUTES
+import com.sapglance.core.widget.TICK_INTERVAL_MINUTES
 import java.util.concurrent.TimeUnit
 
 class WidgetScheduler(private val context: Context) {

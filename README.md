@@ -54,20 +54,17 @@ form of tracking.
 
 ## Architecture
 
-Two Gradle modules. Inside each one the **feature comes first and the layer second**, so a path
-tells you what the code is *about* before it tells you what *kind* of code it is. There are three
-features — `tips`, `settings`, `widget` — and they are the same three in both modules.
+Two Gradle modules, three features — `tips`, `settings`, `widget` — and they are the same three
+in both. `:core` is one folder per feature and nothing else; `:app` splits each feature by layer,
+because it has genuinely different *kinds* of file to keep apart.
 
 ```
 core/  pure Kotlin, JVM-only, zero Android imports
-  tips/      model/    Tip TipKind DayPart TipCatalog ToneProfile
-             usecase/  TipEngine AdvanceTipUseCase
-             port/     TipHistoryRepository
-  settings/  model/    AppSettings VarietyLevel
-             port/     SettingsRepository
-  widget/    model/    WidgetStyle
-             usecase/  TipRefreshSchedule
-             port/     WidgetRefreshRepository
+  tips/      Tip TipKind DayPart TipCatalog ToneProfile
+             TipEngine AdvanceTipUseCase
+             TipHistoryRepository
+  settings/  AppSettings VarietyLevel SettingsRepository
+  widget/    WidgetStyle TipRefreshSchedule WidgetRefreshRepository
 
 app/   Android
   SapGlanceApp  AppContainer                     the composition root, and nothing else
@@ -80,16 +77,24 @@ app/   Android
                 framework/     TipWidgetReceiver BootReceiver WidgetRefreshWorker WidgetScheduler
 ```
 
-The layer names are the dependency rule, not decoration:
+**`:core` is deliberately flat.** It was briefly split into `model`/`usecase`/`port` packages to
+make the dependency direction visible in the tree. That was a mistake worth recording, because it
+is the obvious thing to try again: 14 files became 8 folders, five of them holding a single file,
+and a folder holding one file is navigation cost with no organising benefit. The direction those
+packages were meant to express is a property of the *imports*, not of the filesystem, and at this
+size the filenames already carry it — `TipHistoryRepository` is plainly an interface for `:app` to
+implement, `AdvanceTipUseCase` is plainly a use case. Grow the module past what one screen holds
+and the split becomes worth its cost; it isn't yet.
 
-- **`model/`** — entities and the pure rules over them. Depends on nothing, including no other
-  layer. If a `model` file ever needs an import from `usecase`, the arrow is backwards.
-- **`usecase/`** — what the app actually does. Depends on `model` and on `port`.
-- **`port/`** — the interfaces `:app` must implement. `:core` states what it needs and never
-  learns who supplies it, which is the whole reason `:core` can be a JVM module with no Android
-  SDK anywhere near it.
-- **`data/`** — the DataStore implementation of the matching `port`. Callers hold the interface
-  type, never the concrete class.
+The rule it was encoding still stands and is enforced by the module boundary instead: `:core`
+declares the interfaces (`TipHistoryRepository`, `SettingsRepository`, `WidgetRefreshRepository`)
+and `:app` implements them, so nothing in `:core` can reach outward even by accident — it is a
+plain JVM module with no Android SDK on its classpath at all.
+
+`:app`'s layers do earn their keep, because the difference between them is a difference in kind:
+
+- **`data/`** — the DataStore implementation of the matching `:core` interface. Callers hold the
+  interface type, never the concrete class.
 - **`presentation/`** — Compose and Glance.
 - **`framework/`** — the classes *Android itself* instantiates: the widget provider, the boot
   receiver, the WorkManager worker and its scheduler. Nothing in the app constructs these; the
@@ -115,21 +120,10 @@ case, and `:core` owns the interfaces that `:app` implements.
 ```mermaid
 graph TD
     subgraph core["core — pure Kotlin, JVM, zero Android imports"]
-        subgraph coreUseCase["tips/usecase"]
-            TipEngine
-            AdvanceTipUseCase
-        end
-        subgraph coreModel["tips/model"]
-            TipCatalog
-            ToneProfile
-        end
-        subgraph corePort["tips/port"]
-            TipHistoryRepository["TipHistoryRepository (interface)"]
-        end
         TipEngine --> TipCatalog
         TipEngine --> ToneProfile
         AdvanceTipUseCase --> TipEngine
-        AdvanceTipUseCase --> TipHistoryRepository
+        AdvanceTipUseCase --> TipHistoryRepository["TipHistoryRepository (interface)"]
     end
 
     subgraph app["app — Android"]

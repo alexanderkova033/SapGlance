@@ -47,8 +47,8 @@ import androidx.glance.unit.ColorProvider
 import com.sapglance.app.R
 import com.sapglance.app.SapGlanceApp
 import com.sapglance.app.settings.presentation.SettingsActivity
-import com.sapglance.core.tips.model.TipKind
-import com.sapglance.core.widget.model.WidgetStyle
+import com.sapglance.core.tips.TipKind
+import com.sapglance.core.widget.WidgetStyle
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -267,24 +267,44 @@ private val TIP_FONT_LADDER =
 private const val LINE_HEIGHT_RATIO = 1.19f
 
 /**
- * How wide the *widest* kind label is, as a multiple of its font size, uppercased and measured
- * against the real NotoSerif-Bold.ttf: `MOTIVATION` 6.87em, `PHILOSOPHY` 6.82, `WELLBEING` 6.31,
- * `HEALTH` 4.35. Shipped 3% over the widest, the same allowance [TipFace.minColumnRatio] carries,
- * to cover the small disagreement between desktop font metrics and Android's hinted advances.
+ * How wide the *widest* kind label is, as a multiple of its font size, measured against the real
+ * NotoSerif-Bold.ttf in the case it is actually drawn in: `Philosophy` 5.61em, `Motivation` 5.56,
+ * `Wellbeing` 5.14, `Health` 3.41. Shipped 3% over the widest, the same allowance
+ * [TipFace.minColumnRatio] carries, to cover the small disagreement between desktop font metrics
+ * and Android's hinted advances.
  *
- * Sized against the widest label rather than the one being drawn, on purpose: the label is beside
+ * Case is part of this measurement, not a detail above it: the same four words set in capitals run
+ * to 6.87em, a fifth wider, which is a rung of label size on a narrow card. If the label is ever
+ * re-cased, this has to be re-measured with it.
+ *
+ * Sized against the widest label rather than the one being drawn, on purpose: the label sits beside
  * the settings button, so the size it can take is a question about the *card*, and answering it
- * per tip would resize the card's top line on every refresh — `HEALTH` would sit a rung larger
- * than `PHILOSOPHY` on exactly the cards where the difference is most visible.
+ * per tip would resize the card's top line on every refresh — `Health` would sit a rung larger
+ * than `Philosophy` on exactly the cards where the difference is most visible.
  */
-private const val KIND_LABEL_WIDTH_RATIO = 7.1f
+private const val KIND_LABEL_WIDTH_RATIO = 5.8f
+
+/**
+ * How large the label is next to the app-name footer it is paired with.
+ *
+ * Below it, deliberately. The two are the same kind of thing — a small line of chrome framing the
+ * tip — but they are not equals: the footer is fixed text that reads as the card's edge, while this
+ * one changes with every refresh, sits directly above the words, and would compete with them if it
+ * were set at the same weight and size. Four fifths is enough to place it as a subtitle to the tip
+ * rather than a heading over it, without dropping it into the illegible.
+ */
+private const val KIND_LABEL_FOOTER_RATIO = 0.8f
 
 /**
  * Below this the label stops being information and becomes a smudge, so a card too narrow to
- * hold [KIND_LABEL_WIDTH_RATIO] at this size goes without one. Only the very narrowest slots
- * reach it: a 110dp-wide card that is also tall enough for the full-size settings button.
+ * hold [KIND_LABEL_WIDTH_RATIO] at this size goes without one. The same 6sp floor
+ * [TIP_FONT_LADDER] bottoms out at — the smallest type this card will draw at all.
+ *
+ * Swept across the whole declared size range: at a normal font scale nothing reaches it, since the
+ * label is capped well under what even a 110dp card can fit. It only bites at the 1.3 an
+ * accessibility setting can ask for, and then only on cards narrower than 113dp.
  */
-private const val MIN_KIND_LABEL_SP = 7f
+private const val MIN_KIND_LABEL_SP = 6f
 
 /**
  * A typeface together with the fitting figure measured for *that* face.
@@ -498,13 +518,13 @@ private fun metricsFor(
     // The kind label shares the card's top edge with the settings button, so it is charged the
     // button's whole rail at *both* ends: it stays centred on the card — matching the footer below
     // it and the tip between them — which it could not do if the clearance came off one side only.
-    // Then it takes whatever that leaves, capped at the footer's size because it is the footer's
-    // counterpart rather than a headline. A card too narrow for the longest label at a legible
-    // size draws none, the same bargain the `❝` glyph makes with height.
+    // Then it takes whatever that leaves, capped a step under the footer's size — see
+    // [KIND_LABEL_FOOTER_RATIO]. A card too narrow for the longest label at a legible size draws
+    // none, the same bargain the `❝` glyph makes with height.
     val kindLabelBudget = size.width - maxOf(textMargin, settingsInset + settingsButtonSize) * 2
     val kindLabelSp =
         minOf(
-            footerFontSize.value,
+            footerFontSize.value * KIND_LABEL_FOOTER_RATIO,
             kindLabelBudget.value / (fontScale * KIND_LABEL_WIDTH_RATIO),
         )
     val kindLabelFontSize = if (kindLabelSp >= MIN_KIND_LABEL_SP) kindLabelSp.sp else null
@@ -519,10 +539,10 @@ private fun metricsFor(
         maxOf(
             settingsInset + settingsButtonSize,
             footerInset + footerFontSize.lineHeight(),
-            // The label is inset like the footer, so the two small-caps lines frame the tip at
-            // equal distances. It has never been the tallest of the three — the settings circle
-            // is, at every size — so today it costs the tip nothing at all; charged here anyway so
-            // that stays true by arithmetic rather than by luck if the button ever shrinks.
+            // The label is inset like the footer, so the two small lines frame the tip at equal
+            // distances. It has never been the tallest of the three — the settings circle is, at
+            // every size — so today it costs the tip nothing at all; charged here anyway so that
+            // stays true by arithmetic rather than by luck if the button ever shrinks.
             footerInset + (kindLabelFontSize?.lineHeight() ?: 0.dp),
         )
     val quoteMarkHeight = if (showQuoteMark) quoteMarkSize.lineHeight() + QUOTE_MARK_GAP else 0.dp
@@ -703,13 +723,14 @@ private fun TipWidgetContent(
         // line because the four kinds ask genuinely different things of the reader: a health
         // finding is something to act on, a philosophy line something to sit with, and knowing
         // which before reading changes how the sentence lands. It also quietly explains the
-        // variety setting — a card that says PHILOSOPHY is showing the user what that slider did.
+        // variety setting — a card reading "Philosophy" shows the user what that control did.
         //
-        // Set in the same face and ink as the app name below, so the two read as a matched pair
-        // framing the tip, but bold where the footer is medium: this describes the card's content
-        // and the footer is a byline, and at these sizes weight is the only distinction available
-        // (Glance's TextStyle has no letterSpacing, so the settings screen's tracking can't be
-        // mirrored here).
+        // Set in the string's own sentence case rather than the capitals the app name below uses,
+        // and a step smaller than it (see [KIND_LABEL_FOOTER_RATIO]). Both pull the same way: caps
+        // at this position read as a heading over the tip, which is more than a one-word note about
+        // it should claim — it belongs to the tip, and lowercase letters at four fifths the size of
+        // the quietest thing on the card are how it says so. Kept bold all the same, because weight
+        // is what carries small type over artwork (see [TIP_FACE] on how thin faces fared here).
         val kindLabelRes = kind?.labelRes()
         val kindLabelFontSize = metrics.kindLabelFontSize
         if (kindLabelRes != null && kindLabelFontSize != null) {
@@ -718,7 +739,7 @@ private fun TipWidgetContent(
                 contentAlignment = Alignment.TopCenter,
             ) {
                 Text(
-                    text = context.getString(kindLabelRes).uppercase(),
+                    text = context.getString(kindLabelRes),
                     // Clipping a label is survivable; wrapping one is not. A second line would fall
                     // out of the rail reserved for it and land on the tip's first line, so if
                     // [KIND_LABEL_WIDTH_RATIO] is ever a hair optimistic this fails narrowly

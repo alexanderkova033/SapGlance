@@ -1,8 +1,6 @@
-package com.sapglance.core.tips.usecase
+package com.sapglance.core.tips
 
-import com.sapglance.core.settings.model.VarietyLevel
-import com.sapglance.core.tips.model.Tip
-import com.sapglance.core.tips.port.TipHistoryRepository
+import com.sapglance.core.settings.VarietyLevel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

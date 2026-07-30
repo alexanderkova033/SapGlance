@@ -1,4 +1,4 @@
-package com.sapglance.core.widget.usecase
+package com.sapglance.core.widget
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test

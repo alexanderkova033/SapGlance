@@ -1,10 +1,8 @@
-package com.sapglance.core.tips.model
+package com.sapglance.core.tips
 
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
-import com.sapglance.core.settings.model.VarietyLevel
-import com.sapglance.core.tips.port.TipHistoryRepository
-import com.sapglance.core.tips.usecase.TipEngine
+import com.sapglance.core.settings.VarietyLevel
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource

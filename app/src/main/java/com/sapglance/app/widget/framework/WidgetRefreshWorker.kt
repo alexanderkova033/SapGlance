@@ -5,13 +5,13 @@ import android.os.PowerManager
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.sapglance.app.SapGlanceApp
-import com.sapglance.core.widget.usecase.shouldAdvanceTip
+import com.sapglance.core.widget.shouldAdvanceTip
 import kotlinx.coroutines.flow.first
 import java.time.LocalTime
 
 /**
- * Ticks every [com.sapglance.core.widget.usecase.TICK_INTERVAL_MINUTES] (see
- * [WidgetScheduler]) and only advances the tip once [com.sapglance.core.widget.usecase.shouldAdvanceTip]
+ * Ticks every [com.sapglance.core.widget.TICK_INTERVAL_MINUTES] (see
+ * [WidgetScheduler]) and only advances the tip once [com.sapglance.core.widget.shouldAdvanceTip]
  * says enough confirmed screen-on ticks have accumulated since it was last shown — see
  * `TipRefreshSchedule.kt` for why. Nothing here is ever gated on quiet hours: a passive widget
  * refresh isn't an interruption, so there is nothing to silence. (v1 has no notifications at

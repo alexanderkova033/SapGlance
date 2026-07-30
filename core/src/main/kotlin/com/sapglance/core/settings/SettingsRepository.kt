@@ -1,7 +1,5 @@
-package com.sapglance.core.settings.port
+package com.sapglance.core.settings
 
-import com.sapglance.core.settings.model.AppSettings
-import com.sapglance.core.settings.model.VarietyLevel
 import kotlinx.coroutines.flow.Flow
 
 /**
