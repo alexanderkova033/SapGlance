@@ -7,13 +7,14 @@
 # WRITING RULE FOR THIS POOL: only quote what can be pinned to a specific chapter, letter, or
 # section in a public-domain edition, and quote that edition's actual wording. Popular
 # philosophy quotes are misattributed constantly: the thousand-miles line gets pinned on
-# Confucius, "we are what we repeatedly do" is Will Durant summarising Aristotle rather than
-# Aristotle, and "he who has a why to live can bear almost any how" is Viktor Frankl's
-# paraphrase, not Nietzsche's sentence. Nietzsche's actual line is the one below. Two more
-# worth knowing, because they read as if they belong here and do not: "the greatest weapon
-# against stress is our ability to choose one thought over another" is not William James, and
-# "be yourself in a world constantly trying to make you something else" is not Emerson. Every
-# line below was checked against the linked edition's text, not against a quotations site.
+# Confucius when it is Lao Tzu, "we are what we repeatedly do" is Will Durant summarising
+# Aristotle rather than Aristotle, and "he who has a why to live can bear almost any how" is
+# Viktor Frankl's paraphrase, not Nietzsche's sentence. Nietzsche's actual line is the one
+# below. Two more worth knowing, because they read as if they belong here and do not: "the
+# greatest weapon against stress is our ability to choose one thought over another" is not
+# William James, and "be yourself in a world constantly trying to make you something else" is
+# not Emerson. Every line below was checked against the linked edition's text, not against a
+# quotations site.
 #
 # SECOND WRITING RULE, on variety: this pool was once entirely Stoic plus a short tail (four
 # Marcus, three Epictetus, three Seneca), which is a school, not a subject. Stoicism keeps the
@@ -24,16 +25,43 @@
 #
 # THIRD WRITING RULE, on length: a quotation has to survive a small widget, so prefer the
 # sentence that is already short in the source over a long one trimmed with an ellipsis.
-# Cutting at a comma or a colon the original already has (as with the Dhammapada line below)
-# is fine; cutting mid-clause and hoping nobody checks is how a quotation becomes a paraphrase.
+# Cutting at a comma, a colon or a semicolon the original already has (as with the Dhammapada
+# and Lao Tzu lines below) is fine; cutting mid-clause and hoping nobody checks is how a
+# quotation becomes a paraphrase.
 #
-# OPEN CRITICISM OF THIS POOL, 2026-07-28, not yet acted on: it is conventional. Every rule
-# above is about being *accurate*, and the pool clears that bar; none of them is about being
-# worth stopping on, and it does not clear that one. What is here is the philosophy everyone
-# has already met, in the register of a poster. The suspected cause is selecting for
-# quotability — a line short enough for a widget and instantly legible is usually a line that
-# has been quoted to death. Prefer passages that need a beat to land, and ideas that cut
-# against the reader rather than reassure them. See STATUS.md "the tone pools are too soft".
+# THE 2026-07-30 PASS, against the criticism recorded 2026-07-28. That criticism said the pool
+# was conventional: every rule above is about being *accurate*, the pool clears that bar, none
+# of them is about being worth stopping on, and it did not clear that one. What was here was
+# the philosophy everyone has already met, in the register of a poster. The suspected cause was
+# selecting for quotability, since a line short enough for a widget and instantly legible is
+# usually a line that has been quoted to death.
+#
+# Seven lines were cut on exactly that test: the unexamined life, the journey of a thousand
+# miles, to be great is to be misunderstood, optimism is the faith that leads to achievement,
+# very little is needed to make a happy life, all that we are is the result of what we have
+# thought, and I went to the woods because I wished to live deliberately. Each was replaced
+# from the *same tradition* rather than dropped, so the ratio the second rule defends came
+# through unchanged: a different Lao Tzu chapter, a different Dhammapada verse, a different
+# Heraclitus fragment, two more Thoreau and another Emerson.
+#
+# WHAT WAS SELECTED FOR INSTEAD, since "less famous" is not a standard. Two things. A line
+# should need a beat to land, and it should cut against the reader rather than reassure them.
+# "Even if you break your heart, none the less they will do just the same" is the clearest case
+# of both: it takes a moment to parse, and what it says when it lands is that your distress is
+# not an argument anyone else is obliged to hear. "For nonconformity the world whips you with
+# its displeasure" is Emerson naming the cost rather than the reward. "But lo! men have become
+# the tools of their tools" is a sentence a reader holding a phone is inside of.
+#
+# WHAT THE PASS DID NOT FIX, and is still open: the thin traditions. German and Enlightenment
+# rationalist carry one line each, and this pass replaced within traditions rather than
+# widening the pool, so both are exactly where they were. Worse, it grew from 42 lines to 47
+# and spent three of those five on Stoics, taking that section from ten lines to thirteen,
+# which is precisely what the second rule tells you to check before doing. The reason was
+# availability rather than judgement: Seneca's letters and the Enchiridion are indexed section
+# by section in public-domain editions, so a candidate line can be verified in one lookup,
+# while the traditions this pool is short of are the ones whose editions are hardest to check
+# a single sentence against. That is an argument about the *cost* of sourcing, not about what
+# the pool needs. The next pass here should pay it: add a voice, not another Roman.
 #
 # Format is inline: "Tip text" alone, or "Tip text<TAB>Label<TAB>URL" for a quotation.
 
@@ -41,16 +69,19 @@
 Men are disturbed not by things, but by the views which they take of things.	Epictetus, Enchiridion V (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm	Epictetus, Enchiridion V (Perseus Digital Library)	https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0237:text%3Denc:chapter%3D5
 Some things are in our power, and some are not.	Epictetus, Enchiridion I (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm
 Seek not that things should happen as you wish, but wish them to be as they are.	Epictetus, Enchiridion VIII, tr. Long (Project Gutenberg)	https://www.gutenberg.org/files/10661/10661-h/10661-h.htm
-Very little is needed to make a happy life.	Marcus Aurelius, Meditations VII (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
+Never say of anything, 'I have lost it;' but, 'I have restored it.'	Epictetus, Enchiridion XI, tr. Higginson (Perseus Digital Library)	https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0237:text%3Denc:chapter%3D11
+Even if you break your heart, none the less they will do just the same.	Marcus Aurelius, Meditations VIII.4 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_8
 The pain is not due to the thing itself but to your estimate of it.	Marcus Aurelius, Meditations VIII.47 (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
 Nowhere can a man find a quieter or more untroubled retreat than in his own soul.	Marcus Aurelius, Meditations IV.3 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_4
 Tranquillity is nothing else than the good ordering of the mind.	Marcus Aurelius, Meditations IV.3 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_4
 We suffer more often in imagination than in reality.	Seneca, Moral Letters to Lucilius 13 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_13
 There are more things likely to frighten us than there are to crush us.	Seneca, Moral Letters to Lucilius 13 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_13
 While we are postponing, life speeds by.	Seneca, Moral Letters to Lucilius 1 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_1
+Everywhere means nowhere.	Seneca, Moral Letters to Lucilius 2 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_2
+As long as you live, keep learning how to live.	Seneca, Moral Letters to Lucilius 76 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_76
 
 # Taoist.
-The journey of a thousand miles begins beneath one's feet.	Lao Tzu, Tao Teh King 64, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
+He who stands on his tiptoes does not stand firm.	Lao Tzu, Tao Teh King 24, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
 He who knows other men is discerning; he who knows himself is intelligent.	Lao Tzu, Tao Teh King 33, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
 
 # Confucian.
@@ -58,11 +89,11 @@ Learning without thought is labour lost; thought without learning is perilous.	C
 To have faults and not to reform them, this, indeed, should be pronounced having faults.	Confucius, Analects XV.XXIX, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/3330
 
 # Buddhist.
-All that we are is the result of what we have thought.	The Dhammapada 1, tr. Max Muller (Project Gutenberg)	https://www.gutenberg.org/ebooks/2017
+The fault of others is easily perceived, but that of oneself is difficult to perceive.	The Dhammapada 252, tr. Max Muller (Project Gutenberg)	https://www.gutenberg.org/ebooks/2017
 Let a man overcome anger by love, let him overcome evil by good.	The Dhammapada 223, tr. Max Muller (Project Gutenberg)	https://www.gutenberg.org/ebooks/2017
 
 # Greek.
-The unexamined life is not worth living.	Socrates, in Plato's Apology (Project Gutenberg)	https://www.gutenberg.org/ebooks/1656
+The waking have one common world, but the sleeping turn aside each into a world of his own.	Heraclitus, Fragment 89 (Wikisource)	https://en.wikisource.org/wiki/Fragments_of_Heraclitus_(annotated)
 You cannot step twice into the same rivers.	Heraclitus, Fragments 41-42, tr. Burnet (Wikisource)	https://en.wikisource.org/wiki/Fragments_of_Heraclitus_(annotated)
 
 # Essayists and transcendentalists.
@@ -70,12 +101,12 @@ The greatest thing in the world is for a man to know that he is his own.	Montaig
 We must reserve a backshop, wholly our own and entirely free.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
 Nothing is at last sacred but the integrity of your own mind.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
 Insist on yourself; never imitate.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
-To be great is to be misunderstood.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
+For nonconformity the world whips you with its displeasure.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
 The mass of men lead lives of quiet desperation.	Thoreau, Walden, "Economy" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Economy
-I went to the woods because I wished to live deliberately.	Thoreau, Walden, "Where I Lived, and What I Lived for" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Where_I_Lived,_and_What_I_Lived_for
+But lo! men have become the tools of their tools.	Thoreau, Walden, "Economy" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Economy
+Our life is frittered away by detail.	Thoreau, Walden, "Where I Lived, and What I Lived for" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Where_I_Lived,_and_What_I_Lived_for
 Ask yourself whether you are happy, and you cease to be so.	J. S. Mill, Autobiography, Chapter V (Wikisource)	https://en.wikisource.org/wiki/Autobiography_(Mill)/Chapter_V
 Although the world is full of suffering, it is full also of the overcoming of it.	Helen Keller, Optimism (Wikisource)	https://en.wikisource.org/wiki/Optimism_(Keller)
-Optimism is the faith that leads to achievement.	Helen Keller, Optimism (Wikisource)	https://en.wikisource.org/wiki/Optimism_(Keller)
 
 # German.
 If we have our own why in life, we shall get along with almost any how.	Nietzsche, Twilight of the Idols, Maxims and Arrows 12 (Project Gutenberg)	https://www.gutenberg.org/files/52263/52263-h/52263-h.htm
@@ -98,3 +129,5 @@ The story you'll tell about today is already shorter than today is.
 You'll never have more time than you have now, only different reasons.
 The opinion you hold most confidently came from someone you have forgotten.
 You cannot explain most of your life to anyone who was not there.
+You have been wrong before with exactly this much confidence.
+The advice you give most often is the advice you most need.

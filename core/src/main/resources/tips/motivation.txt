@@ -8,19 +8,6 @@
 # to be productive") are warm but they are not motivating, and they belong in wellbeing.txt
 # where they won't dilute this pool's job.
 #
-# OPEN CRITICISM OF THIS POOL, 2026-07-28, not yet acted on: the first rule above has not held.
-# Much of what is here now reads as gentle encouragement, which is wellbeing.txt's job, and the
-# two pools have become hard to tell apart. That is not only a flatness problem — ToneProfile
-# weights motivation at 5/10 in the morning and 0/10 at night, and that table only means
-# anything if the two pools actually sound different. If they don't, the time-of-day mechanism
-# is shuffling weight between two names for the same thing.
-#
-# It needs to be stronger. Nothing external is holding it back: this pool carries no citation
-# burden at all (original writing, none implied), so how hard it pushes is entirely a choice.
-# A pass should re-audit every line against the first rule and move the failures into
-# wellbeing.txt rather than softening the rule to match the drift. See STATUS.md "the tone
-# pools are too soft".
-#
 # SECOND WRITING RULE, on variety: "just start" is the easiest motivational line to write and
 # the pool drifts towards it if nobody is watching. It was once ten of eighteen lines, which
 # made a big pool feel like a small one. Starting is one angle among many, so it is capped at
@@ -38,6 +25,28 @@
 # slogan; "put it where you will trip over it" and "name the time and the place" are things a
 # reader can do in the next minute, and they push harder for being specific. Where a line can
 # carry a number, a place, or an object without getting long, give it one.
+#
+# THE 2026-07-30 PASS, and what it found. The header used to carry an open criticism, recorded
+# 2026-07-28: that much of this pool read as gentle encouragement, that it had become hard to
+# tell from wellbeing.txt, and that this quietly emptied the ToneProfile weights, which only
+# mean something if the two pools actually sound different. Every line was then re-audited
+# against the first rule. Four failed outright and one was borderline, and the interesting part
+# is where they went.
+#
+# The criticism assumed the failures would be wellbeing-shaped and could simply be moved. None
+# of them could. "The day isn't ruined", "the middle is boring, that isn't a sign you're doing
+# it wrong" and "you have handled worse than this" all presuppose that the reader is having a
+# bad day, and wellbeing.txt's own first rule forbids exactly that: a widget appears at random,
+# so a line that assumes struggle lands as a diagnosis nobody asked for. They were not soft
+# *wellbeing* lines sitting in the wrong file. They were soft *motivation* lines, comfort
+# written where a push belonged, and comfort that would be unwelcome in either pool. So they
+# were rewritten in place, each one given something to do in the next minute per the fourth
+# rule, and six lines were added at the harder end rather than the middle.
+#
+# What the audit did not find was the two pools blurring into each other at large. Motivation
+# is about work and follow-through, wellbeing is about noticing and rest, and the failures were
+# a handful of individually weak lines rather than a drift in what the pool is for. Worth
+# knowing before a future pass goes looking for a bigger problem than the one that was here.
 
 # Starting.
 Start badly. A bad start beats a perfect plan you never opened.
@@ -50,8 +59,9 @@ Stop researching it. Go and do it badly.
 
 # Avoidance.
 Do the thing you've been walking past all week.
-Whatever you're avoiding is smaller than your dread of it.
+Whatever you're avoiding is smaller than your dread of it. Go and measure it.
 Close the tab that's quietly eating your afternoon.
+Do the worst job first. Everything after it is downhill.
 
 # Momentum.
 Momentum is a decision, not a mood.
@@ -63,17 +73,18 @@ Half-done today beats flawless never.
 Call it done at good enough. The last ten percent is where things go to die.
 
 # The long game.
-Give your future self something to work with.
+Do ten minutes of tomorrow's worst job before you stop today.
 Pick the thing that pays off in a year and do ten minutes of it.
 Hard now or hard later. Only one of them gets easier.
+Ten years of this is made of days that felt like nothing. Do today's.
 
 # Coming back after a gap.
 You don't have to start over. You have to start again, which is easier.
 Missed a week? The streak was never the point. Go again today.
-The day isn't ruined. There are hours left in it.
+Write off the morning, not the day. Start the next block on the next hour.
 
 # The boring middle.
-The middle is boring. That isn't a sign you're doing it wrong.
+The middle is boring. Shrink the daily target until boring is survivable.
 Boring and consistent wins. It just doesn't make a good story.
 Do it on a day it doesn't feel worth doing. Those are the ones that count.
 
@@ -81,6 +92,8 @@ Do it on a day it doesn't feel worth doing. Those are the ones that count.
 Everyone good at this was once visibly bad at it.
 Talent is someone else's practice that you didn't watch.
 You're not behind on ability. You're behind on reps.
+Count sessions, not hours. Turning up is the only number you control.
+Name the last thing this size you finished, then run this one the same way.
 
 # Comparison.
 Run your own race. You can't see how far anyone else has come.
@@ -94,12 +107,12 @@ Say the honest sentence. It's shorter than the silence.
 # Keeping your own word.
 Do what you said you'd do. That's how you learn to trust yourself.
 Keep one promise to yourself today. Any size counts.
+Tell one person the date. A promise with a witness is a different promise.
 
 # Attention and the body.
 Stand up. Some of what feels like low motivation is just sitting still.
 Guard one hour today like it belongs to someone you'd never let down.
 One thing at a time, properly. Two at once is neither.
-You have handled worse than this. Check your own record.
 
 # Wry. Still pushes, just with a raised eyebrow.
 Future you is not going to be more in the mood. Sorry.
@@ -107,11 +120,13 @@ The task is nine minutes long. You've spent twenty avoiding it.
 Nobody is coming to do it for you. That was the plan and it fell through.
 You've rehearsed this in your head enough times to be off book. Go.
 Your list isn't going to read itself. That part, annoyingly, is yours.
+The version in your head will not build itself while you admire it.
 
 # Friction. Make the next step physically easier than not doing it.
 Put it where you will trip over it. Willpower loses to furniture.
 Name the time and the place. "Later" is where plans go to die.
 Stop today while you still know the next sentence. Tomorrow starts itself.
+Put what you need in the way and what you don't in a drawer.
 
 # Deciding once.
 Decide it this morning and stop putting it back on trial at 3pm.
