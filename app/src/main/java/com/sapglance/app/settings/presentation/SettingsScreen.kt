@@ -85,14 +85,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sapglance.app.R
 import com.sapglance.app.SapGlanceApp
-import com.sapglance.core.settings.AppSettings
-import com.sapglance.core.settings.SettingsRepository
-import com.sapglance.core.settings.VarietyLevel
-import com.sapglance.core.tips.DayPart
-import com.sapglance.core.tips.Tip
-import com.sapglance.core.tips.TipEngine
-import com.sapglance.core.tips.TipHistoryRepository
-import com.sapglance.core.tips.TipKind
+import com.sapglance.core.settings.model.AppSettings
+import com.sapglance.core.settings.model.VarietyLevel
+import com.sapglance.core.settings.port.SettingsRepository
+import com.sapglance.core.tips.model.DayPart
+import com.sapglance.core.tips.model.Tip
+import com.sapglance.core.tips.model.TipKind
+import com.sapglance.core.tips.port.TipHistoryRepository
+import com.sapglance.core.tips.usecase.TipEngine
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -364,7 +364,7 @@ private fun VarietyLevel.stateDescriptionRes(): Int =
     }
 
 /** Picks a new tip out of turn (same selection/anti-repeat logic as the scheduled refresh —
- * see [com.sapglance.core.tips.TipEngine.messageFor]) and pushes it,
+ * see [com.sapglance.core.tips.usecase.TipEngine.messageFor]) and pushes it,
  * plus the background style that now follows it, to the widget immediately. Launched in
  * [SapGlanceApp.applicationScope] rather than this screen's own coroutine scope: the
  * latter is cancelled if the user navigates away before the Glance composition finishes,

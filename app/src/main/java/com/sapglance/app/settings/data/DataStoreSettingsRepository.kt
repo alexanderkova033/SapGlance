@@ -5,9 +5,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.sapglance.core.settings.AppSettings
-import com.sapglance.core.settings.SettingsRepository
-import com.sapglance.core.settings.VarietyLevel
+import com.sapglance.core.settings.model.AppSettings
+import com.sapglance.core.settings.model.VarietyLevel
+import com.sapglance.core.settings.port.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

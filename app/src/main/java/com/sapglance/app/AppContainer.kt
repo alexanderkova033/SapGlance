@@ -2,16 +2,16 @@ package com.sapglance.app
 
 import android.content.Context
 import androidx.glance.appwidget.updateAll
-import com.sapglance.app.common.sapGlanceDataStore
+import com.sapglance.app.platform.sapGlanceDataStore
 import com.sapglance.app.settings.data.DataStoreSettingsRepository
 import com.sapglance.app.tips.data.DataStoreTipHistoryRepository
 import com.sapglance.app.widget.data.DataStoreWidgetRefreshRepository
 import com.sapglance.app.widget.presentation.TipWidget
-import com.sapglance.core.scheduling.WidgetRefreshRepository
-import com.sapglance.core.settings.SettingsRepository
-import com.sapglance.core.tips.AdvanceTipUseCase
-import com.sapglance.core.tips.TipEngine
-import com.sapglance.core.tips.TipHistoryRepository
+import com.sapglance.core.settings.port.SettingsRepository
+import com.sapglance.core.tips.port.TipHistoryRepository
+import com.sapglance.core.tips.usecase.AdvanceTipUseCase
+import com.sapglance.core.tips.usecase.TipEngine
+import com.sapglance.core.widget.port.WidgetRefreshRepository
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 

@@ -54,29 +54,58 @@ form of tracking.
 
 ## Architecture
 
-Two Gradle modules. Folders are organised by feature, with each feature split into
-`data`/`presentation` layers that depend inward on `:core` rather than on each other.
+Two Gradle modules. Inside each one the **feature comes first and the layer second**, so a path
+tells you what the code is *about* before it tells you what *kind* of code it is. There are three
+features — `tips`, `settings`, `widget` — and they are the same three in both modules.
 
-- **`:core`** — the domain layer: pure Kotlin, JVM-only, zero Android imports.
-  - `tips/` — `Tip`, `TipKind`, `TipCatalog`, `TipEngine`, `ToneProfile`,
-    `TipHistoryRepository` (interface), and `AdvanceTipUseCase`, the single "pick + persist the
-    next tip" rule shared by every caller so they can't diverge on anti-repeat.
-  - `settings/` — `AppSettings` / `SettingsRepository`, holding the one real preference: a
-    `VarietyLevel` of `PRACTICAL` / `BALANCED` / `PLAYFUL`.
-  - `widget/` — `WidgetStyle` and its pure hash-based `forTip` mapping. It lived under
-    `settings/` once, which was wrong in a way worth naming: it is explicitly *not* a setting,
-    so the package said the opposite of what the type's own docs said.
-  - `scheduling/` — `TipRefreshSchedule` (the tick-threshold math) and `WidgetRefreshRepository`
-    (interface).
-- **`:app`** — the Android application, organised by feature (`settings/`, `tips/`, `widget/`,
-  `boot/`). Each feature's `data/` holds the DataStore implementation of the matching `:core`
-  interface; dependents hold the interface type, never the concrete class.
+```
+core/  pure Kotlin, JVM-only, zero Android imports
+  tips/      model/    Tip TipKind DayPart TipCatalog ToneProfile
+             usecase/  TipEngine AdvanceTipUseCase
+             port/     TipHistoryRepository
+  settings/  model/    AppSettings VarietyLevel
+             port/     SettingsRepository
+  widget/    model/    WidgetStyle
+             usecase/  TipRefreshSchedule
+             port/     WidgetRefreshRepository
 
-Two placements are deliberate:
+app/   Android
+  SapGlanceApp  AppContainer                     the composition root, and nothing else
+  platform/     SapGlanceDataStore               the one shared piece of Android plumbing
+  tips/         data/          DataStoreTipHistoryRepository
+  settings/     data/          DataStoreSettingsRepository
+                presentation/  SettingsActivity SettingsScreen theme/
+  widget/       data/          DataStoreWidgetRefreshRepository
+                presentation/  TipWidget RefreshTipAction
+                framework/     TipWidgetReceiver BootReceiver WidgetRefreshWorker WidgetScheduler
+```
 
-- **`TipWidgetReceiver` stays at the `widget/` root.** Its fully-qualified name is the
-  `ComponentName` the launcher persists for every placed widget, so renaming it drops every
-  widget off the home screen on the next install.
+The layer names are the dependency rule, not decoration:
+
+- **`model/`** — entities and the pure rules over them. Depends on nothing, including no other
+  layer. If a `model` file ever needs an import from `usecase`, the arrow is backwards.
+- **`usecase/`** — what the app actually does. Depends on `model` and on `port`.
+- **`port/`** — the interfaces `:app` must implement. `:core` states what it needs and never
+  learns who supplies it, which is the whole reason `:core` can be a JVM module with no Android
+  SDK anywhere near it.
+- **`data/`** — the DataStore implementation of the matching `port`. Callers hold the interface
+  type, never the concrete class.
+- **`presentation/`** — Compose and Glance.
+- **`framework/`** — the classes *Android itself* instantiates: the widget provider, the boot
+  receiver, the WorkManager worker and its scheduler. Nothing in the app constructs these; the
+  OS does, by name.
+
+Three placements are worth knowing:
+
+- **`framework/` exists because the OS binds those four classes by name.** Their
+  fully-qualified names are in `AndroidManifest.xml` and, for `TipWidgetReceiver`, in the
+  `ComponentName` the launcher persists for every placed widget. Moving that class drops every
+  widget off the home screen on the next install; it was moved once, deliberately, while the
+  app had no released users, and the point of gathering all four in one package is that the next
+  person can see at a glance which names are expensive to change.
+- **`BootReceiver` is a widget concern, so it lives under `widget/`.** It used to sit in a
+  top-level `boot/` package, which read as a fourth feature. It has exactly one job: reschedule
+  the widget refresh after a reboot.
 - **The Compose theme lives under `settings/presentation/theme/`.** It has one caller; the
   widget uses Glance's own `GlanceTheme`.
 
@@ -86,18 +115,29 @@ case, and `:core` owns the interfaces that `:app` implements.
 ```mermaid
 graph TD
     subgraph core["core — pure Kotlin, JVM, zero Android imports"]
+        subgraph coreUseCase["tips/usecase"]
+            TipEngine
+            AdvanceTipUseCase
+        end
+        subgraph coreModel["tips/model"]
+            TipCatalog
+            ToneProfile
+        end
+        subgraph corePort["tips/port"]
+            TipHistoryRepository["TipHistoryRepository (interface)"]
+        end
         TipEngine --> TipCatalog
         TipEngine --> ToneProfile
         AdvanceTipUseCase --> TipEngine
-        AdvanceTipUseCase --> TipHistoryRepository["TipHistoryRepository (interface)"]
+        AdvanceTipUseCase --> TipHistoryRepository
     end
 
-    subgraph app["app — Android, organised by feature"]
-        TipWidget
-        RefreshTipAction
-        WidgetRefreshWorker
-        SettingsScreen
-        DataStoreTipHistoryRepository
+    subgraph app["app — Android"]
+        TipWidget["widget/presentation: TipWidget"]
+        RefreshTipAction["widget/presentation: RefreshTipAction"]
+        WidgetRefreshWorker["widget/framework: WidgetRefreshWorker"]
+        SettingsScreen["settings/presentation: SettingsScreen"]
+        DataStoreTipHistoryRepository["tips/data: DataStoreTipHistoryRepository"]
         DataStore[("DataStore&lt;Preferences&gt;")]
     end
 

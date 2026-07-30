@@ -17,6 +17,26 @@ These aren't up for debate on a per-PR basis — they're the whole point of the 
    no `android.*` imports, so it stays unit-testable on the plain JVM.
 6. All user-facing strings go in `strings.xml`, not hardcoded in Kotlin.
 
+## Where a new file goes
+
+Both modules are laid out feature-first, then layer: `tips/`, `settings/`, `widget/`, and under
+each of those a layer package. Pick the feature first, then answer one question:
+
+| It is... | `:core` | `:app` |
+| --- | --- | --- |
+| a thing, with rules about itself | `<feature>/model/` | |
+| something the app *does* | `<feature>/usecase/` | |
+| an interface `:app` must implement | `<feature>/port/` | |
+| the DataStore side of one of those interfaces | | `<feature>/data/` |
+| Compose or Glance UI | | `<feature>/presentation/` |
+| a class **Android** instantiates by name (receiver, worker, scheduler) | | `<feature>/framework/` |
+
+The layer names are a dependency rule, so they can be checked rather than argued about:
+`model` imports nothing from `usecase` or `port`, and nothing in `:core` imports anything from
+`:app`. If a file needs an import that points the wrong way, it is in the wrong package. See
+the README's Architecture section for the full map and for which class names are expensive to
+change (the OS binds four of them by name).
+
 ## Getting set up
 
 ```bash

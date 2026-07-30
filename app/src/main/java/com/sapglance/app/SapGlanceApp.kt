@@ -1,7 +1,7 @@
 package com.sapglance.app
 
 import android.app.Application
-import com.sapglance.app.widget.scheduling.WidgetScheduler
+import com.sapglance.app.widget.framework.WidgetScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

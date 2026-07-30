@@ -4,8 +4,8 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.google.common.truth.Truth.assertThat
-import com.sapglance.core.settings.AppSettings
-import com.sapglance.core.settings.VarietyLevel
+import com.sapglance.core.settings.model.AppSettings
+import com.sapglance.core.settings.model.VarietyLevel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach

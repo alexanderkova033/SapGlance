@@ -4,7 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import com.sapglance.core.scheduling.WidgetRefreshRepository
+import com.sapglance.core.widget.port.WidgetRefreshRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

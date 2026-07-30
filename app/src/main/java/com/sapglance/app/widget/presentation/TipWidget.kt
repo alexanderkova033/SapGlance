@@ -47,8 +47,8 @@ import androidx.glance.unit.ColorProvider
 import com.sapglance.app.R
 import com.sapglance.app.SapGlanceApp
 import com.sapglance.app.settings.presentation.SettingsActivity
-import com.sapglance.core.tips.TipKind
-import com.sapglance.core.widget.WidgetStyle
+import com.sapglance.core.tips.model.TipKind
+import com.sapglance.core.widget.model.WidgetStyle
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
