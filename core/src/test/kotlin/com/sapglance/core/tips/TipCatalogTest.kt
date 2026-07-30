@@ -18,6 +18,8 @@ class TipCatalogTest {
         assertThat(catalog.morning).isNotEmpty()
         assertThat(catalog.afternoon).isNotEmpty()
         assertThat(catalog.evening).isNotEmpty()
+        assertThat(catalog.sleepLate).isNotEmpty()
+        assertThat(catalog.sleepEarlyHours).isNotEmpty()
         assertThat(catalog.motivation).isNotEmpty()
         assertThat(catalog.philosophy).isNotEmpty()
         assertThat(catalog.wellbeing).isNotEmpty()
@@ -37,6 +39,8 @@ class TipCatalogTest {
             catalog.morning,
             catalog.afternoon,
             catalog.evening,
+            catalog.sleepLate,
+            catalog.sleepEarlyHours,
             catalog.motivation,
             catalog.philosophy,
             catalog.wellbeing,
@@ -56,20 +60,27 @@ class TipCatalogTest {
         assertThat(texts.toSet()).hasSize(texts.size)
     }
 
+    /**
+     * The two night windows reach nothing but their own pool ([TipEngine.practicalGroups]), so
+     * each one has to be deep enough to be a rotation on its own — where every other day part
+     * has `general` underneath it, these have nothing. The floor is low on purpose: what makes
+     * the promise keepable at night is pinned by the anti-repeat test at the bottom of this file,
+     * and this only catches a pool trimmed back towards the fixed message it used to be.
+     */
     @Test
-    fun `sleep messages are single, non-blank, and distinct`() {
-        assertThat(catalog.sleepLate.text.isNotBlank()).isTrue()
-        assertThat(catalog.sleepEarlyHours.text.isNotBlank()).isTrue()
-        assertThat(catalog.sleepLate.text).isNotEqualTo(catalog.sleepEarlyHours.text)
+    fun `each night window is a real pool, not a single message`() {
+        assertThat(catalog.sleepLate.size).isAtLeast(MIN_NIGHT_POOL)
+        assertThat(catalog.sleepEarlyHours.size).isAtLeast(MIN_NIGHT_POOL)
     }
 
     @Test
     fun `each pool is tagged with the kind it belongs to`() {
-        (catalog.general + catalog.morning + catalog.afternoon + catalog.evening).forEach {
+        (
+            catalog.general + catalog.morning + catalog.afternoon + catalog.evening +
+                catalog.sleepLate + catalog.sleepEarlyHours
+        ).forEach {
             assertThat(it.kind).isEqualTo(TipKind.PRACTICAL)
         }
-        assertThat(catalog.sleepLate.kind).isEqualTo(TipKind.PRACTICAL)
-        assertThat(catalog.sleepEarlyHours.kind).isEqualTo(TipKind.PRACTICAL)
         catalog.motivation.forEach { assertThat(it.kind).isEqualTo(TipKind.MOTIVATION) }
         catalog.philosophy.forEach { assertThat(it.kind).isEqualTo(TipKind.PHILOSOPHY) }
         catalog.wellbeing.forEach { assertThat(it.kind).isEqualTo(TipKind.WELLBEING) }
@@ -158,9 +169,14 @@ class TipCatalogTest {
      *
      * The stress case is one day part, not the whole catalog. A user who only ever sees the
      * widget in the morning reaches `general` + `morning` for practical draws, and at
-     * [VarietyLevel.PRACTICAL] roughly 80% of draws want to come from exactly that set — the
-     * narrowest reachable pool in the app, and far smaller than the catalog total that a naive
-     * "is 100 < 280?" check would look at.
+     * [VarietyLevel.PRACTICAL] roughly 80% of draws want to come from exactly that set — far
+     * smaller than the catalog total that a naive "is 100 < 280?" check would look at.
+     *
+     * The two sleep windows are narrower still, and are the real reason this test exists in its
+     * current form: night reaches one practical pool plus philosophy and wellbeing, with
+     * motivation weighted to zero and `general` deliberately kept out. That is the smallest
+     * reachable set in the app, and the only one where a content trim in a pool that looks
+     * unrelated to sleep — wellbeing, say — could break the promise at 3am.
      */
     @ParameterizedTest
     @MethodSource("singleDayPartHours")
@@ -189,7 +205,7 @@ class TipCatalogTest {
 
     private fun allTips(): List<Tip> =
         catalog.general + catalog.morning + catalog.afternoon + catalog.evening +
-            catalog.tonePools + listOf(catalog.sleepLate, catalog.sleepEarlyHours)
+            catalog.sleepLate + catalog.sleepEarlyHours + catalog.tonePools
 
     private companion object {
         /**
@@ -198,13 +214,19 @@ class TipCatalogTest {
          */
         const val DRAWS = 2000
 
+        /** Enough to be a rotation rather than a message with variants. */
+        const val MIN_NIGHT_POOL = 8
+
         /**
-         * One waking hour per day part. The 23:00-05:59 sleep hours are deliberately excluded:
-         * their practical side is a single fixed wind-down message that is exempt from
-         * anti-repeat by design (see `TipEngine.sleepGroups`), so asserting no-repeat there
-         * would be asserting against an intended exception.
+         * One hour per day part, now including both sleep windows. They used to be excluded,
+         * because their practical side was a single fixed message exempt from anti-repeat and
+         * asserting no-repeat there would have been asserting against an intended exception.
+         * They are ordinary pools now, and they are also the *narrowest* hours in the app: night
+         * reaches its own pool plus philosophy and wellbeing, with motivation weighted out and
+         * `general` deliberately not mixed in, so it is the hour where the window is hardest to
+         * cover and the one most worth testing.
          */
         @JvmStatic
-        fun singleDayPartHours() = listOf(9, 14, 20)
+        fun singleDayPartHours() = listOf(9, 14, 20, 23, 2)
     }
 }

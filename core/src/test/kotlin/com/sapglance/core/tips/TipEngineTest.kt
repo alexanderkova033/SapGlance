@@ -38,8 +38,8 @@ private val testCatalog =
         morning = listOf("M1", "M2").map(::tip),
         afternoon = listOf("A1").map(::tip),
         evening = listOf("E1").map(::tip),
-        sleepLate = tip("Sleep late fixed message"),
-        sleepEarlyHours = tip("Sleep early-hours fixed message"),
+        sleepLate = listOf("SL1", "SL2").map(::tip),
+        sleepEarlyHours = listOf("SE1", "SE2").map(::tip),
     )
 
 /** [testCatalog] with all three tone pools populated, for the tone-mix cases. */
@@ -79,49 +79,45 @@ class TipEngineTest {
     }
 
     @Test
-    fun `sleep late message is the fixed catalog message`() {
-        val engine = TipEngine(testCatalog, FixedIndexRandom(0))
-        val message = engine.messageFor(LocalTime.of(23, 30), recentTips = emptyList())
-        assertThat(message).isEqualTo(testCatalog.sleepLate)
+    fun `late-evening pool is the sleep-late tips alone`() {
+        assertPoolComposition(LocalTime.of(23, 30), testCatalog.sleepLate)
     }
 
     @Test
-    fun `sleep early-hours message is the fixed catalog message`() {
-        val engine = TipEngine(testCatalog, FixedIndexRandom(0))
-        val message = engine.messageFor(LocalTime.of(2, 0), recentTips = emptyList())
-        assertThat(message).isEqualTo(testCatalog.sleepEarlyHours)
+    fun `small-hours pool is the sleep-early tips alone`() {
+        assertPoolComposition(LocalTime.of(2, 0), testCatalog.sleepEarlyHours)
     }
 
+    /**
+     * `general` is mixed into every other day part's practical tier and deliberately not into
+     * these two: half of it ("stand up and stretch", "a quick 5-minute walk") is the opposite of
+     * what 3am calls for. Pinned rather than left to the reading, because it is the one thing
+     * still special about night selection and the easy "fix" is to make night look like the rest.
+     */
     @Test
-    fun `sleep messages are exempt from anti-repeat`() {
+    fun `the general pool is not reachable during the sleep hours`() {
+        val engine = TipEngine(testCatalog, Random(seed = 43))
+        repeat(SAMPLE_DRAWS) {
+            val tip = engine.messageFor(LocalTime.of(2, 0), recentTips = emptyList())
+            assertThat(testCatalog.general).doesNotContain(tip)
+        }
+    }
+
+    /**
+     * The night windows were one fixed message each, exempt from anti-repeat because excluding
+     * the only message there was would have left nothing to show. They are pools now, so the
+     * exemption is gone and the rule that applies everywhere else applies here too.
+     */
+    @Test
+    fun `the night pools honour anti-repeat like any other pool`() {
         val engine = TipEngine(testCatalog, FixedIndexRandom(0))
         val time = LocalTime.of(23, 30)
+
         val first = engine.messageFor(time, recentTips = emptyList())
         val second = engine.messageFor(time, recentTips = listOf(first.text))
-        assertThat(second).isEqualTo(first)
-        assertThat(second).isEqualTo(testCatalog.sleepLate)
-    }
 
-    @Test
-    fun `manual sleep-late request draws from the general pool instead of the fixed message`() {
-        val engine = TipEngine(testCatalog, FixedIndexRandom(0))
-        val message = engine.messageFor(LocalTime.of(23, 30), recentTips = emptyList(), manual = true)
-        assertThat(message).isEqualTo(testCatalog.general[0])
-    }
-
-    @Test
-    fun `manual sleep-early-hours request draws from the general pool instead of the fixed message`() {
-        val engine = TipEngine(testCatalog, FixedIndexRandom(0))
-        val message = engine.messageFor(LocalTime.of(2, 0), recentTips = emptyList(), manual = true)
-        assertThat(message).isEqualTo(testCatalog.general[0])
-    }
-
-    @Test
-    fun `manual sleep-hours request still honors anti-repeat`() {
-        val engine = TipEngine(testCatalog, Random.Default)
-        val recentTips = listOf("G1", "G2", "G3")
-        val message = engine.messageFor(LocalTime.of(23, 30), recentTips, manual = true)
-        assertThat(message.text).isEqualTo("G4")
+        assertThat(second).isNotEqualTo(first)
+        assertThat(testCatalog.sleepLate).contains(second)
     }
 
     @Test
@@ -366,30 +362,31 @@ class TipEngineTest {
         val engine = TipEngine(tonedCatalog, Random(seed = 23))
         val motivationTexts = tonedCatalog.motivation.map { it.text }
 
-        val passive =
+        val drawn =
             (1..SAMPLE_DRAWS).map {
                 engine.messageFor(time, emptyList(), varietyLevel = VarietyLevel.PLAYFUL).text
             }
-        val manual =
-            (1..SAMPLE_DRAWS).map {
-                engine.messageFor(time, emptyList(), manual = true, varietyLevel = VarietyLevel.PLAYFUL).text
-            }
 
-        assertThat(passive).containsNoneIn(motivationTexts)
-        assertThat(manual).containsNoneIn(motivationTexts)
+        assertThat(drawn).containsNoneIn(motivationTexts)
     }
 
     /**
-     * Night used to be the one unpersonalized corner of the app: a single fixed wind-down
-     * message, every time, for ~7 hours. It should still be the most likely single thing to
-     * see at 2am, but no longer the only one.
+     * Night leans harder towards tone than any waking hour does, and at [VarietyLevel.PRACTICAL]
+     * that lean is 50/50 rather than the daytime 80/20 — see [TipEngine.toneChancePercent] for
+     * the two arguments that survive now that night is a real pool rather than a fixed message.
+     * Both halves are pinned: a night that had quietly become all-tone would be as wrong as the
+     * fixed-message version was.
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("sleepHours")
-    fun `sleep hours mix quiet tone tips in alongside the fixed wind-down message`(time: LocalTime) {
+    fun `sleep hours weigh the night pool and the quiet tone pools about evenly`(time: LocalTime) {
         val engine = TipEngine(tonedCatalog, Random(seed = 29))
-        val windDown =
-            if (engine.dayPartFor(time) == DayPart.SLEEP_LATE) tonedCatalog.sleepLate else tonedCatalog.sleepEarlyHours
+        val nightPool =
+            if (engine.dayPartFor(time) == DayPart.SLEEP_LATE) {
+                tonedCatalog.sleepLate
+            } else {
+                tonedCatalog.sleepEarlyHours
+            }
 
         val drawn =
             (1..SAMPLE_DRAWS).map {
@@ -397,12 +394,40 @@ class TipEngineTest {
             }
 
         val quietTone = (tonedCatalog.philosophy + tonedCatalog.wellbeing).map { it.text }
-        assertThat(drawn).contains(windDown.text)
         assertThat(drawn.any { it in quietTone }).isTrue()
-        // The wind-down message is exempt from anti-repeat, so it stays the single most common
-        // thing at night even though it no longer has the hours to itself.
-        val windDownShare = drawn.count { it == windDown.text }.toDouble() / drawn.size
-        assertThat(windDownShare).isAtLeast(0.35)
+        // 50% target (NIGHT_TONE_MINORITY_CHANCE_PERCENT) with the same generous tolerance the
+        // other share assertions use.
+        val nightShare = drawn.count { text -> nightPool.any { it.text == text } }.toDouble() / drawn.size
+        assertThat(nightShare).isAtLeast(0.35)
+        assertThat(nightShare).isAtMost(0.65)
+    }
+
+    /**
+     * Two rules can each empty the board and they are not equal: anti-repeat is the promise
+     * (FR5), the tone run limit is a preference about which voice comes next. Night is where
+     * they actually collide, because it reaches one practical pool plus two tone pools rather
+     * than the daytime's five groups, so a blocked voice can leave nothing unseen at all.
+     *
+     * Here the whole night pool, all of wellbeing, and two of three philosophy lines have just
+     * been shown, and those two were the last draws, so the run limit wants philosophy gone for
+     * this one. That would leave nothing at all. PHI3 is the only tip in the app that is both
+     * unseen and drawable, so the engine must put the blocked voice back and pick it, whatever
+     * the random source says.
+     */
+    @Test
+    fun `the tone run limit yields before anything repeats`() {
+        val catalog =
+            tonedCatalog.copy(
+                philosophy = listOf("PHI1", "PHI2", "PHI3").map { toneTip(it, TipKind.PHILOSOPHY) },
+            )
+        val everythingElseSeen =
+            catalog.sleepEarlyHours.map { it.text } + catalog.wellbeing.map { it.text } + listOf("PHI1", "PHI2")
+
+        repeat(50) { roll ->
+            val engine = TipEngine(catalog, FixedIndexRandom(roll))
+            val next = engine.messageFor(LocalTime.of(2, 0), everythingElseSeen, varietyLevel = VarietyLevel.PRACTICAL)
+            assertThat(next.text).isEqualTo("PHI3")
+        }
     }
 
     // ---- Recency weighting ------------------------------------------------------------------
@@ -653,7 +678,7 @@ class TipEngineTest {
         // stores. The null case is the same "reworded or dropped tip" as above: the card has to
         // go unlabelled rather than guess or throw.
         assertThat(engine.kindOf("G1")).isEqualTo(TipKind.PRACTICAL)
-        assertThat(engine.kindOf("Sleep late fixed message")).isEqualTo(TipKind.PRACTICAL)
+        assertThat(engine.kindOf("SL1")).isEqualTo(TipKind.PRACTICAL)
         assertThat(engine.kindOf("MOT1")).isEqualTo(TipKind.MOTIVATION)
         assertThat(engine.kindOf("PHI1")).isEqualTo(TipKind.PHILOSOPHY)
         assertThat(engine.kindOf("WEL1")).isEqualTo(TipKind.WELLBEING)

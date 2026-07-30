@@ -64,8 +64,8 @@ class AdvanceTipUseCaseTest {
             morning = listOf("M1").map(::tip),
             afternoon = emptyList(),
             evening = emptyList(),
-            sleepLate = tip("Sleep late"),
-            sleepEarlyHours = tip("Sleep early"),
+            sleepLate = listOf("Sleep late").map(::tip),
+            sleepEarlyHours = listOf("Sleep early").map(::tip),
         )
 
     @Test
@@ -90,19 +90,14 @@ class AdvanceTipUseCaseTest {
             assertThat(tip.text).isNotEqualTo("G1")
         }
 
+    /**
+     * The sleep hours used to need their own pair of cases here, because a `manual` advance was
+     * routed around the fixed wind-down message and a passive one wasn't. Both windows are
+     * ordinary pools now, so there is one behaviour to pin: an advance at 23:30 draws that hour's
+     * pool, and it is recorded like any other, which is what makes the *next* one different.
+     */
     @Test
-    fun `a manual advance during sleep hours does not return the fixed sleep message`() =
-        runTest {
-            val repository = FakeTipHistoryRepository()
-            val advanceTip = AdvanceTipUseCase(TipEngine(catalog, Random(seed = 3)), repository)
-
-            val tip = advanceTip(LocalTime.of(23, 30), manual = true)
-
-            assertThat(tip.text).isNotEqualTo("Sleep late")
-        }
-
-    @Test
-    fun `a non-manual advance during sleep hours returns the fixed sleep message`() =
+    fun `an advance during sleep hours draws that window's pool and records it`() =
         runTest {
             val repository = FakeTipHistoryRepository()
             val advanceTip = AdvanceTipUseCase(TipEngine(catalog, Random(seed = 3)), repository)
@@ -110,6 +105,7 @@ class AdvanceTipUseCaseTest {
             val tip = advanceTip(LocalTime.of(23, 30))
 
             assertThat(tip.text).isEqualTo("Sleep late")
+            assertThat(repository.recentTips.first()).containsExactly("Sleep late")
         }
 
     @Test
@@ -141,8 +137,8 @@ class AdvanceTipUseCaseTest {
                     morning = emptyList(),
                     afternoon = emptyList(),
                     evening = emptyList(),
-                    sleepLate = tip("Sleep late"),
-                    sleepEarlyHours = tip("Sleep early"),
+                    sleepLate = listOf("Sleep late").map(::tip),
+                    sleepEarlyHours = listOf("Sleep early").map(::tip),
                 )
             val repository = RaceProneTipHistoryRepository()
             val advanceTip = AdvanceTipUseCase(TipEngine(concurrentPool, Random(seed = 7)), repository)

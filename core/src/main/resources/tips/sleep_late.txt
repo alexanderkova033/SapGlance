@@ -1,3 +1,33 @@
-# Single fixed message shown 23:00-23:59. Not a rotating pool, so it is
-# exempt from the anti-repeat rule by design (see TipEngine.messageFor).
+# Late-evening micro-tips (23:00-23:59). A real pool since 2026-07-30; it was a single fixed
+# message before that, exempt from anti-repeat because there was nothing to rotate.
+# Each line has a matching line in sleep_late_sources.txt carrying 2+ citations.
+#
+# WRITING RULE: see the full version at the top of general.txt. In short, every line must bust a
+# myth, name a mechanism, carry a real number, or invert an assumption. Change the register,
+# keep the topic. Two independent primary citations per tip, and the evidence bar does not move
+# to make a line more interesting. Keep tips under ~90 characters.
+#
+# WHAT THIS POOL IS FOR, AND WHY IT IS SMALL. The reader is awake at 11pm and going to bed is
+# the next thing that happens, so a tip has to be worth doing in the next few minutes. That
+# rules out most of what evening.txt says well: the warm bath wants 1-2 hours' notice, the
+# post-dinner walk is gone, the wind-down routine has already either happened or not. What is
+# left is the decision itself (is this hour worth what it costs), the room, and the things
+# already in your bloodstream. `general` is deliberately not mixed in here (see
+# TipEngine.practicalGroups), so this pool is the whole practical reach of the hour.
+#
+# DO NOT RESTATE EVENING. The sources repeat across the two pools by design, the claims must
+# not: evening carries the 18-20C number, this pool carries why cool helps; evening carries
+# "alcohol fragments sleep", this pool carries which half of the night it charges. Before
+# adding a line, read evening.txt and check you are saying a different thing about the topic,
+# not the same thing an hour later.
 It's past 11 PM. An earlier, consistent bedtime supports tomorrow's mood and focus.
+Staying up with nothing keeping you up has a name: bedtime procrastination.
+A lit screen now costs a later body clock and a duller morning, not just a later night.
+Warm feet, cool room. Blood flow to hands and feet is what best predicts sleep onset.
+Too warm and too cold both break sleep up. Cool suits the core temperature drop.
+A nightcap starts sleep sooner and charges for it in the second half of the night.
+Melatonin bought about seven minutes to sleep onset in a meta-analysis of 19 trials.
+Half of a 6pm coffee is still in you now. Caffeine's half-life is around five hours.
+Light while you sleep is not neutral. It tracks with heart rate, insulin and lipids.
+Under 30 lux is enough to halve melatonin. That is dimmer than most living rooms.
+Vigorous exercise ending under an hour before bed is the one case the reviews flag.

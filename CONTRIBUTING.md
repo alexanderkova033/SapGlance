@@ -95,8 +95,9 @@ Keep new tips:
   **carry a real number**, or **invert an assumption**. Keep the topic and change the register:
   posture, hydration, breaks and morning light are clichés precisely because they are true, so
   don't drop them, change what the line says about them. The full rule, with worked examples,
-  is the header comment at the top of `tips/general.txt`; the other three practical files point
-  at it and add their own cluster warning. This is enforced by review, not by a test, because
+  is the header comment at the top of `tips/general.txt`; the other five practical files point
+  at it and add their own warning about the trap specific to that pool (a cluster to watch, or
+  in the two night files, what not to restate from `evening.txt`). This is enforced by review, not by a test, because
   a lint for "boring" would be gameable nonsense.
 - Free of em dashes. `TipCatalogTest` fails the build on one; use a comma, a period, or "and".
 - Distinct from what's already there. `TipCatalogTest` only catches byte-identical duplicates,

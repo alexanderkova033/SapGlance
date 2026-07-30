@@ -17,8 +17,12 @@ data class TipCatalog(
     val morning: List<Tip>,
     val afternoon: List<Tip>,
     val evening: List<Tip>,
-    val sleepLate: Tip,
-    val sleepEarlyHours: Tip,
+    // The two night pools. They were one fixed message each for most of this project's life,
+    // which is why so much around them reads as a special case; they are ordinary day-part pools
+    // now, and the only thing still special about them is that `general` is not mixed in (see
+    // TipEngine.practicalGroups).
+    val sleepLate: List<Tip>,
+    val sleepEarlyHours: List<Tip>,
     // The three "tone" pools the "more variety" setting leans towards (see TipEngine.pick).
     // Unlike the day-part pools above these are grouped by voice rather than by time of day,
     // and none of them are TipKind.PRACTICAL, so they're exempt from the citation requirement
@@ -35,11 +39,11 @@ data class TipCatalog(
      * Text to kind, for the history — which stores plain text and nothing else — to be read back
      * as kinds. [TipEngine] needs this on the selection path to enforce its run limit, so it is
      * built once per catalog and cached rather than re-derived per lookup: `findByText` walks a
-     * freshly concatenated list of all 282 tips, which is fine for one Settings lookup and wrong
+     * freshly concatenated list of every tip in the catalog, which is fine for one Settings lookup and wrong
      * for something a widget tap waits on.
      */
     private val kindsByText: Map<String, TipKind> by lazy {
-        val all = general + morning + afternoon + evening + tonePools + listOf(sleepLate, sleepEarlyHours)
+        val all = general + morning + afternoon + evening + sleepLate + sleepEarlyHours + tonePools
         all.associate { it.text to it.kind }
     }
 
@@ -57,8 +61,8 @@ data class TipCatalog(
                 morning = loadPool("morning.txt"),
                 afternoon = loadPool("afternoon.txt"),
                 evening = loadPool("evening.txt"),
-                sleepLate = loadSingle("sleep_late.txt"),
-                sleepEarlyHours = loadSingle("sleep_early.txt"),
+                sleepLate = loadPool("sleep_late.txt"),
+                sleepEarlyHours = loadPool("sleep_early.txt"),
                 motivation = loadTonePool("motivation.txt", TipKind.MOTIVATION),
                 philosophy = loadTonePool("philosophy.txt", TipKind.PHILOSOPHY),
                 wellbeing = loadTonePool("wellbeing.txt", TipKind.WELLBEING),
@@ -102,14 +106,6 @@ data class TipCatalog(
                     require(it.isNotEmpty()) { "Tip pool 'tips/$fileName' must not be empty" }
                 }
             return zipWithSources(fileName, texts)
-        }
-
-        private fun loadSingle(fileName: String): Tip {
-            val texts = resourceLines(fileName)
-            require(texts.size == 1) {
-                "Tip resource 'tips/$fileName' must contain exactly one message, found ${texts.size}"
-            }
-            return zipWithSources(fileName, texts).first()
         }
 
         private fun zipWithSources(

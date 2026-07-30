@@ -28,18 +28,18 @@ class AdvanceTipUseCase(
 ) {
     private val mutex = Mutex()
 
-    /** [manual] should be `true` for an explicit user request for a new tip (widget tap,
-     * Settings refresh button) and left `false` for the passive scheduled rotation; [varietyLevel]
-     * is the Settings variety level, passed straight through — see [TipEngine.messageFor] for
-     * what both actually do. */
+    /** [varietyLevel] is the Settings variety level, passed straight through — see
+     * [TipEngine.messageFor] for what it does. An explicit user request for a new tip (widget tap,
+     * Settings refresh button) is no different from the passive rotation and used to be: there was
+     * a `manual` flag here to route a tap around the fixed sleep-hours message, and the night
+     * pools removed the thing it worked around. */
     suspend operator fun invoke(
         now: LocalTime,
-        manual: Boolean = false,
         varietyLevel: VarietyLevel = VarietyLevel.PRACTICAL,
     ): Tip =
         mutex.withLock {
             val recentTips = tipHistoryRepository.recentTips.first()
-            val tip = tipEngine.messageFor(now, recentTips, manual, varietyLevel)
+            val tip = tipEngine.messageFor(now, recentTips, varietyLevel)
             tipHistoryRepository.recordTip(tip.text)
             tip
         }

@@ -1,2 +1,14 @@
-# Citations for the single fixed message in sleep_late.txt: Label<TAB>URL, repeated.
+# Citations for each line in sleep_late.txt, same order, one line per tip.
+# Format: Label<TAB>URL, repeated. Every tip carries at least two independent sources, and
+# the same source may back several tips. See TIP_SOURCES.md at the repo root for the writeup.
 Sleep regularity and mortality risk, SLEEP, 2024	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10782501/	Sleep Regularity Index cohort study, SLEEP, 2024	https://academic.oup.com/sleep/article/47/1/zsad253/7280269
+Kroese et al., Frontiers in Psychology, 2014 (bedtime procrastination)	https://pubmed.ncbi.nlm.nih.gov/24994989/	Bernecker & Job, British J. Psychology, 2020	https://pubmed.ncbi.nlm.nih.gov/30854630/
+Chang et al., PNAS, 2015	https://www.pnas.org/doi/10.1073/pnas.1418490112	Chang et al., 2015 (Penn State summary)	https://www.psu.edu/news/research/story/light-emitting-e-readers-detrimentally-shift-circadian-clock
+Krauchi et al., Nature, 1999 (warm feet and sleep onset)	https://pubmed.ncbi.nlm.nih.gov/10485703/	Ebben & Spielman, Int. J. Behavioral Medicine, 2006	https://pubmed.ncbi.nlm.nih.gov/17078772/
+Okamoto-Mizuno & Mizuno, J. Physiological Anthropology, 2012	https://pubmed.ncbi.nlm.nih.gov/22738673/	Haghayegh et al., Sleep Medicine Reviews, 2019	https://pubmed.ncbi.nlm.nih.gov/31102877/
+Alcohol and subsequent sleep, meta-analysis, Sleep Medicine Reviews, 2024	https://www.sciencedirect.com/science/article/pii/S1087079224001345	Ebrahim et al., Alcoholism: Clinical & Experimental Research, 2013	https://onlinelibrary.wiley.com/doi/abs/10.1111/acer.12006
+Ferracioli-Oda et al., PLoS ONE, 2013 (melatonin meta-analysis)	https://pubmed.ncbi.nlm.nih.gov/23691095/	Auld et al., Sleep Medicine Reviews, 2017	https://pubmed.ncbi.nlm.nih.gov/28648359/
+Drake et al., J. Clinical Sleep Medicine, 2013	https://jcsm.aasm.org/doi/10.5664/jcsm.3170	Pharmacology of caffeine and its effects on the human body, 2024	https://www.sciencedirect.com/science/article/pii/S2772417424000104
+Mason et al., PNAS, 2022 (light during sleep)	https://pubmed.ncbi.nlm.nih.gov/35286195/	Obayashi et al., J. Clinical Endocrinology & Metabolism, 2013	https://pubmed.ncbi.nlm.nih.gov/23118419/
+Phillips et al., PNAS, 2019	https://www.pnas.org/doi/10.1073/pnas.1901824116	Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/
+Stutz et al., Sports Medicine, 2019	https://link.springer.com/article/10.1007/s40279-018-1015-0	Frimpong et al., Sleep Medicine Reviews, 2021	https://www.sciencedirect.com/science/article/abs/pii/S1087079221001209

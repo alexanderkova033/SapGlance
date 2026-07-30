@@ -12,10 +12,9 @@ import java.time.LocalTime
  * Bound to a tap on the widget's tip card: lets the user pull a new tip straight from the
  * home screen, without opening the app. Same selection/anti-repeat logic and shared "last
  * tip" persistence (FR5) as the scheduled refresh in [WidgetRefreshWorker], so this doesn't
- * create a second source of truth — it just runs that logic out of turn. Passes
- * `manual = true` so a tap during the fixed sleep-hours message window (23:00-05:59) still
- * visibly changes the tip instead of silently returning the same fixed message every time —
- * see [com.sapglance.core.tips.TipEngine.messageFor].
+ * create a second source of truth — it just runs that logic out of turn, at every hour of the
+ * day: the sleep-hours window (23:00-05:59) used to need a `manual` flag here to return anything
+ * new, and now draws from a real pool like any other hour.
  */
 class RefreshTipAction : ActionCallback {
     override suspend fun onAction(
@@ -25,7 +24,7 @@ class RefreshTipAction : ActionCallback {
     ) {
         val container = (context.applicationContext as SapGlanceApp).container
         val varietyLevel = container.settingsRepository.settings.first().varietyLevel
-        container.advanceTip(LocalTime.now(), manual = true, varietyLevel = varietyLevel)
+        container.advanceTip(LocalTime.now(), varietyLevel = varietyLevel)
         container.refreshWidget()
     }
 }

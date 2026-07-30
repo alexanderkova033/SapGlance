@@ -658,6 +658,110 @@ guidelines, is the evidence base for the exposure-response relationship.
   Research and Public Health, 2018.
   [PMC](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5877064/)
 
+## The night hours
+
+Everything above in "Evenings and sleep" is about arranging a night that hasn't happened yet.
+This section is for the two pools that run once it has: `sleep_late.txt` (23:00-23:59) and
+`sleep_early.txt` (00:00-05:59), which were a single fixed message each until 2026-07-30.
+
+Most of the evening sources above are reused here, because the research doesn't change at
+midnight — the claim does. The evening pool carries the 18-20°C number; the late pool carries
+why cool helps. The evening pool says alcohol fragments sleep; the late pool says which half of
+the night it charges. What follows is only the research that is *new* to these two pools.
+
+**Bedtime procrastination** (sleep_late.txt) — Going to bed later than intended with nothing
+preventing an earlier night is a defined, measured behaviour rather than a figure of speech.
+Kroese et al. introduced and named it; Bernecker & Job are a separate group reaching it from
+another direction, finding that people who believe willpower is a limited resource procrastinate
+bedtime more on high-stress days. The tip claims only that the thing has a name and is studied,
+which is exactly what two independent groups establish.
+- Kroese, De Ridder, Evers & Adriaanse, *Bedtime procrastination: introducing a new area of
+  procrastination*, Frontiers in Psychology, 2014.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/24994989/)
+- Bernecker & Job, *Too exhausted to go to bed: implicit theories about willpower and stress
+  predict bedtime procrastination*, British Journal of Psychology, 2020.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/30854630/)
+
+**Warm feet and the distal-proximal gradient** (sleep_late.txt) — Kräuchi et al.'s Nature paper
+found that the degree of dilation of blood vessels in the hands and feet, relative to the trunk,
+was the best physiological predictor of how quickly sleep followed. Ebben & Spielman replicated
+the direction experimentally by warming the limbs and measuring sleep latency. This is the
+mechanism underneath the bedroom-temperature advice rather than a repetition of it: heat has to
+leave through the extremities for core temperature to fall, which is also why the warm-bath
+paradox above works.
+- Kräuchi, Cajochen, Werth & Wirz-Justice, *Warm feet promote the rapid onset of sleep*, Nature,
+  1999. [PubMed](https://pubmed.ncbi.nlm.nih.gov/10485703/)
+- Ebben & Spielman, *The effects of distal limb warming on sleep latency*, International Journal
+  of Behavioral Medicine, 2006. [PubMed](https://pubmed.ncbi.nlm.nih.gov/17078772/)
+
+**Melatonin's actual effect size** (sleep_late.txt) — A myth-correction in the same family as
+blue-light glasses and breakfast-and-metabolism. Ferracioli-Oda et al.'s meta-analysis of 19
+trials (1,683 participants) found melatonin reduced sleep onset latency by 7.06 minutes (95% CI
+4.37-9.75) and increased total sleep time by 8.25 minutes, concluding the effects are "modest"
+next to prescription hypnotics but with a benign side-effect profile. Auld et al. reach the same
+qualitative conclusion. The tip gives the number and stops: it does not tell anyone to take it
+or to stop, which would be a medical instruction rather than a fact.
+- Ferracioli-Oda, Qawasmi & Bloch, *Meta-analysis: melatonin for the treatment of primary sleep
+  disorders*, PLoS ONE, 2013. [PubMed](https://pubmed.ncbi.nlm.nih.gov/23691095/)
+- Auld et al., *Evidence for the efficacy of melatonin in the treatment of primary adult sleep
+  disorders*, Sleep Medicine Reviews, 2017. [PubMed](https://pubmed.ncbi.nlm.nih.gov/28648359/)
+
+**Imagery distraction beats trying to stop thinking** (sleep_early.txt) — Harvey & Payne
+randomised 41 people with insomnia to imagery distraction, general distraction, or no
+instruction. Imagery distraction reduced both sleep latency and unwanted pre-sleep cognitive
+activity; the proposed mechanism is that it occupies enough cognitive resource *and* supplies a
+specific thing to attend to, which "clear your mind" does not. The AASM guideline gives
+relaxation therapy, which includes guided imagery, a conditional recommendation as a
+single-component treatment.
+- Harvey & Payne, *The management of unwanted pre-sleep thoughts in insomnia: distraction with
+  imagery versus general distraction*, Behaviour Research and Therapy, 2002.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/11863237/)
+- *Behavioral and psychological treatments for chronic insomnia disorder in adults: an AASM
+  clinical practice guideline*, J. Clinical Sleep Medicine, 2021.
+  [JCSM](https://jcsm.aasm.org/doi/10.5664/jcsm.8986)
+
+**Clock monitoring** (sleep_early.txt) — Tang, Schmidt & Harvey found clock-monitoring behaviour
+associated with longer sleep-onset latency and more pre-sleep worry, and manipulating it changed
+both. Woods et al., independently, showed people with primary insomnia hold an attentional bias
+toward clock stimuli during sleep attempts. Two different groups, two different methods, same
+direction: the check is part of the problem rather than a neutral observation of it.
+- Tang, Schmidt & Harvey, *Sleeping with the enemy: clock monitoring in the maintenance of
+  insomnia*, J. Behavior Therapy and Experimental Psychiatry, 2007.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/16793001/)
+- Woods, Marchetti, Biello & Espie, *The clock as a focus of selective attention in those with
+  primary insomnia*, Behaviour Research and Therapy, 2009.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/19200946/)
+
+**Waking in the night is normal, and rises with age** (sleep_early.txt) — Ohayon et al.'s
+lifespan meta-analysis established normative values and found wake after sleep onset increases
+significantly with age in healthy sleepers, alongside falling sleep efficiency. Boulos et al.
+produced normative polysomnography values for healthy adults under current scoring criteria, an
+independent confirmation two decades later. This earns a tip because the belief that healthy
+sleep is unbroken is both widespread and wrong, and at 4am it is the belief doing the damage.
+- Ohayon, Carskadon, Guilleminault & Vitiello, *Meta-analysis of quantitative sleep parameters
+  from childhood to old age in healthy individuals*, SLEEP, 2004.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/15586779/)
+- Boulos et al., *Normal polysomnography parameters in healthy adults: a systematic review and
+  meta-analysis*, Lancet Respiratory Medicine, 2019.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/31006560/)
+
+**Sleep misperception** (sleep_early.txt) — People who sleep badly systematically underestimate
+how much they slept, measured against polysomnography and actigraphy. Harvey & Tang's review in
+*Psychological Bulletin* surveys the candidate explanations; Rezaie et al. review the same
+subjective-objective discrepancy from the paradoxical-insomnia literature. The tip is hedged to
+"usually" because the discrepancy is a robust group finding, not a promise about tonight.
+- Harvey & Tang, *(Mis)perception of sleep in insomnia: a puzzle and a resolution*, Psychological
+  Bulletin, 2012. [PubMed](https://pubmed.ncbi.nlm.nih.gov/21967449/)
+- Rezaie, Fobian, McCall & Khazaie, *Paradoxical insomnia and subjective-objective sleep
+  discrepancy: a review*, Sleep Medicine Reviews, 2018.
+  [PubMed](https://pubmed.ncbi.nlm.nih.gov/29402512/)
+
+**What is deliberately not in the small-hours pool.** The catalog holds a strong, well-designed
+finding that sleeping under seven hours roughly tripled the odds of catching a cold in two
+virus-challenge studies. It stays in `evening.txt`. The same true sentence delivered to someone
+lying awake at 4am is not information they can act on, only a reason to lie there worrying,
+and the evidence bar is not the only bar a tip has to clear.
+
 ## Nature, connection, and mood
 
 **Time outdoors** (general.txt) — White et al. (n = 19,806) found no health or wellbeing

@@ -37,27 +37,28 @@ class TipEngine(
      * excluded outright so none of them repeats within that span (FR5), and the rest feed the
      * recency weighting in [recencyWeight].
      *
-     * [manual] distinguishes an explicit user request for a new tip (a widget tap, the
-     * Settings refresh button) from the passive scheduled rotation. The passive rotation's
-     * fixed sleep-hours messages are deliberately exempt from anti-repeat (there's only one
-     * possible message for each), but that exemption made a manual tap during those ~7 hours
-     * (23:00-05:59) a silent no-op — the same fixed message came back every time, with no way
-     * for the user to see it actually changed. A manual advance draws from the general pool
-     * instead, so tapping visibly does something regardless of time of day.
-     *
      * [varietyLevel] is the Settings variety level — see [toneChancePercent] for how it's
      * applied. Defaults to [VarietyLevel.PRACTICAL] so every existing caller (and test) that
      * doesn't know about it yet keeps the default behavior.
+     *
+     * There used to be a `manual` flag here, distinguishing a widget tap from the passive
+     * rotation, and it existed for exactly one reason: the sleep hours were a single fixed
+     * message exempt from anti-repeat, so tapping between 23:00 and 05:59 was a silent no-op
+     * and had to be redirected to the general pool to visibly do anything. Now that both night
+     * windows are real pools, a tap at 2am draws a new night tip like a tap at any other hour,
+     * and there is nothing left for the flag to distinguish.
      */
     fun messageFor(
         time: LocalTime,
         recentTips: List<String>,
-        manual: Boolean = false,
         varietyLevel: VarietyLevel = VarietyLevel.PRACTICAL,
     ): Tip {
         val dayPart = dayPartFor(time)
-        val tiers = tiersFor(dayPart, manual, varietyLevel, exhaustedToneKind(recentTips))
-        return pick(tiers, recentTips)
+        return pick(
+            preferred = tiersFor(dayPart, varietyLevel, exhaustedToneKind(recentTips)),
+            withoutToneRunLimit = tiersFor(dayPart, varietyLevel, blockedTone = null),
+            recentTips = recentTips,
+        )
     }
 
     /**
@@ -90,42 +91,33 @@ class TipEngine(
     fun findByText(text: String): Tip? =
         (
             catalog.general + catalog.morning + catalog.afternoon + catalog.evening +
-                catalog.tonePools +
-                listOf(catalog.sleepLate, catalog.sleepEarlyHours)
+                catalog.sleepLate + catalog.sleepEarlyHours +
+                catalog.tonePools
         ).find { it.text == text }
 
     /**
      * Just the kind of a tip, from the same plain text — for callers that want to *label* a tip
-     * rather than cite it. Deliberately not `findByText(text)?.kind`: that concatenates all 282
-     * tips afresh on every call, which is fine for one Settings lookup and wrong for the widget's
+     * rather than cite it. Deliberately not `findByText(text)?.kind`: that concatenates every
+     * tip afresh on every call, which is fine for one Settings lookup and wrong for the widget's
      * kind label, which is resolved again every time a new tip is drawn. This goes through
      * [TipCatalog.kindOf]'s cached map instead. Null for a text the catalog no longer knows.
      */
     fun kindOf(text: String): TipKind? = catalog.kindOf(text)
 
-    /**
-     * One candidate pool and its share of the draw. [exemptFromAntiRepeat] is only ever true for
-     * the fixed single-message sleep-hours pools, where there is nothing to rotate and excluding
-     * the message after one showing would delete the wind-down nudge for the rest of the night.
-     */
-    private class Group(
-        val weight: Int,
-        val tips: List<Tip>,
-        val exemptFromAntiRepeat: Boolean = false,
-    )
+    /** One candidate pool and its share of the draw. */
+    private class Group(val weight: Int, val tips: List<Tip>)
 
     /** The practical-vs-tone split the user's [VarietyLevel] actually controls. */
     private class Tier(val weight: Int, val groups: List<Group>)
 
     private fun tiersFor(
         dayPart: DayPart,
-        manual: Boolean,
         varietyLevel: VarietyLevel,
         blockedTone: TipKind?,
     ): List<Tier> {
         val toneChance = toneChancePercent(dayPart, varietyLevel)
         return listOf(
-            Tier(PERCENT - toneChance, practicalGroups(dayPart, manual)),
+            Tier(PERCENT - toneChance, practicalGroups(dayPart)),
             Tier(toneChance, toneGroups(dayPart, blockedTone)),
         )
     }
@@ -139,17 +131,20 @@ class TipEngine(
      * actually *about* right now were the minority every hour of the day. Nothing intended
      * that; it was an accident of how much had been written for each file, and it would drift
      * again with every content pass.
+     *
+     * The two night parts are the exception, and take their own pool alone. `general` is written
+     * for someone at a desk — stand up, take a walk, break up a long sit — and half of it is the
+     * opposite of what 3am calls for, so mixing it in would buy depth by reintroducing exactly
+     * the mistimed line [ToneProfile] exists to prevent. What that costs is real and is priced in
+     * [toneChancePercent]: night's practical reach is one pool rather than two.
      */
-    private fun practicalGroups(
-        dayPart: DayPart,
-        manual: Boolean,
-    ): List<Group> =
+    private fun practicalGroups(dayPart: DayPart): List<Group> =
         when (dayPart) {
             DayPart.MORNING -> dayPartGroups(catalog.morning)
             DayPart.AFTERNOON -> dayPartGroups(catalog.afternoon)
             DayPart.EVENING -> dayPartGroups(catalog.evening)
-            DayPart.SLEEP_LATE -> sleepGroups(catalog.sleepLate, manual)
-            DayPart.SLEEP_EARLY_HOURS -> sleepGroups(catalog.sleepEarlyHours, manual)
+            DayPart.SLEEP_LATE -> listOf(Group(PERCENT, catalog.sleepLate))
+            DayPart.SLEEP_EARLY_HOURS -> listOf(Group(PERCENT, catalog.sleepEarlyHours))
         }
 
     private fun dayPartGroups(dayPartPool: List<Tip>): List<Group> =
@@ -157,16 +152,6 @@ class TipEngine(
             Group(GENERAL_SHARE_PERCENT, catalog.general),
             Group(PERCENT - GENERAL_SHARE_PERCENT, dayPartPool),
         )
-
-    private fun sleepGroups(
-        windDown: Tip,
-        manual: Boolean,
-    ): List<Group> =
-        if (manual) {
-            listOf(Group(PERCENT, catalog.general))
-        } else {
-            listOf(Group(PERCENT, listOf(windDown), exemptFromAntiRepeat = true))
-        }
 
     /**
      * [blockedTone] drops that kind's group outright for this draw. Because [availableTiers]
@@ -194,12 +179,20 @@ class TipEngine(
      * occasionally, [VarietyLevel.PLAYFUL] still leaves room for a practical one, so every level
      * reads as "mostly this" rather than "only this."
      *
-     * The sleep-hours day parts lean much harder towards tone at every level, because their
-     * practical side isn't a pool at all — it's one fixed wind-down message, deliberately
-     * exempt from anti-repeat. The daytime split would mean showing the *identical* sentence
-     * four nights in five, which is exactly what made night the one unpersonalized corner of
-     * the app. Even at [VarietyLevel.PRACTICAL] the wind-down message is still the single most
-     * likely thing to see at 2am; it's just no longer the only thing.
+     * The sleep-hours day parts still lean harder towards tone at every level, but no longer for
+     * the reason they originally did: night was one fixed message with nothing to rotate, and the
+     * daytime split would have shown the identical sentence four nights in five. Night is a real
+     * pool now, and the lean survives on two arguments the fixed message was hiding.
+     *
+     * The first is arithmetic. Night reaches one pool where every other hour reaches two
+     * ([practicalGroups]), and that pool is the hardest in the catalog to grow, because a tip has
+     * to clear the evidence bar *and* still be worth doing at 3am. Asking 80% of night draws to
+     * come from ~14 tips would not actually deliver 80% — anti-repeat would exhaust the pool and
+     * redistribute into tone anyway, so the number here would be a claim the engine quietly
+     * corrects. Better that the split says what happens.
+     *
+     * The second is editorial, and is the one that would keep these numbers even if the pool
+     * were deep: at 2am a practical instruction is the least welcome register in the app.
      */
     private fun toneChancePercent(
         dayPart: DayPart,
@@ -230,17 +223,30 @@ class TipEngine(
      * anything with nothing fresh to offer, and a dropped group's share is redistributed among
      * the survivors instead of being spent on a forced repeat.
      *
-     * Only once *nothing* anywhere is unseen does this fall back to the unfiltered pools, which
-     * necessarily repeats something.
+     * Two rules can each empty the board, and they are not equal: anti-repeat is the product
+     * promise (FR5), while the tone run limit is a preference about *which voice* comes next. So
+     * the run limit gives way first — [withoutToneRunLimit] is the same tiers with the blocked
+     * voice put back — and only if that is still empty does anything repeat.
+     *
+     * The order is load-bearing at night and nowhere else. Daytime reaches `general` + an hour's
+     * pool + all three tone pools, hundreds of tips against a 100-draw window, so the second
+     * fallback is unreachable there. Night reaches one practical pool plus philosophy and
+     * wellbeing (motivation is weighted out), and with philosophy blocked for a draw the rest can
+     * sit entirely inside the window — the wrong order would spend the promise to keep the
+     * preference, on the exact hours where a repeat is most obvious because so little else is on
+     * screen.
      */
     private fun pick(
-        tiers: List<Tier>,
+        preferred: List<Tier>,
+        withoutToneRunLimit: List<Tier>,
         recentTips: List<String>,
     ): Tip {
         val ages = agesByText(recentTips)
         val blocked = recentTips.takeLast(TipHistoryRepository.ANTI_REPEAT_WINDOW).toSet()
         val available =
-            availableTiers(tiers, blocked).ifEmpty { availableTiers(tiers, emptySet()) }
+            availableTiers(preferred, blocked)
+                .ifEmpty { availableTiers(withoutToneRunLimit, blocked) }
+                .ifEmpty { availableTiers(withoutToneRunLimit, emptySet()) }
         require(available.isNotEmpty()) { "Every tip pool for this day part is empty" }
 
         val tier = weightedPick(available) { it.weight }
@@ -263,17 +269,8 @@ class TipEngine(
         tiers.mapNotNull { tier ->
             val groups =
                 tier.groups.mapNotNull { group ->
-                    val candidates =
-                        if (group.exemptFromAntiRepeat) {
-                            group.tips
-                        } else {
-                            group.tips.filterNot { it.text in blocked }
-                        }
-                    if (group.weight <= 0 || candidates.isEmpty()) {
-                        null
-                    } else {
-                        Group(group.weight, candidates, group.exemptFromAntiRepeat)
-                    }
+                    val candidates = group.tips.filterNot { it.text in blocked }
+                    if (group.weight <= 0 || candidates.isEmpty()) null else Group(group.weight, candidates)
                 }
             if (tier.weight <= 0 || groups.isEmpty()) null else Tier(tier.weight, groups)
         }

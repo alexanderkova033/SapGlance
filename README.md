@@ -27,6 +27,12 @@ backup like any other app's local data. That's the one path data can leave the p
   launcher reserves that gesture — so a dedicated tap target is the only reliable way in.)
 - **The tip advances once it's had a chance to be seen** — roughly every 90 minutes of
   confirmed screen-on time, not a wall-clock timer that could rotate a tip nobody looked at.
+- **Each card names its tip's kind** — HEALTH, MOTIVATION, PHILOSOPHY or WELLBEING — in small
+  caps above the tip, opposite the gear. The four ask different things of the reader (a health
+  finding is to act on, a philosophy line is to sit with), so knowing which one arrived changes
+  how it lands; it also makes the variety setting visible in the thing it affects. The label
+  rides in space the settings button already reserves, so it costs the tip no size at any card
+  size, and a card too narrow to hold the longest label legibly goes without one.
 - **The card's background is one of eleven styles**, derived from the current tip's text rather
   than from a setting, so a new tip means a new-looking card. Seven dark (Forest, Ocean,
   Sunset, Midnight, Aurora, Dawn, Rain) and four light (Winter, Paper, Meadow, Blossom). The
@@ -34,10 +40,9 @@ backup like any other app's local data. That's the one path data can leave the p
   phone's day/night theme, because what the text contrasts against is the artwork behind it.
 - **The widget resizes** from a 2x2 square to a 4x4 block, with a layout built for each end of
   that range rather than one layout stretched across it.
-- **282 tips in seven pools**: four practical ones scoped by time of day (`general` 50,
-  `morning` 26, `afternoon` 26, `evening` 28, plus one fixed wind-down message for each of the
-  two sleep windows) and three tone pools grouped by voice (`motivation` 53, `philosophy` 42,
-  `wellbeing` 55).
+- **312 tips in nine pools**: six practical ones scoped by time of day (`general` 50,
+  `morning` 26, `afternoon` 26, `evening` 28, `sleep_late` 11, `sleep_early` 10) and three tone
+  pools grouped by voice (`motivation` 59, `philosophy` 47, `wellbeing` 55).
 - **A "Why this tip?" card in settings** showing where the current tip came from: the research
   behind a practical tip, the text behind a philosophy quotation, or nothing at all for an
   original line.
@@ -118,6 +123,11 @@ and only then does any weighted draw happen. Weighting first and filtering secon
 bug: the draw could land on a group whose only unseen tips had just been shown and repeat one
 of those while another group had fresh options sitting unused.
 
+When even that leaves nothing, the fallbacks run in order of what each rule is worth. The tone
+run limit is a *preference* about which voice comes next, so it gives way first and the blocked
+voice comes back; anti-repeat is the *promise*, so it is the last thing spent. The order only
+ever matters at night, which is the one day part narrow enough to run out.
+
 ## Notable design decisions
 
 - **The tip advances only after it's had a chance to be seen.** `WidgetRefreshWorker` ticks every
@@ -160,6 +170,13 @@ of those while another group had fresh options sitting unused.
   ~80% of draws want that set at the practical level. It holds because an exhausted tier
   redistributes into tone instead of repeating. `TipCatalogTest` runs the real catalog for 2000
   draws per day part, so over-raising this fails a test rather than shipping.
+- **The night hours are narrower still, and that is deliberate.** 23:00-05:59 reaches its own
+  pool plus philosophy and wellbeing: motivation is weighted to zero, and `general` is kept out
+  because half of it ("stand up and stretch", "a quick 5-minute walk") is the opposite of what
+  3am calls for. Buying depth by mixing it in would reintroduce exactly the mistimed line the
+  tone profile exists to prevent, so night pays for the timing with reach instead. That makes
+  it the only place a trim to an apparently unrelated pool can break the anti-repeat promise,
+  which is why both sleep hours are in the 2000-draw test rather than exempt from it.
 - **The widget's layout derives from its size, never from the text.** Width sets the font size,
   height sets how much decoration survives. An earlier attempt measured each *tip* with
   `StaticLayout`, and that prediction disagreed with the real `TextView` across launchers — too
@@ -192,7 +209,7 @@ Requires JDK 17.
 
 ```bash
 ./gradlew build        # everything, including assembleRelease
-./gradlew test         # unit tests — :core 80, :app 6 per variant
+./gradlew test         # unit tests — :core 81, :app 6 per variant
 ./gradlew ktlintCheck  # formatting
 ./gradlew lint         # Android lint
 ```
@@ -203,19 +220,17 @@ CI (`.github/workflows/ci.yml`) runs all of it on every push and PR.
 
 Completed work lives in the git history rather than here. What's open:
 
-- [ ] **Sleep-hours pools.** `sleepLate`/`sleepEarlyHours` are still one fixed message each.
-      Night no longer *depends* on them — it runs through the same machinery as every other day
-      part, with the fixed message weighed against philosophy and wellbeing — but turning them
-      into real practical pools is still content work at the TIP_SOURCES.md evidence bar.
-- [ ] **The tone pools need a content pass.** Philosophy is conventional rather than serious,
-      and motivation has drifted into wellbeing's register despite its own header forbidding
-      exactly that. See STATUS.md for the full write-up; this is the highest-value content work
-      outstanding.
-- [ ] **A jokes pool.** A fourth tone voice, alongside motivation, philosophy and wellbeing.
-      **Source them, don't write them** — collect from existing public-domain and clearly-attributed
-      humour rather than composing new lines, because written-to-order jokes read as generated and
-      that is precisely the failure. Needs: a licence check per source, the ~90-character cap,
-      a `ToneProfile` share per day part, and a decision on whether jokes belong at night.
+- [ ] **Jokes, inside `wellbeing` rather than as a fourth voice.** That pool already has a
+      "lighter" group and is already the only one allowed to be openly silly, so this is a group
+      to grow, not a pool to add. Putting them there settles by construction the two questions a
+      fourth voice would have raised: no new `ToneProfile` share has to be invented, and jokes
+      inherit wellbeing's night weighting rather than needing a separate ruling on whether they
+      belong at 3am. **Source them, don't write them** — collect from existing public-domain and
+      clearly-attributed humour rather than composing new lines, because written-to-order jokes
+      read as generated and that is precisely the failure. Needs: a licence check per source, the
+      ~90-character cap, and wellbeing's own two rules held to, which are the binding ones here:
+      the joke is aimed at the situation and never at the reader, and it still has to land on a
+      day that is going perfectly well.
 - [ ] **Tie the background to the tip's kind and the hour, not to a hash.** `WidgetStyle.forTip`
       currently picks from `entries` by `tipText.hashCode()`, so the pairing is arbitrary — a
       philosophy line at 2am can land on the bright Meadow card, and a morning stretch tip on
@@ -236,7 +251,8 @@ Completed work lives in the git history rather than here. What's open:
 - [ ] **A plain-English pass, worst in the medical/practical pools.** Some tips are genuinely hard
       to understand on a glance — awkward constructions, sentences that need re-reading. It is
       concentrated in the evidence-backed practical pools (`general`, `morning`, `afternoon`,
-      `evening`) rather than the tone ones, and the cause is structural rather than careless: a
+      `evening`, and now both night pools) rather than the tone ones, and the cause is structural
+      rather than careless: a
       tip that has to stay faithful to what its two citations actually support, inside ~90
       characters, drifts towards the register of the abstract it came from. "Mild dehydration
       dents focus" is a finding restated, not a thing a person says. Rewrite for the glance and
@@ -249,7 +265,7 @@ Completed work lives in the git history rather than here. What's open:
       answer left: a widget has no cheap way to acknowledge a tap before its process exists, and
       the things that would are what this app refuses to be.
 - [ ] **Languages beyond `en`.** The UI half is nearly free — every string is externalised. The
-      content half is the actual project: 282 tips loaded via a classpath lookup that knows
+      content half is the actual project: 312 tips loaded via a classpath lookup that knows
       nothing about `Locale`, tips identified by their text everywhere it matters, and citations
       pointing at English-language sources a translated reader can't use.
 - [ ] **iOS port**, gated on hardware. The headline constraint: the privacy promise doesn't

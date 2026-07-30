@@ -1,2 +1,13 @@
-# Citations for the single fixed message in sleep_early.txt: Label<TAB>URL, repeated.
+# Citations for each line in sleep_early.txt, same order, one line per tip.
+# Format: Label<TAB>URL, repeated. Every tip carries at least two independent sources, and
+# the same source may back several tips. See TIP_SOURCES.md at the repo root for the writeup.
 Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/	Chang et al., PNAS, 2015	https://www.pnas.org/doi/10.1073/pnas.1418490112
+AASM clinical practice guideline, J. Clinical Sleep Medicine, 2021	https://jcsm.aasm.org/doi/10.5664/jcsm.8986	Stanford Health Care: Stimulus Control and CBT-I	https://stanfordhealthcare.org/medical-treatments/c/cognitive-behavioral-therapy-insomnia/procedures/stimulus-control.html
+Harvey & Payne, Behaviour Research and Therapy, 2002 (imagery distraction)	https://pubmed.ncbi.nlm.nih.gov/11863237/	AASM clinical practice guideline, J. Clinical Sleep Medicine, 2021	https://jcsm.aasm.org/doi/10.5664/jcsm.8986
+Tang, Schmidt & Harvey, J. Behavior Therapy & Experimental Psychiatry, 2007	https://pubmed.ncbi.nlm.nih.gov/16793001/	Woods et al., Behaviour Research and Therapy, 2009	https://pubmed.ncbi.nlm.nih.gov/19200946/
+Ohayon et al., SLEEP, 2004 (normative sleep values)	https://pubmed.ncbi.nlm.nih.gov/15586779/	Boulos et al., Lancet Respiratory Medicine, 2019	https://pubmed.ncbi.nlm.nih.gov/31006560/
+Harvey & Tang, Psychological Bulletin, 2012 (sleep misperception)	https://pubmed.ncbi.nlm.nih.gov/21967449/	Rezaie et al., Sleep Medicine Reviews, 2018	https://pubmed.ncbi.nlm.nih.gov/29402512/
+Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/	Phillips et al., PNAS, 2019	https://www.pnas.org/doi/10.1073/pnas.1901824116
+Alcohol and subsequent sleep, meta-analysis, Sleep Medicine Reviews, 2024	https://www.sciencedirect.com/science/article/pii/S1087079224001345	Ebrahim et al., Alcoholism: Clinical & Experimental Research, 2013	https://onlinelibrary.wiley.com/doi/abs/10.1111/acer.12006
+Drake et al., J. Clinical Sleep Medicine, 2013	https://jcsm.aasm.org/doi/10.5664/jcsm.3170	Pharmacology of caffeine and its effects on the human body, 2024	https://www.sciencedirect.com/science/article/pii/S2772417424000104
+Okamoto-Mizuno & Mizuno, J. Physiological Anthropology, 2012	https://pubmed.ncbi.nlm.nih.gov/22738673/	Sleep Foundation: The Best Temperature for Sleep	https://www.sleepfoundation.org/bedroom-environment/best-temperature-for-sleep

@@ -303,7 +303,7 @@ private const val MIN_KIND_LABEL_SP = 7f
  * than typical were exactly the ones it under-served, and the fix for that was a spare line of
  * height that every card then paid for.
  *
- * To re-measure: load the face and greedily wrap all 282 lines of `core/src/main/resources/tips`
+ * To re-measure: load the face and greedily wrap every line of `core/src/main/resources/tips`
  * at a range of column widths, and take the widest column any single tip needs to come in at
  * [MAX_TIP_LINES] lines. Greedy is the safe algorithm to measure with — Android's TextView
  * defaults to a balanced line breaker, which never uses *more* lines than greedy does. Round up:
@@ -347,7 +347,9 @@ private data class TipFace(
 private val TIP_FACE =
     TipFace(
         family = FontFamily.Serif,
-        // Measured against the real NotoSerif-Bold.ttf off the device, over all 282 tips: the
+        // Measured against the real NotoSerif-Bold.ttf off the device, over the catalog as it
+        // stood at 282 tips (it is 312 now, and the widest line added since is narrower than
+        // several that were already in the measured set, so the figure below still holds): the
         // widest-wrapping line in the catalog ("Morning movement outdoors does double duty…")
         // needs 8.69 line-heights of column to come in at seven lines, and the next few crowd
         // just under it. Shipped 3% over that, which covers the small disagreement between a

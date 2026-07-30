@@ -364,7 +364,7 @@ private fun VarietyLevel.stateDescriptionRes(): Int =
     }
 
 /** Picks a new tip out of turn (same selection/anti-repeat logic as the scheduled refresh —
- * see [com.sapglance.core.tips.TipEngine.messageFor]'s `manual` parameter) and pushes it,
+ * see [com.sapglance.core.tips.TipEngine.messageFor]) and pushes it,
  * plus the background style that now follows it, to the widget immediately. Launched in
  * [SapGlanceApp.applicationScope] rather than this screen's own coroutine scope: the
  * latter is cancelled if the user navigates away before the Glance composition finishes,
@@ -379,7 +379,7 @@ private fun refreshTipNow(
 ) {
     val app = context.applicationContext as SapGlanceApp
     app.applicationScope.launch {
-        app.container.advanceTip(LocalTime.now(), manual = true, varietyLevel = varietyLevel)
+        app.container.advanceTip(LocalTime.now(), varietyLevel = varietyLevel)
         app.container.refreshWidget()
     }
 }
