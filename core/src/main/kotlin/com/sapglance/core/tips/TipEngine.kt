@@ -95,15 +95,6 @@ class TipEngine(
                 catalog.tonePools
         ).find { it.text == text }
 
-    /**
-     * Just the kind of a tip, from the same plain text — for callers that want to *label* a tip
-     * rather than cite it. Deliberately not `findByText(text)?.kind`: that concatenates every
-     * tip afresh on every call, which is fine for one Settings lookup and wrong for the widget's
-     * kind label, which is resolved again every time a new tip is drawn. This goes through
-     * [TipCatalog.kindOf]'s cached map instead. Null for a text the catalog no longer knows.
-     */
-    fun kindOf(text: String): TipKind? = catalog.kindOf(text)
-
     /** One candidate pool and its share of the draw. */
     private class Group(val weight: Int, val tips: List<Tip>)
 

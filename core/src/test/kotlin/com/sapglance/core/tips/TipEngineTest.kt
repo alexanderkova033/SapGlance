@@ -670,21 +670,6 @@ class TipEngineTest {
             .containsAtLeast(TipKind.MOTIVATION, TipKind.PHILOSOPHY, TipKind.WELLBEING)
     }
 
-    @Test
-    fun `kindOf resolves every kind from text alone, and unknown text to no kind`() {
-        val engine = TipEngine(tonedCatalog, Random(seed = 17))
-
-        // What the widget's kind label reads on every repaint, from the plain text the history
-        // stores. The null case is the same "reworded or dropped tip" as above: the card has to
-        // go unlabelled rather than guess or throw.
-        assertThat(engine.kindOf("G1")).isEqualTo(TipKind.PRACTICAL)
-        assertThat(engine.kindOf("SL1")).isEqualTo(TipKind.PRACTICAL)
-        assertThat(engine.kindOf("MOT1")).isEqualTo(TipKind.MOTIVATION)
-        assertThat(engine.kindOf("PHI1")).isEqualTo(TipKind.PHILOSOPHY)
-        assertThat(engine.kindOf("WEL1")).isEqualTo(TipKind.WELLBEING)
-        assertThat(engine.kindOf("a tip that no longer exists")).isNull()
-    }
-
     companion object {
         @JvmStatic
         fun dayPartBoundaries(): Stream<Arguments> =

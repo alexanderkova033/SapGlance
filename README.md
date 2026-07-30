@@ -22,7 +22,6 @@ says so plainly rather than glossing over it.
   settings. (AppWidgets can't intercept long-press, so a dedicated target is the only way in.)
 - **The tip advances once it's had a chance to be seen** — roughly 90 minutes of confirmed
   screen-on time, not a wall-clock timer that could rotate a tip nobody looked at.
-- **Each card names its tip's kind**: Health, Motivation, Philosophy or Wellbeing.
 - **Eleven card backgrounds**, derived from the tip's text rather than from a setting, so a new
   tip means a new-looking card. The whole ink set flips with the artwork, not with the phone's
   day/night theme.
