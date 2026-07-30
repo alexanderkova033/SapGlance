@@ -110,7 +110,25 @@ licence.
 
 ## Still needed for the listing
 
-- Feature graphic, 1024x500 (required, not yet made)
-- At least two phone screenshots, ideally showing the widget on a real home screen rather
-  than the settings page
-- Privacy policy at a public URL (PRIVACY.md via GitHub Pages)
+- Feature graphic, 1024x500. Draft master is `play-feature-graphic-1024x500.svg`; Play needs
+  PNG or JPEG, so it has to be exported at exactly 1024x500 before upload.
+- At least two phone screenshots (see below).
+- Privacy policy at a public URL. The Pages workflow is in `.github/workflows/pages.yml`; it
+  cannot run until Settings > Pages > Source is set to "GitHub Actions".
+
+## Taking the screenshots
+
+Two constraints that are easy to get wrong and cost a review round trip each:
+
+- **Not on your own home screen.** A listing is public. The obvious shot — the widget where it
+  actually lives — also publishes your wallpaper, your app drawer, and anything else on that
+  page. On the test device that currently includes a weather widget naming the city and a
+  banking app. Use a clean home screen: plain wallpaper, no other widgets, no personal apps.
+- **Play rejects anything longer than 2:1.** The rule is that the longest side may not be more
+  than twice the shortest. The test device is 1080x2340, which is 2.17:1, so a raw `screencap`
+  fails. Crop to 1080x2160 or shorter. 24-bit PNG with no alpha, or JPEG.
+
+Worth showing, in rough priority: the widget at 2x2 on a home screen, the same widget at 4x4
+(the layout genuinely differs, it is not one design stretched), one pale daytime card and one
+deep night card so the palette range is visible, and the settings screen's "Why this tip?" card,
+which is the feature nothing else in the category has.

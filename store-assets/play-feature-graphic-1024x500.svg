@@ -1,0 +1,51 @@
+<!--
+  Draft Play Store feature graphic. Master format is SVG so it stays editable and diffable;
+  Play needs a 1024x500 PNG or JPEG, so export before uploading (open in a browser at 100% and
+  screenshot, or run it through any SVG rasteriser at exactly 1024x500).
+
+  Play crops the edges of this image on some surfaces, so everything that has to survive is kept
+  inside the middle ~80%. Nothing here is load-bearing text: the store shows the app name and
+  short description separately, and a feature graphic that repeats them is wasted space, so the
+  wordmark is the only word that matters.
+
+  The palette is the widget's own Ocean card rather than a new brand colour, so the graphic and
+  the thing it advertises look like the same product.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500">
+  <defs>
+    <linearGradient id="card" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0%" stop-color="#17516A"/>
+      <stop offset="55%" stop-color="#0F3149"/>
+      <stop offset="100%" stop-color="#0A1E2E"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2E93A8" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#2E93A8" stop-opacity="0.04"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.92" r="0.75">
+      <stop offset="0%" stop-color="#3FA9BE" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#3FA9BE" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1024" height="500" fill="url(#card)"/>
+  <rect width="1024" height="500" fill="url(#glow)"/>
+
+  <!-- The same slow horizon curves the widget's Ocean artwork uses. -->
+  <path d="M0,352 C210,300 360,404 560,368 C744,335 880,268 1024,300 L1024,500 L0,500 Z"
+        fill="url(#wave)"/>
+  <path d="M0,418 C230,376 392,462 596,428 C782,397 900,352 1024,376 L1024,500 L0,500 Z"
+        fill="#2E93A8" fill-opacity="0.10"/>
+
+  <text x="512" y="238" text-anchor="middle"
+        font-family="Georgia, 'Noto Serif', 'Times New Roman', serif"
+        font-size="98" font-weight="bold" fill="#F4F7F6" letter-spacing="-1">SapGlance</text>
+
+  <text x="512" y="300" text-anchor="middle"
+        font-family="Georgia, 'Noto Serif', 'Times New Roman', serif"
+        font-size="34" fill="#C3DAE0">One quiet tip on your home screen.</text>
+
+  <text x="512" y="360" text-anchor="middle"
+        font-family="Georgia, 'Noto Serif', 'Times New Roman', serif"
+        font-size="24" fill="#8FB3BE" letter-spacing="2">100% OFFLINE      NO ACCOUNTS      NO TRACKING</text>
+</svg>

@@ -114,7 +114,8 @@ tester installs, so recruiting is the long pole — realistically three weeks fr
 | Signing config (keystore applied when present, unsigned when absent, so CI is unaffected) | No Play Console account |
 | `store-assets/play-store-icon-512.png` | Keystore not backed up |
 | `store-assets/play-listing.md`, drafted against the quote-widget category, recommending **Personalization** | `PRIVACY.md` has a Pages workflow but Settings > Pages > Source is still not set to "GitHub Actions", so no URL exists yet |
-| `targetSdk 36` clears the Aug 2026 requirement | No feature graphic (1024x500) or screenshots |
+| `targetSdk 36` clears the Aug 2026 requirement | Feature graphic exists only as an SVG master; Play needs it exported to PNG/JPEG |
+| | No screenshots. Must not be taken on the developer's own home screen (a listing is public) and must be cropped to at most 2:1, which a raw 1080x2340 `screencap` is not |
 | `versionName 1.0.0` | |
 
 ## Local environment
