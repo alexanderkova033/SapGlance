@@ -147,6 +147,7 @@ private enum class WidgetInk(
     val text: Color,
     val scrim: Color,
     val quoteMark: Color,
+    val kindLabel: Color,
     val footer: Color,
     val settingsButtonRes: Int,
     val settingsGlyph: Color,
@@ -161,6 +162,12 @@ private enum class WidgetInk(
         // a brighter card; see [TipWidgetContent] for why the rectangle went away.
         scrim = Color.Black.copy(alpha = 0.42f),
         quoteMark = Color.White.copy(alpha = 0.6f),
+        // Held at the `❝` glyph's tone rather than the footer's, and that is the whole point: it
+        // is the card's established level for something that sits *near* the tip without being
+        // read with it. The footer's 0.8 is affordable at the bottom edge, where nothing follows
+        // it; the same 0.8 one line above the words puts a second dark mark on the tip's own axis
+        // and the eye stops there first. See [TipWidgetContent] for the rest of that reasoning.
+        kindLabel = Color.White.copy(alpha = 0.6f),
         footer = Color.White.copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg,
         settingsGlyph = Color.White.copy(alpha = 0.9f),
@@ -179,6 +186,10 @@ private enum class WidgetInk(
         text = Color(0xFF17181C),
         scrim = Color.White.copy(alpha = 0.30f),
         quoteMark = Color(0xFF17181C).copy(alpha = 0.5f),
+        // A shade stronger than this side's quote mark, not weaker: dark ink thinned on a pale
+        // card loses legibility faster than pale ink thinned on a dark one, and 0.5 near-black is
+        // already at the edge for text (as opposed to a large ornament) at this size.
+        kindLabel = Color(0xFF17181C).copy(alpha = 0.58f),
         footer = Color(0xFF17181C).copy(alpha = 0.8f),
         settingsButtonRes = R.drawable.widget_settings_button_bg_light,
         settingsGlyph = Color(0xFF17181C).copy(alpha = 0.82f),
@@ -268,10 +279,16 @@ private const val LINE_HEIGHT_RATIO = 1.19f
 
 /**
  * How wide the *widest* kind label is, as a multiple of its font size, measured against the real
- * NotoSerif-Bold.ttf in the case it is actually drawn in: `Philosophy` 5.61em, `Motivation` 5.56,
+ * Noto Serif in the case it is actually drawn in: `Philosophy` 5.61em, `Motivation` 5.56,
  * `Wellbeing` 5.14, `Health` 3.41. Shipped 3% over the widest, the same allowance
  * [TipFace.minColumnRatio] carries, to cover the small disagreement between desktop font metrics
  * and Android's hinted advances.
+ *
+ * Those are the *Bold* advances, while the label draws at Medium — which the device resolves to
+ * Regular, where the same words run 5.29em. Kept at the heavier figure deliberately: it
+ * over-reserves by 6%, which costs nothing (the size cap binds first at every declared size, so
+ * this only ever decides the narrow-card fallback), and it stays correct if the label is ever set
+ * bolder again or a future device synthesizes a true 500 weight between the two.
  *
  * Case is part of this measurement, not a detail above it: the same four words set in capitals run
  * to 6.87em, a fifth wider, which is a rung of label size on a narrow card. If the label is ever
@@ -725,12 +742,25 @@ private fun TipWidgetContent(
         // which before reading changes how the sentence lands. It also quietly explains the
         // variety setting — a card reading "Philosophy" shows the user what that control did.
         //
-        // Set in the string's own sentence case rather than the capitals the app name below uses,
-        // and a step smaller than it (see [KIND_LABEL_FOOTER_RATIO]). Both pull the same way: caps
-        // at this position read as a heading over the tip, which is more than a one-word note about
-        // it should claim — it belongs to the tip, and lowercase letters at four fifths the size of
-        // the quietest thing on the card are how it says so. Kept bold all the same, because weight
-        // is what carries small type over artwork (see [TIP_FACE] on how thin faces fared here).
+        // The hard part of this label is not showing it, it is showing it without it being read
+        // first. Anything sat on the tip's own axis one line above it is in the strongest position
+        // on the card, so every other property has to give that back, and three did — case, size
+        // and weight, in that order of how much each was costing:
+        //
+        //  - **Sentence case**, not the capitals the app name below uses. Caps at this position
+        //    read as a heading over the tip; a one-word note about a sentence should not outrank
+        //    the sentence.
+        //  - **Four fifths the footer's size** ([KIND_LABEL_FOOTER_RATIO]), which makes it the
+        //    smallest text on the card rather than merely small.
+        //  - **Medium, not bold.** This was the loudest of the three and the least obvious: the
+        //    tip is bold, so a bold label matched the weight of the thing it was introducing and
+        //    the two read as one block of text with a short first line. Medium is the footer's
+        //    weight, proven legible on-device down to 8sp, and it leaves the card with exactly one
+        //    bold thing on it — which is the tip, which is the point.
+        //
+        // Tone does the rest ([WidgetInk.kindLabel]). What is deliberately *not* used to solve
+        // this: a fourth-corner position. The footer is centred too and nobody reads it as a
+        // title, so the axis was never the problem — the treatment was.
         val kindLabelRes = kind?.labelRes()
         val kindLabelFontSize = metrics.kindLabelFontSize
         if (kindLabelRes != null && kindLabelFontSize != null) {
@@ -748,10 +778,10 @@ private fun TipWidgetContent(
                     style =
                         TextStyle(
                             fontSize = kindLabelFontSize,
-                            fontWeight = FontWeight.Bold,
+                            fontWeight = FontWeight.Medium,
                             fontFamily = TIP_FACE.family,
                             textAlign = TextAlign.Center,
-                            color = ColorProvider(ink.footer),
+                            color = ColorProvider(ink.kindLabel),
                         ),
                 )
             }
