@@ -62,8 +62,8 @@ that.
 
 IT DOESN'T REPEAT ITSELF
 
-312 tips. The last 100 you have seen never come back, and the 60 before those are weighted
-down, so the rotation keeps finding you something you have not read yet.
+371 tips, in English and Russian. The last 100 you have seen never come back, and the 60 before
+those are weighted down, so the rotation keeps finding you something you have not read yet.
 
 
 100% OFFLINE. ZERO DATA COLLECTED.

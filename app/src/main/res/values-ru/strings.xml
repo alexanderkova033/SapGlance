@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Untranslated on purpose: it is the product's name, not a description of it. Repeated
+         here rather than omitted so lint's MissingTranslation has nothing to report. -->
+    <string name="app_name">SapGlance</string>
+
+    <string name="widget_description">Совет о самочувствии, который меняется. Нажми на него для нового или на шестерёнку для настроек.</string>
+    <string name="widget_settings_action">Открыть настройки</string>
+
+    <string name="settings_title">@string/app_name</string>
+
+    <string name="settings_variety_title">Больше разнообразия</string>
+    <string name="settings_variety_label_practical">Практика</string>
+    <string name="settings_variety_label_balanced">Баланс</string>
+    <string name="settings_variety_label_playful">Размышления</string>
+    <!-- Same rule as the English: written to sound like a person, not a spec, and all three the
+         same length and register so whichever one you pick sounds like the good choice. -->
+    <string name="settings_variety_state_practical">Мелочи, которые можно сделать сегодня</string>
+    <string name="settings_variety_state_balanced">Понемногу того и другого</string>
+    <string name="settings_variety_state_playful">Что-нибудь для размышления</string>
+
+    <!-- Russian quotation marks. The English uses curly doubles; using them here would look
+         imported. -->
+    <string name="settings_tip_source_quote">«%1$s»</string>
+    <string name="settings_tip_refresh_action">Другой совет</string>
+    <!-- Russian needs four quantities where English needs two. "few" and "many" carry the same
+         wording because the instrumental plural is the same for both; they are still listed
+         separately because Android selects on the grammatical class, not on the string. -->
+    <plurals name="settings_tip_sources_header">
+        <item quantity="one">Подтверждено %1$d источником</item>
+        <item quantity="few">Подтверждено %1$d источниками</item>
+        <item quantity="many">Подтверждено %1$d источниками</item>
+        <item quantity="other">Подтверждено %1$d источниками</item>
+    </plurals>
+    <!-- A quotation is attributed, not evidenced, so this deliberately does not say
+         "подтверждено": nothing about a line of Stoic philosophy is evidence. -->
+    <string name="settings_tip_source_attribution">Цитата из</string>
+
+    <!-- "Здоровье" rather than "Практика", for the same reason the English says "Health" rather
+         than "Practical": the label answers "what is this about", and it also keeps the word
+         clear of the variety setting called "Практика" further down the same screen. -->
+    <string name="settings_tip_kind_health">Здоровье</string>
+    <string name="settings_tip_kind_motivation">Мотивация</string>
+    <string name="settings_tip_kind_philosophy">Философия</string>
+    <string name="settings_tip_kind_wellbeing">Самочувствие</string>
+    <string name="settings_tip_label_combined">%1$s · %2$s</string>
+
+    <string name="settings_daypart_morning">Утро</string>
+    <string name="settings_daypart_afternoon">День</string>
+    <string name="settings_daypart_evening">Вечер</string>
+    <string name="settings_daypart_night">Ночь</string>
+
+    <string name="settings_about_title">О приложении</string>
+    <string name="settings_about_privacy_local">Советы и история остаются на телефоне</string>
+    <string name="settings_about_privacy_account">Без аккаунта</string>
+    <string name="settings_about_privacy_ads">Без слежки и рекламы</string>
+</resources>

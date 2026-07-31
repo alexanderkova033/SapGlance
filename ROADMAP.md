@@ -82,9 +82,20 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       pronoun the widget has no room to supply. That is a sourcing problem with a solution.
 - [ ] **Make a cold tap feel faster.** ~1s is process start plus Glance session setup, not app
       code, and `warmUp()` already hides the catalog parse behind it. No cheap answer left.
-- [ ] **Languages beyond `en`.** The UI half is nearly free; the content half is the project —
-      371 tips behind a `Locale`-blind classpath lookup, identified by their text everywhere it
-      matters, citing English-language sources. Growing the catalog makes this worse, not
-      better, which is worth knowing before growing it again.
+- [ ] **Languages beyond `en` and `ru`.** Russian shipped 2026-07-31 and the structure is now
+      the cheap part: `SUPPORTED_LANGUAGES`, a `values-<lang>` strings file, a folder of nine
+      tip files, and `TipCatalogTest` holds any new language to every invariant English has.
+      What is *not* cheap, and did not get cheaper, is 371 lines of prose per language written
+      to the pools' own rules. Two debts the Russian took on rather than paid, both written into
+      the pool headers: a Russian reader's "why this tip?" shows English citations, and a
+      translated philosophy quotation is a rendering of the cited English edition rather than a
+      published Russian translation. Both are honest because they are stated, and both would be
+      fixed by the same structural change: per-language `_sources.txt`. That is the thing to do
+      before a third language, not after.
+- [ ] **Get the Russian in front of someone who speaks it.** Written and reviewed by one person
+      against the pools' rules, which catches register drift and does not catch the things a
+      native reader would wince at. The specific worry is the tone pools: `motivation` has to
+      push without turning into the barking Russian imperative, and `wellbeing` has to stay warm
+      without sliding into the sympathetic register its first rule forbids.
 - [ ] **iOS port**, gated on hardware. The offline guarantee doesn't translate literally (no iOS
       app can declaratively renounce network access) and WidgetKit has no background execution.

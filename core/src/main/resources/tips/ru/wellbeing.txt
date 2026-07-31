@@ -1,0 +1,107 @@
+# Russian wellbeing pool. Line-for-line with ../wellbeing.txt.
+# Translation, not a pool of its own. Rules at ru/general.txt; what this pool is *for*, and the
+# four writing rules it runs under, are in the English header and are worth reading first.
+#
+# THE FIRST RULE IS THE ONE TRANSLATION THREATENS. Never assume the reader is having a bad day,
+# and never correct them. Russian has a strong pull toward the sympathetic register, and every
+# line here could be rewritten into it without anyone noticing: "посмотри в окно" becomes
+# "может, тебе станет легче, если посмотреть в окно", which quietly diagnoses the reader with
+# needing to feel better. Keep the invitation flat and equally welcome on a good day.
+#
+# THE FOURTH RULE, on precision, survives translation only if you resist generalising. "Заметь,
+# какие звуки внутри комнаты, а какие снаружи" is something a person can do; "прислушайся к
+# звукам вокруг" is a mood. Where the English names a number, a body part, a direction or an
+# object, the Russian names it too.
+#
+# THE JOKES ARE HANDLED THE SAME WAY THE PHILOSOPHY QUOTATIONS ARE, for the same reasons, which
+# are written out at length in ru/philosophy.txt: the line is a Russian rendering of the English
+# edition named beside it, the attribution stays in English because it is an address rather than
+# a description, and no claim is made that this is a published Russian translation. Wilde and
+# Jerome both have well-known Russian translators; naming one of them would mean citing their
+# edition, and there is one shared sources design and no room for that. Stated rather than
+# hidden, per the same argument.
+#
+# Group headings are kept in English so this file and ../wellbeing.txt can be diffed by eye.
+
+# Noticing.
+Посмотри в ближайшее окно десять секунд. Просто посмотри.
+Назови три звука, которые слышишь прямо сейчас, не двигаясь.
+Заметь температуру в комнате. Это всё задание.
+Заметь, как сейчас падает свет. Позже он будет другим.
+Прислушайся к самому далёкому звуку, какой сможешь различить.
+Выбери цвет и минуту замечай его везде, где он попадётся.
+Посмотри на что-то движущееся, кроме экрана. Деревья, машины, облака.
+Распробуй следующую еду целиком, а не только первый кусок.
+Пусть следующий хороший момент продлится секунды на три дольше обычного.
+За последние сутки что-то тебя рассмешило. Попробуй вспомнить что.
+Заметь, какие звуки внутри комнаты, а какие снаружи.
+Найди самый старый предмет в комнате. Что-то здесь повидало многое.
+Найди самое далёкое, что видно с того места, где ты сидишь.
+
+# The body.
+Обхвати ладонями что-нибудь тёплое и побудь так минуту.
+Потянись, как кот, которому некуда спешить.
+Опусти плечи примерно на сантиметр.
+Пусть челюсть побудет расслабленной.
+Медленно поверни шею, по разу в каждую сторону.
+Поставь босые ноги на пол и заметь, каково это.
+Поправь на себе одну вещь, чтобы сидела удобнее.
+Займи чуть больше места, чем занимаешь сейчас.
+Встряхни руки пять секунд, будто только что их вымыл.
+Положи ладонь на грудь и проследи один вдох и выдох целиком.
+
+# Outside.
+В поле зрения есть растение, дерево или кусочек неба.
+Найди небо. Где бы ты ни был, немного его есть.
+Выйди на улицу на минуту, даже если погода никакая.
+Приоткрой окно, что бы там ни творилось за ним.
+Пойди туда, куда собирался, длинной дорогой.
+В следующий выход на улицу заметь, каков воздух на лице.
+Узнай погоду, выйдя наружу, а не посмотрев в телефон.
+Встань туда, куда падает солнце, если оно куда-то падает.
+
+# Play.
+Включи песню, к которой всегда возвращаешься.
+Подпой чему-нибудь плохо, там, где никто не слышит.
+Сделай одну мелочь просто потому, что это будет смешно.
+Посиди десять минут в другом месте и посмотри, как оно.
+Дойди до соседней комнаты совершенно другим шагом.
+Сделай следующую мелочь другой рукой.
+Подбери следующим пяти минутам саундтрек и посмотри, изменится ли что-то.
+
+# Other people.
+Напиши тому, кто тебе нравится, без причины и без повода.
+Кто-то был бы рад весточке от тебя сегодня. Ты знаешь кто.
+Скажи человеку, что именно тебе в нём нравится, а не вообще.
+Поблагодари того, кто этого не ждёт.
+Задай кому-нибудь вопрос получше, чем как дела.
+Отправь кому-нибудь фото того, что ему понравится, без подписи.
+Спроси кого-нибудь, чего он ждёт с нетерпением.
+
+# Making things nicer.
+Если мелочь сделает следующий час приятнее, сходи за ней.
+Положи что-то приятное там, где ты найдёшь это завтра утром.
+Приготовь следующий напиток как следует, не торопясь.
+Освободи одну поверхность. Не комнату, одну поверхность.
+Отдых имеет право быть приятным, а не только необходимым.
+Измени что-нибудь одно в освещении вокруг себя.
+Сдвинь одну вещь на ладонь туда, где ей место с самого начала.
+
+# Lighter. Small and a bit silly, and just as welcome on a good day.
+Встань и потянись так, чтобы вырвался непроизвольный звук.
+Проверь растение. Оно многое пережило и ни разу не пожаловалось.
+Найди самое старое непрочитанное уведомление и смахни не читая. Ничего не будет.
+Где-то рядом есть перекус. Ты знаешь какой.
+Включи то, за что было бы неловко, если бы кто-то вошёл.
+Назови вслух ближайший предмет. Теперь это название твоей группы.
+Иди к чайнику длинной дорогой, мимо окна.
+Собака, птица или кот в поле зрения стоят потраченной минуты.
+
+# Jokes. Sourced, not written, and each one says whose it is.
+Я могу устоять перед чем угодно, кроме соблазна.	Oscar Wilde, Lady Windermere's Fan, Act I (Wikisource)	https://en.wikisource.org/wiki/Lady_Windermere%27s_Fan/Act_I
+Невозможно наслаждаться бездельем полностью, если нет уймы работы.	Jerome K. Jerome, The Idle Thoughts of an Idle Fellow (Project Gutenberg)	https://www.gutenberg.org/ebooks/849
+Безделье, как и поцелуи, сладко, когда оно краденое.	Jerome K. Jerome, The Idle Thoughts of an Idle Fellow (Project Gutenberg)	https://www.gutenberg.org/ebooks/849
+Я люблю работу. Она увлекает меня. Я часами могу сидеть и смотреть на неё.	Jerome K. Jerome, Three Men in a Boat, Chapter XV (Wikisource)	https://en.wikisource.org/wiki/Three_Men_in_a_Boat_(1889)/Chapter_15
+День, сущ. Промежуток в двадцать четыре часа, потраченный большей частью зря.	Ambrose Bierce, The Devil's Dictionary (Wikisource)	https://en.wikisource.org/wiki/The_Devil%27s_Dictionary/D
+Любовь к земле относится к самым ранним страстям и к самым поздним.	Charles Dudley Warner, My Summer in a Garden, Preliminary (Project Gutenberg)	https://www.gutenberg.org/ebooks/3135
+Дело в том, что садоводство и есть старая притча о вечном труде.	Charles Dudley Warner, My Summer in a Garden, Fourth Week (Project Gutenberg)	https://www.gutenberg.org/ebooks/3135

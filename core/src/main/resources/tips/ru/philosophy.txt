@@ -1,0 +1,114 @@
+# Russian philosophy pool. Line-for-line with ../philosophy.txt.
+#
+# READ THIS BEFORE CHANGING A QUOTED LINE. It is the one place in the catalog where translating
+# and citing pull against each other, and the resolution is a compromise that has to be stated
+# rather than assumed.
+#
+# WHAT THESE LINES ARE. Every quoted line below is a **Russian rendering of the English edition
+# named in its attribution**, made for this app. It is *not* a quotation from a published
+# Russian edition, and it does not claim to be. The attribution is deliberately left in English,
+# pointing at the same Wikisource or Gutenberg page as the English pool, because that page is
+# the text this line was translated from and is therefore the thing a reader can actually check
+# it against. Translating the attribution would break that: "Marcus Aurelius, Meditations VIII.4
+# (Wikisource)" is a working address, and a Russian gloss of it is not.
+#
+# WHY IT WAS NOT DONE THE OTHER WAY. The obvious alternative is to use the canonical Russian
+# translations, which for most of these authors exist and are better than anything produced
+# here: Гаврилов for Marcus Aurelius, Ошеров for Seneca, Ян Хин-шун for Lao Tzu, Топоров for
+# the Dhammapada, Айхенвальд for Schopenhauer. Two problems, one practical and one honest. Most
+# of them are still in copyright. And where a public-domain Russian edition does exist, citing
+# the *English* page beside a *Russian* translator's words would be an attribution that points
+# at the wrong text, which is exactly the failure this pool's rules exist to prevent. Naming the
+# Russian translator properly means citing the Russian edition, which means a second sources
+# file, which the shared-citations design does not have room for. That is the real cost of the
+# design, and it is written down here rather than papered over.
+#
+# So: this is honest as long as it is stated, and it is stated. If a future pass wants genuine
+# Russian quotations, the change is structural (per-language sources), not editorial.
+#
+# WHERE THE ENGLISH IS DELIBERATELY ODD, THE RUSSIAN IS NOT. The Hume line keeps eighteenth-
+# century capitals in English because that is how the 1748 edition sets it. Russian has no
+# equivalent convention, so the line below is set normally. That is not a silent correction of
+# the English; it is the absence of a feature to carry over.
+#
+# LENGTH IS THE BINDING CONSTRAINT HERE. Several of these are already at the widget's limit in
+# English, and Russian runs longer. Schopenhauer's "the present alone is true and actual" had to
+# be rebuilt around a colon to fit. Where a line cannot fit, cut at a punctuation mark the
+# original already has, exactly as the English rules allow, and never mid-clause.
+
+# Stoic.
+Людей мучают не вещи, а представления о них.	Epictetus, Enchiridion V (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm	Epictetus, Enchiridion V (Perseus Digital Library)	https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0237:text%3Denc:chapter%3D5
+Одно в нашей власти, другое не в нашей власти.	Epictetus, Enchiridion I (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm
+Не желай, чтобы всё шло, как ты хочешь. Желай, чтобы шло так, как идёт.	Epictetus, Enchiridion VIII, tr. Long (Project Gutenberg)	https://www.gutenberg.org/files/10661/10661-h/10661-h.htm
+Никогда не говори о вещи: я её потерял. Говори: я её вернул.	Epictetus, Enchiridion XI, tr. Higginson (Perseus Digital Library)	https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0237:text%3Denc:chapter%3D11
+Даже если ты разобьёшь себе сердце, они всё равно будут делать то же самое.	Marcus Aurelius, Meditations VIII.4 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_8
+Боль не от самой вещи, а от твоей оценки её.	Marcus Aurelius, Meditations VIII.47 (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
+Нигде человек не найдёт приюта тише и спокойнее, чем в собственной душе.	Marcus Aurelius, Meditations IV.3 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_4
+Спокойствие есть не что иное, как порядок в мыслях.	Marcus Aurelius, Meditations IV.3 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_4
+Мы чаще страдаем в воображении, чем наяву.	Seneca, Moral Letters to Lucilius 13 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_13
+Вещей, способных нас напугать, больше, чем тех, что способны нас сломить.	Seneca, Moral Letters to Lucilius 13 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_13
+Пока мы откладываем, жизнь проходит.	Seneca, Moral Letters to Lucilius 1 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_1
+Быть везде значит быть нигде.	Seneca, Moral Letters to Lucilius 2 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_2
+Пока живёшь, учись жить.	Seneca, Moral Letters to Lucilius 76 (Wikisource)	https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_76
+
+# Taoist.
+Кто встал на цыпочки, не может стоять твёрдо.	Lao Tzu, Tao Teh King 24, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
+Знающий других разумен. Знающий себя просветлён.	Lao Tzu, Tao Teh King 33, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
+
+# Confucian.
+Учение без размышления бесполезно, размышление без учения опасно.	Confucius, Analects II.XV, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/3330
+Иметь недостатки и не исправлять их, вот это и значит иметь недостатки.	Confucius, Analects XV.XXIX, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/3330
+
+# Buddhist.
+Чужие ошибки заметить легко, свои же увидеть трудно.	The Dhammapada 252, tr. Max Muller (Project Gutenberg)	https://www.gutenberg.org/ebooks/2017
+Пусть человек победит гнев любовью, а зло добром.	The Dhammapada 223, tr. Max Muller (Project Gutenberg)	https://www.gutenberg.org/ebooks/2017
+
+# Greek.
+У бодрствующих один общий мир, а спящие отворачиваются каждый в свой собственный.	Heraclitus, Fragment 89 (Wikisource)	https://en.wikisource.org/wiki/Fragments_of_Heraclitus_(annotated)
+В одни и те же реки нельзя войти дважды.	Heraclitus, Fragments 41-42, tr. Burnet (Wikisource)	https://en.wikisource.org/wiki/Fragments_of_Heraclitus_(annotated)
+
+# Essayists and transcendentalists.
+Величайшее дело на свете, это уметь принадлежать себе.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
+Нужно приберечь для себя каморку, целиком нашу и совершенно свободную.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
+В конце концов нет ничего священного, кроме целостности твоего ума.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
+Держись себя, никогда не подражай.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
+За несогласие мир сечёт тебя своим недовольством.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
+Большинство людей живёт в тихом отчаянии.	Thoreau, Walden, "Economy" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Economy
+Но что же, люди стали орудиями своих орудий.	Thoreau, Walden, "Economy" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Economy
+Наша жизнь растрачивается по мелочам.	Thoreau, Walden, "Where I Lived, and What I Lived for" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Where_I_Lived,_and_What_I_Lived_for
+Спроси себя, счастлив ли ты, и перестанешь быть счастливым.	J. S. Mill, Autobiography, Chapter V (Wikisource)	https://en.wikisource.org/wiki/Autobiography_(Mill)/Chapter_V
+Мир полон страдания, но он полон и его преодоления.	Helen Keller, Optimism (Wikisource)	https://en.wikisource.org/wiki/Optimism_(Keller)
+
+# German.
+Если есть своё „зачем“ в жизни, вынесешь почти любое „как“.	Nietzsche, Twilight of the Idols, Maxims and Arrows 12 (Project Gutenberg)	https://www.gutenberg.org/files/52263/52263-h/52263-h.htm
+Человек может быть самим собой, лишь пока он одинок.	Schopenhauer, Counsels and Maxims II, tr. Saunders (Wikisource)	https://en.wikisource.org/wiki/Counsels_and_Maxims/Chapter_II
+Истинно и действительно лишь настоящее: только оно обладает полной реальностью.	Schopenhauer, Counsels and Maxims II, tr. Saunders (Wikisource)	https://en.wikisource.org/wiki/Counsels_and_Maxims/Chapter_II
+
+# Enlightenment rationalist.
+Свободный человек ни о чём так мало не думает, как о смерти.	Spinoza, Ethics IV, Prop. LXVII, tr. Elwes (Wikisource)	https://en.wikisource.org/wiki/Ethics_(Spinoza)/Part_4
+Веселье не может быть чрезмерным и всегда благо, меланхолия же всегда зло.	Spinoza, Ethics IV, Prop. XLII, tr. Elwes (Wikisource)	https://en.wikisource.org/wiki/Ethics_(Spinoza)/Part_4
+
+# Enlightenment empiricist.
+Мудрый человек соразмеряет свою веру с очевидностью.	Hume, Philosophical Essays Concerning Human Understanding, Essay X, 1748 (Wikisource)	https://en.wikisource.org/wiki/Philosophical_Essays_Concerning_Human_Understanding/Essay_10
+
+# Nineteenth century.
+Без борьбы нет прогресса.	Frederick Douglass, West India Emancipation, 1857 (Wikisource)	https://en.wikisource.org/wiki/West_India_Emancipation
+Растущее благо мира отчасти держится на неисторических деяниях.	George Eliot, Middlemarch, Finale (Wikisource)	https://en.wikisource.org/wiki/Middlemarch_(1871)/Finale
+
+# Original reflections. No source, and none claimed.
+Ты не отстаёшь. Не было расписания, на которое ты соглашался.
+Внимание конечнее всего, чем ты владеешь. Трать его намеренно.
+Терпение не в ожидании. Оно в том, что ты делаешь, пока ждёшь.
+Большую часть сегодняшнего дня ты не вспомнишь. Выбери, что оставить.
+Можно ошибаться годами и всё же развернуться за один день.
+Уверенность дёшева. Заметь, чего тебе стоит передумать.
+История, которую ты расскажешь о сегодня, уже короче самого дня.
+Больше времени, чем сейчас, у тебя не будет. Будут другие причины.
+Самое уверенное твоё мнение пришло от того, кого ты уже забыл.
+Большую часть своей жизни не объяснить тому, кого там не было.
+Ты уже ошибался, и ровно с такой же уверенностью.
+Совет, который ты даёшь чаще всего, нужнее всего тебе самому.
+В следующем году ты поверишь в то, с чем сегодня стал бы спорить.
+Тот, кого легко не заметить, для кого-то целый мир.
+То, что ты замечаешь, это выбор, который ты давно перестал делать осознанно.
+Передумать можно и без объявления.

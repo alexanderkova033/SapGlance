@@ -69,6 +69,33 @@ apart. Tone pools put any attribution inline on the tip's own line. See
 [TIP_SOURCES.md](TIP_SOURCES.md) for the research behind each claim and the source-quality rules
 (primary study over press release; no Wikipedia or aggregator pages).
 
+**A new tip is a new line in every language.** English is the source of truth and lives at the
+root of `tips/`; each translation is the same file name under `tips/<language>/`. The citations
+are *not* translated and there is one copy of them, zipped by position against every language,
+so a tip added to `general.txt` without a matching line in `ru/general.txt` fails at load rather
+than mis-citing. That is deliberate: it is cheaper to be stopped by the build than to ship a
+Russian tip carrying the previous tip's evidence.
+
+## Adding a language
+
+Three steps, and the third is the work.
+
+1. `TipCatalog.SUPPORTED_LANGUAGES` and `app/src/main/res/xml/locales_config.xml`. Nothing
+   enforces that these agree, because one is Kotlin in a module with no Android on its
+   classpath and the other is an Android resource. Listing a language in only the second offers
+   the reader a translation that silently falls back to English.
+2. `app/src/main/res/values-<language>/strings.xml` for the settings screen and the widget's
+   description. 27 strings; note that plurals may need quantities English does not have.
+3. `core/src/main/resources/tips/<language>/`, nine files, line-for-line with the English. Read
+   `tips/ru/general.txt`'s header first — it records the three rules the Russian ran under (no
+   em dash, no longer than the English, the hedge is not decoration), and
+   `tips/ru/philosophy.txt`'s header records the one genuinely awkward decision in the whole
+   design: what a translated *quotation* is allowed to claim when its citation stays English.
+
+`TipCatalogTest` is parameterized over every supported language, so a translation is held to
+every invariant English is, plus three of its own: same shape, identical citations, and actually
+translated.
+
 Every tip: under ~90 characters, phrased as a suggestion ("can help", "is linked to") rather
 than a promise, no em dashes (`TipCatalogTest` fails the build on one), no invented statistics,
 and genuinely distinct from what's there — the test only catches byte-identical duplicates, so

@@ -20,20 +20,31 @@ the code.
   33, `sleep_late` 15, `sleep_early` 14) and 189 tone (`motivation` 67, `philosophy` 55,
   `wellbeing` 67). Every practical line still carries 2+ independent citations, and the pass on
   2026-07-31 reworded most of them without changing a single claim (see below).
+- **Languages**: `en` and `ru`, 742 tip lines in total. English lives at the root of `tips/` and
+  is the text the citations were checked against; Russian is a translation of it at `tips/ru/`.
+  **Citations are shared, not translated** — one `_sources.txt` per pool, zipped by position
+  against both languages, so a translation that gains or loses a line fails at load. The catalog
+  is chosen once per process from `Locale.getDefault().language`, and Android 13+ shows SapGlance
+  in the per-app language picker.
 - **Widget**: 19 background styles, picked by a per-hour palette narrowed by the tip's kind and
   then hashed on the tip's text; resizes from 2x2 to 4x4.
 - **Selection**: three narrowing weighted picks, anti-repeat applied before all of them,
   recency weighting over a 160-tip history, per-day-part `ToneProfile`, no tone voice three
   draws running.
-- **Build gate**: `ktlintCheck` clean; `:core` 102 tests, `:app` 6 per variant, 0 failures;
-  `lint` 0 errors, 34 warnings; full `build` including `assembleRelease` with R8.
+- **Build gate**: `ktlintCheck` clean; `:core` 125 tests, `:app` 6 per variant, 0 failures;
+  `lint` 0 errors, 35 warnings; full `build` including `assembleRelease` with R8.
+
+`:core` went 102 tests to 125 when `TipCatalogTest` was parameterized over the supported
+languages. That is the same invariants run twice, not new ones: a translation that drops a line,
+repeats one or smuggles in an em dash is exactly as broken as an English pool that does, and
+more likely, since the translator is working against a file whose sources they cannot read.
 
 The lint warnings are all `VectorRaster`, `GradleDependency`, `AndroidGradlePluginVersion`,
-`MonochromeLauncherIcon`, `UseKtx`, `VectorPath`, plus two deliberate `UnusedAttribute` for the
-widget's API 31+ `targetCell*` against `minSdk 26`. The count read 26 here until 2026-07-31 and
-now reads 34; that drift is the version-age checks noticing the calendar, not new code. It was
-confirmed by running `lint` against the tree with the content change stashed, which also gives
-34.
+`MonochromeLauncherIcon`, `UseKtx`, `VectorPath`, plus three deliberate `UnusedAttribute`: the
+widget's API 31+ `targetCell*` and the manifest's API 33+ `localeConfig`, both against
+`minSdk 26`. The count read 26 here until 2026-07-31 and now reads 35; 34 of those predate the
+content work, which was confirmed by running `lint` with the change stashed, and the 35th is the
+`localeConfig` attribute. The drift from 26 is the version-age checks noticing the calendar.
 
 ## Verified, and not
 
@@ -101,6 +112,27 @@ against real numbers because of it.
    stopped at seven rather than a round eight because an eighth would have had to be a fourth
    Jerome, and the counts are now the rule there — Jerome three, Warner two, Wilde one,
    Bierce one.
+10. **The Russian has never been rendered on a phone, and one number says it might not fit.**
+    `TipFace.minColumnRatio` was measured against English, and Cyrillic is not Latin: Russian
+    words are longer and м, ш, ы, ю are wide. The screening described in item 1 was re-run with
+    a Cyrillic advance table added, and it says no Russian line wraps wider than the widest
+    English one. Two caveats, and the second is the honest one. The widest unbreakable Russian
+    token (`Многозадачность`) is ~15% wider than the widest English one (`procrastination`),
+    down from ~30% before ten lines were rephrased for exactly this reason. And **the screen
+    disagrees with the on-device measurement about which English line is worst**, which means
+    the approximate width table is not good enough to make an absolute claim from — it is a
+    screen, not a measurement. The only thing that settles this is the Russian catalog on the
+    Galaxy A34 with the per-app language set to Russian.
+11. **Whether the Russian reads like Russian.** Written and checked by one person against the
+    pools' own rules, which is enough to catch a lost hedge and not enough to catch what a
+    native reader would wince at. Two specific worries. `motivation` must push without becoming
+    the barking imperative Russian falls into. `wellbeing` must stay warm without sliding into
+    the sympathetic register its first rule forbids, which Russian invites far more strongly
+    than English does. Neither is something the build can see.
+12. **Whether English citations under Russian tips are acceptable or merely defensible.** By
+    design: the study is in English and translating a journal's name would make the citation
+    harder to check, not easier. It is still a Russian reader tapping "почему этот совет?" and
+    getting a wall of English. Nobody has watched that happen.
 
 Two methodological notes:
 
@@ -157,6 +189,13 @@ Two methodological notes:
 `applicationIdSuffix`, so a debug APK fails on signature mismatch and the only way through is an
 uninstall — which wipes the tip history. Always `assembleRelease` + `adb install -r`.
 
+**Checking the Russian on the device** without switching the whole phone over: Settings > Apps >
+SapGlance > Language, which SapGlance appears in because the manifest declares
+`android:localeConfig`. Two things to know before doing it. The app process restarts, which is
+what makes the catalog pick up the change, and the widget needs a repaint to show it. And the
+tip history resets, because history is keyed by tip text — so this is not a free check on a
+device whose rotation you were using as evidence for anything else.
+
 ## Assumptions and decisions worth knowing
 
 - **`applicationId` is permanent from the first Play upload.** It is `com.sapglance.app`. The
@@ -177,8 +216,20 @@ uninstall — which wipes the tip history. Always `assembleRelease` + `adb insta
   take ~50% of night draws at the default variety level rather than the daytime 80%, but for
   new reasons — night reaches one practical pool rather than two, and a practical instruction is
   the least welcome register at 3am.
-- Tips are identified by their **text** everywhere it matters. Fine while single-language, and
-  the main structural obstacle to shipping another.
+- Tips are identified by their **text** everywhere it matters, and that assumption survived
+  going bilingual rather than being fixed by it. **Switching the phone's language resets the tip
+  history**: the stored strings are in the old language, so `kindOf` answers null, anti-repeat
+  matches nothing, and the reader starts a fresh rotation. That degrades correctly rather than
+  crashing, and it is a reset, not a migration. Nobody who switches languages twice gets their
+  first rotation back.
+- **The language is read once per process**, in `AppContainer`, not threaded through selection.
+  Safe because Android restarts the process when the system language changes, so a stale catalog
+  cannot outlive the setting that chose it. If that ever stops being true, this is where it
+  breaks.
+- **`SUPPORTED_LANGUAGES` and `locales_config.xml` must agree, and nothing checks that.** One is
+  Kotlin in a module with no Android on its classpath; the other is an Android resource. A
+  language listed only in the XML offers the reader a translation that silently serves English
+  tips.
 - No ViewModel and no DI framework, both deliberate at this size.
 - AGP 8.10.1, `compileSdk`/`targetSdk 36`. AGP 9.x skipped: 8.10.1 is the minimum for
   `compileSdk 36` and a major jump wasn't needed.

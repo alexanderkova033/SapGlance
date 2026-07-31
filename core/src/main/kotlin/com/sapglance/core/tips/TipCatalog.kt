@@ -11,6 +11,22 @@ package com.sapglance.core.tips
  * end (so a line has an even number of fields), which keeps the one-line-per-tip correspondence
  * intact now that a tip carries several citations rather than one — see `TIP_SOURCES.md` at the
  * repo root for the research those citations trace back to.
+ *
+ * ## Languages
+ *
+ * English lives at the root of `tips/` and every other language in a `tips/<language>/` folder
+ * beneath it, under the same file names. The asymmetry is the point rather than an accident of
+ * growth: English is the text the citations were checked against, and the other languages are
+ * translations *of it*, so they sit under it and are read against the same evidence.
+ *
+ * **`_sources.txt` is not translated and there is only ever one copy of it**, shared by every
+ * language of the pool it belongs to. Two consequences worth knowing before adding a language.
+ * The good one: a translation cannot silently drift out of alignment with the evidence, because
+ * the same file has to zip line-for-line against both, so dropping or reordering a line in a
+ * translation fails at load. The awkward one: a Russian reader who opens "why this tip?" gets
+ * English citations. That is the honest outcome — the study is in English and pretending
+ * otherwise by translating the journal's name would make the citation harder to check, not
+ * easier — but it is a real rough edge rather than a design triumph.
  */
 data class TipCatalog(
     val general: List<Tip>,
@@ -55,18 +71,46 @@ data class TipCatalog(
     fun kindOf(text: String): TipKind? = kindsByText[text]
 
     companion object {
-        fun loadDefault(): TipCatalog =
-            TipCatalog(
-                general = loadPool("general.txt"),
-                morning = loadPool("morning.txt"),
-                afternoon = loadPool("afternoon.txt"),
-                evening = loadPool("evening.txt"),
-                sleepLate = loadPool("sleep_late.txt"),
-                sleepEarlyHours = loadPool("sleep_early.txt"),
-                motivation = loadTonePool("motivation.txt", TipKind.MOTIVATION),
-                philosophy = loadTonePool("philosophy.txt", TipKind.PHILOSOPHY),
-                wellbeing = loadTonePool("wellbeing.txt", TipKind.WELLBEING),
+        /** The language the citations were checked against, and the fallback for anything else. */
+        const val DEFAULT_LANGUAGE = "en"
+
+        /**
+         * ISO 639-1 codes with a bundled catalog. Anything else falls back to [DEFAULT_LANGUAGE]
+         * rather than throwing: a device set to a language this app has never heard of must show
+         * English tips, not crash on a missing resource.
+         */
+        val SUPPORTED_LANGUAGES = setOf(DEFAULT_LANGUAGE, "ru")
+
+        /**
+         * [language] is an ISO 639-1 code, not a locale tag: `ru-RU` and `ru-KZ` read the same
+         * catalog, because what varies between them is date and number formatting rather than
+         * anything this app writes. Callers pass `Locale.getDefault().language`, which already
+         * gives the bare code.
+         */
+        fun loadDefault(language: String = DEFAULT_LANGUAGE): TipCatalog {
+            val resolved = if (language in SUPPORTED_LANGUAGES) language else DEFAULT_LANGUAGE
+            return TipCatalog(
+                general = loadPool("general.txt", resolved),
+                morning = loadPool("morning.txt", resolved),
+                afternoon = loadPool("afternoon.txt", resolved),
+                evening = loadPool("evening.txt", resolved),
+                sleepLate = loadPool("sleep_late.txt", resolved),
+                sleepEarlyHours = loadPool("sleep_early.txt", resolved),
+                motivation = loadTonePool("motivation.txt", resolved, TipKind.MOTIVATION),
+                philosophy = loadTonePool("philosophy.txt", resolved, TipKind.PHILOSOPHY),
+                wellbeing = loadTonePool("wellbeing.txt", resolved, TipKind.WELLBEING),
             )
+        }
+
+        /**
+         * Tip text is per-language, citations are not — see the class doc. English sits at the
+         * root of `tips/` rather than in an `en/` folder of its own, which keeps the companion
+         * `_sources.txt` beside the text it was checked against.
+         */
+        private fun tipPath(
+            fileName: String,
+            language: String,
+        ) = if (language == DEFAULT_LANGUAGE) "/tips/$fileName" else "/tips/$language/$fileName"
 
         /**
          * Tone pools keep their (usually absent) attribution inline on the tip's own line,
@@ -78,9 +122,10 @@ data class TipCatalog(
          */
         private fun loadTonePool(
             fileName: String,
+            language: String,
             kind: TipKind,
         ): List<Tip> =
-            resourceLines(fileName).map { line ->
+            resourceLines(tipPath(fileName, language)).map { line ->
                 val fields = line.split("\t")
                 val sources = fields.drop(1)
                 require(sources.size % 2 == 0) {
@@ -100,23 +145,34 @@ data class TipCatalog(
                 )
             }
 
-        private fun loadPool(fileName: String): List<Tip> {
+        private fun loadPool(
+            fileName: String,
+            language: String,
+        ): List<Tip> {
             val texts =
-                resourceLines(fileName).also {
+                resourceLines(tipPath(fileName, language)).also {
                     require(it.isNotEmpty()) { "Tip pool 'tips/$fileName' must not be empty" }
                 }
-            return zipWithSources(fileName, texts)
+            return zipWithSources(fileName, language, texts)
         }
 
+        /**
+         * The citations are shared across languages, so this is also the check that a translation
+         * has not lost, gained or reordered a line: the same `_sources.txt` has to zip against
+         * every language of the pool, and the message names the language so a failure points at
+         * the file that actually drifted.
+         */
         private fun zipWithSources(
             fileName: String,
+            language: String,
             texts: List<String>,
         ): List<Tip> {
             val sourceFileName = sourceFileNameFor(fileName)
-            val sources = resourceLines(sourceFileName)
+            val sources = resourceLines("/tips/$sourceFileName")
             require(sources.size == texts.size) {
-                "'tips/$fileName' has ${texts.size} tips but 'tips/$sourceFileName' has " +
-                    "${sources.size} source entries — they must match line-for-line"
+                "'${tipPath(fileName, language)}' has ${texts.size} tips but " +
+                    "'tips/$sourceFileName' has ${sources.size} source entries — they must " +
+                    "match line-for-line, and that file is shared by every language"
             }
             return texts.zip(sources) { text, sourceLine -> text.toTip(sourceLine, sourceFileName) }
         }
@@ -142,10 +198,10 @@ data class TipCatalog(
             return Tip(text = this, sources = sources)
         }
 
-        private fun resourceLines(fileName: String): List<String> {
+        private fun resourceLines(path: String): List<String> {
             val stream =
-                requireNotNull(TipCatalog::class.java.getResourceAsStream("/tips/$fileName")) {
-                    "Missing bundled tip resource: tips/$fileName"
+                requireNotNull(TipCatalog::class.java.getResourceAsStream(path)) {
+                    "Missing bundled tip resource: $path"
                 }
             return stream.bufferedReader(Charsets.UTF_8).useLines { lines ->
                 lines

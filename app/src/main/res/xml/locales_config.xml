@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The languages the app ships. Declaring them puts SapGlance in Android 13+'s per-app language
+    picker (Settings > Apps > SapGlance > Language), which matters for two reasons beyond
+    politeness: a bilingual reader can have a Russian widget on an English phone, and anyone
+    checking the Russian catalog can do it without switching the whole device over and back.
+
+    Below API 33 this is ignored and the system language decides, which is the same thing the
+    catalog does anyway — AppContainer reads Locale.getDefault().language once per process.
+
+    Keep this in step with TipCatalog.SUPPORTED_LANGUAGES. Nothing enforces that: this file is
+    Android resources and that set is plain Kotlin in a module with no Android on its classpath.
+    Listing a language here that the catalog does not have would offer the reader a translation
+    that silently falls back to English tips.
+-->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="ru" />
+</locale-config>

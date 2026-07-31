@@ -1,0 +1,27 @@
+# Russian small-hours micro-tips (00:00-05:59). Line-for-line with ../sleep_early.txt and
+# ../sleep_early_sources.txt. Translation, not a pool of its own; rules at ru/general.txt.
+#
+# THE POOL'S OWN RULE MATTERS MORE HERE THAN ANYWHERE ELSE, AND IS EASY TO BREAK BY ACCIDENT IN
+# TRANSLATION. The reader is awake at 3am. Nothing may frighten, and nothing may arrive as a
+# list of things they have already failed to do. The reassurance lines are sourced findings
+# rather than comfort, so they have to stay findings: "просыпаться ночью нормально" is the
+# measured claim and must not soften into a pat on the head, and "плохая ночь обычно измеряется
+# лучше, чем ощущается" must not harden into a promise that tonight was fine.
+#
+# Russian imperatives are blunter than English ones at this hour. "Встань" is the right register
+# for stimulus control, which is a clinical instruction; "отложи телефон" is softened with "если
+# можешь" for the same reason the English is.
+Сейчас глубокая ночь. Если можешь, отложи телефон и отдохни.
+Встать, когда сон не идёт, это контроль стимулов. Кровать остаётся сигналом ко сну.
+Дай уму одну конкретную картинку. В испытании это обошло попытки очистить голову.
+Взгляд на часы предсказывает более долгое ожидание, а не короткое.
+Просыпаться ночью нормально. С возрастом время без сна в постели растёт и у здоровых.
+Плохая ночь обычно измеряется лучше, чем ощущается. Люди недооценивают, сколько поспали.
+Если встанешь, держи свет тусклым. Обычного комнатного хватает, чтобы сдвинуть часы.
+Вторая половина алкоголя наступает сейчас. Именно теперь он дробит сон и режет быстрый.
+Период полувыведения кофеина от 1,5 до 9,5 часа, смотря по человеку.
+Жара мешает сну сильнее холода, если одеялом можно управлять.
+Ожидание сна кажется куда длиннее, чем измеряется. Это тоже нормально.
+Если не спишь уже давно, встань. Обычно ориентируются на двадцать минут.
+Большинство просыпается за ночь несколько раз и ничего не помнит.
+Удлини выдох. Это единственный рычаг, который работает лёжа в темноте.

@@ -9,11 +9,13 @@ import com.sapglance.app.widget.data.DataStoreWidgetRefreshRepository
 import com.sapglance.app.widget.presentation.TipWidget
 import com.sapglance.core.settings.SettingsRepository
 import com.sapglance.core.tips.AdvanceTipUseCase
+import com.sapglance.core.tips.TipCatalog
 import com.sapglance.core.tips.TipEngine
 import com.sapglance.core.tips.TipHistoryRepository
 import com.sapglance.core.widget.WidgetRefreshRepository
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.util.Locale
 
 /**
  * Small hand-written composition root. The fixed tech stack has no DI framework, and this
@@ -52,11 +54,24 @@ class AppContainer(context: Context) {
     }
 
     /**
-     * Constructing this parses all 15 bundled tip text resources out of the APK, which is the
-     * single most expensive step in the tip-refresh path and is pure CPU with no I/O dependency
-     * on anything else the app is doing. See [warmUp].
+     * Constructing this parses nine bundled tip text resources and their six companion source
+     * files out of the APK, which is the single most expensive step in the tip-refresh path and
+     * is pure CPU with no I/O dependency on anything else the app is doing. See [warmUp].
+     *
+     * The language is read once, here, rather than threaded through selection: changing the
+     * system language restarts the process, so a stale catalog cannot outlive the setting that
+     * chose it. `Locale.getDefault().language` is the bare ISO 639-1 code, which is what
+     * [TipCatalog.loadDefault] wants, and an unsupported one falls back to English there rather
+     * than failing here.
+     *
+     * Worth knowing: the tip history is keyed by tip *text*, so switching the phone's language
+     * leaves the stored history full of strings the new catalog does not contain. That degrades
+     * exactly as it should — [TipCatalog.kindOf] answers null, anti-repeat matches nothing, and
+     * the reader gets a fresh rotation in the new language — but it is a reset, not a migration.
      */
-    val tipEngine: TipEngine by lazy { TipEngine() }
+    val tipEngine: TipEngine by lazy {
+        TipEngine(TipCatalog.loadDefault(Locale.getDefault().language))
+    }
 
     val advanceTip: AdvanceTipUseCase by lazy { AdvanceTipUseCase(tipEngine, tipHistoryRepository) }
 
