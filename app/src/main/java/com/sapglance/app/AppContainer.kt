@@ -8,14 +8,17 @@ import com.sapglance.app.tips.data.DataStoreTipHistoryRepository
 import com.sapglance.app.widget.data.DataStoreWidgetRefreshRepository
 import com.sapglance.app.widget.presentation.TipWidget
 import com.sapglance.core.settings.SettingsRepository
+import com.sapglance.core.settings.TipLanguage
 import com.sapglance.core.tips.AdvanceTipUseCase
 import com.sapglance.core.tips.TipCatalog
 import com.sapglance.core.tips.TipEngine
 import com.sapglance.core.tips.TipHistoryRepository
 import com.sapglance.core.widget.WidgetRefreshRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.util.Locale
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Small hand-written composition root. The fixed tech stack has no DI framework, and this
@@ -54,45 +57,68 @@ class AppContainer(context: Context) {
     }
 
     /**
-     * Constructing this parses nine bundled tip text resources and their six companion source
-     * files out of the APK, which is the single most expensive step in the tip-refresh path and
-     * is pure CPU with no I/O dependency on anything else the app is doing. See [warmUp].
+     * One [TipEngine] per language, built on first use and kept for the process's lifetime.
      *
-     * The language is read once, here, rather than threaded through selection: changing the
-     * system language restarts the process, so a stale catalog cannot outlive the setting that
-     * chose it. `Locale.getDefault().language` is the bare ISO 639-1 code, which is what
-     * [TipCatalog.loadDefault] wants, and an unsupported one falls back to English there rather
-     * than failing here.
+     * Building one parses nine bundled tip text resources and their six companion source files
+     * out of the APK, which is the single most expensive step in the tip-refresh path and is pure
+     * CPU with no I/O dependency on anything else the app is doing. See [warmUp].
      *
-     * Worth knowing: the tip history is keyed by tip *text*, so switching the phone's language
-     * leaves the stored history full of strings the new catalog does not contain. That degrades
-     * exactly as it should — [TipCatalog.kindOf] answers null, anti-repeat matches nothing, and
-     * the reader gets a fresh rotation in the new language — but it is a reset, not a migration.
+     * A map rather than a single lazy field because the language is now a *setting*
+     * ([TipLanguage]) rather than a fact about the device, so it can change without the process
+     * restarting — which is exactly what a `by lazy` singleton could not survive. Caching every
+     * language the reader visits costs one parsed catalog each and means toggling back and forth
+     * is free after the first time; there are two languages, so the map is not going to grow into
+     * a memory question.
+     *
+     * `ConcurrentHashMap.computeIfAbsent` rather than a plain map: the tick worker, a widget tap
+     * and the settings screen can all ask for an engine at once, and the atomic version means
+     * they share one catalog instead of racing to parse three.
+     *
+     * Worth knowing: the tip history is keyed by tip *text*, so switching language leaves the
+     * stored history full of strings the new catalog does not contain. That degrades exactly as
+     * it should — [TipCatalog.kindOf] answers null, anti-repeat matches nothing, and the reader
+     * gets a fresh rotation in the new language — but it is a reset, not a migration.
      */
-    val tipEngine: TipEngine by lazy {
-        TipEngine(TipCatalog.loadDefault(Locale.getDefault().language))
-    }
+    private val engines = ConcurrentHashMap<String, TipEngine>()
 
-    val advanceTip: AdvanceTipUseCase by lazy { AdvanceTipUseCase(tipEngine, tipHistoryRepository) }
+    fun tipEngine(language: TipLanguage): TipEngine =
+        engines.computeIfAbsent(language.resolve(Locale.getDefault().language)) {
+            TipEngine(TipCatalog.loadDefault(it))
+        }
+
+    /**
+     * The engine for whatever the reader has currently chosen. Suspends because the choice lives
+     * in DataStore; call sites that already read settings for the variety level should use
+     * [tipEngine] with the value they already have rather than reading twice.
+     */
+    suspend fun currentTipEngine(): TipEngine = tipEngine(settingsRepository.settings.first().language)
+
+    val advanceTip: AdvanceTipUseCase by lazy { AdvanceTipUseCase(tipHistoryRepository) }
 
     /**
      * Parses the tip catalog ahead of the first thing that needs it, off the main thread.
      *
      * A widget tap on a dead process pays for a cold start *and* the catalog parse *and* the
      * DataStore read, strictly one after another, before anything can repaint — the parse sits
-     * on the critical path purely because [tipEngine] is built lazily at the moment of first use.
-     * Nothing about it depends on the tap: it reads bundled resources that never change. Started
-     * from [com.sapglance.app.SapGlanceApp.onCreate], it runs in parallel with the
-     * DataStore read that the tap has to do anyway, so by the time selection needs the catalog
-     * it is usually already built.
+     * on the critical path purely because an engine is built at the moment of first use. Nothing
+     * about it depends on the tap: it reads bundled resources that never change. Started from
+     * [com.sapglance.app.SapGlanceApp.onCreate], it runs in parallel with the DataStore read that
+     * the tap has to do anyway, so by the time selection needs the catalog it is usually already
+     * built.
      *
-     * `by lazy` is `SYNCHRONIZED` by default, so a tap arriving mid-parse blocks on the same
-     * initialization rather than starting a second one, and one arriving after it is a plain
-     * field read. This is a scheduling change only: nothing is precomputed that wasn't already
-     * computed, and nothing is cached that wasn't already cached for the process's lifetime.
+     * It suspends now, where it used to just touch a `by lazy`, because *which* catalog to warm
+     * is a stored preference rather than a constant. That is a real trade and it goes the right
+     * way: the DataStore read this waits on is the same one the tap was going to do regardless,
+     * and warming the wrong language would leave the tap paying for the parse it came here to
+     * avoid.
+     *
+     * `computeIfAbsent` is atomic, so a tap arriving mid-parse blocks on the same construction
+     * rather than starting a second one, and one arriving after it is a map hit. This is a
+     * scheduling change only: nothing is precomputed that wasn't already computed, and nothing is
+     * cached that wasn't already cached for the process's lifetime.
      */
-    fun warmUp() {
-        tipEngine
+    suspend fun warmUp() {
+        currentTipEngine()
     }
 
     suspend fun refreshWidget() {

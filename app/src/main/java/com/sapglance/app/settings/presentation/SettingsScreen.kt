@@ -3,7 +3,9 @@ package com.sapglance.app.settings.presentation
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
+import android.os.LocaleList
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -45,6 +47,7 @@ import androidx.compose.material.icons.filled.Balance
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.PersonOff
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.Science
@@ -61,6 +64,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -76,6 +80,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
@@ -87,6 +92,7 @@ import com.sapglance.app.R
 import com.sapglance.app.SapGlanceApp
 import com.sapglance.core.settings.AppSettings
 import com.sapglance.core.settings.SettingsRepository
+import com.sapglance.core.settings.TipLanguage
 import com.sapglance.core.settings.VarietyLevel
 import com.sapglance.core.tips.DayPart
 import com.sapglance.core.tips.Tip
@@ -96,15 +102,18 @@ import com.sapglance.core.tips.TipKind
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalTime
+import java.util.Locale
 
 @Composable
 fun SettingsScreen(
     settingsRepository: SettingsRepository,
     tipHistoryRepository: TipHistoryRepository,
-    tipEngine: TipEngine,
+    // A lookup rather than an engine, because which engine is right depends on a setting this
+    // screen also lets you change. Handing in one instance would mean the "why this tip?" card
+    // kept explaining the tip in the language you just switched away from.
+    tipEngineFor: (TipLanguage) -> TipEngine,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var settings by remember { mutableStateOf(AppSettings.DEFAULT) }
     var lastTipText by remember { mutableStateOf<String?>(null) }
@@ -119,45 +128,65 @@ fun SettingsScreen(
         }
     }
 
-    Column(
-        modifier =
-            modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(32.dp),
-            )
-            Spacer(Modifier.width(12.dp))
-            Text(text = stringResource(R.string.settings_title), style = MaterialTheme.typography.titleLarge)
-        }
+    // Everything below reads its strings through the language the *toggle* selects, not the one
+    // the phone is set to. Without this the picker would be the only control in the app that
+    // cannot show you the thing it is about to do: pick Русский on an English phone and the tips
+    // would switch while every label around them stayed English.
+    //
+    // Overriding LocalContext and LocalConfiguration together is what stringResource actually
+    // reads (it takes resources from the context and subscribes to the configuration so it
+    // recomposes). Providing only one of the two gives a screen that is either stale or does not
+    // recompose, both of which look like a bug in the toggle.
+    LocalizedContent(settings.language) {
+        Column(
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            val context = LocalContext.current
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_launcher_foreground),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(32.dp),
+                )
+                Spacer(Modifier.width(12.dp))
+                Text(text = stringResource(R.string.settings_title), style = MaterialTheme.typography.titleLarge)
+            }
 
-        // "Why this tip?" leads (see the placement discussion in commit history): the user
-        // orients on the tip they're actually looking at first, then tunes how tips are picked.
-        lastTipText?.let { text ->
-            TipSourceSection(
-                tipText = text,
-                source = tipEngine.findByText(text),
-                dayPart = tipEngine.dayPartFor(LocalTime.now()),
-                onRefresh = { refreshTipNow(context, settings.varietyLevel) },
-            )
-        }
+            // "Why this tip?" leads (see the placement discussion in commit history): the user
+            // orients on the tip they're actually looking at first, then tunes how tips are picked.
+            lastTipText?.let { text ->
+                val tipEngine = tipEngineFor(settings.language)
+                TipSourceSection(
+                    tipText = text,
+                    source = tipEngine.findByText(text),
+                    dayPart = tipEngine.dayPartFor(LocalTime.now()),
+                    onRefresh = { refreshTipNow(context, settings.varietyLevel, settings.language) },
+                )
+            }
 
-        SectionCard {
-            VarietySection(
-                level = settings.varietyLevel,
-                onLevelChange = { level -> scope.launch { settingsRepository.setVarietyLevel(level) } },
-            )
-        }
+            SectionCard {
+                VarietySection(
+                    level = settings.varietyLevel,
+                    onLevelChange = { level -> scope.launch { settingsRepository.setVarietyLevel(level) } },
+                )
+            }
 
-        SectionCard {
-            AboutSection()
+            SectionCard {
+                LanguageSection(
+                    language = settings.language,
+                    onLanguageChange = { language -> scope.launch { settingsRepository.setLanguage(language) } },
+                )
+            }
+
+            SectionCard {
+                AboutSection()
+            }
         }
     }
 }
@@ -329,6 +358,174 @@ private fun VarietyLevelChip(
     }
 }
 
+/**
+ * Renders [content] with every string resource resolved in [language].
+ *
+ * [TipLanguage.SYSTEM] provides nothing and lets the platform do what it already does, rather
+ * than resolving the system language here and pinning it: the two are the same until the phone
+ * changes language mid-session, and only one of them is still right afterwards.
+ */
+@Composable
+private fun LocalizedContent(
+    language: TipLanguage,
+    content: @Composable () -> Unit,
+) {
+    val context = LocalContext.current
+    if (language.code == null) {
+        content()
+        return
+    }
+    val localized =
+        remember(context, language) {
+            val configuration = Configuration(context.resources.configuration)
+            configuration.setLocales(LocaleList(Locale.forLanguageTag(language.code)))
+            context.createConfigurationContext(configuration)
+        }
+    CompositionLocalProvider(
+        LocalContext provides localized,
+        LocalConfiguration provides localized.resources.configuration,
+        content = content,
+    )
+}
+
+/**
+ * The language picker.
+ *
+ * Three options rather than the two a "toggle" implies, and the third is [TipLanguage.SYSTEM],
+ * which leads. A reader who has never opened this screen is already on it, and a phone set to
+ * Russian should have been showing Russian tips before anybody came looking for a control. What
+ * the other two mean is "this language regardless of the phone", which is a different statement
+ * from not having chosen.
+ *
+ * Each language names itself: "Русский", not "Russian". It is the one labelling rule that still
+ * works when the reader does not speak the language the screen is currently in, which is the
+ * exact situation somebody opening a language picker is usually in.
+ */
+@Composable
+private fun LanguageSection(
+    language: TipLanguage,
+    onLanguageChange: (TipLanguage) -> Unit,
+) {
+    SectionTitle(icon = Icons.Filled.Language, text = stringResource(R.string.settings_language_title))
+    val resolvedLabel = stringResource(language.resolvedLabelRes())
+    AnimatedContent(
+        targetState = language,
+        transitionSpec = { fadeIn(tween(200)) togetherWith fadeOut(tween(150)) },
+        label = "languageStateDescription",
+    ) { animated ->
+        Text(
+            text =
+                stringResource(
+                    if (animated == TipLanguage.SYSTEM) {
+                        R.string.settings_language_state_system
+                    } else {
+                        R.string.settings_language_state_pinned
+                    },
+                    resolvedLabel,
+                ),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Medium,
+        )
+    }
+    Spacer(Modifier.height(12.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        TipLanguage.entries.forEach { candidate ->
+            LanguageChip(
+                language = candidate,
+                selected = candidate == language,
+                onClick = { onLanguageChange(candidate) },
+                modifier = Modifier.weight(1f),
+            )
+        }
+    }
+    Spacer(Modifier.height(10.dp))
+    Text(
+        text = stringResource(R.string.settings_language_history_note),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+}
+
+/** Deliberately the same shape, animation and colour roles as [VarietyLevelChip]. Two pickers on
+ * one screen that behave identically read as one idiom used twice; two that each invent their own
+ * selected state read as two features built by different people. The difference is that a
+ * language names itself rather than carrying an icon, since a flag would be wrong (Russian is not
+ * Russia) and a globe on all three says nothing. */
+@Composable
+private fun LanguageChip(
+    language: TipLanguage,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val shape = RoundedCornerShape(14.dp)
+    val containerColor by
+        animateColorAsState(
+            targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+            label = "languageChipContainer",
+        )
+    val borderColor by
+        animateColorAsState(
+            targetValue = if (selected) Color.Transparent else MaterialTheme.colorScheme.outlineVariant,
+            label = "languageChipBorder",
+        )
+    val contentColor by
+        animateColorAsState(
+            targetValue =
+                if (selected) {
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
+            label = "languageChipContent",
+        )
+    val scale by
+        animateFloatAsState(
+            targetValue = if (selected) 1.06f else 1f,
+            animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy),
+            label = "languageChipScale",
+        )
+    Column(
+        modifier =
+            modifier
+                .scale(scale)
+                .clip(shape)
+                .background(containerColor)
+                .border(width = 1.dp, color = borderColor, shape = shape)
+                .clickable(onClick = onClick)
+                .padding(vertical = 14.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = stringResource(language.labelRes()),
+            style = MaterialTheme.typography.labelLarge,
+            color = contentColor,
+            maxLines = 1,
+        )
+    }
+}
+
+private fun TipLanguage.labelRes(): Int =
+    when (this) {
+        TipLanguage.SYSTEM -> R.string.settings_language_label_system
+        TipLanguage.ENGLISH -> R.string.settings_language_label_english
+        TipLanguage.RUSSIAN -> R.string.settings_language_label_russian
+    }
+
+/** What the tips will actually be in, which for [TipLanguage.SYSTEM] means asking the device and
+ * falling back the same way [com.sapglance.core.tips.TipCatalog] does. Naming the resolved
+ * language is the whole point of the line this feeds: "Following your phone" alone leaves the
+ * reader to guess whether their phone counts as one SapGlance ships. */
+private fun TipLanguage.resolvedLabelRes(): Int =
+    when (resolve(Locale.getDefault().language)) {
+        TipLanguage.RUSSIAN.code -> R.string.settings_language_label_russian
+        else -> R.string.settings_language_label_english
+    }
+
 private fun VarietyLevel.icon(): ImageVector =
     when (this) {
         VarietyLevel.PRACTICAL -> Icons.Filled.Science
@@ -378,10 +575,15 @@ private fun VarietyLevel.stateDescriptionRes(): Int =
 private fun refreshTipNow(
     context: Context,
     varietyLevel: VarietyLevel,
+    language: TipLanguage,
 ) {
     val app = context.applicationContext as SapGlanceApp
     app.applicationScope.launch {
-        app.container.advanceTip(LocalTime.now(), varietyLevel = varietyLevel)
+        app.container.advanceTip(
+            app.container.tipEngine(language),
+            LocalTime.now(),
+            varietyLevel = varietyLevel,
+        )
         app.container.refreshWidget()
     }
 }

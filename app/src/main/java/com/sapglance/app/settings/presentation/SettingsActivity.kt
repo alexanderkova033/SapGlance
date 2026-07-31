@@ -19,7 +19,7 @@ class SettingsActivity : ComponentActivity() {
                     SettingsScreen(
                         settingsRepository = container.settingsRepository,
                         tipHistoryRepository = container.tipHistoryRepository,
-                        tipEngine = container.tipEngine,
+                        tipEngineFor = container::tipEngine,
                     )
                 }
             }

@@ -11,4 +11,6 @@ interface SettingsRepository {
     val settings: Flow<AppSettings>
 
     suspend fun setVarietyLevel(level: VarietyLevel)
+
+    suspend fun setLanguage(language: TipLanguage)
 }

@@ -20,24 +20,31 @@ the code.
   33, `sleep_late` 15, `sleep_early` 14) and 189 tone (`motivation` 67, `philosophy` 55,
   `wellbeing` 67). Every practical line still carries 2+ independent citations, and the pass on
   2026-07-31 reworded most of them without changing a single claim (see below).
-- **Languages**: `en` and `ru`, 742 tip lines in total. English lives at the root of `tips/` and
-  is the text the citations were checked against; Russian is a translation of it at `tips/ru/`.
-  **Citations are shared, not translated** — one `_sources.txt` per pool, zipped by position
-  against both languages, so a translation that gains or loses a line fails at load. The catalog
-  is chosen once per process from `Locale.getDefault().language`, and Android 13+ shows SapGlance
-  in the per-app language picker.
+- **Languages**: `en` and `ru`, 742 tip lines in total. English lives at the root of `tips/`
+  and is the text the citations were checked against; Russian is a translation of it at
+  `tips/ru/`. **Citations are shared, not translated** — one `_sources.txt` per pool, zipped by
+  position against both languages, so a translation that gains or loses a line fails at load.
+- **Choosing a language**: an in-app picker (`TipLanguage`: System / English / Русский) in
+  Settings, next to the variety control, plus Android 13+'s own per-app picker via
+  `localeConfig`. The in-app one is the load-bearing half: it is the only one that exists below
+  API 33, and it is what decides which catalog the *widget* reads. The setting drives both the
+  tip catalog and the settings screen's own strings, so the picker can show you the language it
+  is about to switch to.
 - **Widget**: 19 background styles, picked by a per-hour palette narrowed by the tip's kind and
   then hashed on the tip's text; resizes from 2x2 to 4x4.
 - **Selection**: three narrowing weighted picks, anti-repeat applied before all of them,
   recency weighting over a 160-tip history, per-day-part `ToneProfile`, no tone voice three
   draws running.
-- **Build gate**: `ktlintCheck` clean; `:core` 125 tests, `:app` 6 per variant, 0 failures;
+- **Build gate**: `ktlintCheck` clean; `:core` 134 tests, `:app` 9 per variant, 0 failures;
   `lint` 0 errors, 35 warnings; full `build` including `assembleRelease` with R8.
 
 `:core` went 102 tests to 125 when `TipCatalogTest` was parameterized over the supported
 languages. That is the same invariants run twice, not new ones: a translation that drops a line,
 repeats one or smuggles in an em dash is exactly as broken as an English pool that does, and
-more likely, since the translator is working against a file whose sources they cannot read.
+more likely, since the translator is working against a file whose sources they cannot read. The
+nine after that came with the language setting, and the one worth knowing about is
+`concurrent advances across two languages still serialize against one lock` — see
+`AdvanceTipUseCase`'s class doc for the refactor it exists to stop.
 
 The lint warnings are all `VectorRaster`, `GradleDependency`, `AndroidGradlePluginVersion`,
 `MonochromeLauncherIcon`, `UseKtx`, `VectorPath`, plus three deliberate `UnusedAttribute`: the
@@ -45,6 +52,14 @@ widget's API 31+ `targetCell*` and the manifest's API 33+ `localeConfig`, both a
 `minSdk 26`. The count read 26 here until 2026-07-31 and now reads 35; 34 of those predate the
 content work, which was confirmed by running `lint` with the change stashed, and the 35th is the
 `localeConfig` attribute. The drift from 26 is the version-age checks noticing the calendar.
+
+**One lint check earned its keep and is worth recording.** `AppBundleLocaleChanges` fired when
+the in-app language picker landed, and it was right: Play splits an App Bundle's resources by
+device locale, so a reader on an English phone would have been offered Russian and handed a
+settings screen whose Russian strings were never delivered. Worse than an obvious break, because
+the *tips* would have switched anyway — they are `:core` JVM resources, which are not split. The
+fix is `bundle { language { enableSplit = false } }` in `app/build.gradle.kts`, which costs 27
+strings of APK and is the reason that warning is no longer in the list above.
 
 ## Verified, and not
 
@@ -133,6 +148,16 @@ against real numbers because of it.
     design: the study is in English and translating a journal's name would make the citation
     harder to check, not easier. It is still a Russian reader tapping "почему этот совет?" and
     getting a wall of English. Nobody has watched that happen.
+13. **The language toggle has never been tapped on a device.** Built and shipped into the
+    release APK on 2026-07-31, but the phone was disconnected before it could be installed, so
+    everything below is argued rather than seen. Three things are worth checking first, in this
+    order. Whether the settings screen actually re-renders in the chosen language, which rests on
+    overriding `LocalContext` *and* `LocalConfiguration` together and would look like a dead
+    toggle if only one took. Whether the widget follows without a process restart, which rests on
+    the language being *observed* inside `provideContent` rather than captured above it, and
+    which would show up as tips in the old language until something killed the app. And whether
+    the tip history reset reads as intended or as a bug, since switching leaves the reader
+    mid-rotation in a language they have seen none of.
 
 Two methodological notes:
 

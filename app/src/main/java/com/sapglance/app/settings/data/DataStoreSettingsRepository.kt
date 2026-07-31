@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.sapglance.core.settings.AppSettings
 import com.sapglance.core.settings.SettingsRepository
+import com.sapglance.core.settings.TipLanguage
 import com.sapglance.core.settings.VarietyLevel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,10 +24,20 @@ class DataStoreSettingsRepository(private val dataStore: DataStore<Preferences>)
         dataStore.edit { it[Keys.VARIETY_LEVEL] = level.name }
     }
 
+    override suspend fun setLanguage(language: TipLanguage) {
+        dataStore.edit { it[Keys.LANGUAGE] = language.name }
+    }
+
     /**
      * Falls back to [Keys.LEGACY_MORE_VARIETY_ENABLED] — the boolean toggle this setting
      * replaced — when [Keys.VARIETY_LEVEL] hasn't been written yet, so a preference set before
      * this migration isn't silently reset to the default on upgrade.
+     *
+     * An unreadable stored value degrades to the default rather than throwing, for both settings
+     * and for the same reason: this parses whatever is on disk, and what is on disk was written
+     * by a version of the app that may not be this one. An enum constant that has since been
+     * renamed or dropped must read as "not set", not as a crash on every DataStore emission —
+     * which, since the widget collects that flow, would be a crash loop rather than one error.
      */
     private fun Preferences.toAppSettings(): AppSettings =
         AppSettings(
@@ -34,6 +45,9 @@ class DataStoreSettingsRepository(private val dataStore: DataStore<Preferences>)
                 this[Keys.VARIETY_LEVEL]?.let { runCatching { VarietyLevel.valueOf(it) }.getOrNull() }
                     ?: legacyVarietyLevel()
                     ?: AppSettings.DEFAULT.varietyLevel,
+            language =
+                TipLanguage.fromNameOrNull(this[Keys.LANGUAGE])
+                    ?: AppSettings.DEFAULT.language,
         )
 
     private fun Preferences.legacyVarietyLevel(): VarietyLevel? =
@@ -41,6 +55,7 @@ class DataStoreSettingsRepository(private val dataStore: DataStore<Preferences>)
 
     private object Keys {
         val VARIETY_LEVEL = stringPreferencesKey("variety_level")
+        val LANGUAGE = stringPreferencesKey("tip_language")
         val LEGACY_MORE_VARIETY_ENABLED = booleanPreferencesKey("more_variety_enabled")
     }
 }

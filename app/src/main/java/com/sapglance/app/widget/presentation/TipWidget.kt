@@ -85,11 +85,17 @@ class TipWidget : GlanceAppWidget() {
         // Read once, synchronously, purely so the very first frame has something to draw
         // (and so a fresh install, with no history yet, still gets a tip). Everything after
         // that comes from the flow collected inside provideContent below.
+        val initialLanguage = container.settingsRepository.settings.first().language
         val initialTip =
             container.tipHistoryRepository.recentTips.first().lastOrNull()
                 ?: run {
-                    val varietyLevel = container.settingsRepository.settings.first().varietyLevel
-                    container.advanceTip(LocalTime.now(), varietyLevel = varietyLevel).text
+                    val settings = container.settingsRepository.settings.first()
+                    container
+                        .advanceTip(
+                            container.tipEngine(settings.language),
+                            LocalTime.now(),
+                            varietyLevel = settings.varietyLevel,
+                        ).text
                 }
         provideContent {
             // The tip MUST be observed as Compose state from inside provideContent, not read
@@ -117,6 +123,19 @@ class TipWidget : GlanceAppWidget() {
             val recent by recentFlow.collectAsState(initial = listOf(initialTip))
             val tip = recent.lastOrNull() ?: initialTip
             val previousTip = recent.dropLast(1).lastOrNull()
+            // Observed rather than captured, for exactly the reason the comment above gives for
+            // the tip: a Glance session outlives many refreshes, so a language read into a local
+            // above provideContent would be frozen for the session's lifetime and the card would
+            // keep styling Russian text against the English catalog until the process died. What
+            // it costs when it *does* change is one map hit, since the engine is cached per
+            // language (see AppContainer.tipEngine).
+            val languageFlow =
+                remember {
+                    container.settingsRepository.settings
+                        .map { it.language }
+                        .distinctUntilChanged()
+                }
+            val language by languageFlow.collectAsState(initial = initialLanguage)
             // Keyed on the pair, so the background is fixed for as long as that tip is on screen
             // and is chosen for the hour the tip actually arrived in. Reading the clock on every
             // recomposition instead would let a card restyle itself under the same words as the
@@ -130,8 +149,8 @@ class TipWidget : GlanceAppWidget() {
             // them, and approximate across a boundary — where the palettes differ anyway, so a
             // clash is unlikely to be what it would have been avoiding.
             val style =
-                remember(tip, previousTip) {
-                    val engine = container.tipEngine
+                remember(tip, previousTip, language) {
+                    val engine = container.tipEngine(language)
                     val dayPart = engine.dayPartFor(LocalTime.now())
                     WidgetStyle.forTip(
                         tipText = tip,

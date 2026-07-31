@@ -72,9 +72,10 @@ class AdvanceTipUseCaseTest {
     fun `persists the picked tip so it appears in recentTips`() =
         runTest {
             val repository = FakeTipHistoryRepository()
-            val advanceTip = AdvanceTipUseCase(TipEngine(catalog, Random(seed = 1)), repository)
+            val engine = TipEngine(catalog, Random(seed = 1))
+            val advanceTip = AdvanceTipUseCase(repository)
 
-            val tip = advanceTip(LocalTime.of(9, 0))
+            val tip = advanceTip(engine, LocalTime.of(9, 0))
 
             assertThat(repository.recentTips.first()).contains(tip.text)
         }
@@ -83,9 +84,10 @@ class AdvanceTipUseCaseTest {
     fun `never repeats a tip already in the recent history`() =
         runTest {
             val repository = FakeTipHistoryRepository(initial = listOf("G1"))
-            val advanceTip = AdvanceTipUseCase(TipEngine(catalog, Random(seed = 2)), repository)
+            val engine = TipEngine(catalog, Random(seed = 2))
+            val advanceTip = AdvanceTipUseCase(repository)
 
-            val tip = advanceTip(LocalTime.of(9, 0))
+            val tip = advanceTip(engine, LocalTime.of(9, 0))
 
             assertThat(tip.text).isNotEqualTo("G1")
         }
@@ -100,9 +102,10 @@ class AdvanceTipUseCaseTest {
     fun `an advance during sleep hours draws that window's pool and records it`() =
         runTest {
             val repository = FakeTipHistoryRepository()
-            val advanceTip = AdvanceTipUseCase(TipEngine(catalog, Random(seed = 3)), repository)
+            val engine = TipEngine(catalog, Random(seed = 3))
+            val advanceTip = AdvanceTipUseCase(repository)
 
-            val tip = advanceTip(LocalTime.of(23, 30))
+            val tip = advanceTip(engine, LocalTime.of(23, 30))
 
             assertThat(tip.text).isEqualTo("Sleep late")
             assertThat(repository.recentTips.first()).containsExactly("Sleep late")
@@ -113,14 +116,52 @@ class AdvanceTipUseCaseTest {
         runTest {
             val mixedCatalog = catalog.copy(philosophy = listOf(tip("Tone tip")))
             val repository = FakeTipHistoryRepository()
-            val advanceTip = AdvanceTipUseCase(TipEngine(mixedCatalog, GroupChoiceRandom()), repository)
+            val engine = TipEngine(mixedCatalog, GroupChoiceRandom())
+            val advanceTip = AdvanceTipUseCase(repository)
 
-            val tip = advanceTip(LocalTime.of(9, 0), varietyLevel = VarietyLevel.PLAYFUL)
+            val tip = advanceTip(engine, LocalTime.of(9, 0), varietyLevel = VarietyLevel.PLAYFUL)
 
             // GroupChoiceRandom's fixed 50 falls under the 80% dominant threshold but not the
             // 20% minority one — only a PLAYFUL that actually reached the engine picks the tone
             // pool here; a dropped/defaulted-PRACTICAL level would have produced G1, G2, or M1.
             assertThat(tip.text).isEqualTo("Tone tip")
+        }
+
+    /**
+     * The reason [AdvanceTipUseCase] takes an engine per call rather than holding one. The
+     * language setting means there is an engine per language, and the tempting refactor is a use
+     * case per language — which is a *mutex* per language, so two callers on different languages
+     * would serialize against different locks and could both read the same history snapshot.
+     *
+     * Two engines over two disjoint catalogs stand in for two languages. Ten concurrent calls
+     * split between them must still produce ten distinct tips: the pools do not overlap, so a
+     * duplicate can only come from two calls that raced the same history read.
+     */
+    @Test
+    fun `concurrent advances across two languages still serialize against one lock`() =
+        runTest {
+            fun poolOf(prefix: String) =
+                TipCatalog(
+                    general = (1..5).map { tip("$prefix$it") },
+                    morning = emptyList(),
+                    afternoon = emptyList(),
+                    evening = emptyList(),
+                    sleepLate = listOf(tip("$prefix sleep late")),
+                    sleepEarlyHours = listOf(tip("$prefix sleep early")),
+                )
+            val repository = RaceProneTipHistoryRepository()
+            val advanceTip = AdvanceTipUseCase(repository)
+            val english = TipEngine(poolOf("EN"), Random(seed = 11))
+            val russian = TipEngine(poolOf("RU"), Random(seed = 12))
+
+            val results =
+                List(10) { index ->
+                    async { advanceTip(if (index % 2 == 0) english else russian, LocalTime.of(9, 0)) }
+                }.awaitAll()
+
+            val pickedTexts = results.map { it.text }
+            assertThat(pickedTexts.toSet()).hasSize(10)
+            assertThat(repository.recentTips.first()).hasSize(10)
         }
 
     @Test
@@ -141,10 +182,11 @@ class AdvanceTipUseCaseTest {
                     sleepEarlyHours = listOf("Sleep early").map(::tip),
                 )
             val repository = RaceProneTipHistoryRepository()
-            val advanceTip = AdvanceTipUseCase(TipEngine(concurrentPool, Random(seed = 7)), repository)
+            val engine = TipEngine(concurrentPool, Random(seed = 7))
+            val advanceTip = AdvanceTipUseCase(repository)
 
             val results =
-                List(10) { async { advanceTip(LocalTime.of(9, 0)) } }.awaitAll()
+                List(10) { async { advanceTip(engine, LocalTime.of(9, 0)) } }.awaitAll()
 
             val pickedTexts = results.map { it.text }
             assertThat(pickedTexts).hasSize(10)

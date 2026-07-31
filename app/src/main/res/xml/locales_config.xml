@@ -8,10 +8,15 @@
     Below API 33 this is ignored and the system language decides, which is the same thing the
     catalog does anyway — AppContainer reads Locale.getDefault().language once per process.
 
-    Keep this in step with TipCatalog.SUPPORTED_LANGUAGES. Nothing enforces that: this file is
-    Android resources and that set is plain Kotlin in a module with no Android on its classpath.
-    Listing a language here that the catalog does not have would offer the reader a translation
-    that silently falls back to English tips.
+    Keep this in step with TipCatalog.SUPPORTED_LANGUAGES and the TipLanguage enum. A test pins
+    those last two against each other; nothing can pin this file to either, because it is Android
+    resources and they are plain Kotlin in a module with no Android on its classpath. Listing a
+    language here that the catalog does not have would offer the reader a translation that
+    silently falls back to English tips.
+
+    Note that this only drives the *system* picker. SapGlance also has its own toggle in Settings
+    (TipLanguage), which is what a reader on API 26-32 gets, and which is the one that decides
+    which catalog the widget reads.
 -->
 <locale-config xmlns:android="http://schemas.android.com/apk/res/android">
     <locale android:name="en" />

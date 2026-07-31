@@ -76,6 +76,26 @@ android {
         }
     }
 
+    // Ship every language in the base APK instead of letting Play split them by device locale.
+    //
+    // Play's default is to deliver only the locales the device is set to, which is the right
+    // trade for most apps and the wrong one for this one: SapGlance has an in-app language
+    // picker, so a reader on an English phone can choose Russian and would find the Russian
+    // strings had never been installed. The tips themselves would switch anyway — they are
+    // `:core` JVM resources, not Android resources, so they are not split — which makes the
+    // failure worse than an obvious one: Russian tips inside an English settings screen, with no
+    // hint that anything is missing.
+    //
+    // The alternative is Play Feature Delivery and a runtime language download, which is a large
+    // dependency and a network permission this app structurally refuses to have. The cost of
+    // this instead is 27 strings' worth of APK, which is nothing. `lint`'s AppBundleLocaleChanges
+    // check is what flagged it.
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     testOptions {
         unitTests {
             isIncludeAndroidResources = true

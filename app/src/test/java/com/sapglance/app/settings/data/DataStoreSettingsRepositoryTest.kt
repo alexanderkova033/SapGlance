@@ -3,8 +3,10 @@ package com.sapglance.app.settings.data
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.common.truth.Truth.assertThat
 import com.sapglance.core.settings.AppSettings
+import com.sapglance.core.settings.TipLanguage
 import com.sapglance.core.settings.VarietyLevel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -39,6 +41,44 @@ class DataStoreSettingsRepositoryTest {
         runTest {
             repository.setVarietyLevel(VarietyLevel.PLAYFUL)
             assertThat(repository.settings.first().varietyLevel).isEqualTo(VarietyLevel.PLAYFUL)
+        }
+
+    @Test
+    fun `setLanguage persists and is reflected in settings flow`() =
+        runTest {
+            repository.setLanguage(TipLanguage.RUSSIAN)
+            assertThat(repository.settings.first().language).isEqualTo(TipLanguage.RUSSIAN)
+        }
+
+    @Test
+    fun `the two settings are independent`() =
+        runTest {
+            repository.setLanguage(TipLanguage.RUSSIAN)
+            repository.setVarietyLevel(VarietyLevel.BALANCED)
+
+            val settings = repository.settings.first()
+            assertThat(settings.language).isEqualTo(TipLanguage.RUSSIAN)
+            assertThat(settings.varietyLevel).isEqualTo(VarietyLevel.BALANCED)
+        }
+
+    /**
+     * Storage outlives code: a language constant renamed or dropped in some later version leaves
+     * its old name on disk. That must read as "not set" rather than throwing, because the widget
+     * collects this flow, so an exception here would be a crash on every preference write rather
+     * than a single error.
+     */
+    @Test
+    fun `an unrecognised stored language falls back to the default instead of throwing`() =
+        runTest {
+            val dataStore =
+                PreferenceDataStoreFactory.create(
+                    produceFile = { File(tempDir, "unknown-language.preferences_pb") },
+                )
+            dataStore.edit { it[stringPreferencesKey("tip_language")] = "KLINGON" }
+
+            val settings = DataStoreSettingsRepository(dataStore).settings.first()
+
+            assertThat(settings.language).isEqualTo(AppSettings.DEFAULT.language)
         }
 
     @Test

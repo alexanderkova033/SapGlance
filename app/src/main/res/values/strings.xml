@@ -44,6 +44,24 @@
     <string name="settings_daypart_evening">Evening</string>
     <string name="settings_daypart_night">Night</string>
 
+    <string name="settings_language_title">Language</string>
+    <!-- The three options are deliberately not "English / Русский / System" in that order: the
+         system option is the default and reads as the answer for someone who has not thought
+         about it, so it comes first. Each language names itself, which is the one naming rule
+         that survives the reader not speaking the language the app is currently in. -->
+    <string name="settings_language_label_system">System</string>
+    <string name="settings_language_label_english">English</string>
+    <string name="settings_language_label_russian">Русский</string>
+    <string name="settings_language_state_system">Following your phone: %1$s</string>
+    <string name="settings_language_state_pinned">Tips are shown in %1$s</string>
+    <!-- Shown under the picker, always, not just after a change. Switching language resets the
+         rotation because history is keyed by tip *text*, and finding that out afterwards is
+         worse than reading one line about it first. Deliberately does not promise the two
+         languages are remembered separately: they share one 160-entry history, so a long spell
+         in one language pushes the other's tips out of it. Saying otherwise would be a nicer
+         sentence and a false one. -->
+    <string name="settings_language_history_note">Switching starts a fresh rotation.</string>
+
     <string name="settings_about_title">About</string>
     <string name="settings_about_privacy_local">Tips and history stay on this phone</string>
     <string name="settings_about_privacy_account">No account</string>

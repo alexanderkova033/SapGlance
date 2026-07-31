@@ -23,8 +23,12 @@ class RefreshTipAction : ActionCallback {
         parameters: ActionParameters,
     ) {
         val container = (context.applicationContext as SapGlanceApp).container
-        val varietyLevel = container.settingsRepository.settings.first().varietyLevel
-        container.advanceTip(LocalTime.now(), varietyLevel = varietyLevel)
+        val settings = container.settingsRepository.settings.first()
+        container.advanceTip(
+            container.tipEngine(settings.language),
+            LocalTime.now(),
+            varietyLevel = settings.varietyLevel,
+        )
         container.refreshWidget()
     }
 }

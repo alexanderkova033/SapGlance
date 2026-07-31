@@ -50,6 +50,14 @@
     <string name="settings_daypart_evening">Вечер</string>
     <string name="settings_daypart_night">Ночь</string>
 
+    <string name="settings_language_title">Язык</string>
+    <string name="settings_language_label_system">Системный</string>
+    <string name="settings_language_label_english">English</string>
+    <string name="settings_language_label_russian">Русский</string>
+    <string name="settings_language_state_system">Как на телефоне: %1$s</string>
+    <string name="settings_language_state_pinned">Советы на языке: %1$s</string>
+    <string name="settings_language_history_note">Смена языка начинает ротацию заново.</string>
+
     <string name="settings_about_title">О приложении</string>
     <string name="settings_about_privacy_local">Советы и история остаются на телефоне</string>
     <string name="settings_about_privacy_account">Без аккаунта</string>

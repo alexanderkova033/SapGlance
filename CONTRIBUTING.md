@@ -23,7 +23,7 @@ git clone https://github.com/alexanderkova033/SapGlance.git
 cd SapGlance
 
 ./gradlew build        # everything, including assembleRelease
-./gradlew test         # unit tests — :core 102, :app 6 per variant
+./gradlew test         # unit tests — :core 134, :app 9 per variant
 ./gradlew ktlintCheck  # formatting (ktlintFormat auto-fixes)
 ./gradlew lint         # Android lint
 ```
@@ -80,10 +80,12 @@ Russian tip carrying the previous tip's evidence.
 
 Three steps, and the third is the work.
 
-1. `TipCatalog.SUPPORTED_LANGUAGES` and `app/src/main/res/xml/locales_config.xml`. Nothing
-   enforces that these agree, because one is Kotlin in a module with no Android on its
-   classpath and the other is an Android resource. Listing a language in only the second offers
-   the reader a translation that silently falls back to English.
+1. `TipCatalog.SUPPORTED_LANGUAGES`, the `TipLanguage` enum (which is what the in-app picker
+   lists), and `app/src/main/res/xml/locales_config.xml`. A test pins the first two against each
+   other, so a `TipLanguage` entry with no catalog behind it fails the build. Nothing can pin
+   the third, because it is an Android resource and the others are Kotlin in a module with no
+   Android on its classpath — listing a language only there offers the reader a translation that
+   silently falls back to English.
 2. `app/src/main/res/values-<language>/strings.xml` for the settings screen and the widget's
    description. 27 strings; note that plurals may need quantities English does not have.
 3. `core/src/main/resources/tips/<language>/`, nine files, line-for-line with the English. Read
