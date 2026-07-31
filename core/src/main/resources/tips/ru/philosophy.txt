@@ -54,6 +54,7 @@
 # Taoist.
 Кто встал на цыпочки, не может стоять твёрдо.	Lao Tzu, Tao Teh King 24, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
 Знающий других разумен. Знающий себя просветлён.	Lao Tzu, Tao Teh King 33, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
+Совершенный человек пренебрегает собой, божественный делом.	Zhuangzi, Chuang Tzu I, tr. Giles (Wikisource)	https://en.wikisource.org/wiki/Chuang_Tz%C5%AD_(Giles)/Chapter_1
 
 # Confucian.
 Учение без размышления бесполезно, размышление без учения опасно.	Confucius, Analects II.XV, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/3330
@@ -94,6 +95,13 @@
 # Nineteenth century.
 Без борьбы нет прогресса.	Frederick Douglass, West India Emancipation, 1857 (Wikisource)	https://en.wikisource.org/wiki/West_India_Emancipation
 Растущее благо мира отчасти держится на неисторических деяниях.	George Eliot, Middlemarch, Finale (Wikisource)	https://en.wikisource.org/wiki/Middlemarch_(1871)/Finale
+Поток не поднимется выше своего истока.	Anna Julia Cooper, A Voice from the South (Wikisource)	https://en.wikisource.org/wiki/A_Voice_from_the_South/Womanhood_a_Vital_Element_in_the_Regeneration_and_Progress_of_a_Race
+
+# Persian.
+Что делается быстро, то не бывает прочным.	Saadi, Gulistan VIII, tr. Burton (Wikisource)	https://en.wikisource.org/wiki/Tales_from_the_Gulistan/Chapter_8
+
+# Indian.
+И раз я люблю эту жизнь, я знаю, что полюблю и смерть.	Rabindranath Tagore, Gitanjali 95 (Project Gutenberg)	https://www.gutenberg.org/ebooks/7164
 
 # Original reflections. No source, and none claimed.
 Ты не отстаёшь. Не было расписания, на которое ты соглашался.

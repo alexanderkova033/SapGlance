@@ -13,7 +13,7 @@
 # caffeine nap). A new break line has to add a mechanism or a number, not another nudge. The
 # 2026-07-31 addition is the shape to copy: "walking breaks beat standing breaks for blood
 # sugar" is a comparison, not a sixth reminder to stand up.
-Feeling a slump? A short walk or fresh air often helps more than another coffee.
+Feeling a slump? Try a short walk or fresh air before reaching for another coffee.
 Step outside. Daylight has a direct alerting effect, not just a mood one.
 When did you last actually drink something? Thirst lags behind the dip in focus.
 The early-afternoon dip is partly circadian. It shows up even on days you skip lunch.

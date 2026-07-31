@@ -1,7 +1,7 @@
 # Russian afternoon micro-tips. Line-for-line with ../afternoon.txt and ../afternoon_sources.txt.
 # Translation, not a pool of its own. Rules and reasoning: see ru/general.txt, and the writing
 # rules the English lines were held to at ../general.txt.
-Проседаешь? Короткая прогулка или свежий воздух часто помогают лучше ещё одного кофе.
+Проседаешь? Попробуй короткую прогулку или свежий воздух до следующего кофе.
 Выйди наружу. Дневной свет бодрит напрямую, а не только через настроение.
 Когда ты вообще последний раз пил? Жажда отстаёт от провала внимания.
 Послеобеденный спад отчасти циркадный. Он приходит даже в дни без обеда.

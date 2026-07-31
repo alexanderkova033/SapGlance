@@ -146,6 +146,52 @@ That rule is why several rewrites here shipped in a weaker form than this docume
 The remaining Class B lines are on the roadmap as their own item. Roughly twenty, concentrated
 in `general` and `evening`, almost all of them the "finding restated" pattern.
 
+### Class B, worked properly on 2026-07-31
+
+The estimate of "roughly twenty" was wrong in an interesting direction. Opening the citations
+one at a time turned up **four** changes worth making out of ~20 candidates, because most of
+those hedges were not timidity — they were accurate, and the shorter line would have been the
+false one.
+
+**Three strengthened, because the hedge understated experimental evidence.** All three were
+being described as associations when the cited study had actually *manipulated* the thing:
+
+| Was | Now | What the source turned out to be |
+| --- | --- | --- |
+| `Stuffy, high-CO2 rooms are linked to slower decisions.` | `Take a room to 1,000 ppm CO2 and decision scores fall.` | Satish is a controlled within-subject experiment: 600 / 1,000 / 2,500 ppm, with significant decrements on six of nine decision-making scales at 1,000. "Linked to" was wrong, and the number was sitting there unused. |
+| `A warm shower or bath ... may help you fall asleep faster.` | `A warm bath 1 to 2 hours before bed shortens sleep onset. Ten minutes is enough.` | Haghayegh is a systematic review and meta-analysis, and both the timing and the ten-minute minimum are in the abstract. "May help" was a hedge on a meta-analysis. |
+| `Turning to check the clock predicts a longer wait.` | `Clock-watching lengthens the wait and makes you overestimate it.` | Tang et al. *instructed* participants to monitor or not monitor a clock. "Predicts" describes an observational finding that was not what happened. |
+
+**One weakened, because the claim exceeded its sources.** `A short walk or fresh air often helps
+more than another coffee` asserted a head-to-head comparison that neither citation runs — one is
+a post-lunch-dip review, the other an exercise-and-affect meta-analysis. It now says
+`Try a short walk or fresh air before reaching for another coffee`, which is an ordering
+suggestion rather than a comparative efficacy claim. **Note the asymmetry this exposes: a
+rewrite that *removes* a claim is safe without re-reading the source; only strengthenings need
+the paper open.** That is worth knowing, because it is the half of Class B that can be done
+cheaply.
+
+**The rest were declined, and the reasons matter more than the changes.**
+
+- `Long sitting is linked to worse health, even if you exercise regularly.` Biswas is a
+  meta-analysis of 44 prospective cohorts. Its own conclusion is "independently associated ...
+  regardless of physical activity". The current wording is already both accurate and plain.
+- `Light while you sleep ... tracks with heart rate, insulin and lipids.` Mason is experimental
+  and would license a firmer verb — but only for heart rate and insulin. The *lipids* half rests
+  on Obayashi, which is observational, and firming the line would also have made it restate
+  `evening`'s 100-lux line, which `sleep_late`'s header forbids.
+- `Poor posture held all day is linked to fatigue, not just discomfort.` **Could not be
+  checked**: the Applied Ergonomics paper returns 403 and no open-access copy is cited. Under the
+  rule, an unopenable source means the claim is not touched. This is the rule working rather than
+  a gap, and it is now its own roadmap item.
+- The other ~15 — media multitasking, two hours outdoors, social ties, sleep regularity, eating
+  before bed, blink completeness, social jetlag and the rest — all rest on observational or
+  cross-sectional work. "Linked to" and "tracks with" are the honest verbs and they stayed.
+
+The lesson for a future pass: **Class B is not a backlog of timid sentences waiting to be
+sharpened.** It is a mixed pile, and roughly four in five of the hedges in it are load-bearing.
+Budget the time for reading rather than for writing.
+
 **The tone pools yielded almost nothing, as predicted.** Seven lines in `wellbeing`, zero in
 `motivation`, zero among philosophy's originals. The table above the fold said this would happen
 — those pools sit at a 61-63 character mean with a quarter of the practical hedging — and it is

@@ -2,7 +2,9 @@
 
 Draft copy for the Play Console listing, positioned against the quote-widget apps this
 competes with rather than against health trackers. Every number here was counted from the
-repo on 2026-07-28 — re-check them if the catalog changes.
+repo on 2026-07-31 — re-check them if the catalog changes. The card-style count and the tip
+count have both been wrong here before, for the same reason: they are the two numbers that move
+whenever anyone touches content.
 
 Play's limits: title 30 characters, short description 80, full description 4000.
 
@@ -47,8 +49,9 @@ TWO KINDS OF LINE, AND YOU PICK THE MIX
   contested evidence was left out rather than rounded up.
 
 - Motivation, philosophy and wellbeing, including quotations from Marcus Aurelius, Spinoza,
-  Thoreau, Montaigne, Frederick Douglass and George Eliot, checked word for word against the
-  original texts instead of copied from the internet.
+  Thoreau, Montaigne, Lao Tzu, Zhuangzi, Saadi, Rabindranath Tagore, Frederick Douglass and
+  Anna Julia Cooper, checked word for word against the original texts instead of copied from
+  the internet.
 
 One slider moves you from mostly practical to mostly reflective. Put it wherever you like.
 
@@ -62,7 +65,7 @@ that.
 
 IT DOESN'T REPEAT ITSELF
 
-371 tips, in English and Russian. The last 100 you have seen never come back, and the 60 before
+375 tips, in English and Russian. The last 100 you have seen never come back, and the 60 before
 those are weighted down, so the rotation keeps finding you something you have not read yet.
 
 
@@ -74,11 +77,12 @@ sending anything anywhere. That is a stronger guarantee than a privacy policy, b
 does not depend on trusting us. Your tips stay on your phone.
 
 
-ELEVEN CARD STYLES
+NINETEEN CARD STYLES
 
-Forest, Ocean, Sunset, Midnight, Aurora, Dawn, Rain, Winter, Paper, Meadow and Blossom.
-Place it on your home screen or your lock screen, resize it, and the card adapts to the room
-you give it.
+Forest, Ocean, Sunset, Midnight, Aurora, Dawn, Rain, Ember, Slate, Harbour, Canyon, Winter,
+Paper, Meadow, Blossom, Linen, Mist, Sage and Lilac. Pale cards in daylight, deep ones at
+night, and never the same one twice in a row. Place it on your home screen or your lock
+screen, resize it, and the card adapts to the room you give it.
 
 
 WHAT IT IS NOT

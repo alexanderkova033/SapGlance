@@ -896,3 +896,61 @@ is the only thing in the small-hours pool that can be done lying down in the dar
 Both night pools were held to their headers' own constraints while this happened: nothing that
 frightens in `sleep_early`, and nothing in `sleep_late` that merely restates `evening` an hour
 later.
+
+## The 2026-07-31 Class B pass
+
+Four tips changed after their citations were re-read, and the direction of three of them is
+the point: **the hedge was understating the evidence, not protecting it.** Each of these was
+written as an association when the cited study had actually manipulated the variable.
+
+1. **The CO2 tip was describing an experiment as a correlation.** It said stuffy rooms are
+   "linked to" slower decisions, citing Satish et al. (2012) — which is a controlled
+   within-subject study exposing 22 participants to 600, 1,000 and 2,500 ppm, finding moderate
+   and statistically significant decrements on six of nine decision-making scales at 1,000 ppm.
+   The tip now carries the number and the causal verb. Worth flagging while here: this tip's
+   two citations are the same study at two hosts (the EHP page and the PMC full text), which
+   passes the distinct-URL test while being one piece of evidence. That predates this pass and
+   is the strongest candidate in the catalog for a genuine second source.
+2. **The warm-bath tip hedged a meta-analysis.** It said a bath “may help you fall asleep
+   faster”. Haghayegh et al. (2019) is a systematic review and meta-analysis, and its abstract
+   carries both the window (1-2 h before bedtime) and the minimum dose (as little as 10 min).
+   Both are now in the tip and the hedge is gone.
+3. **The clock-watching tip said “predicts” about something that was assigned.** Tang, Schmidt
+   & Harvey (2007) instructed participants to monitor or not monitor a clock; monitors reported
+   more pre-sleep worry, took longer to fall asleep, and overestimated how long it took. The
+   tip now states the effect and adds the overestimation, which was in the source all along.
+
+The fourth went the other way, and is a correction of the kind this document exists for:
+
+4. **The afternoon-slump tip claimed a comparison neither source makes.** It said a walk or
+   fresh air "often helps more than another coffee", citing Monk's post-lunch-dip review and
+   Weinstein's exercise-and-affect meta-analysis. Neither runs a head-to-head against caffeine.
+   The tip now suggests trying the walk *before* the coffee, which is an ordering suggestion
+   rather than an efficacy claim.
+
+**One candidate was left alone because its source could not be opened.** “Poor posture held all
+day is linked to fatigue” cites *Discomfort during prolonged sitting* (Applied Ergonomics,
+2020), which returns 403 with no open-access copy cited here. Under the rule that a
+claim-touching rewrite needs both sources read, an unreadable source means the claim stays as
+it is. That is the rule working rather than a gap, and it is on the roadmap.
+
+Everything else in the Class B pile was declined because the hedge was accurate — Biswas on
+sedentary time is 44 prospective cohorts, Obayashi on nocturnal light is observational, and the
+media-multitasking, greenspace, social-ties and sleep-regularity tips all rest on
+cross-sectional or cohort work. See `docs/TIGHTENING_AUDIT.md` for the full disposition.
+
+## The 2026-07-31 philosophy widening
+
+Four quotations added, three of them traditions the pool did not have. No research citations
+are involved — a `PHILOSOPHY` tip cites the public-domain text it is quoted from, never a
+study — but the same verify-before-shipping rule applied, and every line below was read in the
+linked edition rather than taken from a quotations site.
+
+- **Zhuangzi**, *Chuang Tzu* I, tr. Giles (Wikisource). Cut at a semicolon the original has.
+- **Saadi**, *Gulistan* VIII, tr. Burton (Wikisource).
+- **Rabindranath Tagore**, *Gitanjali* 95 (Project Gutenberg). The only line in the pool with
+  no translator in the way: Tagore wrote the English himself.
+- **Anna Julia Cooper**, *A Voice from the South* (Wikisource). Note for anyone extending this:
+  Cooper quotes Tennyson at length and several of the lines that read best as her aphorisms
+   ("woman is not undeveloped man but diverse") are his, or are misogynist views she is
+  rebutting. The line taken is her own prose.

@@ -68,22 +68,21 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       is the only warm dark card and Slate the only card with no subject at all, and both exist
       because six cool cards with something to look at had made the night rotation feel narrower
       than its count.
-- [ ] **The Class B rewrites the plain-English pass declined.** The pass on 2026-07-31 did the
-      audit's Class A in full and refused Class B in full, because Class B is the pile where
-      shortening a line also moves the claim — "long sitting is linked to worse health outcomes"
-      becoming "a long sit costs you" reads better, is shorter, and has quietly promoted a
-      correlation to a cost. Those are still worth doing and are the last real prose win left in
-      the catalog, but each one costs opening both of its citations and reading them, and there
-      is no way to batch that: nothing in the build can tell a rewritten tip from one that
-      inherited the wrong citation. Roughly twenty lines, mostly the "finding restated" pattern
-      in `general` and `evening`. Do them a handful at a time, and record each in
-      `TIP_SOURCES.md` the way the earlier corrections are recorded.
-- [ ] **Widen `philosophy` past Europe.** The 07-31 pass paid the debt the 07-30 one left (German
-      one line → three, rationalist one → two, plus Hume as a tradition the pool lacked) and
-      left a narrower one behind, written into the pool header: apart from the Dhammapada the
-      pool is European and Chinese, and there is one woman in it. Wollstonecraft was read for
-      that pass and left out on length rather than on merit — the line worth having opens on a
-      pronoun the widget has no room to supply. That is a sourcing problem with a solution.
+- [ ] **The Class B rewrites nobody can open the sources for.** The 2026-07-31 pass worked the
+      pile properly and it turned out to be four changes, not twenty, because most of those
+      hedges were *correct* — see docs/TIGHTENING_AUDIT.md for which and why. What is left is the
+      handful whose sources are paywalled, of which the known one is "poor posture held all day
+      is linked to fatigue": the Applied Ergonomics paper behind it returns 403 and has no
+      open-access copy cited, so the claim was not touched. Either find an open version, or
+      re-source the tip, or leave it hedged forever. Leaving it hedged is a perfectly good
+      answer.
+- [ ] **Widen `philosophy` further still.** Done once on 2026-07-31: Zhuangzi widened the
+      Taoist section, and Saadi (Persian), Tagore (Indian) and Anna Julia Cooper (a second woman,
+      and a nineteenth-century American voice next to Douglass) were traditions the pool did not
+      have at all. What is still missing, and is a public-domain problem more than a values one:
+      anything African, anything indigenous, and anything written in the last hundred years.
+      Wollstonecraft remains the known near-miss — the line worth having opens on a pronoun the
+      widget has no room to supply.
 - [ ] **Make a cold tap feel faster.** ~1s is process start plus Glance session setup, not app
       code, and `warmUp()` already hides the catalog parse behind it. No cheap answer left.
 - [ ] **Languages beyond `en` and `ru`.** Russian shipped 2026-07-31 and the structure is now
@@ -101,5 +100,14 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       native reader would wince at. The specific worry is the tone pools: `motivation` has to
       push without turning into the barking Russian imperative, and `wellbeing` has to stay warm
       without sliding into the sympathetic register its first rule forbids.
-- [ ] **iOS port**, gated on hardware. The offline guarantee doesn't translate literally (no iOS
-      app can declaratively renounce network access) and WidgetKit has no background execution.
+- [ ] **iOS port.** Costed properly on 2026-07-31: **[docs/IOS_PORT.md](docs/IOS_PORT.md)**.
+      The short version is that the code is the easy part — `:core` touches exactly three
+      non-multiplatform things and is 1-2 days from compiling against an iOS target — and that
+      this should not be decided on effort. Two of the things the README leads with do not
+      survive the platform: the 90-minute *screen-on* rule has no iOS equivalent (a widget
+      extension cannot observe screen state or know it has been looked at), and the offline
+      guarantee stops being structural, because there is no `INTERNET` permission to omit and
+      no entitlement to renounce. Also worth knowing early: Apple Developer Program enrollment
+      has the same 18+ requirement as Play, so it is a *second* ask of the same guardian, plus
+      $99/year and a Mac. Recommendation in the doc: not before v1 is live on Android, and
+      settle the two promises on paper before anyone opens Xcode.

@@ -16,11 +16,11 @@ the code.
 - **Modules**: `:core` (pure Kotlin domain) and `:app` (Android). Same three features in both
   (`tips`/`settings`/`widget`). `:core` is flat per feature; `:app` splits each into
   `data`/`presentation`/`framework`, which are real differences in kind.
-- **Catalog**: 371 tips — 182 practical (`general` 58, `morning` 31, `afternoon` 31, `evening`
-  33, `sleep_late` 15, `sleep_early` 14) and 189 tone (`motivation` 67, `philosophy` 55,
+- **Catalog**: 375 tips — 182 practical (`general` 58, `morning` 31, `afternoon` 31, `evening`
+  33, `sleep_late` 15, `sleep_early` 14) and 193 tone (`motivation` 67, `philosophy` 59,
   `wellbeing` 67). Every practical line still carries 2+ independent citations, and the pass on
   2026-07-31 reworded most of them without changing a single claim (see below).
-- **Languages**: `en` and `ru`, 742 tip lines in total. English lives at the root of `tips/`
+- **Languages**: `en` and `ru`, 750 tip lines in total. English lives at the root of `tips/`
   and is the text the citations were checked against; Russian is a translation of it at
   `tips/ru/`. **Citations are shared, not translated** — one `_sources.txt` per pool, zipped by
   position against both languages, so a translation that gains or loses a line fails at load.

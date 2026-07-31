@@ -24,9 +24,9 @@
 # SECOND WRITING RULE, on variety: this pool was once entirely Stoic plus a short tail (four
 # Marcus, three Epictetus, three Seneca), which is a school, not a subject. Stoicism keeps the
 # largest share because it suits the format, but the pool now also carries Confucian, Buddhist,
-# Taoist, presocratic, rationalist, empiricist, German, transcendentalist, essayist and
-# nineteenth-century voices, and the ratio is worth defending: before adding another Roman,
-# check whether a tradition below has only one line in it.
+# Taoist, presocratic, rationalist, empiricist, German, transcendentalist, essayist,
+# nineteenth-century, Persian and Indian voices, and the ratio is worth defending: before adding
+# another Roman, check whether a tradition below has only one line in it. Three of them do.
 #
 # THIRD WRITING RULE, on length: a quotation has to survive a small widget, so prefer the
 # sentence that is already short in the source over a long one trimmed with an ellipsis.
@@ -68,12 +68,40 @@
 # not have at all. Four original reflections were added at the same time, which keeps the
 # attributed share at 39 of 55 and well clear of the test that pins it.
 #
-# What that leaves open for the next pass: the pool is still entirely European and Chinese
-# apart from the Dhammapada, and it has one woman in it. Wollstonecraft was read for this pass
-# and left out on the third rule rather than on the second — the line worth having, "I do not
-# wish them to have power over men; but over themselves", opens on a pronoun whose antecedent
-# is two paragraphs back, and a widget has no room to supply it. That is a sourcing problem
-# with a solution, not a reason the pool is shaped this way.
+# THE 2026-07-31 WIDENING, which is the debt above being paid rather than deferred again. Four
+# voices, chosen so that three of them are traditions this pool did not have at all:
+#
+#   Zhuangzi (Taoist)   Joins Lao Tzu, taking the section from two to three. The obvious gap:
+#                       Taoism was one book.
+#   Saadi (Persian)     New. The Gulistan is a wisdom collection built out of exactly the length
+#                       of line this format wants, which makes it the cheapest tradition here to
+#                       source well.
+#   Tagore (Indian)     New, and the only line in the pool with no translator between the reader
+#                       and the author: Tagore wrote the English Gitanjali himself. Worth knowing
+#                       because every other quotation here is somebody's rendering.
+#   Anna Julia Cooper   New voice, and the second woman. Nineteenth-century American, alongside
+#                       Douglass, which is the register she was writing in.
+#
+# TWO CHOICES INSIDE THAT WORTH RECORDING, because both were close.
+#
+# Cooper's famous sentence is the "when and where I enter" passage, and it is two hundred
+# characters — unusable here, and cutting it would gut it. What is quoted instead is a plainer
+# line from the same essay. The one deliberately *not* taken was "A race cannot be purified from
+# without": it is more distinctively hers, and out of context on a home screen it reads as being
+# about something it is not. Douglass survives that test because "if there is no struggle there
+# is no progress" generalises; that Cooper line does not.
+#
+# The Zhuangzi line is cut at a semicolon the original has, which the third rule allows. The full
+# sentence ends "...; the true Sage ignores reputation", which is the best of the three clauses
+# and pushed the line to 93 characters. Losing the best clause to keep the line legible is the
+# trade this pool makes every time, and it is worth noticing that it keeps costing something.
+#
+# WHAT IS STILL OPEN. Wollstonecraft, again, and for the same reason as before: the line worth
+# having, "I do not wish them to have power over men; but over themselves", opens on a pronoun
+# whose antecedent is two paragraphs back, and a widget has no room to supply it. That is a
+# sourcing problem with a solution rather than a reason the pool is shaped this way. Also still
+# absent: anything African, anything indigenous, and anything written in the last hundred years,
+# which is less a values problem than a public-domain one.
 #
 # Format is inline: "Tip text" alone, or "Tip text<TAB>Label<TAB>URL" for a quotation.
 
@@ -95,6 +123,7 @@ As long as you live, keep learning how to live.	Seneca, Moral Letters to Luciliu
 # Taoist.
 He who stands on his tiptoes does not stand firm.	Lao Tzu, Tao Teh King 24, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
 He who knows other men is discerning; he who knows himself is intelligent.	Lao Tzu, Tao Teh King 33, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
+The perfect man ignores self; the divine man ignores action.	Zhuangzi, Chuang Tzu I, tr. Giles (Wikisource)	https://en.wikisource.org/wiki/Chuang_Tz%C5%AD_(Giles)/Chapter_1
 
 # Confucian.
 Learning without thought is labour lost; thought without learning is perilous.	Confucius, Analects II.XV, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/3330
@@ -135,6 +164,13 @@ A wise Man, therefore, proportions his Belief to the Evidence.	Hume, Philosophic
 # Nineteenth century.
 If there is no struggle there is no progress.	Frederick Douglass, West India Emancipation, 1857 (Wikisource)	https://en.wikisource.org/wiki/West_India_Emancipation
 The growing good of the world is partly dependent on unhistoric acts.	George Eliot, Middlemarch, Finale (Wikisource)	https://en.wikisource.org/wiki/Middlemarch_(1871)/Finale
+A stream cannot rise higher than its source.	Anna Julia Cooper, A Voice from the South (Wikisource)	https://en.wikisource.org/wiki/A_Voice_from_the_South/Womanhood_a_Vital_Element_in_the_Regeneration_and_Progress_of_a_Race
+
+# Persian.
+Whatever takes place quickly is not permanent.	Saadi, Gulistan VIII, tr. Burton (Wikisource)	https://en.wikisource.org/wiki/Tales_from_the_Gulistan/Chapter_8
+
+# Indian.
+And because I love this life, I know I shall love death as well.	Rabindranath Tagore, Gitanjali 95 (Project Gutenberg)	https://www.gutenberg.org/ebooks/7164
 
 # Original reflections. No source, and none claimed.
 You are not behind. There was never a schedule you agreed to.

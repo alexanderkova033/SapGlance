@@ -21,7 +21,7 @@ actually awake at 3am — what still helps then, and deliberately not the fright
 that would only keep them awake. The artwork follows the same clock: pale cards in daylight,
 deep ones at night, never a bright meadow behind a philosophy line at 3am.
 
-**It doesn't repeat itself.** 371 tips across nine pools, in English and Russian. The last 100
+**It doesn't repeat itself.** 375 tips across nine pools, in English and Russian. The last 100
 you have seen never come back, the 60 before those are weighted down so the neglected ones
 actually surface, and no voice runs three draws in a row.
 
