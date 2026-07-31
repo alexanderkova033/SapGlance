@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A far shore across the bottom with three lamps on it and their reflections dropped into the
+     water. The lamps are 2dp and the reflections are 1dp smears directly under them: at this size
+     that is enough to read as distance, and anything more turns into a row of dots. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_harbour_shore"
+        android:pathData="M0,150 L0,104 C42,100 78,106 120,102 C168,97 214,104 262,99 C278,97 290,99 300,97 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_harbour_light"
+        android:pathData="M62,99 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 M148,97 a1.8,1.8 0 1,0 3.6,0 a1.8,1.8 0 1,0 -3.6,0 M232,96 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_harbour_reflection"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:pathData="M64,108 L64,120 M150,106 L150,116 M234,104 L234,112" />
+</vector>

@@ -211,4 +211,45 @@
     <color name="widget_mist_ridge_mid">#7A8AA5B8</color>
     <color name="widget_mist_ridge_near">#997C99AD</color>
     <color name="widget_mist_mote">#A6FFFFFF</color>
+
+    <!-- Harbour. Deep water with a far shore and three lamps on it. The night set had a sky
+         (Midnight), open water (Ocean), weather (Rain), warmth (Ember) and emptiness (Slate),
+         and no card with any sign of another person in it. At 3am that is a different feeling
+         from all five, which is the only reason to draw another dark card. -->
+    <color name="widget_harbour_start">#16303F</color>
+    <color name="widget_harbour_end">#060D14</color>
+    <color name="widget_harbour_glow">#2EA8C4D8</color>
+    <color name="widget_harbour_shore">#B30D1822</color>
+    <color name="widget_harbour_light">#CCFFD28E</color>
+    <color name="widget_harbour_reflection">#59FFD28E</color>
+
+    <!-- Canyon. Earth rather than sky or water, and the only dark card built from horizontal
+         bands instead of a wash: strata read as weight, which nothing else in the set does. -->
+    <color name="widget_canyon_start">#2C1813</color>
+    <color name="widget_canyon_end">#130A08</color>
+    <color name="widget_canyon_glow">#3DD9713A</color>
+    <color name="widget_canyon_strata_far">#99452517</color>
+    <color name="widget_canyon_strata_near">#B32F170F</color>
+    <color name="widget_canyon_rim">#59E08A4E</color>
+
+    <!-- Sage. Muted grey-green, against Meadow's bright grass. The light set had no *quiet*
+         green, so a calm hour drawing a green card always got the loud one. -->
+    <color name="widget_sage_start">#F1F5ED</color>
+    <color name="widget_sage_end">#C9D7C2</color>
+    <color name="widget_sage_glow">#59FFFFFF</color>
+    <color name="widget_sage_haze">#2E7F9476</color>
+    <color name="widget_sage_leaf_back">#7AB2C3A6</color>
+    <color name="widget_sage_leaf_front">#9994AB8A</color>
+    <color name="widget_sage_mote">#A6FDFFFA</color>
+
+    <!-- Lilac. The one hue missing from the light set entirely: it ran cool, cream, pink and
+         green, with nothing in the violets, so Sunset and Aurora had that end of the wheel to
+         themselves and only after dark. -->
+    <color name="widget_lilac_start">#F5F1F9</color>
+    <color name="widget_lilac_end">#D4CAE5</color>
+    <color name="widget_lilac_glow">#59FFF6FF</color>
+    <color name="widget_lilac_haze">#2E8F7CB0</color>
+    <color name="widget_lilac_veil_back">#7AC2B4DA</color>
+    <color name="widget_lilac_veil_front">#99A697C3</color>
+    <color name="widget_lilac_mote">#B3FFFFFF</color>
 </resources>

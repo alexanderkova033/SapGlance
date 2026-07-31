@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two low banks with a pair of leaf strokes on the near one. Deliberately fewer and slower
+     curves than Meadow's grass: this is the quiet green, and busy strokes would make it the loud
+     one twice over. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_sage_leaf_back"
+        android:pathData="M0,150 L0,112 C70,102 138,116 208,108 C244,104 274,110 300,106 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_sage_leaf_front"
+        android:pathData="M0,150 L0,133 C72,125 132,137 196,130 C240,125 272,131 300,128 L300,150 Z" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_sage_leaf_front"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M58,130 C56,120 60,114 66,109 M244,128 C246,118 243,112 238,107" />
+</vector>

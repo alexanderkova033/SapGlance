@@ -19,7 +19,7 @@ the code.
 - **Catalog**: 316 tips — 151 practical (`general` 50, `morning` 26, `afternoon` 26, `evening`
   28, `sleep_late` 11, `sleep_early` 10) and 165 tone (`motivation` 59, `philosophy` 47,
   `wellbeing` 59).
-- **Widget**: 15 background styles, picked by a per-hour palette narrowed by the tip's kind and
+- **Widget**: 19 background styles, picked by a per-hour palette narrowed by the tip's kind and
   then hashed on the tip's text; resizes from 2x2 to 4x4.
 - **Selection**: three narrowing weighted picks, anti-repeat applied before all of them,
   recency weighting over a 160-tip history, per-day-part `ToneProfile`, no tone voice three
@@ -66,12 +66,12 @@ against real numbers because of it.
    philosophy line at 01:43 drew a deep card, and a motivation line at 15:30 drew Meadow, pale,
    with correctly paired ink — which is the morning palette that motivation borrows, at an
    afternoon hour, exactly as designed. The variety cost that narrowing introduced has since
-   been paid off twice over: four new styles took the daylight palettes to eight and night to
-   six, and the card now refuses to draw the background it is replacing, so consecutive repeats
+   been paid off twice over: eight new styles took the daylight palettes to ten and night to
+   eight, and the card now refuses to draw the background it is replacing, so consecutive repeats
    are gone rather than merely rarer. What a screenshot still cannot settle is whether the
    *rotation* feels varied over weeks.
-7. **The four new backgrounds have never been seen on a phone.** Ember, Slate, Linen and Mist
-   are drawn but unrendered here: gradients and vector paths look different on-device than they
+7. **The eight new backgrounds have never been seen on a phone.** Ember, Slate, Linen, Mist,
+   Harbour, Canyon, Sage and Lilac are drawn but unrendered here: gradients and vector paths look different on-device than they
    do in the XML, and the one thing no test covers is whether the art survives the scrim it is
    drawn under. Slate in particular is deliberately almost empty, which is either restful or
    unfinished depending on how it actually lands.

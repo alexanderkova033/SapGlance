@@ -44,12 +44,15 @@ the live privacy-policy URL. What is missing is the account and the feature grap
 
 ## Open work
 
-- [ ] **More card backgrounds still.** Fifteen now: Ember and Slate widened the night palette
-      from four to six, and Linen and Mist took the daylight palettes from six to eight. The
-      card also refuses to draw the background it is replacing, so back-to-back repeats are gone
-      outright rather than merely rarer, and more artwork is now a question of *range* rather
-      than of arithmetic. Night is still the narrowest palette, and it is the hour where the card
-      is most likely to be the only lit thing in the room.
+- [ ] **More card backgrounds still.** Nineteen now, up from eleven: night went four → eight,
+      daylight six → ten, evening seven → nine. The card also refuses to draw the background it
+      is replacing, so back-to-back repeats are gone outright rather than merely rarer.
+      Arithmetic is no longer the argument for more. Range is, and the gaps that are left are
+      narrower than the ones already filled: the dark set now covers sky, water, weather,
+      forest, warmth, emptiness, another person's lights and bare ground, and the light set
+      covers cool, cream, pink, bright green, quiet green, fog and violet. What is genuinely
+      still missing is anything that is not a *landscape* — every card is a place. A card built
+      from pattern or texture rather than a horizon would be the next real widening.
       Adding one is three edits and each is enforced rather than remembered: a `WidgetStyle`
       entry (the constructor makes you declare `isLight`), a drawable in `:app`'s exhaustive
       `when` (compile error if missing), and membership of at least one palette (a test fails if

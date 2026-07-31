@@ -25,6 +25,8 @@ enum class WidgetStyle(val isLight: Boolean) {
     RAIN(isLight = false),
     EMBER(isLight = false),
     SLATE(isLight = false),
+    HARBOUR(isLight = false),
+    CANYON(isLight = false),
 
     // Light cards (dark text on pale artwork).
     WINTER(isLight = true),
@@ -33,6 +35,8 @@ enum class WidgetStyle(val isLight: Boolean) {
     BLOSSOM(isLight = true),
     LINEN(isLight = true),
     MIST(isLight = true),
+    SAGE(isLight = true),
+    LILAC(isLight = true),
     ;
 
     companion object {
@@ -85,13 +89,13 @@ enum class WidgetStyle(val isLight: Boolean) {
          * which a test pins, so no artwork quietly becomes unused.
          */
         private val MORNING_PALETTE =
-            listOf(WINTER, PAPER, MEADOW, BLOSSOM, LINEN, MIST, DAWN, AURORA)
+            listOf(WINTER, PAPER, MEADOW, BLOSSOM, LINEN, MIST, SAGE, LILAC, DAWN, AURORA)
 
         private val AFTERNOON_PALETTE =
-            listOf(WINTER, PAPER, MEADOW, BLOSSOM, LINEN, MIST, OCEAN, FOREST)
+            listOf(WINTER, PAPER, MEADOW, BLOSSOM, LINEN, MIST, SAGE, LILAC, OCEAN, FOREST)
 
         private val EVENING_PALETTE =
-            listOf(SUNSET, RAIN, FOREST, OCEAN, AURORA, EMBER, PAPER)
+            listOf(SUNSET, RAIN, FOREST, OCEAN, AURORA, EMBER, CANYON, HARBOUR, PAPER)
 
         /**
          * Deep and quiet, and the only palette with no pale card in it at all. It was four
@@ -102,7 +106,7 @@ enum class WidgetStyle(val isLight: Boolean) {
          * where every card has a subject has no rest in it.
          */
         private val NIGHT_PALETTE =
-            listOf(MIDNIGHT, RAIN, OCEAN, FOREST, EMBER, SLATE)
+            listOf(MIDNIGHT, RAIN, OCEAN, FOREST, EMBER, SLATE, HARBOUR, CANYON)
 
         /**
          * Kind shifts *which hour's* palette is used rather than narrowing the hour's own, which

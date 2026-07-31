@@ -219,12 +219,16 @@ private fun WidgetStyle.background(): Int =
         WidgetStyle.RAIN -> R.drawable.widget_background_rain
         WidgetStyle.EMBER -> R.drawable.widget_background_ember
         WidgetStyle.SLATE -> R.drawable.widget_background_slate
+        WidgetStyle.HARBOUR -> R.drawable.widget_background_harbour
+        WidgetStyle.CANYON -> R.drawable.widget_background_canyon
         WidgetStyle.WINTER -> R.drawable.widget_background_winter
         WidgetStyle.PAPER -> R.drawable.widget_background_paper
         WidgetStyle.MEADOW -> R.drawable.widget_background_meadow
         WidgetStyle.BLOSSOM -> R.drawable.widget_background_blossom
         WidgetStyle.LINEN -> R.drawable.widget_background_linen
         WidgetStyle.MIST -> R.drawable.widget_background_mist
+        WidgetStyle.SAGE -> R.drawable.widget_background_sage
+        WidgetStyle.LILAC -> R.drawable.widget_background_lilac
     }
 
 /**

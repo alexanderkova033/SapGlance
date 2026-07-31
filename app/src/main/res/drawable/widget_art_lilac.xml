@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two veils crossing low, rather than a bank or a horizon. The violets in this set are all
+     evening cards (Sunset, Aurora), so a pale violet needed a shape that could not be mistaken
+     for either: no ground line, just light lying across light. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_lilac_veil_back"
+        android:pathData="M0,150 L0,120 C64,98 128,124 196,106 C238,95 272,106 300,98 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_lilac_veil_front"
+        android:pathData="M0,150 L0,138 C58,128 112,142 172,132 C224,123 264,134 300,129 L300,150 Z" />
+</vector>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two bands of rock with a lit rim along the upper one. Horizontal strata rather than the soft
+     curves every other style uses, because the point of this card is weight: curves read as sky,
+     grass or water, and straight-ish bands read as ground. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_canyon_strata_far"
+        android:pathData="M0,150 L0,102 L74,98 L152,104 L226,97 L300,101 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_canyon_strata_near"
+        android:pathData="M0,150 L0,126 L88,121 L166,128 L240,120 L300,124 L300,150 Z" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_canyon_rim"
+        android:strokeWidth="1.4"
+        android:strokeLineCap="round"
+        android:pathData="M0,102 L74,98 L152,104 L226,97 L300,101" />
+</vector>
