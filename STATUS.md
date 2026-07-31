@@ -149,10 +149,9 @@ Two methodological notes:
   machine on 2026-07-31. Nothing here can check that, and a backup that has never been opened is
   a belief rather than a backup: run `keytool -list -v -keystore <the copy>` against it once,
   with the password from `keystore.properties`, and the risk is genuinely closed.
-- **The old `com.healthwidget.app` may still be installed on the test device** with its own
-  widget on the home screen — the rename changed the `applicationId`, so SapGlance installed
-  alongside rather than replacing it. Anything wrong on *that* widget is the old app's code.
-  Unconfirmed since the device was last connected.
+- ~~**The old `com.healthwidget.app` may still be installed on the test device.**~~ Closed
+  2026-07-31: `pm list packages` on the A34 returns `com.sapglance.app` and nothing else, so the
+  worry that a stale widget from the pre-rename app was still on the home screen is gone.
 - **The tone pools were passed over on 2026-07-30** and the two criticisms recorded on 07-28 are
   closed; what each pass found, and what it left open, is written into the pool headers where a
   writer will actually look. The debt that pass left — German and Enlightenment rationalist on
