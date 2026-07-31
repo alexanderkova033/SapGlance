@@ -115,7 +115,8 @@ tester installs, so recruiting is the long pole — realistically three weeks fr
 | --- | --- |
 | Signing config (keystore applied when present, unsigned when absent, so CI is unaffected) | No Play Console account |
 | `store-assets/play-store-icon-512.png` | |
-| `store-assets/play-listing.md`, drafted against the quote-widget category, recommending **Personalization** | `PRIVACY.md` has no public URL yet: the Pages workflow exists only on the feature branch, so there is nothing on `main` for GitHub to run, and the page 404s regardless of the repo setting |
+| `store-assets/play-listing.md`, drafted against the quote-widget category, recommending **Personalization** | |
+| Privacy policy live at https://alexanderkova033.github.io/SapGlance/, rendered from `PRIVACY.md` by the Pages workflow, verified reachable 2026-07-31 | |
 | Keystore backed up off this machine, reported 2026-07-31. Not verifiable from here, and worth re-checking that the copy actually opens with `keytool -list` | |
 | `targetSdk 36` clears the Aug 2026 requirement | Feature graphic exists only as an SVG master; Play needs it exported to PNG/JPEG |
 | Three screenshots, 1080x2160, 24-bit RGB: 2x2 pale card, large deep card, and the sourced-tip settings card | |
