@@ -113,7 +113,7 @@ Two properties here are deliberate and load-bearing. Keep both:
 
 ## Also worth knowing
 
-- There is an **unconfirmed performance suspicion** already recorded in the README roadmap:
+- There is an **unconfirmed performance suspicion** already recorded in ROADMAP.md:
   tapping the widget for a new tip reportedly feels laggy, and the prime suspect is
   `TipCatalog.loadDefault()` re-parsing all bundled resource files on a cold process start, not
   the selection algorithm itself. **Confirm with real timing/logcat evidence before treating

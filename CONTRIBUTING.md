@@ -13,20 +13,27 @@ Not up for debate on a per-PR basis — they're the point of the project:
    on a plain JVM.
 6. **User-facing strings go in `strings.xml`**, not hardcoded in Kotlin.
 
-## Getting set up
+## Building and testing
+
+Kotlin · Compose (Material 3) · Glance · WorkManager · DataStore · Gradle Kotlin DSL with a
+version catalog (AGP 8.10.1) · `minSdk 26`, `compileSdk`/`targetSdk 36`.
 
 ```bash
 git clone https://github.com/alexanderkova033/SapGlance.git
 cd SapGlance
-./gradlew build
+
+./gradlew build        # everything, including assembleRelease
+./gradlew test         # unit tests — :core 90, :app 6 per variant
+./gradlew ktlintCheck  # formatting (ktlintFormat auto-fixes)
+./gradlew lint         # Android lint
 ```
 
 Requires JDK 17. No device or emulator is needed to build or run the unit tests.
 
-Before opening a PR, run `./gradlew ktlintCheck lint test` (`ktlintFormat` auto-fixes
-formatting). CI runs the same three plus a full build. Commits follow
-[Conventional Commits](https://www.conventionalcommits.org/); keep the subject under ~70
-characters and use the body to explain *why*, not *what*.
+Before opening a PR, run `./gradlew ktlintCheck lint test`. CI
+(`.github/workflows/ci.yml`) runs the same three plus a full build on every push and PR.
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/); keep the subject
+under ~70 characters and use the body to explain *why*, not *what*.
 
 ## Where a new file goes
 

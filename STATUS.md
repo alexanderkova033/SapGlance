@@ -2,8 +2,10 @@
 
 _Last updated: 2026-07-31_
 
-Where things stand, what's actually been checked, and what's open. **Not a changelog** — how
-the code got here is in `git log`. If this file and the repo disagree, the repo is right.
+What has actually been checked and what has not, plus the risks and the assumptions worth
+knowing. **Not a changelog** — how the code got here is in `git log`. **Not a plan** — where it
+is going, and what is blocking release, is in [ROADMAP.md](ROADMAP.md). If this file and the
+repo disagree, the repo is right.
 
 ## Where it stands
 
@@ -93,34 +95,6 @@ Two methodological notes:
   writer will actually look. The one thing worth repeating here: the philosophy pass replaced
   clichés within their own traditions but spent its net growth on Stoics, so German and
   Enlightenment rationalist still carry one line each. The next pass there should add a voice.
-
-## Shipping: the Play Store path
-
-**The binding constraint isn't technical.** The developer is under 18; a Play Console account
-requires the holder to be 18+, enforced at signup and again by the payments profile. The only
-legitimate route is a **parent or guardian owning the account**, with the developer added as a
-user with release permissions. That means the $25 fee, an identity check, and the guardian's
-name and address shown publicly on the listing. What makes it an easy ask here: no data
-collection (structurally — no `INTERNET` permission), no ads, no payments, no accounts, no user
-content, no medical claims.
-
-F-Droid and GitHub Releases were considered and rejected on reach, and are worth revisiting only
-if the guardian route fails.
-
-**Schedule driver**: a personal account created after Nov 2023 must run a closed test with **12
-testers opted in for 14 consecutive days** before production. The clock starts when the 12th
-tester installs, so recruiting is the long pole — realistically three weeks from first upload.
-
-| Ready | Not ready |
-| --- | --- |
-| Signing config (keystore applied when present, unsigned when absent, so CI is unaffected) | No Play Console account |
-| `store-assets/play-store-icon-512.png` | |
-| `store-assets/play-listing.md`, drafted against the quote-widget category, recommending **Personalization** | |
-| Privacy policy live at https://alexanderkova033.github.io/SapGlance/, rendered from `PRIVACY.md` by the Pages workflow, verified reachable 2026-07-31 | |
-| Keystore backed up off this machine, reported 2026-07-31. Not verifiable from here, and worth re-checking that the copy actually opens with `keytool -list` | |
-| `targetSdk 36` clears the Aug 2026 requirement | Feature graphic exists only as an SVG master; Play needs it exported to PNG/JPEG |
-| Three screenshots, 1080x2160, 24-bit RGB: 2x2 pale card, large deep card, and the sourced-tip settings card | |
-| `versionName 1.0.0` | |
 
 ## Local environment
 
