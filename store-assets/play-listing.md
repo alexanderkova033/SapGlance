@@ -133,6 +133,12 @@ Worth showing, in rough priority: the widget at 2x2 on a home screen, the same w
 deep night card so the palette range is visible, and the settings screen's "Why this tip?" card,
 which is the feature nothing else in the category has.
 
-Done so far: `play-screenshot-01-widget-2x2.png`, a pale Meadow card at 2x2, cropped from
-1080x2340 to 1080x2160 to clear the 2:1 rule. Still to shoot: 4x4, a deep night card, and the
-settings card.
+Done so far, both cropped from 1080x2340 to 1080x2160 to clear the 2:1 rule:
+
+- `play-screenshot-01-widget-2x2.png` — pale Meadow card, 2x2, a motivation line.
+- `play-screenshot-02-widget-4x4.png` — deep Sunset card at 401x603dp, a philosophy quotation.
+  Deliberately the opposite of the first on every axis a viewer can see: size, layout (the
+  quote glyph only appears once the card is tall enough), and palette. Two screenshots that
+  differ only in size would waste one of them.
+
+Still to shoot: the settings "Why this tip?" card.
