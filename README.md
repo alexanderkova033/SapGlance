@@ -97,6 +97,36 @@ CI (`.github/workflows/ci.yml`) runs all of it on every push and PR.
 
 ## Roadmap
 
+### Getting to release, in order
+
+The code is not what is blocking. The schedule is: a personal Play account created after
+Nov 2023 must run a closed test with **12 testers opted in for 14 consecutive days** before
+production, and that clock only starts at the first upload. So the ordering below is by what
+unblocks what, and content work deliberately waits for the test window.
+
+1. **Back up the signing key.** `keystore/healthwidget-release.jks` *and*
+   `keystore/keystore.properties` — the key is useless without the passwords. Two copies, at
+   least one off this machine. It is the only unrecoverable item in the project: lose it and the
+   listing can never be updated again, only replaced under a new `applicationId`. Never in the
+   repo (it is gitignored, and has never been committed — checked).
+2. **Start the guardian conversation.** The account holder must be 18+, so the account is theirs
+   with the developer added as a user. $25 once, an identity check, and their name and address
+   appear publicly on the listing. Longest lead time of anything here, so it starts first even
+   though it finishes last.
+3. **Merge to `main` and push.** CI and the Pages workflow only run there.
+4. **Turn on Pages**: Settings → Pages → Source → "GitHub Actions". Publishes `PRIVACY.md`,
+   which Play requires at a public URL. Nothing happens until step 3.
+5. **Screenshots**, on a *clean* home screen — a listing is public, and the obvious shot also
+   publishes your wallpaper, your apps and your location. See `store-assets/play-listing.md` for
+   the framing and the 2:1 rule Play enforces.
+6. **Export the feature graphic** from `store-assets/play-feature-graphic-1024x500.svg` to PNG
+   at exactly 1024x500.
+7. **Upload, recruit 12 testers, wait 14 days.**
+8. **During the wait**, run the plain-English pass. It needs a fortnight of real use first
+   anyway, and a version boundary is the right place to land something that resets tip history.
+
+### Open work
+
 Completed work lives in the git history. What's open:
 
 - [ ] **Grow the jokes group in `wellbeing`.** Started: the group exists with four sourced lines,
