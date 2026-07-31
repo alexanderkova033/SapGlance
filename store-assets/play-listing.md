@@ -141,4 +141,11 @@ Done so far, both cropped from 1080x2340 to 1080x2160 to clear the 2:1 rule:
   quote glyph only appears once the card is tall enough), and palette. Two screenshots that
   differ only in size would waste one of them.
 
-Still to shoot: the settings "Why this tip?" card.
+- `play-screenshot-03-why-this-tip.png` — the settings card, showing a practical tip with
+  "Backed by 2 sources" and both citations as tappable links, plus the variety control. This is
+  the differentiator shot: every competing quote widget can show a nice card, none of them can
+  show you where the claim came from.
+
+That is the set. Three is above Play's minimum of two, and they cover the three things worth
+knowing before installing: what it looks like small, what it looks like large, and that the
+advice is sourced. Upload them in that order, since Play shows the first one largest.
