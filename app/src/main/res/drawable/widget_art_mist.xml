@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Three ridges fading back into the haze. Depth rather than a horizon line: a single line reads
+     as a landscape and needs room this card does not have, whereas overlapping ridges read as
+     distance at any size. Palest is furthest, which is the whole trick. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_mist_ridge_far"
+        android:pathData="M0,150 L0,96 C40,78 74,92 116,80 C160,68 198,86 244,74 C266,68 284,72 300,68 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_mist_ridge_mid"
+        android:pathData="M0,150 L0,116 C48,102 88,116 134,106 C182,96 222,110 268,100 C282,97 292,98 300,96 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_mist_ridge_near"
+        android:pathData="M0,150 L0,134 C56,124 102,136 158,128 C210,121 258,132 300,126 L300,150 Z" />
+</vector>

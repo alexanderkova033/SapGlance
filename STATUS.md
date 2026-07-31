@@ -19,7 +19,7 @@ the code.
 - **Catalog**: 316 tips — 151 practical (`general` 50, `morning` 26, `afternoon` 26, `evening`
   28, `sleep_late` 11, `sleep_early` 10) and 165 tone (`motivation` 59, `philosophy` 47,
   `wellbeing` 59).
-- **Widget**: 11 background styles, picked by a per-hour palette narrowed by the tip's kind and
+- **Widget**: 15 background styles, picked by a per-hour palette narrowed by the tip's kind and
   then hashed on the tip's text; resizes from 2x2 to 4x4.
 - **Selection**: three narrowing weighted picks, anti-repeat applied before all of them,
   recency weighting over a 160-tip history, per-day-part `ToneProfile`, no tone voice three
@@ -66,10 +66,15 @@ against real numbers because of it.
    philosophy line at 01:43 drew a deep card, and a motivation line at 15:30 drew Meadow, pale,
    with correctly paired ink — which is the morning palette that motivation borrows, at an
    afternoon hour, exactly as designed. What no single sighting settles is the variety cost,
-   taken knowingly: a palette of six means roughly a 1-in-6 chance two consecutive tips share a
-   background, against 1-in-11 when the hash ran over all eleven styles, and night is 1-in-4.
-   Whether that reads as repetitive needs weeks, not a screenshot. More artwork is the fix and
-   is on the roadmap.
+   taken knowingly: narrowing to a palette trades away some of the old 1-in-11 odds that hashing
+   over every style gave. Four new styles have since taken the daylight palettes to eight and
+   night to six, so the worst case is 1-in-6 rather than 1-in-4. Whether that reads as
+   repetitive needs weeks, not a screenshot.
+7. **The four new backgrounds have never been seen on a phone.** Ember, Slate, Linen and Mist
+   are drawn but unrendered here: gradients and vector paths look different on-device than they
+   do in the XML, and the one thing no test covers is whether the art survives the scrim it is
+   drawn under. Slate in particular is deliberately almost empty, which is either restful or
+   unfinished depending on how it actually lands.
 
 Two methodological notes:
 

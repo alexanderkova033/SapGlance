@@ -336,10 +336,16 @@ private fun VarietyLevel.icon(): ImageVector =
         VarietyLevel.PLAYFUL -> Icons.Filled.AutoAwesome
     }
 
-/** `null` for [TipKind.PRACTICAL] — the default kind isn't labelled, see [TipSourceSection]. */
-private fun TipKind.labelRes(): Int? =
+/**
+ * Every kind is labelled, [TipKind.PRACTICAL] included. It used to be the exception, on the
+ * argument that the day part already occupied that line and tagging the majority kind alongside
+ * it would be noise. That was wrong in the one place it mattered: the card *below* the label is
+ * headed "Backed by 2 sources", so a reader is being told what a tip is made of while the line
+ * naming what kind of tip it is stays blank for the only kind that has sources at all.
+ */
+private fun TipKind.labelRes(): Int =
     when (this) {
-        TipKind.PRACTICAL -> null
+        TipKind.PRACTICAL -> R.string.settings_tip_kind_health
         TipKind.MOTIVATION -> R.string.settings_tip_kind_motivation
         TipKind.PHILOSOPHY -> R.string.settings_tip_kind_philosophy
         TipKind.WELLBEING -> R.string.settings_tip_kind_wellbeing
@@ -449,9 +455,10 @@ private fun TipSourceSection(
                     )
                 }
                 Spacer(Modifier.width(12.dp))
-                // Tone tips name their group next to the day part ("EVENING · PHILOSOPHY"), so
-                // it's obvious which pool a tip came from. Practical tips stay unlabelled: they
-                // are the default and the majority, and tagging every one of them would be noise.
+                // Every tip names its kind next to the day part ("AFTERNOON · HEALTH"), so it is
+                // always obvious which pool it came from. Null only when the catalog no longer
+                // recognises the text — a tip reworded or dropped since it was persisted — and
+                // then the day part stands alone rather than the card guessing.
                 val kindLabelRes = source?.kind?.labelRes()
                 Text(
                     text =

@@ -44,11 +44,11 @@ the live privacy-policy URL. What is missing is the account and the feature grap
 
 ## Open work
 
-- [ ] **More card backgrounds.** Eleven is thin now that selection narrows by hour and kind: the
-      night palette is only four styles, so two consecutive night tips share a background one
-      time in four, and all three daylight palettes lean on the same four pale cards. Most
-      wanted, in order: **more deep, quiet artwork for the night palette**, then **more pale
-      styles**, since four are currently doing the work of every daylight hour.
+- [ ] **More card backgrounds still.** Fifteen now: Ember and Slate widened the night palette
+      from four to six, and Linen and Mist took the daylight palettes from six to eight. The
+      worst odds moved from 1-in-4 to 1-in-6, which is no longer the outlier it was. Where the
+      next ones would help most is unchanged in shape though: night is still the narrowest, and
+      it is the hour where the card is most likely to be the only lit thing in the room.
       Adding one is three edits and each is enforced rather than remembered: a `WidgetStyle`
       entry (the constructor makes you declare `isLight`), a drawable in `:app`'s exhaustive
       `when` (compile error if missing), and membership of at least one palette (a test fails if
@@ -56,6 +56,10 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       there is no second colour choice to get wrong. The one thing no check covers: the art has
       to survive the whole-card scrim it will be drawn under, 0.42 black on a dark style and 0.30
       white on a pale one, and still read as artwork rather than as texture.
+      Worth knowing before drawing another: the set needs range, not more of its centre. Ember
+      is the only warm dark card and Slate the only card with no subject at all, and both exist
+      because six cool cards with something to look at had made the night rotation feel narrower
+      than its count.
 - [ ] **Grow the jokes group in `wellbeing`.** Started: the group exists with four sourced lines,
       and `WELLBEING` may now carry a single attribution the way a quoted `PHILOSOPHY` line does,
       since sourcing them and claiming them as ours are not compatible. The constraint that makes

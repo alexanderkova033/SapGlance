@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Linen: warm pale. The four light styles before it were two cool (Winter, Paper) and one pink
+     (Blossom) over one green (Meadow), so every daylight hour drew from the same narrow, cool
+     end. This is the warm one. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="@color/widget_linen_start"
+                android:endColor="@color/widget_linen_end"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="150dp"
+                android:centerX="0.18"
+                android:centerY="0.12"
+                android:startColor="@color/widget_linen_sun"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="170dp"
+                android:centerX="0.55"
+                android:centerY="1.0"
+                android:startColor="@color/widget_linen_haze"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/widget_art_linen" />
+    <!-- Two motes in the light, pale on pale, the same trick Meadow's seed heads use: a dark
+         speck at this size reads as a dead pixel. -->
+    <item
+        android:width="2.6dp"
+        android:height="2.6dp"
+        android:gravity="bottom|left"
+        android:left="92dp"
+        android:bottom="42dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_linen_mote" />
+        </shape>
+    </item>
+    <item
+        android:width="2dp"
+        android:height="2dp"
+        android:gravity="top|right"
+        android:right="58dp"
+        android:top="38dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_linen_mote" />
+        </shape>
+    </item>
+    <!-- Bottom-edge scrim: floors the contrast under the app-name label, which is the only
+         text on the card without a chip behind it. -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:startColor="@color/widget_footer_scrim_light"
+                android:centerColor="@android:color/transparent"
+                android:endColor="@android:color/transparent"
+                android:type="linear" />
+        </shape>
+    </item>
+    <!-- Card frame, in the dark rim the light styles use — the white one every dark style
+         carries would be invisible against a pale ground. -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1.5dp" android:color="@color/widget_card_border_dark" />
+        </shape>
+    </item>
+</layer-list>

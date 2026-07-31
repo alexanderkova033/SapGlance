@@ -23,12 +23,16 @@ enum class WidgetStyle(val isLight: Boolean) {
     AURORA(isLight = false),
     DAWN(isLight = false),
     RAIN(isLight = false),
+    EMBER(isLight = false),
+    SLATE(isLight = false),
 
     // Light cards (dark text on pale artwork).
     WINTER(isLight = true),
     PAPER(isLight = true),
     MEADOW(isLight = true),
     BLOSSOM(isLight = true),
+    LINEN(isLight = true),
+    MIST(isLight = true),
     ;
 
     companion object {
@@ -67,17 +71,24 @@ enum class WidgetStyle(val isLight: Boolean) {
          * which a test pins, so no artwork quietly becomes unused.
          */
         private val MORNING_PALETTE =
-            listOf(WINTER, PAPER, MEADOW, BLOSSOM, DAWN, AURORA)
+            listOf(WINTER, PAPER, MEADOW, BLOSSOM, LINEN, MIST, DAWN, AURORA)
 
         private val AFTERNOON_PALETTE =
-            listOf(WINTER, PAPER, MEADOW, BLOSSOM, OCEAN, FOREST)
+            listOf(WINTER, PAPER, MEADOW, BLOSSOM, LINEN, MIST, OCEAN, FOREST)
 
         private val EVENING_PALETTE =
-            listOf(SUNSET, RAIN, FOREST, OCEAN, AURORA, PAPER)
+            listOf(SUNSET, RAIN, FOREST, OCEAN, AURORA, EMBER, PAPER)
 
-        /** Deep and quiet, and the only palette with no pale card in it at all. */
+        /**
+         * Deep and quiet, and the only palette with no pale card in it at all. It was four
+         * styles, which meant two consecutive night tips shared a background one time in four —
+         * the narrowest odds anywhere in the app, in the hours where the card is most likely to
+         * be the only lit thing in the room. Ember and Slate were drawn for this palette
+         * specifically: warm, because the other four are all cool, and empty, because a set
+         * where every card has a subject has no rest in it.
+         */
         private val NIGHT_PALETTE =
-            listOf(MIDNIGHT, RAIN, OCEAN, FOREST)
+            listOf(MIDNIGHT, RAIN, OCEAN, FOREST, EMBER, SLATE)
 
         /**
          * Kind shifts *which hour's* palette is used rather than narrowing the hour's own, which

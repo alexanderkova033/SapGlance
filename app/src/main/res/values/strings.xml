@@ -29,6 +29,11 @@
          line of Stoic philosophy as a research finding. -->
     <string name="settings_tip_source_attribution">Quoted from</string>
 
+    <!-- "Health" rather than "Practical": the label answers "what is this about", which is what
+         a reader glancing at the card wants, not "which register is it written in". It also
+         keeps the word clear of the *variety setting* called "Practical" further down the same
+         screen — one word meaning two different things on one screen is worse than two words. -->
+    <string name="settings_tip_kind_health">Health</string>
     <string name="settings_tip_kind_motivation">Motivation</string>
     <string name="settings_tip_kind_philosophy">Philosophy</string>
     <string name="settings_tip_kind_wellbeing">Wellbeing</string>

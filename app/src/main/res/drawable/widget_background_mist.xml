@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mist: pale and cool, ridges receding. The lightest card in the set, which is why the ridges
+     carry the contrast: with a gradient this flat there would otherwise be nothing for the eye
+     to land on and it would read as an unfinished card rather than a quiet one. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="@color/widget_mist_start"
+                android:endColor="@color/widget_mist_end"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="160dp"
+                android:centerX="0.5"
+                android:centerY="0.18"
+                android:startColor="@color/widget_mist_glow"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="180dp"
+                android:centerX="0.5"
+                android:centerY="1.0"
+                android:startColor="@color/widget_mist_haze"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/widget_art_mist" />
+    <item
+        android:width="2.4dp"
+        android:height="2.4dp"
+        android:gravity="top|left"
+        android:left="46dp"
+        android:top="44dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/widget_mist_mote" />
+        </shape>
+    </item>
+    <!-- Bottom-edge scrim: floors the contrast under the app-name label, which is the only
+         text on the card without a chip behind it. -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:startColor="@color/widget_footer_scrim_light"
+                android:centerColor="@android:color/transparent"
+                android:endColor="@android:color/transparent"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1.5dp" android:color="@color/widget_card_border_dark" />
+        </shape>
+    </item>
+</layer-list>

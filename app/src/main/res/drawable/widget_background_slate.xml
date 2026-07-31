@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Slate: the plainest card in the set, and that is the point. Every other style has a subject
+     — a moon, rain, grass, blossom — and a set where all of them do has no rest in it. One sheen
+     from the upper left, one pool of depth at the foot, nothing to look at. At 3am this is the
+     one that asks least. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="290"
+                android:startColor="@color/widget_slate_start"
+                android:endColor="@color/widget_slate_end"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="190dp"
+                android:centerX="0.2"
+                android:centerY="0.08"
+                android:startColor="@color/widget_slate_sheen"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="160dp"
+                android:centerX="0.6"
+                android:centerY="1.0"
+                android:startColor="@color/widget_slate_depth"
+                android:endColor="@android:color/transparent" />
+        </shape>
+    </item>
+    <!-- Bottom-edge scrim: floors the contrast under the app-name label, which is the only
+         text on the card without a chip behind it. -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:startColor="@color/widget_footer_scrim"
+                android:centerColor="@android:color/transparent"
+                android:endColor="@android:color/transparent"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1.5dp" android:color="@color/widget_card_border" />
+        </shape>
+    </item>
+</layer-list>

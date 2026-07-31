@@ -201,10 +201,14 @@ private fun WidgetStyle.background(): Int =
         WidgetStyle.AURORA -> R.drawable.widget_background_aurora
         WidgetStyle.DAWN -> R.drawable.widget_background_dawn
         WidgetStyle.RAIN -> R.drawable.widget_background_rain
+        WidgetStyle.EMBER -> R.drawable.widget_background_ember
+        WidgetStyle.SLATE -> R.drawable.widget_background_slate
         WidgetStyle.WINTER -> R.drawable.widget_background_winter
         WidgetStyle.PAPER -> R.drawable.widget_background_paper
         WidgetStyle.MEADOW -> R.drawable.widget_background_meadow
         WidgetStyle.BLOSSOM -> R.drawable.widget_background_blossom
+        WidgetStyle.LINEN -> R.drawable.widget_background_linen
+        WidgetStyle.MIST -> R.drawable.widget_background_mist
     }
 
 /**

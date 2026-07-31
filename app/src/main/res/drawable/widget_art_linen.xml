@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two soft folds along the bottom with a pair of threads catching the light. Kept to the lower
+     third so the fold sits below the tip rather than running through it, the same rule the grass
+     and the ridges follow. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="150dp"
+    android:viewportWidth="300"
+    android:viewportHeight="150">
+    <path
+        android:fillColor="@color/widget_linen_fold_back"
+        android:pathData="M0,150 L0,110 C58,120 96,100 152,106 C206,112 250,98 300,104 L300,150 Z" />
+    <path
+        android:fillColor="@color/widget_linen_fold_front"
+        android:pathData="M0,150 L0,132 C62,138 108,124 164,130 C216,136 262,126 300,131 L300,150 Z" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_linen_thread"
+        android:strokeWidth="1.4"
+        android:strokeLineCap="round"
+        android:pathData="M22,140 C74,132 132,144 186,136 M46,146 C104,139 158,150 214,142" />
+</vector>

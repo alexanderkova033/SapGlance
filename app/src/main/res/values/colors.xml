@@ -171,4 +171,44 @@
     <color name="widget_blossom_petal_far">#99E894B4</color>
     <color name="widget_blossom_petal_near">#B3D96C99</color>
     <color name="widget_blossom_mote">#8CC97D9E</color>
+
+    <!-- Ember. Deep and warm, for the night palette, which had only four styles and so repeated
+         a background one night in four. Warm rather than blue on purpose: every other dark style
+         is cool, so a night-only user was seeing four shades of the same idea. The glow sits low
+         and never reaches the tip, because embers you can read by are a lamp, not a fire. -->
+    <color name="widget_ember_start">#17100E</color>
+    <color name="widget_ember_end">#40201A</color>
+    <color name="widget_ember_glow">#4DFF7A3D</color>
+    <color name="widget_ember_ash">#2EFFB27A</color>
+    <color name="widget_ember_spark">#A6FFD1A3</color>
+
+    <!-- Slate. The quietest card in the set and deliberately the plainest: no subject, no
+         specks, one sheen. Something has to be nearly empty for the ones that aren't to read as
+         a choice. -->
+    <color name="widget_slate_start">#2C343C</color>
+    <color name="widget_slate_end">#0F151A</color>
+    <color name="widget_slate_sheen">#2E8FA3B5</color>
+    <color name="widget_slate_depth">#3344586B</color>
+
+    <!-- Linen. Warm pale, against the four existing light styles which are all cool or pink.
+         The weave is two lines, not a texture: at widget size a real one turns to noise. -->
+    <color name="widget_linen_start">#FCF6EA</color>
+    <color name="widget_linen_end">#E7D8BD</color>
+    <color name="widget_linen_sun">#59FFF0C4</color>
+    <color name="widget_linen_haze">#2EB39B6B</color>
+    <color name="widget_linen_fold_back">#7AD8C3A0</color>
+    <color name="widget_linen_fold_front">#99C9AF86</color>
+    <color name="widget_linen_thread">#5C9C815A</color>
+    <color name="widget_linen_mote">#B3B99A64</color>
+
+    <!-- Mist. Pale and cool, ridges fading back rather than a horizon line, so it reads as
+         depth on a card too small to hold a landscape. -->
+    <color name="widget_mist_start">#EEF4F8</color>
+    <color name="widget_mist_end">#C7D7E2</color>
+    <color name="widget_mist_glow">#59FFFFFF</color>
+    <color name="widget_mist_haze">#2E7C9AB0</color>
+    <color name="widget_mist_ridge_far">#5C9FB6C6</color>
+    <color name="widget_mist_ridge_mid">#7A8AA5B8</color>
+    <color name="widget_mist_ridge_near">#997C99AD</color>
+    <color name="widget_mist_mote">#A6FFFFFF</color>
 </resources>
