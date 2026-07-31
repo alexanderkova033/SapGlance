@@ -107,10 +107,14 @@ Completed work lives in the git history. What's open:
       voice is warm. Filling the group with Wilde and Bierce would quietly turn the pool acid, and
       no test catches that. Grow it on one question — does the line still sound like it belongs
       beside "check on the plant"? Jerome K. Jerome passes easily; Bierce is capped at one.
-- [ ] **A plain-English pass over the practical pools.** A tip held to ~90 characters *and* to
-      what its two citations support drifts into the register of the abstract it came from.
-      Rewriting has to re-check each line against its sources, and it orphans stored history, so
-      do it in one pass rather than continuously.
+- [ ] **A plain-English pass over every pool**, not just the practical ones. The reading half is
+      done: [docs/TIGHTENING_AUDIT.md](docs/TIGHTENING_AUDIT.md) has the patterns, worked
+      rewrites, and the split between safe compression and rewrites that touch the claim and so
+      need their sources re-read. Two things it settled: 39 tips are quotations and can never be
+      reworded, and the slack is overwhelmingly on the practical side (mean 75-83 characters
+      against the tone pools' 61-63, and four times the hedging) because fidelity to two
+      citations inside ~90 characters is what produces that register. Do it in one pass, since
+      rewording orphans stored history and restyles every card.
 - [ ] **Make a cold tap feel faster.** ~1s is process start plus Glance session setup, not app
       code, and `warmUp()` already hides the catalog parse behind it. No cheap answer left.
 - [ ] **Languages beyond `en`.** The UI half is nearly free; the content half is the project —
