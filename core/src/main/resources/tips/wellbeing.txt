@@ -25,6 +25,24 @@
 # breaks the no-correcting rule. Aim at the situation or the object, not the person, and check
 # the line still works on a day that is going perfectly well.
 #
+# THE JOKES GROUP, added 2026-07-31, and the constraint nobody costed. The plan was to source
+# jokes from public-domain humour rather than write them, because written-to-order jokes read
+# as generated. That holds. What it collides with is the rule directly above: public-domain
+# humour short enough for a widget is overwhelmingly Victorian epigram, and Victorian epigram
+# is *witty*, which is not the same thing as warm. Wilde and Bierce are aimed at the world and
+# land as clever; this pool's own voice ("check on the plant, it has been through a lot and
+# has never once complained") is aimed at the reader's afternoon and lands as kind. Filling the
+# group with epigram would quietly turn wellbeing acid, which is a drift no test catches.
+#
+# So the group grows slowly and on one test: does the line still sound like it belongs beside
+# the plant? Jerome K. Jerome passes easily, being warm and self-implicating. Bierce barely
+# passes and is capped at the one entry below. There is no target size, and four lines that fit
+# beat twenty that are merely funny.
+#
+# Sourced lines carry an attribution inline, `Text<TAB>Label<TAB>URL`, the same way a quoted
+# philosophy line does. That is not optional politeness: passing Wilde off as ours would be the
+# same dishonesty as inventing a citation, in a lighter key.
+#
 # FOURTH WRITING RULE, on precision: prefer the specific instruction to the general invitation.
 # "Notice the sounds around you" is a mood; "notice which sounds are inside the room and which
 # are coming from outside it" is something a person can actually do, and the doing is the point.
@@ -98,3 +116,9 @@ Put on something you'd be slightly embarrassed to have playing when someone walk
 Name the nearest object out loud. That's your band name now.
 Take the long way to the kettle, past the window.
 If there's a dog, a bird, or a cat within sight, that's a legitimate use of a minute.
+
+# Jokes. Sourced, not written, and each one says whose it is.
+I can resist everything except temptation.	Oscar Wilde, Lady Windermere's Fan, Act I (Wikisource)	https://en.wikisource.org/wiki/Lady_Windermere%27s_Fan/Act_I
+It is impossible to enjoy idling thoroughly unless one has plenty of work to do.	Jerome K. Jerome, The Idle Thoughts of an Idle Fellow (Project Gutenberg)	https://www.gutenberg.org/ebooks/849
+Idleness, like kisses, to be sweet must be stolen.	Jerome K. Jerome, The Idle Thoughts of an Idle Fellow (Project Gutenberg)	https://www.gutenberg.org/ebooks/849
+Day, n. A period of twenty-four hours, mostly misspent.	Ambrose Bierce, The Devil's Dictionary (Wikisource)	https://en.wikisource.org/wiki/The_Devil%27s_Dictionary/D

@@ -27,9 +27,9 @@ says so plainly rather than glossing over it.
   means a new-looking card. No pale card in the small hours; no Midnight in the morning. The
   whole ink set flips with the artwork, not with the phone's day/night theme.
 - **Resizes** from a 2x2 square to a 4x4 block, with a layout built for each end of that range.
-- **312 tips in nine pools** — six practical, scoped by time of day (`general` 50, `morning` 26,
+- **316 tips in nine pools** — six practical, scoped by time of day (`general` 50, `morning` 26,
   `afternoon` 26, `evening` 28, `sleep_late` 11, `sleep_early` 10), and three tone pools grouped
-  by voice (`motivation` 59, `philosophy` 47, `wellbeing` 55).
+  by voice (`motivation` 59, `philosophy` 47, `wellbeing` 59).
 - **A "Why this tip?" card in settings**: the research behind a practical tip, the text behind a
   quotation, or nothing at all for an original line.
 - **No tip repeats within the last 100 shown**, and no tone voice runs three draws in a row.
@@ -88,7 +88,7 @@ version catalog (AGP 8.10.1) · `minSdk 26`, `compileSdk`/`targetSdk 36`. Requir
 
 ```bash
 ./gradlew build        # everything, including assembleRelease
-./gradlew test         # unit tests — :core 89, :app 6 per variant
+./gradlew test         # unit tests — :core 90, :app 6 per variant
 ./gradlew ktlintCheck  # formatting
 ./gradlew lint         # Android lint
 ```
@@ -99,10 +99,14 @@ CI (`.github/workflows/ci.yml`) runs all of it on every push and PR.
 
 Completed work lives in the git history. What's open:
 
-- [ ] **Jokes, as a group inside `wellbeing`** rather than a fourth voice — that pool is already
-      the only one allowed to be silly, so no new `ToneProfile` share has to be invented and they
-      inherit its night weighting. Source them from public-domain humour rather than writing
-      them; wellbeing's own rules bind, so the joke is aimed at the situation, never the reader.
+- [ ] **Grow the jokes group in `wellbeing`.** Started: the group exists with four sourced lines,
+      and `WELLBEING` may now carry a single attribution the way a quoted `PHILOSOPHY` line does,
+      since sourcing them and claiming them as ours are not compatible. The constraint that makes
+      this slow was not costed in the original plan: public-domain humour short enough for a
+      widget is almost all Victorian epigram, which is *witty* rather than *warm*, and wellbeing's
+      voice is warm. Filling the group with Wilde and Bierce would quietly turn the pool acid, and
+      no test catches that. Grow it on one question — does the line still sound like it belongs
+      beside "check on the plant"? Jerome K. Jerome passes easily; Bierce is capped at one.
 - [ ] **A plain-English pass over the practical pools.** A tip held to ~90 characters *and* to
       what its two citations support drifts into the register of the abstract it came from.
       Rewriting has to re-check each line against its sources, and it orphans stored history, so
@@ -110,7 +114,7 @@ Completed work lives in the git history. What's open:
 - [ ] **Make a cold tap feel faster.** ~1s is process start plus Glance session setup, not app
       code, and `warmUp()` already hides the catalog parse behind it. No cheap answer left.
 - [ ] **Languages beyond `en`.** The UI half is nearly free; the content half is the project —
-      312 tips behind a `Locale`-blind classpath lookup, identified by their text everywhere it
+      316 tips behind a `Locale`-blind classpath lookup, identified by their text everywhere it
       matters, citing English-language sources.
 - [ ] **iOS port**, gated on hardware. The privacy promise doesn't translate literally (no iOS
       app can declaratively renounce network access) and WidgetKit has no background execution.

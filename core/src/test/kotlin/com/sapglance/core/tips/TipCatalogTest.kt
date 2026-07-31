@@ -99,11 +99,28 @@ class TipCatalogTest {
         }
     }
 
+    /**
+     * Motivation is original writing end to end, so anything at all in [Tip.sources] there is a
+     * mistake. Wellbeing is the looser case since the jokes group landed: a line lifted from
+     * public-domain humour says whose it is, exactly as a quoted philosophy line does. What
+     * neither may do is carry the *plural* citations that mean "this is an evidence-backed
+     * claim", which is the thing the per-kind split exists to keep honest.
+     */
     @Test
     fun `tips that make no empirical claim carry no citation implying otherwise`() {
-        (catalog.motivation + catalog.wellbeing).forEach { tip ->
+        catalog.motivation.forEach { tip ->
             assertThat(tip.sources).isEmpty()
         }
+        catalog.wellbeing.forEach { tip ->
+            assertThat(tip.sources.size).isAtMost(1)
+        }
+    }
+
+    /** The jokes are sourced rather than written, so at least some of them must say from where. */
+    @Test
+    fun `the wellbeing pool carries both original lines and attributed ones`() {
+        assertThat(catalog.wellbeing.any { it.sources.isEmpty() }).isTrue()
+        assertThat(catalog.wellbeing.any { it.sources.size == 1 }).isTrue()
     }
 
     /**

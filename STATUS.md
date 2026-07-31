@@ -14,15 +14,15 @@ the code.
 - **Modules**: `:core` (pure Kotlin domain) and `:app` (Android). Same three features in both
   (`tips`/`settings`/`widget`). `:core` is flat per feature; `:app` splits each into
   `data`/`presentation`/`framework`, which are real differences in kind.
-- **Catalog**: 312 tips — 151 practical (`general` 50, `morning` 26, `afternoon` 26, `evening`
-  28, `sleep_late` 11, `sleep_early` 10) and 161 tone (`motivation` 59, `philosophy` 47,
-  `wellbeing` 55).
+- **Catalog**: 316 tips — 151 practical (`general` 50, `morning` 26, `afternoon` 26, `evening`
+  28, `sleep_late` 11, `sleep_early` 10) and 165 tone (`motivation` 59, `philosophy` 47,
+  `wellbeing` 59).
 - **Widget**: 11 background styles, picked by a per-hour palette narrowed by the tip's kind and
   then hashed on the tip's text; resizes from 2x2 to 4x4.
 - **Selection**: three narrowing weighted picks, anti-repeat applied before all of them,
   recency weighting over a 160-tip history, per-day-part `ToneProfile`, no tone voice three
   draws running.
-- **Build gate**: `ktlintCheck` clean; `:core` 89 tests, `:app` 6 per variant, 0 failures;
+- **Build gate**: `ktlintCheck` clean; `:core` 90 tests, `:app` 6 per variant, 0 failures;
   `lint` 0 errors, 26 warnings; full `build` including `assembleRelease` with R8.
 
 The lint warnings are all `VectorRaster`, `GradleDependency`, `MonochromeLauncherIcon`, `UseKtx`,
@@ -47,9 +47,9 @@ against real numbers because of it.
    estimate rests on `EFFECTIVE_CHAR_WIDTH_RATIO`, measured once against a *serif* render that
    the card no longer uses — it is now conservative, which wastes space but cannot clip.
    `TipFace.minColumnRatio` was measured over the catalog at 282 tips and the catalog is now
-   312. The 30 new lines were checked against it by width rather than re-measured: the widest
-   of them is narrower than three lines that were already in the measured set, so the constant
-   still covers the catalog, but nothing has re-run the wrap.
+   316. The 34 lines added since were checked against it by width rather than re-measured: the
+   widest of them is narrower than three lines that were already in the measured set, so the
+   constant still covers the catalog, but nothing has re-run the wrap.
 2. **Whether the rotation feels varied.** Tests prove no tip repeats within 100 and no voice
    runs three deep. Whether it *feels* varied is a judgement no test makes.
 3. **Whether the night hours read as calm** — now the open question about 21 new tips rather

@@ -26,7 +26,13 @@ enum class TipKind {
      */
     PHILOSOPHY,
 
-    /** Gentle self-compassion and emotional check-ins. Original writing, no citation. */
+    /**
+     * Gentle self-compassion, small concrete invitations, and the pool's lighter end. Mostly
+     * original writing carrying nothing, and — since the jokes group — a few public-domain
+     * quotations carrying exactly one source, on the same terms as [PHILOSOPHY]: a line somebody
+     * else wrote says so, because passing Wilde off as ours would be the same dishonesty in a
+     * lighter key.
+     */
     WELLBEING,
     ;
 
