@@ -16,20 +16,24 @@ the code.
 - **Modules**: `:core` (pure Kotlin domain) and `:app` (Android). Same three features in both
   (`tips`/`settings`/`widget`). `:core` is flat per feature; `:app` splits each into
   `data`/`presentation`/`framework`, which are real differences in kind.
-- **Catalog**: 316 tips — 151 practical (`general` 50, `morning` 26, `afternoon` 26, `evening`
-  28, `sleep_late` 11, `sleep_early` 10) and 165 tone (`motivation` 59, `philosophy` 47,
-  `wellbeing` 59).
+- **Catalog**: 371 tips — 182 practical (`general` 58, `morning` 31, `afternoon` 31, `evening`
+  33, `sleep_late` 15, `sleep_early` 14) and 189 tone (`motivation` 67, `philosophy` 55,
+  `wellbeing` 67). Every practical line still carries 2+ independent citations, and the pass on
+  2026-07-31 reworded most of them without changing a single claim (see below).
 - **Widget**: 19 background styles, picked by a per-hour palette narrowed by the tip's kind and
   then hashed on the tip's text; resizes from 2x2 to 4x4.
 - **Selection**: three narrowing weighted picks, anti-repeat applied before all of them,
   recency weighting over a 160-tip history, per-day-part `ToneProfile`, no tone voice three
   draws running.
 - **Build gate**: `ktlintCheck` clean; `:core` 102 tests, `:app` 6 per variant, 0 failures;
-  `lint` 0 errors, 26 warnings; full `build` including `assembleRelease` with R8.
+  `lint` 0 errors, 34 warnings; full `build` including `assembleRelease` with R8.
 
-The lint warnings are all `VectorRaster`, `GradleDependency`, `MonochromeLauncherIcon`, `UseKtx`,
-`VectorPath`, plus two deliberate `UnusedAttribute` for the widget's API 31+ `targetCell*`
-against `minSdk 26`.
+The lint warnings are all `VectorRaster`, `GradleDependency`, `AndroidGradlePluginVersion`,
+`MonochromeLauncherIcon`, `UseKtx`, `VectorPath`, plus two deliberate `UnusedAttribute` for the
+widget's API 31+ `targetCell*` against `minSdk 26`. The count read 26 here until 2026-07-31 and
+now reads 34; that drift is the version-age checks noticing the calendar, not new code. It was
+confirmed by running `lint` against the tree with the content change stashed, which also gives
+34.
 
 ## Verified, and not
 
@@ -49,12 +53,17 @@ against real numbers because of it.
    estimate rests on `EFFECTIVE_CHAR_WIDTH_RATIO`, measured once against a *serif* render that
    the card no longer uses — it is now conservative, which wastes space but cannot clip.
    `TipFace.minColumnRatio` was measured over the catalog at 282 tips and the catalog is now
-   316. The 34 lines added since were checked against it by width rather than re-measured: the
-   widest of them is narrower than three lines that were already in the measured set, so the
-   constant still covers the catalog, but nothing has re-run the wrap.
+   371. The 89 lines added since were checked against it by width rather than re-measured, this
+   time by wrapping the whole catalog greedily at every column width with an approximate
+   serif-bold advance table and ranking the result. That is a *relative* answer, not a
+   measurement — the units are arbitrary — but it is the right relative answer: the
+   widest-wrapping new line ("Light sensitivity varies fifty-fold between people") sits below
+   ten lines that were already in the measured set, and the line the constant was measured
+   against ("Morning movement outdoors does double duty") is unchanged. So the constant still
+   covers the catalog, and nothing has re-run the wrap against the real font.
 2. **Whether the rotation feels varied.** Tests prove no tip repeats within 100 and no voice
    runs three deep. Whether it *feels* varied is a judgement no test makes.
-3. **Whether the night hours read as calm** — now the open question about 21 new tips rather
+3. **Whether the night hours read as calm** — now the open question about 29 tips rather
    than about two fixed sentences. The pools were written to be gentler than the daytime ones
    and to leave out the frightening findings on purpose, but nobody has yet been awake at 3am
    with the widget in front of them, which is the only test that counts.
@@ -75,6 +84,23 @@ against real numbers because of it.
    do in the XML, and the one thing no test covers is whether the art survives the scrim it is
    drawn under. Slate in particular is deliberately almost empty, which is either restful or
    unfinished depending on how it actually lands.
+8. **Whether the plain-English pass reads plainer.** 51 lines were reworded on 2026-07-31 — 44
+   practical and 7 in `wellbeing`, none in `motivation` or `philosophy` — and 55 tips were added
+   across all nine pools. The rewrites are argued from
+   [docs/TIGHTENING_AUDIT.md](docs/TIGHTENING_AUDIT.md)'s five patterns, and every one of them
+   was held to the same rule — no claim, no hedge and no number may change — so what the build
+   can say is that nothing got less accurate. Whether "bedrooms sleep better cool" actually
+   reads better than "a cooler bedroom supports better sleep" is the judgement, and it wants
+   weeks of the widget on a wall rather than a diff. Two knock-on effects are certain and were
+   taken knowingly: every reworded tip is a new string, so it is missing from stored history and
+   is drawn on a different background than it used to be.
+9. **Whether the three new jokes land.** The group went four to seven on the header's own test
+   ("does it still sound like it belongs beside the plant?"), which is one person's ear and
+   nothing more. Charles Dudley Warner is the new voice and the riskier bet: gardening humour
+   from 1870 is warm, and it is also 156 years old, which is a different thing from funny. It
+   stopped at seven rather than a round eight because an eighth would have had to be a fourth
+   Jerome, and the counts are now the rule there — Jerome three, Warner two, Wilde one,
+   Bierce one.
 
 Two methodological notes:
 
@@ -97,9 +123,18 @@ Two methodological notes:
   Unconfirmed since the device was last connected.
 - **The tone pools were passed over on 2026-07-30** and the two criticisms recorded on 07-28 are
   closed; what each pass found, and what it left open, is written into the pool headers where a
-  writer will actually look. The one thing worth repeating here: the philosophy pass replaced
-  clichés within their own traditions but spent its net growth on Stoics, so German and
-  Enlightenment rationalist still carry one line each. The next pass there should add a voice.
+  writer will actually look. The debt that pass left — German and Enlightenment rationalist on
+  one line each, because it had spent its growth on Stoics — was paid on 07-31: two
+  Schopenhauer, a second Spinoza, and Hume, who is a tradition the pool did not have. No Romans
+  were added. What is still open there is narrower and is written into the header: the pool is
+  European and Chinese apart from the Dhammapada, and has one woman in it.
+- **The catalog is 17% larger than anything that has been read end to end.** 55 tips were added
+  on 2026-07-31 and the practical ones lean on citations already verified in this repo rather
+  than on new ones, which is the safer half of the job — the claim still has to be one those
+  sources actually make. Two were written to sit deliberately close to a line that was already
+  there ("walking breaks beat standing breaks" next to "break up long sitting with a minute of
+  standing"), and close is where a contradiction hides. Worth a read-through when there is
+  reason to touch the pools again.
 
 ## Local environment
 
@@ -127,11 +162,15 @@ uninstall — which wipes the tip history. Always `assembleRelease` + `adb insta
 - **`applicationId` is permanent from the first Play upload.** It is `com.sapglance.app`. The
   display name can change freely.
 - **The anti-repeat window is bounded by content, not preference.** 100 works because a
-  single-day-part user's practical reach is 76-78 tips and an exhausted tier redistributes into
-  tone rather than repeating; the cost is that user's practical share drifting ~81% to ~73%.
-  `TipCatalogTest` pins it. Raising it needs more tips per pool first — and the pool to count is
-  now the night one: 23:00-05:59 reaches ~11 practical plus philosophy and wellbeing, about 110
-  tips against a window of 100, which is the whole margin the app has anywhere.
+  single-day-part user's practical reach is 89-91 tips (76-78 before 2026-07-31) and an
+  exhausted tier redistributes into tone rather than repeating; the cost is that user's
+  practical share drifting below its nominal ~81%, by less than it used to now that the
+  practical side is deeper, though nothing here has re-measured how much less.
+  `TipCatalogTest` pins the promise itself. Raising the window needs more tips per pool, and the
+  pool to count is still the night one, where the margin is thinnest: 23:00-05:59 reaches 14-15
+  practical plus philosophy and wellbeing, 136-137 tips against a window of 100. That was ~110
+  before 2026-07-31, so the margin roughly doubled. The shape of the constraint has not changed
+  and neither has the window.
 - **The sleep hours are ordinary pools now**, and the exemptions built around the fixed message
   they replaced are gone with it: no anti-repeat exemption, and no `manual` flag on
   `TipEngine.messageFor`, which existed only so a tap at 2am wasn't a silent no-op. They still

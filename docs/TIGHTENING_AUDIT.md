@@ -1,8 +1,13 @@
 # Tightening audit
 
-Preparation for the plain-English pass. **No tip text is changed here** — rewording orphans a
+Preparation for the plain-English pass. **No tip text was changed here** — rewording orphans a
 user's stored history and changes each tip's `WidgetStyle`, so it happens once, deliberately,
-not in pieces. This is the reading half done in advance.
+not in pieces. This was the reading half, done in advance.
+
+**The pass ran on 2026-07-31.** What it did with each of the findings below is at the bottom,
+under "What the pass actually did". Read that before treating any worked rewrite here as
+shipped, because several of them are not — the pass took Class A and declined Class B, and some
+of the most quotable rewrites in this document are Class B.
 
 Scope is all nine pools, not just the practical ones the roadmap originally named.
 
@@ -13,6 +18,10 @@ quotation makes it a paraphrase still presented as a quotation, which is the exa
 those pools exist to prevent. They are out of scope permanently, not just for this pass.
 
 That leaves **277 eligible** of 316.
+
+*(Both figures are as audited. The 07-31 pass added quotations as well as originals, so the
+untouchable set is now 46 — 39 philosophy and 7 wellbeing — and the eligible set is 325 of 371.
+The ratio barely moved; the rule did not move at all.)*
 
 ## Where the slack actually is
 
@@ -92,8 +101,60 @@ source supports that is a question, not an assumption.
 
 ## Sequencing
 
-Do it in one pass, and not yet. Three of STATUS's unverified items — whether the night hours read
-as calm, whether the reworked tone pools read better, whether the daylight palettes look right —
-all depend on living with the current text. Rewriting it now destroys the evidence being
-gathered. The natural window is during the 14-day closed test, when there is real usage to react
-to and a version boundary to land it on.
+The plan was: do it in one pass, and not yet. Three of STATUS's unverified items — whether the
+night hours read as calm, whether the reworked tone pools read better, whether the daylight
+palettes look right — all depend on living with the current text, and rewriting it destroys the
+evidence being gathered. The natural window looked like the 14-day closed test, when there is
+real usage to react to and a version boundary to land it on.
+
+**It ran earlier than that, on 2026-07-31, and the trade is worth stating plainly.** What was
+given up is real: the reworded text has never been lived with, so items 2, 3, 4 and now 8 in
+STATUS are all still open and all still want the same weeks of wall time. What was bought is
+that the closed test now starts *from* the reworded catalog rather than replacing it midway, so
+the tip history the rewrite orphans belongs to nobody yet, and the twelve testers read one
+version of the app rather than two.
+
+## What the pass actually did
+
+**Class A, in full.** 44 practical lines: `general` 23, `morning` 11, `afternoon` 5, `evening`
+4, `sleep_early` 1, `sleep_late` 0. That distribution is itself a result — the two night pools
+were written last and at the tone pools' length, so the patterns found almost nothing in them,
+and `general` carries half the slack in the catalog. Gerund openers became
+verbs, stacked hedges lost the second hedge, filler adverbs went, and the two-clauses-where-one-
+does cases were merged. Worked examples from this document that shipped as written: the
+`18-20C` line ("Bedrooms sleep better cool"), the screen-free-breaks line, the dropped
+`slightly` on the embarrassing-song line, and the dog/bird/cat line.
+
+**Class B, in full — declined.** Not deferred by accident: refused on purpose, and the reason is
+the one this document already gives. Removing a hedge, changing a number or turning an
+association into a cause needs both citations re-read, one tip at a time, and nothing in the
+build can tell a rewritten tip from one that inherited the wrong citation. Doing twenty of those
+from memory in the same sitting as forty safe ones is exactly how a catalog acquires a claim its
+sources do not make. So the rule for the whole pass was: **no rewrite may change the claim, its
+strength, or its hedging.**
+
+That rule is why several rewrites here shipped in a weaker form than this document proposes:
+
+| This document proposed | What shipped | Why |
+| --- | --- | --- |
+| `Mild dehydration dents focus and mood well before you actually feel thirsty.` → `You lose focus before you feel thirsty.` | `Mild dehydration dents focus and mood before you feel thirsty.` | The short version drops the subject. Ganio is about *mild dehydration*, not about focus in general. |
+| `Long sitting is linked to worse health outcomes…` → `A long sit costs you even if you exercise.` | `Long sitting is linked to worse health, even if you exercise regularly.` | "Linked to" is the claim. "Costs you" is a different one. |
+| `Sustained poor posture is linked to more fatigue…` → `Holding one posture all day is tiring, not just uncomfortable.` | `Poor posture held all day is linked to fatigue, not just discomfort.` | Same: the association survives, the causal reading does not. |
+| `Keeping a nap under about 20 minutes helps you avoid waking up groggy.` → `Nap under 20 minutes and you wake clear rather than groggy.` | `Keep a nap under about 20 minutes and you are less likely to wake up groggy.` | The short version drops both "about" and "helps", promising an outcome the source hedges. |
+| `If you eat breakfast, pairing carbs with some protein can help keep energy steadier.` → `…put protein with the carbs. Energy holds steadier.` | `If you eat breakfast, put protein with the carbs. Energy can hold steadier.` | Gerund fixed, "can" kept. |
+
+The remaining Class B lines are on the roadmap as their own item. Roughly twenty, concentrated
+in `general` and `evening`, almost all of them the "finding restated" pattern.
+
+**The tone pools yielded almost nothing, as predicted.** Seven lines in `wellbeing`, zero in
+`motivation`, zero among philosophy's originals. The table above the fold said this would happen
+— those pools sit at a 61-63 character mean with a quarter of the practical hedging — and it is
+worth recording that the prediction held, because the instinct that "all of them could do with
+tightening" was measurably wrong about two thirds of the catalog.
+
+**One rule was added during the pass, for the borderline adverbs.** Pattern 4 warns that some
+qualifiers are voice rather than filler and names `actually` in the hydration question as a
+keeper. The working test that settled the rest: **an adverb stays if removing it changes what
+the reader does.** `A cluttered desk quietly competes` lost its `quietly`; `walk to the next
+room at a completely different speed` kept its `completely`; `when did you last actually drink
+something` kept its `actually`.

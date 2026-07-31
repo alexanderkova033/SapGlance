@@ -12,3 +12,7 @@ Drake et al., J. Clinical Sleep Medicine, 2013	https://jcsm.aasm.org/doi/10.5664
 Mason et al., PNAS, 2022 (light during sleep)	https://pubmed.ncbi.nlm.nih.gov/35286195/	Obayashi et al., J. Clinical Endocrinology & Metabolism, 2013	https://pubmed.ncbi.nlm.nih.gov/23118419/
 Phillips et al., PNAS, 2019	https://www.pnas.org/doi/10.1073/pnas.1901824116	Gooley et al., J. Clinical Endocrinology & Metabolism, 2011	https://pubmed.ncbi.nlm.nih.gov/21193540/
 Stutz et al., Sports Medicine, 2019	https://link.springer.com/article/10.1007/s40279-018-1015-0	Frimpong et al., Sleep Medicine Reviews, 2021	https://www.sciencedirect.com/science/article/abs/pii/S1087079221001209
+Kroese et al., Frontiers in Psychology, 2014 (bedtime procrastination)	https://pubmed.ncbi.nlm.nih.gov/24994989/	Bernecker & Job, British J. Psychology, 2020	https://pubmed.ncbi.nlm.nih.gov/30854630/
+Ferracioli-Oda et al., PLoS ONE, 2013 (melatonin meta-analysis)	https://pubmed.ncbi.nlm.nih.gov/23691095/	Auld et al., Sleep Medicine Reviews, 2017	https://pubmed.ncbi.nlm.nih.gov/28648359/
+Okamoto-Mizuno & Mizuno, J. Physiological Anthropology, 2012	https://pubmed.ncbi.nlm.nih.gov/22738673/	Krauchi et al., Nature, 1999 (warm feet and sleep onset)	https://pubmed.ncbi.nlm.nih.gov/10485703/
+Wittmann et al., Chronobiology International, 2006	https://pubmed.ncbi.nlm.nih.gov/16687322/	Roenneberg et al., Current Biology, 2012	https://pubmed.ncbi.nlm.nih.gov/22578422/

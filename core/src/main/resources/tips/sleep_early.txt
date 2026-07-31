@@ -11,17 +11,17 @@
 # arranged any more, so advice about arranging it is worse than useless here: it arrives as a
 # list of things they have already failed to do. Two things are still true at this hour and are
 # what this pool is made of. Something can still be done in the next ten minutes (get up, drop
-# the light, give the mind one thing to hold), and something can be *known* that makes lying
-# there easier, which is why the reassurance lines below are sourced findings rather than
-# comfort: waking in the night is normal and measured, and a bad night reads worse from inside
-# it than it measures from outside.
+# the light, give the mind one thing to hold, lengthen the out-breath), and something can be
+# *known* that makes lying there easier, which is why the reassurance lines below are sourced
+# findings rather than comfort: waking in the night is normal and measured, and a bad night
+# reads worse from inside it than it measures from outside.
 #
 # WHAT IS DELIBERATELY ABSENT: anything that frightens. The catalog holds a well-evidenced line
 # about short sleep tripling the odds of catching a cold, and evening.txt is the right place
 # for it. Told to someone lying awake at 4am, the same true sentence is only a reason to lie
 # awake worrying about it, and it would make the widget an unkind thing to have on the wall.
 It's the middle of the night. If you can, put the phone down and get some rest.
-Getting up when sleep won't come is stimulus control. It keeps the bed a cue for sleep.
+Getting up when sleep won't come is stimulus control. The bed stays a cue for sleep.
 Give your mind one specific thing to picture. That beat trying to clear it in a trial.
 Turning to check the clock predicts a longer wait, not a shorter one.
 Waking in the night is normal. Time awake in bed rises with age in healthy sleepers.
@@ -30,3 +30,7 @@ If you get up, keep the light low. Ordinary room light is enough to move a body 
 Alcohol's second half is now. This is when it fragments sleep and cuts REM short.
 Caffeine's half-life runs from about 1.5 to 9.5 hours depending on the person.
 Heat disturbs sleep more than cold does, once you have bedding you can adjust.
+The wait to fall asleep feels far longer than it measures. That is normal too.
+If you have been awake a while, get up. Twenty minutes is the usual guide.
+Most people wake several times a night and remember none of it.
+Lengthen the out-breath. It is the one lever that still works lying down in the dark.

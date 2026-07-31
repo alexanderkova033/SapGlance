@@ -39,6 +39,24 @@
 # passes and is capped at the one entry below. There is no target size, and four lines that fit
 # beat twenty that are merely funny.
 #
+# GROWN FROM FOUR TO SEVEN ON 2026-07-31, and the second thing the test turns out to catch.
+# The obvious way to grow the group was more Jerome, since he is the one who passes easily.
+# Three good Jerome lines were found and only one was taken, because the group was already two
+# Jerome deep and four of eight from one voice is a pool of Jerome with guests — a running joke
+# rather than variety, which is the same failure as the epigram problem wearing a friendlier
+# face. So the search went looking for a *second* warm voice instead and found Charles Dudley
+# Warner's My Summer in a Garden: gardening humour, self-implicating in the same way, and it
+# sits beside "check on the plant" more literally than anything else here.
+#
+# The counts are the rule now: Jerome three, Warner two, Wilde one, Bierce one. Seven rather
+# than a round eight because the eighth would have had to come from a voice already in here,
+# and "no target size" in the paragraph above is meant literally. Two lines that were found,
+# verified and left out, so nobody re-derives them: Jerome's "I like idling when I ought not to
+# be idling" (good, but it would have been his fourth), and the cast-iron-back line, which is
+# the funniest thing in Warner and is set in the 1870 text with a double hyphen the widget
+# would render as a typo. Repunctuating a quotation to look tidier is the small dishonesty this
+# whole group exists to avoid.
+#
 # Sourced lines carry an attribution inline, `Text<TAB>Label<TAB>URL`, the same way a quoted
 # philosophy line does. That is not optional politeness: passing Wilde off as ours would be the
 # same dishonesty as inventing a citation, in a lighter key.
@@ -47,6 +65,13 @@
 # "Notice the sounds around you" is a mood; "notice which sounds are inside the room and which
 # are coming from outside it" is something a person can actually do, and the doing is the point.
 # Name a number, a body part, a direction, or an object wherever one fits.
+#
+# THE 2026-07-31 PLAIN-ENGLISH PASS took seven lines here and no more. Like motivation, this
+# pool was already written to be said rather than to be faithful to a citation, so the audit's
+# patterns mostly found voice rather than filler. The rule used on the borderline cases: an
+# adverb stays if removing it changes what the reader does. "Slightly embarrassed" lost its
+# "slightly" because the line works better at full strength; "walk to the next room at a
+# completely different speed" kept its "completely" for the same reason.
 
 # Noticing.
 Look out of the nearest window for ten seconds. Just look.
@@ -59,7 +84,7 @@ Watch something moving that isn't a screen. Trees, traffic, clouds.
 Actually taste the next thing you eat, not just the first bite of it.
 Let the next good moment run about three seconds longer than usual.
 Something made you smile in the last day or so. See if you can find it again.
-Notice which sounds are inside the room and which are coming from outside it.
+Notice which sounds are inside the room and which are outside it.
 Find the oldest object in the room. Something in here has been around.
 Find the furthest thing you can see from where you are sitting.
 
@@ -71,8 +96,8 @@ Let your jaw sit loose for a moment.
 Roll your neck slowly, once each way.
 Put your bare feet on the floor and notice what that's like.
 Adjust one thing you're wearing so it sits more comfortably.
-Take up slightly more room than you're currently taking up.
-Shake out your hands for five seconds, like you have just washed them.
+Take up a little more room than you're taking up now.
+Shake out your hands for five seconds, like you just washed them.
 Put a hand flat on your chest and follow one breath all the way in and out.
 
 # Outside.
@@ -81,14 +106,18 @@ Find the sky. Wherever you are, there's some of it.
 Step outside for one minute, even if the weather is unremarkable.
 Open a window a little, whatever the season is doing.
 Take the longer way to wherever you're going next.
-Notice what the air actually feels like on your face next time you step outside.
+Notice what the air feels like on your face next time you step outside.
+Go and find out what the weather is doing, rather than checking what it says.
+Stand where the sun is landing, if any of it is landing anywhere.
 
 # Play.
 Play the song you always skip back to.
 Sing along to something badly, where nobody can hear you.
 Do one small thing purely because it would be funny.
 Sit somewhere different for the next ten minutes and see how it lands.
-Walk to the next room at a completely different speed than usual.
+Walk to the next room at a completely different speed.
+Do the next small thing with your other hand.
+Give the next five minutes a soundtrack and see if it changes anything.
 
 # Other people.
 Text someone you like, for no reason and with no occasion.
@@ -106,19 +135,23 @@ Make the next drink you have properly, without hurrying it.
 Clear one surface. Not the room, one surface.
 Rest gets to be enjoyable, not just necessary.
 Change one thing about the light where you are.
+Move one thing three inches to where it should have been all along.
 
 # Lighter. Small and a bit silly, and just as welcome on a good day.
 Stand up and do the stretch that makes an involuntary noise.
 Check on the plant. It has been through a lot and has never once complained.
 Find the oldest unread notification and dismiss it unread. Nothing will happen.
 There is a snack situation somewhere nearby. You know the one.
-Put on something you'd be slightly embarrassed to have playing when someone walks in.
+Put on something you'd be embarrassed to have playing when someone walks in.
 Name the nearest object out loud. That's your band name now.
 Take the long way to the kettle, past the window.
-If there's a dog, a bird, or a cat within sight, that's a legitimate use of a minute.
+A dog, a bird or a cat within sight is a legitimate use of a minute.
 
 # Jokes. Sourced, not written, and each one says whose it is.
 I can resist everything except temptation.	Oscar Wilde, Lady Windermere's Fan, Act I (Wikisource)	https://en.wikisource.org/wiki/Lady_Windermere%27s_Fan/Act_I
 It is impossible to enjoy idling thoroughly unless one has plenty of work to do.	Jerome K. Jerome, The Idle Thoughts of an Idle Fellow (Project Gutenberg)	https://www.gutenberg.org/ebooks/849
 Idleness, like kisses, to be sweet must be stolen.	Jerome K. Jerome, The Idle Thoughts of an Idle Fellow (Project Gutenberg)	https://www.gutenberg.org/ebooks/849
+I like work: it fascinates me. I can sit and look at it for hours.	Jerome K. Jerome, Three Men in a Boat, Chapter XV (Wikisource)	https://en.wikisource.org/wiki/Three_Men_in_a_Boat_(1889)/Chapter_15
 Day, n. A period of twenty-four hours, mostly misspent.	Ambrose Bierce, The Devil's Dictionary (Wikisource)	https://en.wikisource.org/wiki/The_Devil%27s_Dictionary/D
+The love of dirt is among the earliest of passions, as it is the latest.	Charles Dudley Warner, My Summer in a Garden, Preliminary (Project Gutenberg)	https://www.gutenberg.org/ebooks/3135
+The fact is, that gardening is the old fable of perpetual labor.	Charles Dudley Warner, My Summer in a Garden, Fourth Week (Project Gutenberg)	https://www.gutenberg.org/ebooks/3135

@@ -830,3 +830,69 @@ study more memory degradation.
   [Cambridge Core](https://www.cambridge.org/core/journals/british-journal-of-nutrition/article/mild-dehydration-impairs-cognitive-performance-and-mood-of-men/3388AB36B8DF73E844C9AD19271A75BF)
 - Armstrong et al., *Mild Dehydration Affects Mood in Healthy Young Women*, Journal of
   Nutrition, 2012. [J. Nutrition](https://jn.nutrition.org/article/S0022-3166(22)02889-9/fulltext)
+
+## The 2026-07-31 additions
+
+31 practical tips were added in one sitting, taking the citing pools from 151 lines to 182.
+**No new citation was introduced.** Every one of the 31 rests on a source pair already verified
+in this repo and already written up above, which is checkable rather than asserted: the set of
+URLs in `*_sources.txt` is identical before and after the change.
+
+That was a deliberate constraint rather than a coincidence, and it is worth being clear about
+what it does and does not buy. What it buys: no unread paper entered the catalog, and the
+failure mode this document exists to prevent — a tip citing work that does not support it —
+cannot arrive by way of a citation nobody opened. What it does not buy: **a verified source and
+a supported claim are different things.** Reusing Ganio and Armstrong is safe; writing a
+sentence they do not actually say and hanging them off it is exactly as wrong as inventing
+them. Each new line below was written to a claim already documented in the section named
+beside it, and the claims that could not be written that way were dropped rather than stretched.
+
+Three were dropped on that test and are recorded here so the next pass does not re-derive them:
+a CO2 line carrying the 1,000 ppm number (Satish is one study cited twice, which is one piece of
+evidence, not two); a cold-shower line about the trial's real finding, fewer *sick days* rather
+than fewer illnesses (Buijze alone, and the second citation on that pair is about mood); and a
+line about the walking-and-creativity effect persisting after sitting back down (Oppezzo plus
+the Stanford summary of Oppezzo).
+
+**general.txt** (8) — interrupted work finishing faster while costing more stress
+(*Attention, focus, and cognitive breaks*: Mark et al.'s CHI 2008 finding, paired with
+Rubinstein on switching cost); an unfinished task nagging until it is planned rather than done
+(same section: Masicampo & Baumeister's Zeigarnik result, with Scullin); mild dehydration
+presenting as flat mood and headache (*Hydration*, which is where the men's/women's symptom
+split is already recorded); speech costing more focus the more intelligible it is (*Attention*:
+Hongisto's speech-transmission-index model); the ~1-2% per degree above 25C figure
+(Seppanen's curve, already the basis of the 21-22C line); readers overrating screen
+comprehension (*Attention*: Clinton's calibration finding, with Delgado); screen eye strain
+being a focusing-and-blinking problem rather than a colour one (*Eyes and screens*, AAO with
+the Cochrane review); and a fitted chair beating remembered posture (OSHA/Cornell guidance,
+which the source-quality rules admit for standard practice).
+
+**morning.txt** (5) — sleep inertia being worst out of deep sleep (Hilditch & McHill with Tassi
+& Muzet); the 10,000-steps figure as marketing against Paluch's continuous dose-response and
+the WHO's dropped bout minimum; social jetlag tracking with caffeine and smoking (Wittmann's
+correlates, which the existing social-jetlag line does not carry); the cortisol awakening
+response peaking ~30 min after waking; and muscle work carrying a mortality benefit independent
+of aerobic activity (Momma, with the WHO guidelines).
+
+**afternoon.txt** (5) — Drake's 6pm-caffeine result, including that participants did not
+perceive the disruption; the 1-2% fluid-loss threshold; Reyner & Horne's caffeine-nap
+combination beating either component; Stamatakis's VILPA result stated with its number; and
+Buffey's comparison of walking against standing breaks, written so it sits *with* rather than
+against the existing standing line.
+
+**evening.txt** (5) — Phillips's >50-fold between-person variation in melatonin suppression
+sensitivity; Chung on eating within an hour of bed; Wood's mediation finding that gratitude
+helps sleep through pre-sleep cognition rather than mood; caffeine as adenosine blockade rather
+than added energy; and the ten-minute dose from Hashimoto's post-meal walk trial.
+
+**sleep_late.txt** (4) and **sleep_early.txt** (4) — bedtime procrastination named as
+self-regulation (Kroese, Bernecker & Job); melatonin as chronobiotic rather than sedative
+(Ferracioli-Oda's small onset effect with Auld's circadian indication); setting the room cool
+ahead of the core-temperature drop; the weekend lie-in as clock-shift rather than debt
+repayment; Harvey & Tang on overestimated sleep-onset latency; the twenty-minute figure from
+the AASM stimulus-control guidance; Ohayon's normative night wakings; and slow breathing, which
+is the only thing in the small-hours pool that can be done lying down in the dark.
+
+Both night pools were held to their headers' own constraints while this happened: nothing that
+frightens in `sleep_early`, and nothing in `sleep_late` that merely restates `evening` an hour
+later.

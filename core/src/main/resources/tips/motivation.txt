@@ -47,6 +47,14 @@
 # is about work and follow-through, wellbeing is about noticing and rest, and the failures were
 # a handful of individually weak lines rather than a drift in what the pool is for. Worth
 # knowing before a future pass goes looking for a bigger problem than the one that was here.
+#
+# THE 2026-07-31 PLAIN-ENGLISH PASS CHANGED NOTHING HERE, and that is the finding rather than a
+# skipped job. docs/TIGHTENING_AUDIT.md measured this pool at a 61-63 character mean against
+# the practical pools' 75-83, with a quarter of their hedging, because these lines were written
+# to be *said* and the practical ones were written to be faithful to two citations. There was
+# no slack to take out. The eight lines added the same day went to the two thinnest groups the
+# second rule names — momentum and comparison had two lines each — plus one apiece to
+# avoidance, finishing, wry and right-sizing.
 
 # Starting.
 Start badly. A bad start beats a perfect plan you never opened.
@@ -62,15 +70,19 @@ Do the thing you've been walking past all week.
 Whatever you're avoiding is smaller than your dread of it. Go and measure it.
 Close the tab that's quietly eating your afternoon.
 Do the worst job first. Everything after it is downhill.
+Open the file. That is the whole task for now.
 
 # Momentum.
 Momentum is a decision, not a mood.
 You're one decision away from a completely different afternoon.
+Momentum is cheaper to keep than to rebuild. Do one more small thing now.
+Do the next thing before the last one cools off.
 
 # Finishing.
 Finish one thing today. One, all the way to done.
 Half-done today beats flawless never.
 Call it done at good enough. The last ten percent is where things go to die.
+Finished and slightly wrong beats perfect and still theoretical.
 
 # The long game.
 Do ten minutes of tomorrow's worst job before you stop today.
@@ -98,6 +110,8 @@ Name the last thing this size you finished, then run this one the same way.
 # Comparison.
 Run your own race. You can't see how far anyone else has come.
 Compare yourself to last year's you. It's the only honest scoreboard.
+Nobody's timeline is public. You are guessing at a number they never gave you.
+The person you envy is envying somebody. It goes all the way up.
 
 # Saying the thing.
 Send the message you keep rewriting in your head.
@@ -121,6 +135,7 @@ Nobody is coming to do it for you. That was the plan and it fell through.
 You've rehearsed this in your head enough times to be off book. Go.
 Your list isn't going to read itself. That part, annoyingly, is yours.
 The version in your head will not build itself while you admire it.
+The dread takes longer than the task and pays worse.
 
 # Friction. Make the next step physically easier than not doing it.
 Put it where you will trip over it. Willpower loses to furniture.
@@ -138,3 +153,4 @@ If it takes two minutes, it costs more to remember than to do.
 Bad day? Do the ten percent version. The streak survives on those.
 Put the hard thing where your energy is, not where the calendar had a gap.
 Do it once and you are someone who does it. The rest is keeping the title.
+Halve it. A thing you will do beats a thing you will admire.

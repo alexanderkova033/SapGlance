@@ -27,3 +27,8 @@ Morning light and circadian phase advance, PMC	https://pmc.ncbi.nlm.nih.gov/arti
 Bull et al., WHO 2020 physical activity guidelines, British J. Sports Medicine	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7719906/	Momma et al., British J. Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35228201/
 Hilditch & McHill, Nature and Science of Sleep, 2019	https://pubmed.ncbi.nlm.nih.gov/31692489/	Tassi & Muzet, Sleep Medicine Reviews, 2000	https://pubmed.ncbi.nlm.nih.gov/12531174/
 Wittmann et al., Chronobiology International, 2006	https://pubmed.ncbi.nlm.nih.gov/16687322/	Roenneberg et al., Current Biology, 2012	https://pubmed.ncbi.nlm.nih.gov/22578422/
+Hilditch & McHill, Nature and Science of Sleep, 2019	https://pubmed.ncbi.nlm.nih.gov/31692489/	Tassi & Muzet, Sleep Medicine Reviews, 2000	https://pubmed.ncbi.nlm.nih.gov/12531174/
+Paluch et al., Lancet Public Health, 2022 (daily steps)	https://www.thelancet.com/journals/lanpub/article/PIIS2468-2667(21)00302-9/fulltext	Bull et al., WHO 2020 physical activity guidelines, British J. Sports Medicine	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7719906/
+Wittmann et al., Chronobiology International, 2006	https://pubmed.ncbi.nlm.nih.gov/16687322/	Roenneberg et al., Current Biology, 2012	https://pubmed.ncbi.nlm.nih.gov/22578422/
+Cortisol Awakening Response, Endocrine Reviews, 2025	https://academic.oup.com/edrv/article/46/1/43/7739741	The circadian system modulates the CAR, PMC, 2022	https://pmc.ncbi.nlm.nih.gov/articles/PMC9669756/
+Momma et al., British J. Sports Medicine, 2022	https://pubmed.ncbi.nlm.nih.gov/35228201/	Bull et al., WHO 2020 physical activity guidelines, British J. Sports Medicine	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7719906/

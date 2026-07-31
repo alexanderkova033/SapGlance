@@ -16,12 +16,17 @@
 # not Emerson. Every line below was checked against the linked edition's text, not against a
 # quotations site.
 #
+# QUOTE THE EDITION, INCLUDING ITS SPELLING. The Hume line below reads "A wise Man, therefore,
+# proportions his Belief to the Evidence" because that is how the 1748 edition sets it. The
+# capitals are the eighteenth century, not a mistake, and modernising them would be an edit to
+# a quotation made purely so it looked tidier on a phone. Leave them.
+#
 # SECOND WRITING RULE, on variety: this pool was once entirely Stoic plus a short tail (four
 # Marcus, three Epictetus, three Seneca), which is a school, not a subject. Stoicism keeps the
 # largest share because it suits the format, but the pool now also carries Confucian, Buddhist,
-# Taoist, presocratic, rationalist, transcendentalist, essayist and nineteenth-century voices,
-# and the ratio is worth defending: before adding another Roman, check whether a tradition
-# below has only one line in it.
+# Taoist, presocratic, rationalist, empiricist, German, transcendentalist, essayist and
+# nineteenth-century voices, and the ratio is worth defending: before adding another Roman,
+# check whether a tradition below has only one line in it.
 #
 # THIRD WRITING RULE, on length: a quotation has to survive a small widget, so prefer the
 # sentence that is already short in the source over a long one trimmed with an ellipsis.
@@ -52,16 +57,23 @@
 # its displeasure" is Emerson naming the cost rather than the reward. "But lo! men have become
 # the tools of their tools" is a sentence a reader holding a phone is inside of.
 #
-# WHAT THE PASS DID NOT FIX, and is still open: the thin traditions. German and Enlightenment
-# rationalist carry one line each, and this pass replaced within traditions rather than
-# widening the pool, so both are exactly where they were. Worse, it grew from 42 lines to 47
-# and spent three of those five on Stoics, taking that section from ten lines to thirteen,
-# which is precisely what the second rule tells you to check before doing. The reason was
-# availability rather than judgement: Seneca's letters and the Enchiridion are indexed section
-# by section in public-domain editions, so a candidate line can be verified in one lookup,
-# while the traditions this pool is short of are the ones whose editions are hardest to check
-# a single sentence against. That is an argument about the *cost* of sourcing, not about what
-# the pool needs. The next pass here should pay it: add a voice, not another Roman.
+# THE 2026-07-31 PASS PAID THE DEBT THE LAST ONE LEFT OPEN. That debt, in the previous header's
+# own words: German and Enlightenment rationalist carried one line each, the pass before had
+# replaced within traditions rather than widening the pool, and it had spent three of its five
+# net additions on Stoics — the exact thing the second rule says to check for. The reason given
+# was the *cost* of sourcing rather than what the pool needed, because Seneca and the
+# Enchiridion are indexed section by section and the thin traditions are not. So this pass paid
+# that cost and added no Romans at all: two Schopenhauer (German goes one to three), a second
+# Spinoza on mirth (rationalist goes one to two), and Hume, who is a tradition this pool did
+# not have at all. Four original reflections were added at the same time, which keeps the
+# attributed share at 39 of 55 and well clear of the test that pins it.
+#
+# What that leaves open for the next pass: the pool is still entirely European and Chinese
+# apart from the Dhammapada, and it has one woman in it. Wollstonecraft was read for this pass
+# and left out on the third rule rather than on the second — the line worth having, "I do not
+# wish them to have power over men; but over themselves", opens on a pronoun whose antecedent
+# is two paragraphs back, and a widget has no room to supply it. That is a sourcing problem
+# with a solution, not a reason the pool is shaped this way.
 #
 # Format is inline: "Tip text" alone, or "Tip text<TAB>Label<TAB>URL" for a quotation.
 
@@ -110,9 +122,15 @@ Although the world is full of suffering, it is full also of the overcoming of it
 
 # German.
 If we have our own why in life, we shall get along with almost any how.	Nietzsche, Twilight of the Idols, Maxims and Arrows 12 (Project Gutenberg)	https://www.gutenberg.org/files/52263/52263-h/52263-h.htm
+A man can be himself only so long as he is alone.	Schopenhauer, Counsels and Maxims II, tr. Saunders (Wikisource)	https://en.wikisource.org/wiki/Counsels_and_Maxims/Chapter_II
+The present alone is true and actual; it is the only time which possesses full reality.	Schopenhauer, Counsels and Maxims II, tr. Saunders (Wikisource)	https://en.wikisource.org/wiki/Counsels_and_Maxims/Chapter_II
 
 # Enlightenment rationalist.
 A free man thinks of death least of all things.	Spinoza, Ethics IV, Prop. LXVII, tr. Elwes (Wikisource)	https://en.wikisource.org/wiki/Ethics_(Spinoza)/Part_4
+Mirth cannot be excessive, but is always good; contrariwise, Melancholy is always bad.	Spinoza, Ethics IV, Prop. XLII, tr. Elwes (Wikisource)	https://en.wikisource.org/wiki/Ethics_(Spinoza)/Part_4
+
+# Enlightenment empiricist.
+A wise Man, therefore, proportions his Belief to the Evidence.	Hume, Philosophical Essays Concerning Human Understanding, Essay X, 1748 (Wikisource)	https://en.wikisource.org/wiki/Philosophical_Essays_Concerning_Human_Understanding/Essay_10
 
 # Nineteenth century.
 If there is no struggle there is no progress.	Frederick Douglass, West India Emancipation, 1857 (Wikisource)	https://en.wikisource.org/wiki/West_India_Emancipation
@@ -131,3 +149,7 @@ The opinion you hold most confidently came from someone you have forgotten.
 You cannot explain most of your life to anyone who was not there.
 You have been wrong before with exactly this much confidence.
 The advice you give most often is the advice you most need.
+You will believe something next year that you would argue against today.
+Everyone you find easy to dismiss is somebody's whole world.
+What you notice is a choice you stopped making consciously long ago.
+You are allowed to change your mind without announcing it.

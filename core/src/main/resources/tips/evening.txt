@@ -4,15 +4,17 @@
 # WRITING RULE: see the full version at the top of general.txt. In short, every line must bust a
 # myth, name a mechanism, carry a real number, or invert an assumption. Change the register,
 # keep the topic. Two independent primary citations per tip, and the evidence bar does not move
-# to make a line more interesting. Keep tips under ~90 characters.
+# to make a line more interesting. Keep tips under ~90 characters. The 2026-07-31 plain-English
+# pass ran over this pool too, under the no-claim-changes rule recorded in general.txt.
 #
 # THIS POOL IS THE MODEL FOR THE OTHERS. The 100-lux line, the WHO 30 dB line, the warm-bath
 # paradox and night-mode-vs-dimming are what the register rule is asking for everywhere else,
 # so it is the pool to read first when writing a replacement elsewhere. The light lines here
 # are deliberately layered rather than duplicated: one carries the magnitude (90 minutes of
-# melatonin), one makes the it-is-not-only-screens point, one is about light *during* sleep.
+# melatonin), one makes the it-is-not-only-screens point, one is about light *during* sleep, and
+# the fifty-fold line added on 2026-07-31 is about how much of this varies between people.
 Room light before bed shortened melatonin release by about 90 minutes in one study.
-Reading on a lit screen before bed suppresses melatonin more than a printed book does.
+A lit screen before bed suppresses melatonin more than a printed book does.
 Jot down tomorrow's top task so your brain can stop holding onto it.
 Name one good thing about today before you go back to scrolling.
 Stretch on the floor for two minutes. No counting, no goal, just the floor.
@@ -21,7 +23,7 @@ A short walk 15 to 30 minutes after dinner blunts the blood-sugar spike.
 A consistent bedtime, even on busy nights, is worth more than one perfect night.
 Evening is a good time to swap a screen for a book, even for ten minutes.
 A few slow breaths are the cheapest way out of work mode and into evening.
-A cooler bedroom supports better sleep. Around 18-20C (65-68F) is the usual advice.
+Bedrooms sleep better cool. 18-20C (65-68F) is the usual advice.
 Caffeine lingers for hours. When was your last cup, honestly?
 A warm shower or bath an hour or two before bed may help you fall asleep faster.
 Alcohol can speed up falling asleep, but it fragments sleep and cuts REM later on.
@@ -32,10 +34,15 @@ Warm baths work by a paradox: warming your skin helps your core temperature drop
 Regular sleep timing predicts long-term health better than sleep duration alone.
 Heavy meals close to bedtime can disrupt sleep. Try to finish 2-3 hours before.
 People who feel more grateful tend to fall asleep faster and sleep better.
-Keeping your bed for sleep only strengthens the mental link between the two.
+Keep the bed for sleep only. That is what strengthens the link.
 If sleep isn't coming after a while, getting up beats lying there frustrated.
 Evening exercise won't wreck your sleep. Finish an hour or two before bed.
-Night mode alone doesn't do much. Dimming the screen matters more than warming its colour.
+Night mode alone doesn't do much. Dimming matters more than warming the colour.
 People sleeping under seven hours caught colds about three times as often.
 A 100-lux light left on overnight raised next-morning insulin resistance.
 The WHO bedroom target is under 30 decibels. Noise breaks up sleep without waking you.
+Light sensitivity varies fifty-fold between people. Some of us need a much darker room.
+Eating within an hour of bed is linked to more night waking, whatever the meal was.
+Gratitude helps sleep by quieting what you think about in bed, not by cheering you up.
+Caffeine blocks the tiredness signal. It doesn't add energy, it hides the bill.
+Ten minutes was the dose in the trial. It doesn't have to be a proper walk.

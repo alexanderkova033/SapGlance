@@ -29,53 +29,71 @@
 # LENGTH: keep tips under ~90 characters. Long tips were confirmed clipping in the widget on a
 # real device. 90 is a calibration, not a measured budget, so leave headroom rather than
 # spending it, and prefer the shorter phrasing when both say the same thing.
+#
+# THE PLAIN-ENGLISH PASS, 2026-07-31, and the one rule it ran under. Every practical pool was
+# rewritten in one sitting against docs/TIGHTENING_AUDIT.md's five patterns. The rule that made
+# it safe to do without re-reading 151 pairs of citations: **no rewrite was allowed to change
+# the claim, its strength, or its hedging.** Gerunds became verbs, doubled hedges lost the
+# second one, and filler adverbs went; "linked to" stayed "linked to" everywhere it was. That
+# is the audit's Class A, done in full. Its Class B — the rewrites that would have promoted a
+# correlation to a cost, as in "long sitting is linked to worse health outcomes" becoming "a
+# long sit costs you" — was declined in full rather than done carelessly, and the audit records
+# why. A future pass that wants those has to open the sources, one tip at a time.
 The 20-20-20 rule helps while you keep it up. The benefit faded a week after stopping.
 Blink fully, not just often. Half-blinks are linked to dry, tired eyes.
-Stand up and give your legs a proper stretch before you sit back down.
+Stand up and stretch your legs before you sit back down.
 Uncross your legs and roll your ankles right now.
 Slow to about six breaths a minute. That's where heart-rate variability peaks.
 Match your screen brightness to the room to reduce eye strain.
-A quick 5-minute walk resets focus better than pushing through does.
-Screen-free breaks count twice: your eyes and your attention both get a rest.
-Coffee counts toward your fluids. Moderate intake hydrates about as well as water does.
+A 5-minute walk resets focus better than pushing through does.
+Screen-free breaks rest your eyes and your attention both.
+Coffee counts toward your fluids. Moderate intake hydrates about as well as water.
 Roll your shoulders slowly backward five times and let them drop.
-Unclench your jaw. Most people hold tension there without ever noticing.
+Unclench your jaw. Most people hold tension there without noticing.
 Sitting up straight isn't the goal. Neutral and supported beats upright and held.
-Glare is a common and easily missed cause of eye strain. Tilt the screen away.
+Glare causes eye strain and is easy to miss. Tilt the screen away.
 Wiggle your fingers and stretch your wrists if you've been typing a while.
 Breaks work because your brain stops tuning the task out, not because you rest.
-Breathing out for longer than you breathe in is what triggers the calming response.
+Make the out-breath longer than the in-breath. That triggers the calming response.
 Feet dangling? Anything solid under them takes the load off your lower back.
 One quiet minute with no screen and no sound is enough to feel a difference.
 Break at a natural pause rather than mid-thought. It costs less to pick back up.
 Loosen your grip on the mouse. You're holding it tighter than the job needs.
 Two minutes of walking every half hour blunts the effect of a long sit.
-Top of the screen at or just below eye level. Above that, your neck takes the difference.
-Let your chair's backrest support your lower back instead of leaning forward.
-Mild dehydration dents focus and mood well before you actually feel thirsty.
+Top of the screen at or just below eye level. Higher than that and your neck pays.
+Let the backrest hold your lower back instead of leaning forward.
+Mild dehydration dents focus and mood before you feel thirsty.
 Tip one ear toward your shoulder and hold ten seconds. Then the other side.
 Rest your forearms on the desk or armrest instead of holding them up.
-If a screen feels too close, increasing text size beats leaning in.
+Screen too close? Raise the text size rather than lean in.
 Keep your wrists straight while typing. Bent wrists raise carpal tunnel pressure.
 Your best posture is your next one. Changing position beats holding a perfect one.
-A cluttered desk quietly competes for your attention. A quick tidy pays for itself.
-Long sitting is linked to worse health outcomes, even if you exercise regularly.
-Switching between tasks has a real cost. Finishing one thing first is usually faster.
+A cluttered desk competes for your attention. A quick tidy pays for itself.
+Long sitting is linked to worse health, even if you exercise regularly.
+Switching tasks has a real cost. Finishing one thing first is usually faster.
 A glance at a notification costs far more focus than the glance itself takes.
 A view of greenery, even through a window, helps you recover from mental fatigue.
 Stuffy, high-CO2 rooms are linked to slower decisions. Cracking a window helps.
 Stress often shows up first as tension in the jaw, neck, and shoulders.
-Sustained poor posture is linked to more fatigue over the day, not just discomfort.
+Poor posture held all day is linked to fatigue, not just discomfort.
 Media multitasking is linked to more stress, not less, even if it feels productive.
 A brief walk, even indoors, boosts creative thinking more than sitting does.
 Writing a task down frees the mental effort of holding on to it.
-Daytime light exposure helps anchor your body clock too, not just mornings.
-Two hours a week outdoors, in one go or spread across the week, tracks with better health.
-Strong social ties predict how long people live about as well as giving up smoking does.
-Doing something kind for someone else gives your own mood a small, reliable lift.
+Daylight helps anchor your body clock all day, not just in the morning.
+Two hours a week outdoors, in one go or spread out, tracks with better health.
+Strong social ties predict how long people live about as well as quitting smoking.
+Do something kind for someone else. Your own mood gets a small, reliable lift.
 Most people fall short on fibre. Benefits show up around 25 to 30g a day.
-Two inhales, then a long exhale out. Five minutes a day beat meditation for mood.
-Long text sinks in better on paper than on screen, and the gap widens when you're rushed.
+Two inhales, then a long exhale. Five minutes a day beat meditation for mood.
+Long text sinks in better on paper, and the gap widens when you're rushed.
 Blue-light glasses probably don't help eye strain. A Cochrane review found no benefit.
-Overheard speech breaks concentration more than steady noise does, even at low volume.
-Office task performance peaks near 21 to 22C. Warmer or cooler both measurably cost you.
+Overheard speech breaks concentration more than steady noise, even at low volume.
+Office task performance peaks near 21 to 22C. Warmer or cooler both cost you.
+Interrupted work gets finished faster. It also costs more stress and more effort.
+An unfinished task nags until you plan it, not until you finish it.
+A flat mood and a low-grade headache are what mild dehydration feels like.
+The more you can make out what someone is saying, the more it costs your focus.
+Above 25C, office task performance drops roughly 1 to 2 percent per degree.
+On screen, people overrate how much they took in. On paper the estimate is closer.
+Screen eye strain is a focusing and blinking problem, not a colour problem.
+A chair that fits does more for your back than remembering to sit up ever will.

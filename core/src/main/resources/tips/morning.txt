@@ -4,35 +4,43 @@
 # WRITING RULE: see the full version at the top of general.txt. In short, every line must bust a
 # myth, name a mechanism, carry a real number, or invert an assumption. Change the register,
 # keep the topic. Two independent primary citations per tip, and the evidence bar does not move
-# to make a line more interesting. Keep tips under ~90 characters.
+# to make a line more interesting. Keep tips under ~90 characters. The 2026-07-31 plain-English
+# pass ran over this pool too, under the no-claim-changes rule recorded in general.txt.
 #
 # WATCH THIS POOL'S CLUSTER: morning light. Six of these lines are about it, which is correct on
 # the evidence and is also this pool's biggest familiarity risk, so each one has to earn its
 # place in a different register (the lux comparison, melatonin, the wake-time anchor, the
 # outdoors-does-double-duty point). Before adding a seventh, rewrite one of the six instead.
-Getting natural daylight before noon can help regulate your sleep tonight.
+# The five lines added on 2026-07-31 deliberately went elsewhere for that reason: sleep inertia,
+# steps, social jetlag, the cortisol curve and strength work.
+Get daylight before noon and it can help regulate your sleep tonight.
 Have a glass of water before your first coffee, not after it.
 Aim for a daily step target rather than a workout. Steps track with living longer.
 Ten minutes of easy movement is enough to lift your mood. Intensity is optional.
-Waking up at roughly the same time each day keeps your body's rhythm steady.
+Wake at roughly the same time each day. That is what steadies the rhythm.
 An overcast day is around 10,000 lux. A bright office is 500.
 Pick the one thing that would make today count, and start with that.
 A short walk before work pays off in focus later, not just while you're walking.
-Stretch your back and shoulders once, properly, before you sit down to work.
-Writing the day's tasks down is what quiets them, before you do a single one.
-Getting outside within the first hour of waking can sharpen alertness.
-Waiting before reaching for your phone can help you start the day less reactively.
-A splash of cool water on your face triggers the dive reflex, slowing your heart rate.
+Stretch your back and shoulders once before you sit down to work.
+Write the day's tasks down. That quiets them before you do a single one.
+Get outside within an hour of waking. It can sharpen alertness.
+Wait before reaching for your phone. The day can start less reactively.
+Cool water on the face triggers the dive reflex, which slows your heart rate.
 Morning movement outdoors does double duty: the activity and the light your clock needs.
-If you eat breakfast, pairing carbs with some protein can help keep energy steadier.
-Your cortisol naturally peaks soon after waking. That is a normal part of waking up.
-A consistent wake time anchors your body clock more than a consistent bedtime does.
+If you eat breakfast, put protein with the carbs. Energy can hold steadier.
+Your cortisol peaks soon after waking. That is a normal part of waking up.
+A consistent wake time anchors your body clock more than a consistent bedtime.
 Morning exercise doesn't need to be intense. Brisk walking alone boosts alertness.
 If you snooze, a short one is fine. The research is kinder to it than its reputation.
 Natural light suppresses melatonin faster than indoor light, so you wake up sooner.
 Skipping breakfast doesn't slow your metabolism. What you eat matters more than when.
 A cold shower can briefly boost alertness through your body's stress response.
-Bright light early is the strongest single signal your body clock actually reads.
+Bright light early is the strongest single signal your body clock reads.
 Two sessions of muscle work a week. Thirty to sixty minutes total is plenty.
 That thick-headed feeling on waking is sleep inertia. It clears in 15 to 30 minutes.
 Sleeping hours later at weekends is social jetlag. Your body reads it as travel.
+Sleep inertia is worst when you wake out of deep sleep, not when you wake early.
+10,000 steps is a marketing number. The benefit curve starts climbing well below it.
+Social jetlag tracks with more caffeine and more smoking, not just a rough Monday.
+The cortisol rise peaks about 30 minutes after waking and is back down by mid-morning.
+Muscle work carries its own mortality benefit, separate from anything cardio does.

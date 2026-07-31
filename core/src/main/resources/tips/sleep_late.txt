@@ -7,6 +7,10 @@
 # keep the topic. Two independent primary citations per tip, and the evidence bar does not move
 # to make a line more interesting. Keep tips under ~90 characters.
 #
+# The 2026-07-31 plain-English pass changed nothing here. This pool and sleep_early were written
+# last and were already at the tone pools' length rather than the practical pools', so the
+# audit's five patterns found almost nothing to take out. That is the check, not an oversight.
+#
 # WHAT THIS POOL IS FOR, AND WHY IT IS SMALL. The reader is awake at 11pm and going to bed is
 # the next thing that happens, so a tip has to be worth doing in the next few minutes. That
 # rules out most of what evening.txt says well: the warm bath wants 1-2 hours' notice, the
@@ -31,3 +35,7 @@ Half of a 6pm coffee is still in you now. Caffeine's half-life is around five ho
 Light while you sleep is not neutral. It tracks with heart rate, insulin and lipids.
 Under 30 lux is enough to halve melatonin. That is dimmer than most living rooms.
 Vigorous exercise ending under an hour before bed is the one case the reviews flag.
+Bedtime procrastination is a self-regulation problem, not a sleep one.
+Melatonin is a timing signal, not a sedative. It moves the clock rather than sedating.
+Set the room cool before you get in. Sleep starts on a falling core temperature.
+A weekend lie-in doesn't clear the debt. It moves your clock instead.

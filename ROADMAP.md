@@ -20,7 +20,7 @@ what unblocks what.
 | ✅ | 5. Screenshots | Three, in `store-assets/`. |
 | ⏳ | 6. Export the feature graphic | `store-assets/play-feature-graphic-1024x500.svg` → PNG at exactly 1024x500. Minutes. |
 | ⏳ | 7. Upload, recruit 12 testers, wait 14 days | Recruiting is the long pole: realistically three weeks from first upload. |
-| ⏳ | 8. During the wait, run the plain-English pass | It wants a fortnight of real use to react to anyway, and a version boundary is the right place to land something that resets tip history. |
+| ✅ | 8. The plain-English pass | Done 2026-07-31, ahead of the closed test rather than during it. That trades away the fortnight of real use it was meant to react to; what it buys is that the *first* build 12 testers ever see is the reworded one, so the tip history it resets is nobody's. Catalog went 316 → 371 in the same pass. |
 
 ### Step 2: the account
 
@@ -64,27 +64,27 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       is the only warm dark card and Slate the only card with no subject at all, and both exist
       because six cool cards with something to look at had made the night rotation feel narrower
       than its count.
-- [ ] **Grow the jokes group in `wellbeing`.** Started: the group exists with four sourced lines,
-      and `WELLBEING` may now carry a single attribution the way a quoted `PHILOSOPHY` line does,
-      since sourcing them and claiming them as ours are not compatible. The constraint that makes
-      this slow was not costed in the original plan: public-domain humour short enough for a
-      widget is almost all Victorian epigram, which is *witty* rather than *warm*, and
-      wellbeing's voice is warm. Filling the group with Wilde and Bierce would quietly turn the
-      pool acid, and no test catches that. Grow it on one question — does the line still sound
-      like it belongs beside "check on the plant"? Jerome K. Jerome passes easily; Bierce is
-      capped at one.
-- [ ] **A plain-English pass over every pool**, not just the practical ones. The reading half is
-      done: [docs/TIGHTENING_AUDIT.md](docs/TIGHTENING_AUDIT.md) has the patterns, worked
-      rewrites, and the split between safe compression and rewrites that touch the claim and so
-      need their sources re-read. Two things it settled: 39 tips are quotations and can never be
-      reworded, and the slack is overwhelmingly on the practical side (mean 75-83 characters
-      against the tone pools' 61-63, and four times the hedging) because fidelity to two
-      citations inside ~90 characters is what produces that register. Do it in one pass, since
-      rewording orphans stored history and restyles every card.
+- [ ] **The Class B rewrites the plain-English pass declined.** The pass on 2026-07-31 did the
+      audit's Class A in full and refused Class B in full, because Class B is the pile where
+      shortening a line also moves the claim — "long sitting is linked to worse health outcomes"
+      becoming "a long sit costs you" reads better, is shorter, and has quietly promoted a
+      correlation to a cost. Those are still worth doing and are the last real prose win left in
+      the catalog, but each one costs opening both of its citations and reading them, and there
+      is no way to batch that: nothing in the build can tell a rewritten tip from one that
+      inherited the wrong citation. Roughly twenty lines, mostly the "finding restated" pattern
+      in `general` and `evening`. Do them a handful at a time, and record each in
+      `TIP_SOURCES.md` the way the earlier corrections are recorded.
+- [ ] **Widen `philosophy` past Europe.** The 07-31 pass paid the debt the 07-30 one left (German
+      one line → three, rationalist one → two, plus Hume as a tradition the pool lacked) and
+      left a narrower one behind, written into the pool header: apart from the Dhammapada the
+      pool is European and Chinese, and there is one woman in it. Wollstonecraft was read for
+      that pass and left out on length rather than on merit — the line worth having opens on a
+      pronoun the widget has no room to supply. That is a sourcing problem with a solution.
 - [ ] **Make a cold tap feel faster.** ~1s is process start plus Glance session setup, not app
       code, and `warmUp()` already hides the catalog parse behind it. No cheap answer left.
 - [ ] **Languages beyond `en`.** The UI half is nearly free; the content half is the project —
-      316 tips behind a `Locale`-blind classpath lookup, identified by their text everywhere it
-      matters, citing English-language sources.
+      371 tips behind a `Locale`-blind classpath lookup, identified by their text everywhere it
+      matters, citing English-language sources. Growing the catalog makes this worse, not
+      better, which is worth knowing before growing it again.
 - [ ] **iOS port**, gated on hardware. The offline guarantee doesn't translate literally (no iOS
       app can declaratively renounce network access) and WidgetKit has no background execution.

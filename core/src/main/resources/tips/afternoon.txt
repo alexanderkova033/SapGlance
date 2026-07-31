@@ -4,29 +4,32 @@
 # WRITING RULE: see the full version at the top of general.txt. In short, every line must bust a
 # myth, name a mechanism, carry a real number, or invert an assumption. Change the register,
 # keep the topic. Two independent primary citations per tip, and the evidence bar does not move
-# to make a line more interesting. Keep tips under ~90 characters.
+# to make a line more interesting. Keep tips under ~90 characters. The 2026-07-31 plain-English
+# pass ran over this pool too, under the no-claim-changes rule recorded in general.txt.
 #
 # WATCH THIS POOL'S CLUSTER: "get up / move / take a break". Roughly five of these lines say
 # that, and they are the most interchangeable text in the catalog. The good versions are the
 # ones that explain or quantify rather than instruct (why breaks work, the 26-minute nap, the
-# caffeine nap). A new break line has to add a mechanism or a number, not another nudge.
+# caffeine nap). A new break line has to add a mechanism or a number, not another nudge. The
+# 2026-07-31 addition is the shape to copy: "walking breaks beat standing breaks for blood
+# sugar" is a comparison, not a sixth reminder to stand up.
 Feeling a slump? A short walk or fresh air often helps more than another coffee.
 Step outside. Daylight has a direct alerting effect, not just a mood one.
 When did you last actually drink something? Thirst lags behind the dip in focus.
 The early-afternoon dip is partly circadian. It shows up even on days you skip lunch.
 If focus is fading, a 5-minute break usually beats pushing through.
 Stand up and move. Even one lap of the room interrupts the slump.
-A change of scenery resets attention faster than staring harder at the same screen.
-Check your posture. It's easy to slowly slide down the chair as the day goes on.
+A change of scenery resets attention faster than staring harder does.
+Check your posture. It's easy to slide down the chair as the day goes on.
 Swap one caffeine refill for a glass of water and see how the afternoon goes.
 Break up long afternoon sitting with a minute or two of standing.
 Two minutes of conversation with an actual human breaks an afternoon lull.
-Keeping a nap under about 20 minutes helps you avoid waking up groggy.
+Keep a nap under about 20 minutes and you are less likely to wake up groggy.
 Give your eyes a few minutes on something that isn't a screen.
 A few slow breaths can settle a restless afternoon mind.
 Attention fades on its own after long stretches of focus. A break is the fix.
-Caffeine takes around 5 hours to half-clear, so an afternoon cup still works at bedtime.
-Napping after 3pm is more likely to make falling asleep tonight harder.
+Caffeine takes about 5 hours to half-clear. An afternoon cup still works at bedtime.
+A nap after 3pm is more likely to make falling asleep tonight harder.
 Bright light in the afternoon can help offset your body clock's natural dip.
 A big, heavy lunch tends to deepen the afternoon dip. A lighter one softens it.
 Standing or walking meetings are an easy way to break up afternoon sitting.
@@ -36,3 +39,8 @@ Short bursts of hard effort count. One brisk flight of stairs is doing real work
 Music put on deliberately to relax lowers stress. Music as background does less.
 Coffee, then a 15-minute nap. The caffeine lands as you wake.
 Save open-ended problems for when you're slightly tired. Insight does better off-peak.
+Caffeine at 6pm cost over an hour of sleep in the lab, and nobody noticed it had.
+Thirst is a late signal. Performance starts dropping at 1 to 2 percent fluid loss.
+Coffee alone helps and a nap alone helps. Together they beat either one.
+Three one-minute bursts a day showed up in the mortality data. No gym involved.
+Walking breaks beat standing breaks for blood sugar. Standing still helps a little.
