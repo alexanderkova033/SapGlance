@@ -103,28 +103,44 @@ class TipWidget : GlanceAppWidget() {
             // the widget stuck three tips behind DataStore while its RemoteViews instance never
             // changed. Collecting the flow here makes the repaint happen the moment a new tip
             // is persisted, whichever trigger wrote it.
-            val tipFlow =
+            // The last two, not the last one: the card avoids drawing the background it is
+            // replacing, so it needs to know what that was.
+            val recentFlow =
                 remember {
                     container.tipHistoryRepository.recentTips
-                        .map { it.lastOrNull() ?: initialTip }
+                        .map { it.takeLast(2) }
                         // dataStore.data emits on *every* preference write, including the
                         // unrelated screen-on tick counter the refresh worker bumps; without
                         // this each one would cost a pointless recomposition and RemoteViews push.
                         .distinctUntilChanged()
                 }
-            val tip by tipFlow.collectAsState(initial = initialTip)
-            // Keyed on the tip, so the background is fixed for as long as that tip is on screen
+            val recent by recentFlow.collectAsState(initial = listOf(initialTip))
+            val tip = recent.lastOrNull() ?: initialTip
+            val previousTip = recent.dropLast(1).lastOrNull()
+            // Keyed on the pair, so the background is fixed for as long as that tip is on screen
             // and is chosen for the hour the tip actually arrived in. Reading the clock on every
             // recomposition instead would let a card restyle itself under the same words as the
             // hour ticked over, which reads as a glitch rather than as the card following the
             // day. The catalog lookup behind `kindOf` is a cached map hit, and the parse that
             // fills it is already warmed at process start (see AppContainer.warmUp).
+            //
+            // The predecessor's style is worked out with *today's* hour rather than the hour it
+            // was actually drawn in, which the history does not record. That makes the no-repeat
+            // guarantee exact for two tips within the same day part, which is nearly all of
+            // them, and approximate across a boundary — where the palettes differ anyway, so a
+            // clash is unlikely to be what it would have been avoiding.
             val style =
-                remember(tip) {
+                remember(tip, previousTip) {
+                    val engine = container.tipEngine
+                    val dayPart = engine.dayPartFor(LocalTime.now())
                     WidgetStyle.forTip(
                         tipText = tip,
-                        kind = container.tipEngine.kindOf(tip),
-                        dayPart = container.tipEngine.dayPartFor(LocalTime.now()),
+                        kind = engine.kindOf(tip),
+                        dayPart = dayPart,
+                        previous =
+                            previousTip?.let {
+                                WidgetStyle.forTip(it, engine.kindOf(it), dayPart)
+                            },
                     )
                 }
 

@@ -23,7 +23,7 @@ git clone https://github.com/alexanderkova033/SapGlance.git
 cd SapGlance
 
 ./gradlew build        # everything, including assembleRelease
-./gradlew test         # unit tests — :core 90, :app 6 per variant
+./gradlew test         # unit tests — :core 99, :app 6 per variant
 ./gradlew ktlintCheck  # formatting (ktlintFormat auto-fixes)
 ./gradlew lint         # Android lint
 ```

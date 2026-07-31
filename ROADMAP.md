@@ -46,9 +46,10 @@ the live privacy-policy URL. What is missing is the account and the feature grap
 
 - [ ] **More card backgrounds still.** Fifteen now: Ember and Slate widened the night palette
       from four to six, and Linen and Mist took the daylight palettes from six to eight. The
-      worst odds moved from 1-in-4 to 1-in-6, which is no longer the outlier it was. Where the
-      next ones would help most is unchanged in shape though: night is still the narrowest, and
-      it is the hour where the card is most likely to be the only lit thing in the room.
+      card also refuses to draw the background it is replacing, so back-to-back repeats are gone
+      outright rather than merely rarer, and more artwork is now a question of *range* rather
+      than of arithmetic. Night is still the narrowest palette, and it is the hour where the card
+      is most likely to be the only lit thing in the room.
       Adding one is three edits and each is enforced rather than remembered: a `WidgetStyle`
       entry (the constructor makes you declare `isLight`), a drawable in `:app`'s exhaustive
       `when` (compile error if missing), and membership of at least one palette (a test fails if

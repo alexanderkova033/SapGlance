@@ -50,17 +50,31 @@ enum class WidgetStyle(val isLight: Boolean) {
          *
          * [kind] is null for a text the catalog no longer knows (a tip reworded or dropped since
          * it was persisted is still sitting in someone's history), and is treated as the neutral
-         * register — the hour alone decides. Both [kind] and [dayPart] are passed in rather than
-         * read: this is pure `:core` with no clock and no catalog of its own, the same reason
+         * register — the hour alone decides. [previous] is the style the card is replacing, and
+         * exists so no two cards in a row look alike; null means there is nothing to avoid, which
+         * is the first render after an install. All three are passed in rather than read: this is
+         * pure `:core` with no clock, no catalog and no memory of its own, the same reason
          * `TipEngine` takes a `LocalTime`.
          */
         fun forTip(
             tipText: String,
             kind: TipKind?,
             dayPart: DayPart,
+            previous: WidgetStyle? = null,
         ): WidgetStyle {
             val palette = paletteFor(kind, dayPart)
-            return palette[Math.floorMod(tipText.hashCode(), palette.size)]
+            val index = Math.floorMod(tipText.hashCode(), palette.size)
+            val style = palette[index]
+            // Widening the palettes cut the odds of two cards in a row looking the same; only
+            // this removes them. A hash cannot know what it drew last, so the caller passes it
+            // in and a clash steps one along the palette. Deterministic, so the same tip after
+            // the same predecessor is still the same card, and cheap: one comparison.
+            //
+            // A one-entry palette cannot avoid itself. None is that small today and the
+            // reachability test would not allow one to become so quietly, but returning the
+            // clash beats looping.
+            if (style != previous || palette.size == 1) return style
+            return palette[(index + 1) % palette.size]
         }
 
         /**

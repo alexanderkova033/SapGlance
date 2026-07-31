@@ -35,8 +35,8 @@ could not phone home even if a dependency wanted to. That is a structural guaran
 a policy you have to believe — see [PRIVACY.md](PRIVACY.md).
 
 It resizes from a 2x2 square to a 4x4 block, with a layout built for each end of that range
-rather than one design stretched across it, and fifteen card backgrounds so a new tip means a
-new-looking card.
+rather than one design stretched across it, and fifteen card backgrounds that never repeat back
+to back, so a new tip always means a new-looking card.
 
 ## Architecture
 

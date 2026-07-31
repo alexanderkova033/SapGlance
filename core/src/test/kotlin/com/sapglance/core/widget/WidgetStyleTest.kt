@@ -99,6 +99,60 @@ class WidgetStyleTest {
         assertThat(reachable).containsExactlyElementsIn(WidgetStyle.entries)
     }
 
+    /**
+     * The guarantee widening the palettes could only ever approximate: two cards in a row never
+     * look the same. Checked across every kind and hour, and over consecutive *pairs* rather than
+     * single draws, because that is the thing a person actually sees.
+     */
+    @ParameterizedTest
+    @EnumSource(DayPart::class)
+    fun `no two cards in a row share a background`(dayPart: DayPart) {
+        ALL_KINDS.forEach { kind ->
+            var previous: WidgetStyle? = null
+            (1..500).forEach { n ->
+                val style = WidgetStyle.forTip("Tip number $n", kind, dayPart, previous)
+                assertWithMessage("%s at %s, draw %s", kind, dayPart, n)
+                    .that(style)
+                    .isNotEqualTo(previous)
+                previous = style
+            }
+        }
+    }
+
+    /** Avoiding a repeat must not collapse the palette to two alternating cards. */
+    @ParameterizedTest
+    @EnumSource(DayPart::class)
+    fun `avoiding a repeat still uses the whole palette`(dayPart: DayPart) {
+        var previous: WidgetStyle? = null
+        val seen = mutableSetOf<WidgetStyle>()
+        (1..500).forEach { n ->
+            val style = WidgetStyle.forTip("Tip number $n", TipKind.PRACTICAL, dayPart, previous)
+            seen += style
+            previous = style
+        }
+        assertThat(seen).isEqualTo(stylesFor(TipKind.PRACTICAL, dayPart))
+    }
+
+    /**
+     * The nudge is deterministic, not random: the same tip after the same predecessor draws the
+     * same card. Without this a recomposition could restyle a card that had not changed.
+     */
+    @Test
+    fun `the same tip after the same predecessor is still the same style`() {
+        val first = WidgetStyle.forTip("A tip", TipKind.PRACTICAL, DayPart.MORNING, WidgetStyle.MEADOW)
+        val second = WidgetStyle.forTip("A tip", TipKind.PRACTICAL, DayPart.MORNING, WidgetStyle.MEADOW)
+        assertThat(first).isEqualTo(second)
+    }
+
+    /** No predecessor is the first render after an install, and must not be special-cased away. */
+    @Test
+    fun `a null predecessor leaves the plain hash alone`() {
+        WidgetStyle.entries.forEach { _ ->
+            assertThat(WidgetStyle.forTip("A tip", TipKind.PRACTICAL, DayPart.MORNING, previous = null))
+                .isEqualTo(WidgetStyle.forTip("A tip", TipKind.PRACTICAL, DayPart.MORNING))
+        }
+    }
+
     /** An unrecognised tip has no kind, and must be treated as neutral rather than throwing. */
     @Test
     fun `an unknown kind falls back to the hour alone`() {
