@@ -47,12 +47,16 @@ the live privacy-policy URL. What is missing is the account and the feature grap
 - [ ] **More card backgrounds still.** Nineteen now, up from eleven: night went four → eight,
       daylight six → ten, evening seven → nine. The card also refuses to draw the background it
       is replacing, so back-to-back repeats are gone outright rather than merely rarer.
-      Arithmetic is no longer the argument for more. Range is, and the gaps that are left are
-      narrower than the ones already filled: the dark set now covers sky, water, weather,
-      forest, warmth, emptiness, another person's lights and bare ground, and the light set
-      covers cool, cream, pink, bright green, quiet green, fog and violet. What is genuinely
-      still missing is anything that is not a *landscape* — every card is a place. A card built
-      from pattern or texture rather than a horizon would be the next real widening.
+      Arithmetic is no longer the argument for more. **Composition is.** The first eight new
+      styles were judged "almost the same and quite boring" and the source says why: every path
+      in every one of them started at `M0,150`, the bottom-left corner. They were all a band
+      across the bottom, recoloured. The two originals that read as distinct, Blossom and Paper,
+      are the two whose paths start anywhere else.
+      So the rule for the next one is: **decide the composition first and the hue last.** Hue
+      barely survives the 0.30 white or 0.42 black scrim the card draws over it; where the shapes
+      sit does. Lilac is now a halo, Sage a diagonal frond, Linen a weave — the last of those is
+      also the first card in the set that is not a landscape at all. Five cards still share the
+      bottom-band motif (Meadow, Mist, Winter, Canyon, Harbour), which is four too many.
       Adding one is three edits and each is enforced rather than remembered: a `WidgetStyle`
       entry (the constructor makes you declare `isLight`), a drawable in `:app`'s exhaustive
       `when` (compile error if missing), and membership of at least one palette (a test fails if

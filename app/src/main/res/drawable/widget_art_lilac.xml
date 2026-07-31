@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Two veils crossing low, rather than a bank or a horizon. The violets in this set are all
-     evening cards (Sunset, Aurora), so a pale violet needed a shape that could not be mistaken
-     for either: no ground line, just light lying across light. -->
+<!-- A halo: concentric rings around a soft disc, high and off-centre. No horizon anywhere.
+     The first version of this card was two curved bands along the bottom edge, which is what
+     Meadow, Mist, Sage, Linen, Winter, Canyon and Harbour all are, and recolouring the same
+     composition seven times is why the set looked like one card in several shades. Composition
+     is what makes a card recognisable at a glance; hue barely survives the scrim. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="300dp"
-    android:height="150dp"
+    android:height="300dp"
     android:viewportWidth="300"
-    android:viewportHeight="150">
+    android:viewportHeight="300">
     <path
         android:fillColor="@color/widget_lilac_veil_back"
-        android:pathData="M0,150 L0,120 C64,98 128,124 196,106 C238,95 272,106 300,98 L300,150 Z" />
+        android:pathData="M96,104 m-46,0 a46,46 0 1,0 92,0 a46,46 0 1,0 -92,0" />
     <path
-        android:fillColor="@color/widget_lilac_veil_front"
-        android:pathData="M0,150 L0,138 C58,128 112,142 172,132 C224,123 264,134 300,129 L300,150 Z" />
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_lilac_ring"
+        android:strokeWidth="2"
+        android:pathData="M96,104 m-70,0 a70,70 0 1,0 140,0 a70,70 0 1,0 -140,0" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_lilac_ring_far"
+        android:strokeWidth="1.6"
+        android:pathData="M96,104 m-100,0 a100,100 0 1,0 200,0 a100,100 0 1,0 -200,0" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/widget_lilac_ring_far"
+        android:strokeWidth="1.2"
+        android:pathData="M96,104 m-134,0 a134,134 0 1,0 268,0 a134,134 0 1,0 -268,0" />
 </vector>

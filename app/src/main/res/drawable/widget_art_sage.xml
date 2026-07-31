@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Two low banks with a pair of leaf strokes on the near one. Deliberately fewer and slower
-     curves than Meadow's grass: this is the quiet green, and busy strokes would make it the loud
-     one twice over. -->
+<!-- One frond sweeping in from the bottom-right corner, with leaves off a single stem. A
+     diagonal built from one large shape, not a band: the eye follows a line across the card
+     instead of reading a horizon and stopping. Enters from the corner opposite the settings
+     button, and thins out before it reaches the tip. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="300dp"
-    android:height="150dp"
+    android:height="300dp"
     android:viewportWidth="300"
-    android:viewportHeight="150">
-    <path
-        android:fillColor="@color/widget_sage_leaf_back"
-        android:pathData="M0,150 L0,112 C70,102 138,116 208,108 C244,104 274,110 300,106 L300,150 Z" />
-    <path
-        android:fillColor="@color/widget_sage_leaf_front"
-        android:pathData="M0,150 L0,133 C72,125 132,137 196,130 C240,125 272,131 300,128 L300,150 Z" />
+    android:viewportHeight="300">
     <path
         android:fillColor="@android:color/transparent"
-        android:strokeColor="@color/widget_sage_leaf_front"
-        android:strokeWidth="1.5"
+        android:strokeColor="@color/widget_sage_stem"
+        android:strokeWidth="2.4"
         android:strokeLineCap="round"
-        android:pathData="M58,130 C56,120 60,114 66,109 M244,128 C246,118 243,112 238,107" />
+        android:pathData="M300,296 C246,268 196,232 158,182 C130,146 116,110 110,74" />
+    <path
+        android:fillColor="@color/widget_sage_leaf_front"
+        android:pathData="M262,268 C240,246 232,220 240,196 C258,212 268,240 262,268 Z
+                          M214,224 C196,200 192,174 202,152 C218,170 224,198 214,224 Z
+                          M176,172 C162,146 162,120 174,100 C188,120 190,148 176,172 Z" />
+    <path
+        android:fillColor="@color/widget_sage_leaf_back"
+        android:pathData="M286,238 C264,232 246,214 240,192 C264,194 282,214 286,238 Z
+                          M238,186 C216,182 200,164 194,144 C218,146 234,164 238,186 Z
+                          M198,132 C180,126 168,108 164,90 C186,94 198,112 198,132 Z" />
 </vector>

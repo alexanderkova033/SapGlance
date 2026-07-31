@@ -105,11 +105,14 @@ against real numbers because of it.
    eight, and the card now refuses to draw the background it is replacing, so consecutive repeats
    are gone rather than merely rarer. What a screenshot still cannot settle is whether the
    *rotation* feels varied over weeks.
-7. **The eight new backgrounds have never been seen on a phone.** Ember, Slate, Linen, Mist,
-   Harbour, Canyon, Sage and Lilac are drawn but unrendered here: gradients and vector paths look different on-device than they
-   do in the XML, and the one thing no test covers is whether the art survives the scrim it is
-   drawn under. Slate in particular is deliberately almost empty, which is either restful or
-   unfinished depending on how it actually lands.
+7. **No new background has ever been seen on a phone, and it has already cost something.**
+   Eight were drawn blind, judged "almost the same and quite boring" on sight, and the source
+   confirmed it: every path in all eight started at the bottom-left corner, so they were one
+   composition in eight colours. Three were rebuilt around different compositions and the
+   contrast was raised, still blind. **Stop adding styles until some have been rendered** —
+   this is the second round of work that eyes on a screen would have prevented, and the
+   remaining questions (does Slate read as restful or unfinished, does Lilac's halo survive the
+   0.30 white scrim, are five bottom-band cards too many) are all questions only looking answers.
 8. **Whether the plain-English pass reads plainer.** 51 lines were reworded on 2026-07-31 — 44
    practical and 7 in `wellbeing`, none in `motivation` or `philosophy` — and 55 tips were added
    across all nine pools. The rewrites are argued from

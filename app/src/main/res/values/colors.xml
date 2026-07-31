@@ -198,7 +198,8 @@
     <color name="widget_linen_haze">#2EB39B6B</color>
     <color name="widget_linen_fold_back">#7AD8C3A0</color>
     <color name="widget_linen_fold_front">#99C9AF86</color>
-    <color name="widget_linen_thread">#5C9C815A</color>
+    <color name="widget_linen_thread">#8C8F7448</color>
+    <color name="widget_linen_weft">#7A9C845A</color>
     <color name="widget_linen_mote">#B3B99A64</color>
 
     <!-- Mist. Pale and cool, ridges fading back rather than a horizon line, so it reads as
@@ -238,8 +239,9 @@
     <color name="widget_sage_end">#C9D7C2</color>
     <color name="widget_sage_glow">#59FFFFFF</color>
     <color name="widget_sage_haze">#2E7F9476</color>
-    <color name="widget_sage_leaf_back">#7AB2C3A6</color>
-    <color name="widget_sage_leaf_front">#9994AB8A</color>
+    <color name="widget_sage_leaf_back">#8C93AD85</color>
+    <color name="widget_sage_leaf_front">#B36F8C5E</color>
+    <color name="widget_sage_stem">#997E9A6C</color>
     <color name="widget_sage_mote">#A6FDFFFA</color>
 
     <!-- Lilac. The one hue missing from the light set entirely: it ran cool, cream, pink and
@@ -249,7 +251,9 @@
     <color name="widget_lilac_end">#D4CAE5</color>
     <color name="widget_lilac_glow">#59FFF6FF</color>
     <color name="widget_lilac_haze">#2E8F7CB0</color>
-    <color name="widget_lilac_veil_back">#7AC2B4DA</color>
+    <color name="widget_lilac_veil_back">#8CA895CC</color>
     <color name="widget_lilac_veil_front">#99A697C3</color>
+    <color name="widget_lilac_ring">#8C9E86C6</color>
+    <color name="widget_lilac_ring_far">#5CAF9BD2</color>
     <color name="widget_lilac_mote">#B3FFFFFF</color>
 </resources>
