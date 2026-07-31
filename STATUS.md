@@ -24,7 +24,7 @@ the code.
 - **Selection**: three narrowing weighted picks, anti-repeat applied before all of them,
   recency weighting over a 160-tip history, per-day-part `ToneProfile`, no tone voice three
   draws running.
-- **Build gate**: `ktlintCheck` clean; `:core` 99 tests, `:app` 6 per variant, 0 failures;
+- **Build gate**: `ktlintCheck` clean; `:core` 102 tests, `:app` 6 per variant, 0 failures;
   `lint` 0 errors, 26 warnings; full `build` including `assembleRelease` with R8.
 
 The lint warnings are all `VectorRaster`, `GradleDependency`, `MonochromeLauncherIcon`, `UseKtx`,
