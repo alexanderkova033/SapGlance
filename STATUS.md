@@ -80,9 +80,10 @@ Two methodological notes:
 
 ## Open risks
 
-- **The keystore is not backed up.** `keystore/healthwidget-release.jks` and the passwords in
-  `keystore/keystore.properties` exist only on this machine. The one unrecoverable item in the
-  project, outstanding across several sessions.
+- **The keystore backup is reported done but unverified.** Both files were copied off this
+  machine on 2026-07-31. Nothing here can check that, and a backup that has never been opened is
+  a belief rather than a backup: run `keytool -list -v -keystore <the copy>` against it once,
+  with the password from `keystore.properties`, and the risk is genuinely closed.
 - **The old `com.healthwidget.app` may still be installed on the test device** with its own
   widget on the home screen — the rename changed the `applicationId`, so SapGlance installed
   alongside rather than replacing it. Anything wrong on *that* widget is the old app's code.
@@ -113,8 +114,9 @@ tester installs, so recruiting is the long pole — realistically three weeks fr
 | Ready | Not ready |
 | --- | --- |
 | Signing config (keystore applied when present, unsigned when absent, so CI is unaffected) | No Play Console account |
-| `store-assets/play-store-icon-512.png` | Keystore not backed up |
-| `store-assets/play-listing.md`, drafted against the quote-widget category, recommending **Personalization** | `PRIVACY.md` has a Pages workflow but Settings > Pages > Source is still not set to "GitHub Actions", so no URL exists yet |
+| `store-assets/play-store-icon-512.png` | |
+| `store-assets/play-listing.md`, drafted against the quote-widget category, recommending **Personalization** | `PRIVACY.md` has no public URL yet: the Pages workflow exists only on the feature branch, so there is nothing on `main` for GitHub to run, and the page 404s regardless of the repo setting |
+| Keystore backed up off this machine, reported 2026-07-31. Not verifiable from here, and worth re-checking that the copy actually opens with `keytool -list` | |
 | `targetSdk 36` clears the Aug 2026 requirement | Feature graphic exists only as an SVG master; Play needs it exported to PNG/JPEG |
 | Three screenshots, 1080x2160, 24-bit RGB: 2x2 pale card, large deep card, and the sourced-tip settings card | |
 | `versionName 1.0.0` | |
