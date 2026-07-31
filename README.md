@@ -129,6 +129,18 @@ unblocks what, and content work deliberately waits for the test window.
 
 Completed work lives in the git history. What's open:
 
+- [ ] **More card backgrounds.** Eleven is thin now that selection narrows by hour and kind:
+      the night palette is only four styles, so two consecutive night tips share a background
+      one time in four, and all three daylight palettes lean on the same four pale cards. Most
+      wanted, in order: **more deep, quiet artwork for the night palette**, then **more pale
+      styles**, since four are currently doing the work of every daylight hour.
+      Adding one is three edits and each is enforced rather than remembered: a `WidgetStyle`
+      entry (the constructor makes you declare `isLight`), a drawable in `:app`'s exhaustive
+      `when` (compile error if missing), and membership of at least one palette (a test fails if
+      a style is unreachable, so new artwork cannot ship dead). Ink is derived from `isLight`,
+      so there is no second colour choice to get wrong. The one thing no check covers: the art
+      has to survive the whole-card scrim it will be drawn under, 0.42 black on a dark style and
+      0.30 white on a pale one, and still read as artwork rather than as texture.
 - [ ] **Grow the jokes group in `wellbeing`.** Started: the group exists with four sourced lines,
       and `WELLBEING` may now carry a single attribution the way a quoted `PHILOSOPHY` line does,
       since sourcing them and claiming them as ours are not compatible. The constraint that makes

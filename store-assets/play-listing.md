@@ -132,3 +132,7 @@ Worth showing, in rough priority: the widget at 2x2 on a home screen, the same w
 (the layout genuinely differs, it is not one design stretched), one pale daytime card and one
 deep night card so the palette range is visible, and the settings screen's "Why this tip?" card,
 which is the feature nothing else in the category has.
+
+Done so far: `play-screenshot-01-widget-2x2.png`, a pale Meadow card at 2x2, cropped from
+1080x2340 to 1080x2160 to clear the 2:1 rule. Still to shoot: 4x4, a deep night card, and the
+settings card.

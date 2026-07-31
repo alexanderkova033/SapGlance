@@ -60,13 +60,14 @@ against real numbers because of it.
    and are recorded in the headers; whether philosophy is now worth stopping on, and whether
    motivation pushes, is a judgement the build cannot make.
 5. **Tap-to-refresh lag** since `warmUp()` landed (~1s is process start, not app code).
-6. **Whether the card palettes read right in daylight.** The night case is confirmed on device:
-   a Confucius line at 01:43 drew a deep card with correctly paired ink, which is exactly the
-   "philosophy at 2am on the bright Meadow card" defect the change existed to remove. What is
-   still only argued is the daylight half — whether philosophy borrowing the evening palette at
-   noon *looks* right. It also costs variety, knowingly: a palette of six means roughly a 1-in-6
-   chance two consecutive tips share a background, against 1-in-11 when the hash ran over all
-   eleven styles. Night is 1-in-4. Worth watching for whether that reads as repetitive.
+6. **Whether the palettes read right over time.** Both halves are now confirmed on device: a
+   philosophy line at 01:43 drew a deep card, and a motivation line at 15:30 drew Meadow, pale,
+   with correctly paired ink — which is the morning palette that motivation borrows, at an
+   afternoon hour, exactly as designed. What no single sighting settles is the variety cost,
+   taken knowingly: a palette of six means roughly a 1-in-6 chance two consecutive tips share a
+   background, against 1-in-11 when the hash ran over all eleven styles, and night is 1-in-4.
+   Whether that reads as repetitive needs weeks, not a screenshot. More artwork is the fix and
+   is on the roadmap.
 
 Two methodological notes:
 
