@@ -4,10 +4,14 @@ Assessment written 2026-07-31, before any code. The roadmap carried this as one 
 hardware") for months, which was true and useless. This is the costing.
 
 **Summary: the code is the easy part, and it is not what should decide this.** The domain layer
-is ~90% portable for about a day's work. The widget is a full rewrite. Two of the things the
-README leads with do not survive the platform, and that is a product decision rather than an
-engineering one. On top of that sit three practical blockers, one of which is the same one
-holding up the Play release.
+is ~90% portable for about a day's work. The widget is a full rewrite. On top of that sit three
+practical blockers, one of which is the same one holding up the Play release.
+
+**Updated 2026-07-31, later the same day.** This originally listed *two* things the README leads
+with that do not survive the platform. One of them — the 90-minute screen-on rule — was replaced
+on Android hours after this was written, by a fixed three-times-a-day schedule that WidgetKit
+expresses natively. That objection is gone and the port got cheaper. The remaining one, the
+offline guarantee, is unchanged and is now the only product-level blocker.
 
 ## 1. What ports cleanly
 
@@ -45,13 +49,28 @@ target, most of it spent rewriting tests rather than logic.
 
 Realistic effort: **1-2 weeks**, dominated by the artwork.
 
-## 3. The two promises that do not survive
+## 3. The promise that does not survive
 
-This is the part worth deciding before anyone opens Xcode.
+This is the part worth deciding before anyone opens Xcode. It was two sections when this was
+written; the first is now history and is kept for its reasoning.
 
-### The 90-minute screen-on rule breaks
+### ~~The 90-minute screen-on rule breaks~~ — resolved 2026-07-31, and not by iOS
 
-SapGlance advances the tip after roughly **90 minutes of confirmed screen-on time** — the
+**This section is kept because the reasoning is what mattered, not the conclusion.** The rule
+it describes was replaced on Android the same day this document was written, for reasons that
+had nothing to do with iOS: it was a sampling approximation, it made the tip's arrival
+unpredictable, and it fought the day-part pools. The tip now changes at 06:00, 12:00 and 18:00.
+
+**That happens to be exactly what WidgetKit is good at.** A fixed daily schedule is a timeline
+of entries with known dates, which is the model's native shape — you hand the system three
+entries a day and it renders them without needing a background task, a refresh budget, or any
+knowledge of whether the screen is on. So the hardest technical objection in this document has
+dissolved, and the port is meaningfully cheaper than it was this morning.
+
+What follows is the original analysis, left in place because anyone reconsidering the schedule
+should know why the old rule could not have been carried over.
+
+SapGlance advanced the tip after roughly **90 minutes of confirmed screen-on time** — the
 README leads with this, and the point of it is explicit: "not a wall-clock timer rotating past
 you while the phone is face down in a bag." On Android that is a WorkManager tick that checks
 `PowerManager.isInteractive` and only counts the ticks where the screen was on.

@@ -116,7 +116,7 @@ class TipWidget : GlanceAppWidget() {
                     container.tipHistoryRepository.recentTips
                         .map { it.takeLast(2) }
                         // dataStore.data emits on *every* preference write, including the
-                        // unrelated screen-on tick counter the refresh worker bumps; without
+                        // unrelated last-switch-window marker the refresh worker writes; without
                         // this each one would cost a pointless recomposition and RemoteViews push.
                         .distinctUntilChanged()
                 }

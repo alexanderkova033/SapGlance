@@ -35,7 +35,12 @@ the code.
 - **Selection**: three narrowing weighted picks, anti-repeat applied before all of them,
   recency weighting over a 160-tip history, per-day-part `ToneProfile`, no tone voice three
   draws running.
-- **Build gate**: `ktlintCheck` clean; `:core` 134 tests, `:app` 9 per variant, 0 failures;
+- **Schedule**: the tip changes **three times a day, at 06:00, 12:00 and 18:00**, which are the
+  `DayPart` boundaries — so the line on screen always belongs to the part of the day you are in.
+  Replaced the "~90 minutes of confirmed screen-on time" rule on 2026-07-31. The worker compares
+  a persisted slot rather than counting down, so a missed tick, a Doze window or a dead process
+  costs nothing and a whole missed day still produces one advance rather than a burst.
+- **Build gate**: `ktlintCheck` clean; `:core` 146 tests, `:app` 9 per variant, 0 failures;
   `lint` 0 errors, 35 warnings; full `build` including `assembleRelease` with R8.
 
 `:core` went 102 tests to 125 when `TipCatalogTest` was parameterized over the supported
@@ -151,7 +156,22 @@ against real numbers because of it.
     design: the study is in English and translating a journal's name would make the citation
     harder to check, not easier. It is still a Russian reader tapping "почему этот совет?" and
     getting a wall of English. Nobody has watched that happen.
-13. **The language toggle has never been tapped on a device.** Built and shipped into the
+13. **Nothing at all has been seen on a device since 2026-07-31 morning.** The phone
+    disconnected during a temp-directory cleanup and everything since is argued rather than
+    observed: the language toggle, the Russian catalog, the rebuilt backgrounds, and now the
+    three-times-a-day schedule.
+14. **The new schedule has never run through a real day.** The slot logic is pinned by tests at
+    every boundary and across a full simulated day, and the tests are the easy half. What they
+    cannot show is the thing that actually matters: that WorkManager fires within 15 minutes of
+    06:00 on a phone in Doze, that the switch lands before the reader picks the phone up, and
+    that three tips a day reads as a rhythm rather than as a widget that has stopped working.
+    The first morning after installing is the whole test.
+15. **The night pools are now unreachable except by tapping.** `sleep_late` and `sleep_early`
+    are 29 tips written specifically for someone awake at 3am, and with switches at 06:00, 12:00
+    and 18:00 the evening tip stays up until morning. This is a consequence of the brief (three
+    switches, 06:00-22:00) rather than an oversight, and adding `23` to `TIP_SWITCH_HOURS` is
+    the entire fix. Worth an explicit decision rather than leaving 8% of the catalog dark.
+16. **The language toggle has never been tapped on a device.** Built and shipped into the
     release APK on 2026-07-31, but the phone was disconnected before it could be installed, so
     everything below is argued rather than seen. Three things are worth checking first, in this
     order. Whether the settings screen actually re-renders in the chosen language, which rests on

@@ -25,9 +25,10 @@ deep ones at night, never a bright meadow behind a philosophy line at 3am.
 you have seen never come back, the 60 before those are weighted down so the neglected ones
 actually surface, and no voice runs three draws in a row.
 
-**It waits until you have actually seen it.** The tip advances after roughly 90 minutes of
-*confirmed screen-on time* — not a wall-clock timer rotating past you while the phone is face
-down in a bag.
+**It changes three times a day, and you know when.** 06:00, 12:00 and 18:00 — which are also
+the boundaries between the morning, afternoon and evening pools, so the line on your screen
+always belongs to the part of the day you are actually in. Tap it any time you want a different
+one; that never disturbs the schedule.
 
 **It asks for nothing.** No account, no sign-up, no analytics, no crash reporter, no ads, no
 notifications, no streaks. The manifest declares **no `INTERNET` permission at all**, so it

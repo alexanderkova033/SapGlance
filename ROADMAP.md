@@ -104,10 +104,11 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       The short version is that the code is the easy part — `:core` touches exactly three
       non-multiplatform things and is 1-2 days from compiling against an iOS target — and that
       this should not be decided on effort. Two of the things the README leads with do not
-      survive the platform: the 90-minute *screen-on* rule has no iOS equivalent (a widget
-      extension cannot observe screen state or know it has been looked at), and the offline
-      guarantee stops being structural, because there is no `INTERNET` permission to omit and
-      no entitlement to renounce. Also worth knowing early: Apple Developer Program enrollment
+      survive the platform: the offline guarantee stops being structural, because there is no
+      `INTERNET` permission to omit and no entitlement to renounce. (The other one, the
+      90-minute screen-on rule, stopped being a problem on 2026-07-31 — it was replaced by a
+      fixed three-times-a-day schedule, which WidgetKit's timeline model expresses natively. The
+      iOS doc is updated but that section is now the *easy* half of the port.) Also worth knowing early: Apple Developer Program enrollment
       has the same 18+ requirement as Play, so it is a *second* ask of the same guardian, plus
       $99/year and a Mac. Recommendation in the doc: not before v1 is live on Android, and
       settle the two promises on paper before anyone opens Xcode.
