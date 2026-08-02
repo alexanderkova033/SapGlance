@@ -59,10 +59,11 @@ written; the first is now history and is kept for its reasoning.
 **This section is kept because the reasoning is what mattered, not the conclusion.** The rule
 it describes was replaced on Android the same day this document was written, for reasons that
 had nothing to do with iOS: it was a sampling approximation, it made the tip's arrival
-unpredictable, and it fought the day-part pools. The tip now changes at 06:00, 12:00 and 18:00.
+unpredictable, and it fought the day-part pools. The tip now changes at 06:00, 12:00, 18:00 and
+23:00 (the last of those added 2026-08-02, which is why the night pools are no longer tap-only).
 
 **That happens to be exactly what WidgetKit is good at.** A fixed daily schedule is a timeline
-of entries with known dates, which is the model's native shape — you hand the system three
+of entries with known dates, which is the model's native shape — you hand the system four
 entries a day and it renders them without needing a background task, a refresh budget, or any
 knowledge of whether the screen is on. So the hardest technical objection in this document has
 dissolved, and the port is meaningfully cheaper than it was this morning.

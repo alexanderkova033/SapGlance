@@ -19,7 +19,8 @@ class TipRefreshScheduleTest {
         "17, 59, 12",
         "18, 0, 18",
         "22, 59, 18",
-        "23, 59, 18",
+        "23, 0, 23",
+        "23, 59, 23",
     )
     fun `every hour of the day maps to the switch it is past`(
         hour: Int,
@@ -32,11 +33,11 @@ class TipRefreshScheduleTest {
     }
 
     /**
-     * The small hours belong to *yesterday's* last switch, which is what keeps the evening tip on
-     * screen overnight rather than inventing a fourth window nobody asked for. Getting this wrong
-     * the other way would advance the tip at midnight every night.
+     * The small hours belong to *yesterday's* last switch, which is what keeps last night's 23:00
+     * tip on screen until morning rather than inventing a fifth window nobody asked for. Getting
+     * this wrong the other way would advance the tip at midnight every night.
      */
-    @ParameterizedTest(name = "{0}:{1} still belongs to yesterday evening")
+    @ParameterizedTest(name = "{0}:{1} still belongs to last night's 23:00")
     @CsvSource("0, 0", "3, 0", "5, 59")
     fun `before the first switch of the day, the slot is yesterday's last`(
         hour: Int,
@@ -44,7 +45,7 @@ class TipRefreshScheduleTest {
     ) {
         val slot = currentSlotStart(LocalDateTime.of(2026, 7, 31, hour, minute))
 
-        assertThat(slot).isEqualTo(LocalDateTime.of(2026, 7, 30, 18, 0))
+        assertThat(slot).isEqualTo(LocalDateTime.of(2026, 7, 30, 23, 0))
     }
 
     /**
@@ -53,7 +54,7 @@ class TipRefreshScheduleTest {
      * Anything else and the tip either sticks or flickers.
      */
     @Test
-    fun `a day contains exactly three switches and the slot never moves backwards`() {
+    fun `a day contains exactly four switches and the slot never moves backwards`() {
         val start = LocalDate.of(2026, 7, 31).atStartOfDay()
 
         val slots = (0 until 24 * 60).map { currentSlotStart(start.plusMinutes(it.toLong())) }
@@ -82,7 +83,7 @@ class TipRefreshScheduleTest {
     }
 
     /**
-     * The reason these three hours and not three others. A switch hands over a tip drawn for
+     * The reason these four hours and not four others. A switch hands over a tip drawn for
      * whatever [DayPart] the engine reports at that moment, so if the two ever drift apart the
      * widget goes back to showing morning tips all afternoon — the bug the whole time-of-day
      * design exists to prevent.
@@ -94,21 +95,24 @@ class TipRefreshScheduleTest {
         val dayParts =
             TIP_SWITCH_HOURS.map { engine.dayPartFor(LocalDateTime.of(2026, 7, 31, it, 0).toLocalTime()) }
 
-        assertThat(dayParts).containsExactly(DayPart.MORNING, DayPart.AFTERNOON, DayPart.EVENING).inOrder()
+        assertThat(dayParts)
+            .containsExactly(DayPart.MORNING, DayPart.AFTERNOON, DayPart.EVENING, DayPart.SLEEP_LATE)
+            .inOrder()
     }
 
     /**
-     * Pins the known cost of stopping at 18:00 rather than leaving it to be discovered: the two
-     * night pools are unreachable on the schedule, so only a tap gets you one. If someone adds
-     * `23` to [TIP_SWITCH_HOURS], this is the test that should fail and then be deleted.
+     * Pins what adding 23:00 did *not* fix, rather than leaving it to be rediscovered: midnight is
+     * the fifth [DayPart] boundary and is not a switch, so `sleep_early` is still reachable only by
+     * tapping. Deliberate — see [TIP_SWITCH_HOURS]. If someone adds `0`, this is the test that
+     * should fail and then be deleted.
      */
     @Test
-    fun `no switch opens a night day part, which is why the night pools are tap-only`() {
+    fun `no switch opens the small hours, which is why sleep_early is tap-only`() {
         val engine = TipEngine()
 
         val dayParts =
             TIP_SWITCH_HOURS.map { engine.dayPartFor(LocalDateTime.of(2026, 7, 31, it, 0).toLocalTime()) }
 
-        assertThat(dayParts).containsNoneOf(DayPart.SLEEP_LATE, DayPart.SLEEP_EARLY_HOURS)
+        assertThat(dayParts).doesNotContain(DayPart.SLEEP_EARLY_HOURS)
     }
 }
