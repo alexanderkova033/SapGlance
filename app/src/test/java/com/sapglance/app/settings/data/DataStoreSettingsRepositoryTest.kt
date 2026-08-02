@@ -6,8 +6,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.common.truth.Truth.assertThat
 import com.sapglance.core.settings.AppSettings
+import com.sapglance.core.settings.PoolAmount
+import com.sapglance.core.settings.PoolMix
 import com.sapglance.core.settings.TipLanguage
-import com.sapglance.core.settings.VarietyLevel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -37,10 +38,19 @@ class DataStoreSettingsRepositoryTest {
         }
 
     @Test
-    fun `setVarietyLevel persists and is reflected in settings flow`() =
+    fun `setPoolMix persists every pool, not just the one that changed`() =
         runTest {
-            repository.setVarietyLevel(VarietyLevel.PLAYFUL)
-            assertThat(repository.settings.first().varietyLevel).isEqualTo(VarietyLevel.PLAYFUL)
+            val mix =
+                PoolMix(
+                    practical = PoolAmount.NONE,
+                    philosophy = PoolAmount.PLENTY,
+                    motivation = PoolAmount.NONE,
+                    wellbeing = PoolAmount.SOME,
+                )
+
+            repository.setPoolMix(mix)
+
+            assertThat(repository.settings.first().poolMix).isEqualTo(mix)
         }
 
     @Test
@@ -53,12 +63,13 @@ class DataStoreSettingsRepositoryTest {
     @Test
     fun `the two settings are independent`() =
         runTest {
+            val mix = PoolMix.DEFAULT.copy(practical = PoolAmount.SOME)
             repository.setLanguage(TipLanguage.RUSSIAN)
-            repository.setVarietyLevel(VarietyLevel.BALANCED)
+            repository.setPoolMix(mix)
 
             val settings = repository.settings.first()
             assertThat(settings.language).isEqualTo(TipLanguage.RUSSIAN)
-            assertThat(settings.varietyLevel).isEqualTo(VarietyLevel.BALANCED)
+            assertThat(settings.poolMix).isEqualTo(mix)
         }
 
     /**
@@ -81,8 +92,13 @@ class DataStoreSettingsRepositoryTest {
             assertThat(settings.language).isEqualTo(AppSettings.DEFAULT.language)
         }
 
+    /**
+     * Two upgrades' worth of migration, and the oldest one still has to work: someone who set the
+     * boolean toggle, never opened Settings again through the `VarietyLevel` release, and is now
+     * on the per-pool one.
+     */
     @Test
-    fun `falls back to the legacy boolean preference when the new key hasn't been written`() =
+    fun `falls back to the legacy boolean preference when no newer key has been written`() =
         runTest {
             val legacyDataStore =
                 PreferenceDataStoreFactory.create(
@@ -92,6 +108,57 @@ class DataStoreSettingsRepositoryTest {
             legacyDataStore.edit { it[legacyKey] = true }
             val legacyRepository = DataStoreSettingsRepository(legacyDataStore)
 
-            assertThat(legacyRepository.settings.first().varietyLevel).isEqualTo(VarietyLevel.PLAYFUL)
+            assertThat(legacyRepository.settings.first().poolMix)
+                .isEqualTo(PoolMix.DEFAULT.copy(practical = PoolAmount.SOME))
+        }
+
+    /**
+     * The migration that matters most, because it is the one an existing reader will actually hit.
+     * PLAYFUL meant 80% tone and the new ladder's nearest step is 100%, but migrating to
+     * [PoolAmount.NONE] would mean an upgrade silently switching a pool off. Less tone than they
+     * chose is a change they can see and undo; a pool vanishing is not.
+     */
+    @Test
+    fun `a stored PLAYFUL migrates to fewer practical tips, never to none`() =
+        runTest {
+            val oldDataStore =
+                PreferenceDataStoreFactory.create(
+                    produceFile = { File(tempDir, "variety-level.preferences_pb") },
+                )
+            oldDataStore.edit { it[stringPreferencesKey("variety_level")] = "PLAYFUL" }
+
+            val mix = DataStoreSettingsRepository(oldDataStore).settings.first().poolMix
+
+            assertThat(mix.practical).isEqualTo(PoolAmount.SOME)
+            assertThat(mix.isSilent).isFalse()
+        }
+
+    @Test
+    fun `a stored PRACTICAL migrates to the default, which is what it always meant`() =
+        runTest {
+            val oldDataStore =
+                PreferenceDataStoreFactory.create(
+                    produceFile = { File(tempDir, "variety-practical.preferences_pb") },
+                )
+            oldDataStore.edit { it[stringPreferencesKey("variety_level")] = "PRACTICAL" }
+
+            assertThat(DataStoreSettingsRepository(oldDataStore).settings.first().poolMix)
+                .isEqualTo(PoolMix.DEFAULT)
+        }
+
+    /** Same reasoning as the language case: what is on disk was written by a version that may not
+     * be this one, and an unknown amount must read as "not set" rather than crash the widget. */
+    @Test
+    fun `an unrecognised stored amount falls back to the default instead of throwing`() =
+        runTest {
+            val dataStore =
+                PreferenceDataStoreFactory.create(
+                    produceFile = { File(tempDir, "unknown-amount.preferences_pb") },
+                )
+            dataStore.edit { it[stringPreferencesKey("pool_philosophy")] = "LOADS" }
+
+            val mix = DataStoreSettingsRepository(dataStore).settings.first().poolMix
+
+            assertThat(mix.philosophy).isEqualTo(PoolMix.DEFAULT.philosophy)
         }
 }

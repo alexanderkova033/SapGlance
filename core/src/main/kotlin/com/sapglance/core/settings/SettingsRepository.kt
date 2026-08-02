@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface SettingsRepository {
     val settings: Flow<AppSettings>
 
-    suspend fun setVarietyLevel(level: VarietyLevel)
+    suspend fun setPoolMix(mix: PoolMix)
 
     suspend fun setLanguage(language: TipLanguage)
 }

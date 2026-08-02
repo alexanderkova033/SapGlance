@@ -1,7 +1,8 @@
 package com.sapglance.core.tips
 
 import com.google.common.truth.Truth.assertThat
-import com.sapglance.core.settings.VarietyLevel
+import com.sapglance.core.settings.PoolAmount
+import com.sapglance.core.settings.PoolMix
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
@@ -112,18 +113,23 @@ class AdvanceTipUseCaseTest {
         }
 
     @Test
-    fun `varietyLevel is forwarded to the engine's weighting`() =
+    fun `poolMix is forwarded to the engine's weighting`() =
         runTest {
             val mixedCatalog = catalog.copy(philosophy = listOf(tip("Tone tip")))
             val repository = FakeTipHistoryRepository()
             val engine = TipEngine(mixedCatalog, GroupChoiceRandom())
             val advanceTip = AdvanceTipUseCase(repository)
 
-            val tip = advanceTip(engine, LocalTime.of(9, 0), varietyLevel = VarietyLevel.PLAYFUL)
+            val tip =
+                advanceTip(
+                    engine,
+                    LocalTime.of(9, 0),
+                    poolMix = PoolMix.DEFAULT.copy(practical = PoolAmount.NONE),
+                )
 
-            // GroupChoiceRandom's fixed 50 falls under the 80% dominant threshold but not the
-            // 20% minority one — only a PLAYFUL that actually reached the engine picks the tone
-            // pool here; a dropped/defaulted-PRACTICAL level would have produced G1, G2, or M1.
+            // With practical switched off the tone tier is the only one left, so only a mix that
+            // actually reached the engine picks the tone pool here; a dropped or defaulted mix
+            // would have produced G1, G2, or M1.
             assertThat(tip.text).isEqualTo("Tone tip")
         }
 

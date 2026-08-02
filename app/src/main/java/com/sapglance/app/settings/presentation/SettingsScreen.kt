@@ -1,11 +1,13 @@
 package com.sapglance.app.settings.presentation
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.LocaleList
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -42,9 +44,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Balance
 import androidx.compose.material.icons.filled.Bedtime
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Language
@@ -53,6 +55,7 @@ import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Shuffle
+import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.filled.WbSunny
@@ -91,9 +94,10 @@ import androidx.compose.ui.unit.sp
 import com.sapglance.app.R
 import com.sapglance.app.SapGlanceApp
 import com.sapglance.core.settings.AppSettings
+import com.sapglance.core.settings.PoolAmount
+import com.sapglance.core.settings.PoolMix
 import com.sapglance.core.settings.SettingsRepository
 import com.sapglance.core.settings.TipLanguage
-import com.sapglance.core.settings.VarietyLevel
 import com.sapglance.core.tips.DayPart
 import com.sapglance.core.tips.Tip
 import com.sapglance.core.tips.TipEngine
@@ -103,6 +107,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 import java.util.Locale
+
+/** How far the one disabled chip ("none", on the last pool left on) is dimmed. */
+private const val DISABLED_CHIP_ALPHA = 0.38f
 
 @Composable
 fun SettingsScreen(
@@ -127,6 +134,12 @@ fun SettingsScreen(
             lastTipText = recent.lastOrNull()
         }
     }
+
+    // The Activity context, captured *before* LocalizedContent replaces LocalContext below.
+    // Anything that starts an activity has to use this one and not LocalContext.current — see
+    // the warning on LocalizedContent for what goes wrong if it doesn't, which is not a
+    // hypothetical: it shipped, and it broke every citation link in the app.
+    val hostContext = LocalContext.current
 
     // Everything below reads its strings through the language the *toggle* selects, not the one
     // the phone is set to. Without this the picker would be the only control in the app that
@@ -166,14 +179,15 @@ fun SettingsScreen(
                     tipText = text,
                     source = tipEngine.findByText(text),
                     dayPart = tipEngine.dayPartFor(LocalTime.now()),
-                    onRefresh = { refreshTipNow(context, settings.varietyLevel, settings.language) },
+                    launchContext = hostContext,
+                    onRefresh = { refreshTipNow(context, settings.poolMix, settings.language) },
                 )
             }
 
             SectionCard {
                 VarietySection(
-                    level = settings.varietyLevel,
-                    onLevelChange = { level -> scope.launch { settingsRepository.setVarietyLevel(level) } },
+                    mix = settings.poolMix,
+                    onMixChange = { mix -> scope.launch { settingsRepository.setPoolMix(mix) } },
                 )
             }
 
@@ -254,54 +268,120 @@ private fun dayPartVisual(dayPart: DayPart): DayPartVisual =
             )
     }
 
-/** The variety setting is a lean, not a filter (see [TipEngine.messageFor]'s `varietyLevel`
- * parameter): none of the three levels ever remove the practical tips or the
- * philosophical/lighthearted ones entirely, each just shifts which one is the overwhelming
- * majority of what shows up. */
+/**
+ * One control per pool, which replaced a single three-position lean on 2026-08-02.
+ *
+ * The old control moved motivation, philosophy and wellbeing together, as though they were three
+ * names for "not practical". They are three writing rules and three registers, and a reader who
+ * wants Marcus Aurelius without being told to seize the day had no way to say so. Each pool now
+ * answers for itself, [PoolAmount.NONE] included — see [PoolMix] for the two axes this splits
+ * into, and why turning all three tone pools up at once is the same as leaving them alone.
+ *
+ * The last pool standing cannot be switched off: its "none" is disabled rather than absent, so
+ * the reason is visible at the moment someone reaches for it.
+ */
 @Composable
 private fun VarietySection(
-    level: VarietyLevel,
-    onLevelChange: (VarietyLevel) -> Unit,
+    mix: PoolMix,
+    onMixChange: (PoolMix) -> Unit,
 ) {
     SectionTitle(icon = Icons.Filled.Tune, text = stringResource(R.string.settings_variety_title))
-    AnimatedContent(
-        targetState = level,
-        transitionSpec = { fadeIn(tween(200)) togetherWith fadeOut(tween(150)) },
-        label = "varietyStateDescription",
-    ) { animatedLevel ->
+    Text(
+        text = stringResource(R.string.settings_variety_subtitle),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+    Spacer(Modifier.height(18.dp))
+    PoolControl(
+        icon = Icons.Filled.Science,
+        labelRes = R.string.settings_tip_kind_health,
+        amount = mix.practical,
+        mix = mix,
+        onAmountChange = { onMixChange(mix.copy(practical = it)) },
+    )
+    PoolControl(
+        icon = Icons.Filled.Balance,
+        labelRes = R.string.settings_tip_kind_philosophy,
+        amount = mix.philosophy,
+        mix = mix,
+        onAmountChange = { onMixChange(mix.copy(philosophy = it)) },
+    )
+    PoolControl(
+        icon = Icons.Filled.Bolt,
+        labelRes = R.string.settings_tip_kind_motivation,
+        amount = mix.motivation,
+        mix = mix,
+        onAmountChange = { onMixChange(mix.copy(motivation = it)) },
+    )
+    PoolControl(
+        icon = Icons.Filled.Spa,
+        labelRes = R.string.settings_tip_kind_wellbeing,
+        amount = mix.wellbeing,
+        mix = mix,
+        onAmountChange = { onMixChange(mix.copy(wellbeing = it)) },
+        last = true,
+    )
+}
+
+/**
+ * One pool's name above its three amounts, rather than beside them. Beside them is tighter and
+ * was the first attempt; it puts a label and three chips on one line, and this app is read on a
+ * phone at font scale 1.1 with One UI's own widening on top, which is where a tight row stops
+ * being tight and starts truncating.
+ */
+@Composable
+private fun PoolControl(
+    icon: ImageVector,
+    @StringRes labelRes: Int,
+    amount: PoolAmount,
+    mix: PoolMix,
+    onAmountChange: (PoolAmount) -> Unit,
+    last: Boolean = false,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(18.dp),
+        )
+        Spacer(Modifier.width(8.dp))
         Text(
-            text = stringResource(animatedLevel.stateDescriptionRes()),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.Medium,
+            text = stringResource(labelRes),
+            style = MaterialTheme.typography.titleSmall,
         )
     }
-    Spacer(Modifier.height(12.dp))
+    Spacer(Modifier.height(8.dp))
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        VarietyLevel.entries.forEach { candidate ->
-            VarietyLevelChip(
-                level = candidate,
-                selected = candidate == level,
-                onClick = { onLevelChange(candidate) },
+        PoolAmount.entries.forEach { candidate ->
+            AmountChip(
+                amount = candidate,
+                selected = candidate == amount,
+                // Switching this pool off is only refused when it is the last one left on.
+                enabled = candidate != PoolAmount.NONE || amount == PoolAmount.NONE || mix.enabledCount > 1,
+                onClick = { onAmountChange(candidate) },
                 modifier = Modifier.weight(1f),
             )
         }
     }
+    if (!last) Spacer(Modifier.height(18.dp))
 }
 
-/** Tonal (container-color) fill for the selected level and a plain outline for the other two,
+/** Tonal (container-color) fill for the selected amount and a plain outline for the other two,
  * rather than a solid `primary`-filled block for the winner — three opaque, equal-weight color
  * blocks side by side read as a stark on/off switch wearing a trenchcoat; a soft container tint
- * plus a per-level icon reads as a considered choice instead. Colors and scale both animate on
- * selection change instead of snapping, so tapping a level reads as a picked choice settling
- * into place rather than a flat state swap. */
+ * reads as a considered choice instead. Colors and scale both animate on selection change instead
+ * of snapping, so tapping an amount reads as a picked choice settling into place rather than a
+ * flat state swap. */
+
 @Composable
-private fun VarietyLevelChip(
-    level: VarietyLevel,
+private fun AmountChip(
+    amount: PoolAmount,
     selected: Boolean,
+    enabled: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -309,28 +389,30 @@ private fun VarietyLevelChip(
     val containerColor by
         animateColorAsState(
             targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
-            label = "varietyChipContainer",
+            label = "amountChipContainer",
         )
     val borderColor by
         animateColorAsState(
             targetValue = if (selected) Color.Transparent else MaterialTheme.colorScheme.outlineVariant,
-            label = "varietyChipBorder",
+            label = "amountChipBorder",
         )
     val contentColor by
         animateColorAsState(
             targetValue =
-                if (selected) {
-                    MaterialTheme.colorScheme.onPrimaryContainer
-                } else {
-                    MaterialTheme.colorScheme.onSurfaceVariant
+                when {
+                    selected -> MaterialTheme.colorScheme.onPrimaryContainer
+                    // Disabled is the "none" of the last pool standing. Dimmed rather than hidden:
+                    // a control that vanishes looks like a bug, one that greys out looks like a rule.
+                    !enabled -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = DISABLED_CHIP_ALPHA)
+                    else -> MaterialTheme.colorScheme.onSurfaceVariant
                 },
-            label = "varietyChipContent",
+            label = "amountChipContent",
         )
     val scale by
         animateFloatAsState(
             targetValue = if (selected) 1.06f else 1f,
             animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy),
-            label = "varietyChipScale",
+            label = "amountChipScale",
         )
     Column(
         modifier =
@@ -339,19 +421,12 @@ private fun VarietyLevelChip(
                 .clip(shape)
                 .background(containerColor)
                 .border(width = 1.dp, color = borderColor, shape = shape)
-                .clickable(onClick = onClick)
+                .clickable(enabled = enabled, onClick = onClick)
                 .padding(vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Icon(
-            imageVector = level.icon(),
-            contentDescription = null,
-            tint = contentColor,
-            modifier = Modifier.size(20.dp),
-        )
-        Spacer(Modifier.height(4.dp))
         Text(
-            text = stringResource(level.labelRes()),
+            text = stringResource(amount.labelRes()),
             style = MaterialTheme.typography.labelLarge,
             color = contentColor,
         )
@@ -364,6 +439,12 @@ private fun VarietyLevelChip(
  * [TipLanguage.SYSTEM] provides nothing and lets the platform do what it already does, rather
  * than resolving the system language here and pinning it: the two are the same until the phone
  * changes language mid-session, and only one of them is still right afterwards.
+ *
+ * **`LocalContext.current` inside here is not an Activity.** `createConfigurationContext()`
+ * returns a fresh base context with no activity behind it and nothing to unwrap back to one, so
+ * anything needing a real Activity — starting an activity above all — must capture the context
+ * *outside* this composable and pass it in. Ignoring that broke every citation link in the app
+ * for every user who had picked a language explicitly; see [openSource].
  */
 @Composable
 private fun LocalizedContent(
@@ -450,7 +531,7 @@ private fun LanguageSection(
     )
 }
 
-/** Deliberately the same shape, animation and colour roles as [VarietyLevelChip]. Two pickers on
+/** Deliberately the same shape, animation and colour roles as [AmountChip]. Two pickers on
  * one screen that behave identically read as one idiom used twice; two that each invent their own
  * selected state read as two features built by different people. The difference is that a
  * language names itself rather than carrying an icon, since a flag would be wrong (Russian is not
@@ -526,13 +607,6 @@ private fun TipLanguage.resolvedLabelRes(): Int =
         else -> R.string.settings_language_label_english
     }
 
-private fun VarietyLevel.icon(): ImageVector =
-    when (this) {
-        VarietyLevel.PRACTICAL -> Icons.Filled.Science
-        VarietyLevel.BALANCED -> Icons.Filled.Balance
-        VarietyLevel.PLAYFUL -> Icons.Filled.AutoAwesome
-    }
-
 /**
  * Every kind is labelled, [TipKind.PRACTICAL] included. It used to be the exception, on the
  * argument that the day part already occupied that line and tagging the majority kind alongside
@@ -548,18 +622,11 @@ private fun TipKind.labelRes(): Int =
         TipKind.WELLBEING -> R.string.settings_tip_kind_wellbeing
     }
 
-private fun VarietyLevel.labelRes(): Int =
+private fun PoolAmount.labelRes(): Int =
     when (this) {
-        VarietyLevel.PRACTICAL -> R.string.settings_variety_label_practical
-        VarietyLevel.BALANCED -> R.string.settings_variety_label_balanced
-        VarietyLevel.PLAYFUL -> R.string.settings_variety_label_playful
-    }
-
-private fun VarietyLevel.stateDescriptionRes(): Int =
-    when (this) {
-        VarietyLevel.PRACTICAL -> R.string.settings_variety_state_practical
-        VarietyLevel.BALANCED -> R.string.settings_variety_state_balanced
-        VarietyLevel.PLAYFUL -> R.string.settings_variety_state_playful
+        PoolAmount.NONE -> R.string.settings_amount_none
+        PoolAmount.SOME -> R.string.settings_amount_some
+        PoolAmount.PLENTY -> R.string.settings_amount_plenty
     }
 
 /** Picks a new tip out of turn (same selection/anti-repeat logic as the scheduled refresh —
@@ -574,7 +641,7 @@ private fun VarietyLevel.stateDescriptionRes(): Int =
  */
 private fun refreshTipNow(
     context: Context,
-    varietyLevel: VarietyLevel,
+    poolMix: PoolMix,
     language: TipLanguage,
 ) {
     val app = context.applicationContext as SapGlanceApp
@@ -582,7 +649,7 @@ private fun refreshTipNow(
         app.container.advanceTip(
             app.container.tipEngine(language),
             LocalTime.now(),
-            varietyLevel = varietyLevel,
+            poolMix = poolMix,
         )
         app.container.refreshWidget()
     }
@@ -619,6 +686,7 @@ private fun TipSourceSection(
     tipText: String,
     source: Tip?,
     dayPart: DayPart,
+    launchContext: Context,
     onRefresh: () -> Unit,
 ) {
     val visual = dayPartVisual(dayPart)
@@ -701,7 +769,6 @@ private fun TipSourceSection(
             // is nothing to back up and nothing to apologise for.
             if (source != null && source.sources.isNotEmpty()) {
                 Spacer(Modifier.height(14.dp))
-                val context = LocalContext.current
                 // Every source gets its own tappable row rather than just the first one: the
                 // point of carrying several is that the user can see a claim is backed by more
                 // than one study, which a single collapsed link would hide again.
@@ -722,7 +789,7 @@ private fun TipSourceSection(
                 source.sources.forEach { tipSource ->
                     Spacer(Modifier.height(8.dp))
                     Row(
-                        modifier = Modifier.clickable { openSource(context, tipSource.url) },
+                        modifier = Modifier.clickable { openSource(launchContext, tipSource.url) },
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Icon(
@@ -768,14 +835,28 @@ private fun TipSourceSection(
     }
 }
 
-/** Hands off to the system browser; no INTERNET permission needed since the browser process,
- * not this app, makes the request — see the "100% offline" note atop AndroidManifest.xml. */
+/**
+ * Hands off to the system browser; no INTERNET permission needed since the browser process,
+ * not this app, makes the request — see the "100% offline" note atop AndroidManifest.xml.
+ *
+ * [context] must be the **Activity**, not `LocalContext.current`, anywhere inside
+ * [LocalizedContent]. That is the bug this function shipped with: the language picker replaced
+ * `LocalContext` with a `createConfigurationContext()` wrapper, `startActivity` on a non-Activity
+ * context throws [android.util.AndroidRuntimeException] rather than
+ * [ActivityNotFoundException], and the catch below therefore did not catch it. Every citation
+ * link in the app was dead for anyone who had picked a language explicitly, and working for
+ * anyone still on System — which is exactly the shape of bug that survives testing.
+ */
 private fun openSource(
     context: Context,
     url: String,
 ) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    // Second line of defence, not the design: the call site passes the Activity. If a future
+    // refactor passes something else, this makes it launch anyway instead of crashing.
+    if (context !is Activity) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     try {
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
         // No browser available on this device — nothing sensible to do, so skip silently.
     }

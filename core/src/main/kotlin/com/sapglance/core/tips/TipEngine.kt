@@ -1,6 +1,7 @@
 package com.sapglance.core.tips
 
-import com.sapglance.core.settings.VarietyLevel
+import com.sapglance.core.settings.PoolAmount
+import com.sapglance.core.settings.PoolMix
 import java.time.LocalTime
 import kotlin.random.Random
 
@@ -37,9 +38,16 @@ class TipEngine(
      * excluded outright so none of them repeats within that span (FR5), and the rest feed the
      * recency weighting in [recencyWeight].
      *
-     * [varietyLevel] is the Settings variety level — see [toneChancePercent] for how it's
-     * applied. Defaults to [VarietyLevel.PRACTICAL] so every existing caller (and test) that
-     * doesn't know about it yet keeps the default behavior.
+     * [poolMix] is how much of each pool the reader asked for — see [toneChancePercent] and
+     * [toneGroups] for the two different things it does. Defaults to [PoolMix.DEFAULT] so every
+     * caller (and test) that doesn't know about it yet keeps the default behavior.
+     *
+     * **A narrow enough [poolMix] can cost the anti-repeat promise**, and this is the one place
+     * where the reader can do that to themselves. FR5 ("the last 100 never come back") rests on
+     * the reachable set being larger than the window; switch three pools off and the fourth may
+     * be smaller than 100, at which point the fallback chain in [pick] runs out and a tip
+     * repeats. It degrades rather than failing — nothing crashes and nothing is ever empty — but
+     * the promise is the reader's to spend.
      *
      * There used to be a `manual` flag here, distinguishing a widget tap from the passive
      * rotation, and it existed for exactly one reason: the sleep hours were a single fixed
@@ -51,12 +59,19 @@ class TipEngine(
     fun messageFor(
         time: LocalTime,
         recentTips: List<String>,
-        varietyLevel: VarietyLevel = VarietyLevel.PRACTICAL,
+        poolMix: PoolMix = PoolMix.DEFAULT,
     ): Tip {
         val dayPart = dayPartFor(time)
+        // A mix that silences everything is not drawable, and the engine will not crash over a
+        // value the settings screen cannot produce but a corrupt or hand-edited DataStore can.
+        // Falling back to the default is the least surprising repair: the reader gets the app
+        // they installed rather than an error, and the next thing they touch in Settings writes
+        // a valid mix back.
+        val mix = if (poolMix.isSilent) PoolMix.DEFAULT else poolMix
         return pick(
-            preferred = tiersFor(dayPart, varietyLevel, exhaustedToneKind(recentTips)),
-            withoutToneRunLimit = tiersFor(dayPart, varietyLevel, blockedTone = null),
+            preferred = tiersFor(dayPart, mix, exhaustedToneKind(recentTips)),
+            withoutToneRunLimit = tiersFor(dayPart, mix, blockedTone = null),
+            ignoringPreferences = tiersFor(dayPart, PoolMix.DEFAULT, blockedTone = null),
             recentTips = recentTips,
         )
     }
@@ -71,9 +86,9 @@ class TipEngine(
      * [MAX_CONSECUTIVE_SAME_TONE] consecutive draws yields the next one.
      *
      * Only the three tone kinds are limited. [TipKind.PRACTICAL] deliberately is not: it is the
-     * app's default register rather than a voice, it is what the user asked for at
-     * [VarietyLevel.PRACTICAL], and capping it would mean forcing tone in at exactly the setting
-     * that says not to.
+     * app's default register rather than a voice, it is what the reader asked for by leaving
+     * [PoolMix.practical] at [PoolAmount.PLENTY], and capping it would mean forcing tone in at
+     * exactly the setting that says not to.
      */
     private fun exhaustedToneKind(recentTips: List<String>): TipKind? {
         if (recentTips.size < MAX_CONSECUTIVE_SAME_TONE) return null
@@ -110,18 +125,18 @@ class TipEngine(
     /** One candidate pool and its share of the draw. */
     private class Group(val weight: Int, val tips: List<Tip>)
 
-    /** The practical-vs-tone split the user's [VarietyLevel] actually controls. */
+    /** The practical-vs-tone split, which [PoolMix.practical] alone controls. */
     private class Tier(val weight: Int, val groups: List<Group>)
 
     private fun tiersFor(
         dayPart: DayPart,
-        varietyLevel: VarietyLevel,
+        mix: PoolMix,
         blockedTone: TipKind?,
     ): List<Tier> {
-        val toneChance = toneChancePercent(dayPart, varietyLevel)
+        val toneChance = toneChancePercent(dayPart, mix.practical)
         return listOf(
             Tier(PERCENT - toneChance, practicalGroups(dayPart)),
-            Tier(toneChance, toneGroups(dayPart, blockedTone)),
+            Tier(toneChance, toneGroups(dayPart, mix, blockedTone)),
         )
     }
 
@@ -161,26 +176,51 @@ class TipEngine(
      * redistributes rather than shrinks, the tone tier keeps its full share and it flows to the
      * other two voices — so the run limit changes *which* tone comes next, never how much tone
      * the user gets. That is the same property that makes an exhausted pool harmless, reused.
+     *
+     * Each voice's weight is the hour's editorial weighting *scaled by* what the reader asked
+     * for, and multiplication is the whole design: a reader's preference bends the profile's
+     * shape rather than replacing it. Both zeroes therefore stick. A voice the reader set to
+     * [PoolAmount.NONE] never appears, at any hour; and motivation never appears at night no
+     * matter what the reader set, because the night profile weights it 0 and nothing multiplies
+     * back up from there. The first is a preference and the second is editorial timing, and it
+     * is deliberate that the reader cannot overrule the second — see [ToneProfile].
      */
     private fun toneGroups(
         dayPart: DayPart,
+        mix: PoolMix,
         blockedTone: TipKind?,
     ): List<Group> {
         val profile = ToneProfile.forDayPart(dayPart)
         return listOf(
-            Triple(TipKind.MOTIVATION, profile.motivation, catalog.motivation),
-            Triple(TipKind.PHILOSOPHY, profile.philosophy, catalog.philosophy),
-            Triple(TipKind.WELLBEING, profile.wellbeing, catalog.wellbeing),
+            Triple(TipKind.MOTIVATION, profile.motivation * scale(mix.motivation), catalog.motivation),
+            Triple(TipKind.PHILOSOPHY, profile.philosophy * scale(mix.philosophy), catalog.philosophy),
+            Triple(TipKind.WELLBEING, profile.wellbeing * scale(mix.wellbeing), catalog.wellbeing),
         ).filterNot { (kind, _, _) -> kind == blockedTone }
             .map { (_, weight, pool) -> Group(weight, pool) }
     }
 
     /**
-     * How much of a draw the tone tier gets. [VarietyLevel] is a *lean*, not a filter: no level
-     * ever removes either tier, it just shifts which one is favored —
-     * [VarietyLevel.PRACTICAL] still lets a motivation/philosophy/wellbeing tip through
-     * occasionally, [VarietyLevel.PLAYFUL] still leaves room for a practical one, so every level
-     * reads as "mostly this" rather than "only this."
+     * What a reader's [PoolAmount] multiplies a tone voice's profile weight by. Only the ratios
+     * between the three matter, which is why "all three at PLENTY" is the same draw as "all three
+     * at SOME" — see [PoolMix] for why that is the honest behaviour rather than a rounding
+     * artefact.
+     */
+    private fun scale(amount: PoolAmount): Int =
+        when (amount) {
+            PoolAmount.NONE -> 0
+            PoolAmount.SOME -> 1
+            PoolAmount.PLENTY -> 2
+        }
+
+    /**
+     * How much of a draw the tone tier gets, which [PoolMix.practical] alone decides.
+     *
+     * [PoolAmount.PLENTY] and [PoolAmount.SOME] are leans in the old sense: both still leave room
+     * for the other side, so they read as "mostly this" rather than "only this."
+     * [PoolAmount.NONE] is not, and that is the deliberate break with the rule this comment used
+     * to state. A reader who turns the practical pool off gets no practical tips, at 100%: the
+     * old control could only ever say "less of that, sometimes", which is not an answer to
+     * someone who does not want to be told to stand up every hour.
      *
      * The sleep-hours day parts still lean harder towards tone at every level, but no longer for
      * the reason they originally did: night was one fixed message with nothing to rotate, and the
@@ -199,20 +239,19 @@ class TipEngine(
      */
     private fun toneChancePercent(
         dayPart: DayPart,
-        varietyLevel: VarietyLevel,
+        practical: PoolAmount,
     ): Int =
-        when (dayPart) {
-            DayPart.SLEEP_LATE, DayPart.SLEEP_EARLY_HOURS ->
-                when (varietyLevel) {
-                    VarietyLevel.PRACTICAL -> NIGHT_TONE_MINORITY_CHANCE_PERCENT
-                    VarietyLevel.BALANCED -> NIGHT_TONE_BALANCED_CHANCE_PERCENT
-                    VarietyLevel.PLAYFUL -> NIGHT_TONE_DOMINANT_CHANCE_PERCENT
+        when (practical) {
+            PoolAmount.NONE -> PERCENT
+            PoolAmount.SOME ->
+                when (dayPart) {
+                    DayPart.SLEEP_LATE, DayPart.SLEEP_EARLY_HOURS -> NIGHT_TONE_BALANCED_CHANCE_PERCENT
+                    else -> TONE_BALANCED_CHANCE_PERCENT
                 }
-            else ->
-                when (varietyLevel) {
-                    VarietyLevel.PRACTICAL -> TONE_MINORITY_CHANCE_PERCENT
-                    VarietyLevel.BALANCED -> TONE_BALANCED_CHANCE_PERCENT
-                    VarietyLevel.PLAYFUL -> TONE_DOMINANT_CHANCE_PERCENT
+            PoolAmount.PLENTY ->
+                when (dayPart) {
+                    DayPart.SLEEP_LATE, DayPart.SLEEP_EARLY_HOURS -> NIGHT_TONE_MINORITY_CHANCE_PERCENT
+                    else -> TONE_MINORITY_CHANCE_PERCENT
                 }
         }
 
@@ -226,10 +265,16 @@ class TipEngine(
      * anything with nothing fresh to offer, and a dropped group's share is redistributed among
      * the survivors instead of being spent on a forced repeat.
      *
-     * Two rules can each empty the board, and they are not equal: anti-repeat is the product
-     * promise (FR5), while the tone run limit is a preference about *which voice* comes next. So
-     * the run limit gives way first — [withoutToneRunLimit] is the same tiers with the blocked
-     * voice put back — and only if that is still empty does anything repeat.
+     * Three rules can each empty the board, and they are not equal, so they give way in order of
+     * how much they are worth. The tone run limit goes first: it is a preference about *which
+     * voice* comes next, and [withoutToneRunLimit] is the same tiers with the blocked voice put
+     * back. Anti-repeat goes second, because it is the product promise (FR5) and worth more than
+     * a run limit. The reader's own [PoolMix] goes last, and that ordering is the deliberate
+     * part: someone who switched the practical pool off would rather see a tone tip they have
+     * seen before than a practical one they said they did not want. [ignoringPreferences] is
+     * therefore reached only when honouring the mix would mean showing nothing at all — a
+     * catalog with an empty pool, which is a test fixture and a corrupt install rather than
+     * anything a reader can produce.
      *
      * The order is load-bearing at night and nowhere else. Daytime reaches `general` + an hour's
      * pool + all three tone pools, hundreds of tips against a 100-draw window, so the second
@@ -242,6 +287,7 @@ class TipEngine(
     private fun pick(
         preferred: List<Tier>,
         withoutToneRunLimit: List<Tier>,
+        ignoringPreferences: List<Tier>,
         recentTips: List<String>,
     ): Tip {
         val ages = agesByText(recentTips)
@@ -250,6 +296,7 @@ class TipEngine(
             availableTiers(preferred, blocked)
                 .ifEmpty { availableTiers(withoutToneRunLimit, blocked) }
                 .ifEmpty { availableTiers(withoutToneRunLimit, emptySet()) }
+                .ifEmpty { availableTiers(ignoringPreferences, emptySet()) }
         require(available.isNotEmpty()) { "Every tip pool for this day part is empty" }
 
         val tier = weightedPick(available) { it.weight }
@@ -338,13 +385,22 @@ class TipEngine(
         /** The kinds the run limit applies to — every kind that is a *voice*, so not PRACTICAL. */
         val TONE_KINDS = setOf(TipKind.MOTIVATION, TipKind.PHILOSOPHY, TipKind.WELLBEING)
 
-        /** The tone tier's share of a draw at each [VarietyLevel], during waking hours. */
-        const val TONE_DOMINANT_CHANCE_PERCENT = 80
+        /**
+         * The tone tier's share of a draw at each [PoolAmount] of practical, during waking hours.
+         * [PoolAmount.NONE] is not here because it is [PERCENT] by definition rather than by
+         * tuning.
+         *
+         * There used to be a third tuned point, 80 here and 85 at night, for the old
+         * `VarietyLevel.PLAYFUL`. It went with the three-position control and was not replaced:
+         * three amounts cannot carry four points, and of the two candidates for the top of the
+         * ladder, "no practical tips at all" is the one a reader can state as a preference and
+         * "practical tips 20% of the time" is the one they cannot tell apart from 15%. Anyone
+         * wanting the old PLAYFUL is one step away in either direction.
+         */
         const val TONE_BALANCED_CHANCE_PERCENT = 50
         const val TONE_MINORITY_CHANCE_PERCENT = 20
 
         /** The same, for 23:00-05:59 — see [toneChancePercent] for why night is different. */
-        const val NIGHT_TONE_DOMINANT_CHANCE_PERCENT = 85
         const val NIGHT_TONE_BALANCED_CHANCE_PERCENT = 70
         const val NIGHT_TONE_MINORITY_CHANCE_PERCENT = 50
 

@@ -1,7 +1,8 @@
 package com.sapglance.core.tips
 
 import com.google.common.truth.Truth.assertThat
-import com.sapglance.core.settings.VarietyLevel
+import com.sapglance.core.settings.PoolAmount
+import com.sapglance.core.settings.PoolMix
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -51,6 +52,18 @@ private val tonedCatalog =
     )
 
 private const val SAMPLE_DRAWS = 2000
+
+/**
+ * The two mixes these tests name besides [PoolMix.DEFAULT], both differing from it only in the
+ * practical amount — which is the one axis that changes how much tone there is at all.
+ *
+ * [TONE_ONLY_MIX] is where the old `VarietyLevel.PLAYFUL` cases landed, and it is not the same
+ * claim: PLAYFUL meant 80% tone and this means 100%. Tests that asserted "overwhelming majority,
+ * not the only option" were rewritten rather than retargeted, because that sentence is no longer
+ * true and pretending otherwise would have been the easy way to keep them green.
+ */
+private val BALANCED_MIX = PoolMix.DEFAULT.copy(practical = PoolAmount.SOME)
+private val TONE_ONLY_MIX = PoolMix.DEFAULT.copy(practical = PoolAmount.NONE)
 
 class TipEngineTest {
     @ParameterizedTest(name = "{0} -> {1}")
@@ -177,35 +190,96 @@ class TipEngineTest {
     }
 
     @Test
-    fun `variety level is a no-op while the tone pools are empty`() {
-        // testCatalog has no tone content, so varietyLevel must not change anything while
-        // that's true - the tone tier should drop out entirely.
+    fun `the mix is a no-op while the tone pools are empty`() {
+        // testCatalog has no tone content, so the mix must not change anything while that's
+        // true - the tone tier should drop out entirely.
         assertPoolComposition(
             LocalTime.of(9, 0),
             testCatalog.general + testCatalog.morning,
-            varietyLevel = VarietyLevel.PLAYFUL,
+            poolMix = TONE_ONLY_MIX,
         )
     }
 
+    /**
+     * The promise that replaced "a lean, never a filter". The old control's most tone-heavy
+     * setting still let practical tips through 20% of the time, which is not an answer to a
+     * reader who does not want them. Off has to mean off, or the control is a lie.
+     */
     @Test
-    fun `PLAYFUL makes the tone pool the overwhelming majority, not the only option`() {
+    fun `switching the practical pool off means none at all, not merely fewer`() {
         val toneCatalog = testCatalog.copy(philosophy = listOf(tip("P1"), tip("P2")))
         val engine = TipEngine(toneCatalog, Random(seed = 7))
 
-        val toneShare = toneShareOverManyDraws(engine, VarietyLevel.PLAYFUL)
+        val toneShare = toneShareOverManyDraws(engine, TONE_ONLY_MIX)
 
-        // 80% target (TONE_DOMINANT_CHANCE_PERCENT) with tolerance for statistical noise -
-        // the point of this test is "clearly dominant," not "exactly 80%."
-        assertThat(toneShare).isAtLeast(0.65)
-        assertThat(toneShare).isAtMost(0.95)
+        assertThat(toneShare).isEqualTo(1.0)
+    }
+
+    /** The same promise for a tone voice, which is the half a reader is more likely to use. */
+    @Test
+    fun `a tone voice switched off never appears, at any hour`() {
+        val engine = TipEngine(tonedCatalog, Random(seed = 3))
+        val withoutMotivation =
+            PoolMix.DEFAULT.copy(motivation = PoolAmount.NONE, practical = PoolAmount.NONE)
+
+        listOf(9, 14, 20, 23, 3).forEach { hour ->
+            repeat(SAMPLE_DRAWS / 5) {
+                val tip = engine.messageFor(LocalTime.of(hour, 0), emptyList(), poolMix = withoutMotivation)
+                assertThat(tip.kind).isNotEqualTo(TipKind.MOTIVATION)
+            }
+        }
+    }
+
+    /**
+     * Turning a voice *up* cannot conjure it into an hour the [ToneProfile] rules it out of: the
+     * reader tunes the shape, and the hour decides what shape there is to tune. Multiplying the
+     * profile rather than replacing it is what makes both zeroes stick.
+     */
+    @Test
+    fun `PLENTY does not override the hour, so motivation stays out of the night`() {
+        val engine = TipEngine(tonedCatalog, Random(seed = 4))
+        val allMotivation =
+            PoolMix.DEFAULT.copy(motivation = PoolAmount.PLENTY, practical = PoolAmount.NONE)
+
+        repeat(SAMPLE_DRAWS) {
+            val tip = engine.messageFor(LocalTime.of(3, 0), emptyList(), poolMix = allMotivation)
+            assertThat(tip.kind).isNotEqualTo(TipKind.MOTIVATION)
+        }
+    }
+
+    /**
+     * The documented cost of a real "none": narrow the reachable set below the anti-repeat window
+     * and the window cannot be honoured, because no ordering of a 3-tip pool avoids repeating
+     * inside 100 draws. What must not happen is a crash or a tip from a pool the reader switched
+     * off — it repeats, and it repeats *within what they asked for*.
+     */
+    @Test
+    fun `a mix narrower than the anti-repeat window repeats rather than failing`() {
+        val engine = TipEngine(tonedCatalog, Random(seed = 5))
+        val philosophyOnly =
+            PoolMix(
+                practical = PoolAmount.NONE,
+                philosophy = PoolAmount.SOME,
+                motivation = PoolAmount.NONE,
+                wellbeing = PoolAmount.NONE,
+            )
+        val everyPhilosophyTip = tonedCatalog.philosophy.map { it.text }
+
+        val drawn =
+            (1..SAMPLE_DRAWS).map {
+                engine.messageFor(LocalTime.of(9, 0), everyPhilosophyTip, poolMix = philosophyOnly).text
+            }
+
+        assertThat(drawn).hasSize(SAMPLE_DRAWS)
+        assertThat(everyPhilosophyTip).containsAtLeastElementsIn(drawn.toSet())
     }
 
     @Test
-    fun `PRACTICAL still lets the tone pool through sometimes, not never`() {
+    fun `PoolMix DEFAULT still lets the tone pool through sometimes, not never`() {
         val toneCatalog = testCatalog.copy(philosophy = listOf(tip("P1"), tip("P2")))
         val engine = TipEngine(toneCatalog, Random(seed = 7))
 
-        val toneShare = toneShareOverManyDraws(engine, VarietyLevel.PRACTICAL)
+        val toneShare = toneShareOverManyDraws(engine, PoolMix.DEFAULT)
 
         // 20% target (TONE_MINORITY_CHANCE_PERCENT) with the same generous tolerance.
         assertThat(toneShare).isAtLeast(0.05)
@@ -213,23 +287,28 @@ class TipEngineTest {
     }
 
     @Test
-    fun `BALANCED sits roughly at an even split`() {
+    fun `practical at SOME sits roughly at an even split`() {
         val toneCatalog = testCatalog.copy(philosophy = listOf(tip("P1"), tip("P2")))
         val engine = TipEngine(toneCatalog, Random(seed = 7))
 
-        val toneShare = toneShareOverManyDraws(engine, VarietyLevel.BALANCED)
+        val toneShare = toneShareOverManyDraws(engine, BALANCED_MIX)
 
         // 50% target (TONE_BALANCED_CHANCE_PERCENT) with the same generous tolerance.
         assertThat(toneShare).isAtLeast(0.35)
         assertThat(toneShare).isAtMost(0.65)
     }
 
+    /**
+     * The last link in [TipEngine]'s fallback chain, and the one a reader can trigger: with the
+     * practical pool switched off and a catalog whose tone pools are empty, honouring the mix
+     * would mean showing nothing. Something must still come back.
+     */
     @Test
-    fun `falls back to the practical pool if the tone pool is empty, even at PLAYFUL`() {
+    fun `falls back to the practical pool if the tone pools are empty, even with practical off`() {
         val engine = TipEngine(testCatalog, Random(seed = 1))
         repeat(50) {
             val tip =
-                engine.messageFor(LocalTime.of(9, 0), recentTips = emptyList(), varietyLevel = VarietyLevel.PLAYFUL)
+                engine.messageFor(LocalTime.of(9, 0), recentTips = emptyList(), poolMix = TONE_ONLY_MIX)
             assertThat(testCatalog.general + testCatalog.morning).contains(tip)
         }
     }
@@ -244,7 +323,7 @@ class TipEngineTest {
             )
         val engine = TipEngine(emptyGeneralCatalog, FixedIndexRandom(0))
 
-        val tip = engine.messageFor(LocalTime.of(9, 0), recentTips = emptyList(), varietyLevel = VarietyLevel.PRACTICAL)
+        val tip = engine.messageFor(LocalTime.of(9, 0), recentTips = emptyList(), poolMix = PoolMix.DEFAULT)
 
         assertThat(tip.text).isEqualTo("P1")
     }
@@ -252,15 +331,19 @@ class TipEngineTest {
     @Test
     fun `prefers an unseen tip from the other group over repeating within the weighted group`() {
         // Single-tip tone pool, just shown - repeating it would be an unforced anti-repeat
-        // violation while G1-G4/M1/M2 sit fresh and unused right next to it. PLAYFUL would
-        // normally make the tone pool the 80% favorite, but with nothing unseen left in it, the
-        // practical pool's fresh tips must win regardless of that weighting - Random.Default is
-        // fine here since the fix makes this branch deterministic (no draw happens once one
-        // side has no fresh candidates).
+        // violation while G1-G4/M1/M2 sit fresh and unused right next to it. Both tiers are live
+        // here (practical at SOME), so the draw could legitimately land on either; with nothing
+        // unseen left in the tone pool, the practical pool's fresh tips must win regardless of
+        // the weighting - Random.Default is fine since the fix makes this branch deterministic
+        // (no draw happens once one side has no fresh candidates).
+        //
+        // Deliberately not TONE_ONLY_MIX: with practical switched off, repeating P1 would be the
+        // *correct* answer rather than a bug, because the reader asked for no practical tips and
+        // that outranks the anti-repeat window. That case is its own test above.
         val catalog = testCatalog.copy(philosophy = listOf(tip("P1")))
         val engine = TipEngine(catalog, Random.Default)
 
-        val tip = engine.messageFor(LocalTime.of(9, 0), recentTips = listOf("P1"), varietyLevel = VarietyLevel.PLAYFUL)
+        val tip = engine.messageFor(LocalTime.of(9, 0), recentTips = listOf("P1"), poolMix = BALANCED_MIX)
 
         assertThat(tip.text).isNotEqualTo("P1")
         assertThat(catalog.general + catalog.morning).contains(tip)
@@ -280,7 +363,7 @@ class TipEngineTest {
 
         val drawn =
             (1..SAMPLE_DRAWS).map {
-                engine.messageFor(LocalTime.of(9, 0), philosophyShown, varietyLevel = VarietyLevel.PRACTICAL).text
+                engine.messageFor(LocalTime.of(9, 0), philosophyShown, poolMix = PoolMix.DEFAULT).text
             }
 
         assertThat(drawn).containsNoneIn(philosophyShown)
@@ -295,7 +378,7 @@ class TipEngineTest {
         val allShown = (catalog.general + catalog.morning).map { it.text } + listOf("P1")
         val engine = TipEngine(catalog, FixedIndexRandom(0))
 
-        val tip = engine.messageFor(LocalTime.of(9, 0), recentTips = allShown, varietyLevel = VarietyLevel.PRACTICAL)
+        val tip = engine.messageFor(LocalTime.of(9, 0), recentTips = allShown, poolMix = PoolMix.DEFAULT)
 
         // Nothing is actually unseen any more; this just shouldn't crash, and whatever comes
         // back must still be a real catalog tip.
@@ -314,7 +397,7 @@ class TipEngineTest {
         val engine = TipEngine(testCatalog, Random(seed = 5))
 
         val generalShare =
-            shareOverManyDraws(engine, LocalTime.of(9, 0), VarietyLevel.PRACTICAL) { it in testCatalog.general }
+            shareOverManyDraws(engine, LocalTime.of(9, 0), PoolMix.DEFAULT) { it in testCatalog.general }
 
         // 50% target (GENERAL_SHARE_PERCENT). Drawing uniformly from the concatenated pools
         // would give 4/6 = 67% here, which is outside this range.
@@ -364,14 +447,14 @@ class TipEngineTest {
 
         val drawn =
             (1..SAMPLE_DRAWS).map {
-                engine.messageFor(time, emptyList(), varietyLevel = VarietyLevel.PLAYFUL).text
+                engine.messageFor(time, emptyList(), poolMix = TONE_ONLY_MIX).text
             }
 
         assertThat(drawn).containsNoneIn(motivationTexts)
     }
 
     /**
-     * Night leans harder towards tone than any waking hour does, and at [VarietyLevel.PRACTICAL]
+     * Night leans harder towards tone than any waking hour does, and at [PoolMix.DEFAULT]
      * that lean is 50/50 rather than the daytime 80/20 — see [TipEngine.toneChancePercent] for
      * the two arguments that survive now that night is a real pool rather than a fixed message.
      * Both halves are pinned: a night that had quietly become all-tone would be as wrong as the
@@ -390,7 +473,7 @@ class TipEngineTest {
 
         val drawn =
             (1..SAMPLE_DRAWS).map {
-                engine.messageFor(time, emptyList(), varietyLevel = VarietyLevel.PRACTICAL).text
+                engine.messageFor(time, emptyList(), poolMix = PoolMix.DEFAULT).text
             }
 
         val quietTone = (tonedCatalog.philosophy + tonedCatalog.wellbeing).map { it.text }
@@ -425,7 +508,7 @@ class TipEngineTest {
 
         repeat(50) { roll ->
             val engine = TipEngine(catalog, FixedIndexRandom(roll))
-            val next = engine.messageFor(LocalTime.of(2, 0), everythingElseSeen, varietyLevel = VarietyLevel.PRACTICAL)
+            val next = engine.messageFor(LocalTime.of(2, 0), everythingElseSeen, poolMix = PoolMix.DEFAULT)
             assertThat(next.text).isEqualTo("PHI3")
         }
     }
@@ -445,7 +528,7 @@ class TipEngineTest {
         val engine = TipEngine(catalog, Random(seed = 31))
 
         val g1Share =
-            shareOverManyDraws(engine, LocalTime.of(9, 0), VarietyLevel.PRACTICAL, justOutsideWindow) {
+            shareOverManyDraws(engine, LocalTime.of(9, 0), PoolMix.DEFAULT, justOutsideWindow) {
                 it.text == "G1"
             }
 
@@ -483,7 +566,7 @@ class TipEngineTest {
         val shares =
             testCatalog.general.associate { candidate ->
                 candidate.text to
-                    shareOverManyDraws(engine, LocalTime.of(9, 0), VarietyLevel.PRACTICAL) { it.text == candidate.text }
+                    shareOverManyDraws(engine, LocalTime.of(9, 0), PoolMix.DEFAULT) { it.text == candidate.text }
             }
 
         shares.values.forEach { share ->
@@ -499,7 +582,7 @@ class TipEngineTest {
 
     private fun toneShareOverManyDraws(
         engine: TipEngine,
-        varietyLevel: VarietyLevel,
+        poolMix: PoolMix,
         draws: Int = SAMPLE_DRAWS,
     ): Double {
         val toneHits =
@@ -508,7 +591,7 @@ class TipEngineTest {
                     engine.messageFor(
                         LocalTime.of(9, 0),
                         recentTips = emptyList(),
-                        varietyLevel = varietyLevel,
+                        poolMix = poolMix,
                     )
                 tip.text.startsWith("P")
             }
@@ -519,17 +602,17 @@ class TipEngineTest {
         engine: TipEngine,
         time: LocalTime,
         pool: List<Tip>,
-    ): Double = shareOverManyDraws(engine, time, VarietyLevel.PLAYFUL) { it in pool }
+    ): Double = shareOverManyDraws(engine, time, TONE_ONLY_MIX) { it in pool }
 
     private fun shareOverManyDraws(
         engine: TipEngine,
         time: LocalTime,
-        varietyLevel: VarietyLevel,
+        poolMix: PoolMix,
         recentTips: List<String> = emptyList(),
         draws: Int = SAMPLE_DRAWS,
         matches: (Tip) -> Boolean,
     ): Double {
-        val hits = (1..draws).count { matches(engine.messageFor(time, recentTips, varietyLevel = varietyLevel)) }
+        val hits = (1..draws).count { matches(engine.messageFor(time, recentTips, poolMix = poolMix)) }
         return hits.toDouble() / draws
     }
 
@@ -541,12 +624,12 @@ class TipEngineTest {
     private fun assertPoolComposition(
         time: LocalTime,
         expectedPool: List<Tip>,
-        varietyLevel: VarietyLevel = VarietyLevel.PRACTICAL,
+        poolMix: PoolMix = PoolMix.DEFAULT,
     ) {
         val engine = TipEngine(testCatalog, Random(seed = 11))
         val seen =
             (1..SAMPLE_DRAWS)
-                .map { engine.messageFor(time, recentTips = emptyList(), varietyLevel = varietyLevel) }
+                .map { engine.messageFor(time, recentTips = emptyList(), poolMix = poolMix) }
                 .toSet()
         assertThat(seen).isEqualTo(expectedPool.toSet())
     }
@@ -562,7 +645,7 @@ class TipEngineTest {
                 engine.messageFor(
                     time = LocalTime.of(14, 0),
                     recentTips = listOf("WEL1", "WEL2"),
-                    varietyLevel = VarietyLevel.PLAYFUL,
+                    poolMix = TONE_ONLY_MIX,
                 )
             assertThat(next.kind).isNotEqualTo(TipKind.WELLBEING)
         }
@@ -585,7 +668,7 @@ class TipEngineTest {
                     engine.messageFor(
                         time = LocalTime.of(14, 0),
                         recentTips = run,
-                        varietyLevel = VarietyLevel.PLAYFUL,
+                        poolMix = TONE_ONLY_MIX,
                     )
                 assertThat(next.kind).isNotEqualTo(kind)
             }
@@ -603,7 +686,7 @@ class TipEngineTest {
                     .messageFor(
                         time = LocalTime.of(14, 0),
                         recentTips = listOf("WEL1"),
-                        varietyLevel = VarietyLevel.PLAYFUL,
+                        poolMix = TONE_ONLY_MIX,
                     ).kind
             }
 
@@ -622,7 +705,7 @@ class TipEngineTest {
                     .messageFor(
                         time = LocalTime.of(14, 0),
                         recentTips = listOf("G1", "G2"),
-                        varietyLevel = VarietyLevel.PRACTICAL,
+                        poolMix = PoolMix.DEFAULT,
                     ).kind
             }
 
@@ -635,19 +718,24 @@ class TipEngineTest {
 
         // The run limit is about *which* tone comes next, not about how much tone there is:
         // blocking wellbeing must not quietly hand the tier's share back to the practical pool.
+        //
+        // BALANCED_MIX rather than TONE_ONLY_MIX, because a mix with practical switched off has
+        // no practical share for the blocked voice's turn to leak into, which would make this
+        // assertion true for the wrong reason.
         val toneShare =
             (1..SAMPLE_DRAWS).count {
                 engine
                     .messageFor(
                         time = LocalTime.of(14, 0),
                         recentTips = listOf("WEL1", "WEL2"),
-                        varietyLevel = VarietyLevel.PLAYFUL,
+                        poolMix = BALANCED_MIX,
                     ).kind != TipKind.PRACTICAL
             } / SAMPLE_DRAWS.toDouble()
 
-        // Same 80% target as the unblocked PLAYFUL case, same generous tolerance.
-        assertThat(toneShare).isAtLeast(0.65)
-        assertThat(toneShare).isAtMost(0.95)
+        // The same 50% target as the unblocked case, with the same generous tolerance: blocking
+        // one voice moves the split between voices, not the split between tiers.
+        assertThat(toneShare).isAtLeast(0.35)
+        assertThat(toneShare).isAtMost(0.65)
     }
 
     @Test
@@ -662,7 +750,7 @@ class TipEngineTest {
                     .messageFor(
                         time = LocalTime.of(14, 0),
                         recentTips = listOf("a tip that no longer exists", "nor does this one"),
-                        varietyLevel = VarietyLevel.PLAYFUL,
+                        poolMix = TONE_ONLY_MIX,
                     ).kind
             }
 

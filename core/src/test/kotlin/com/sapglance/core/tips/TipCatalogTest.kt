@@ -2,7 +2,8 @@ package com.sapglance.core.tips
 
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
-import com.sapglance.core.settings.VarietyLevel
+import com.sapglance.core.settings.PoolAmount
+import com.sapglance.core.settings.PoolMix
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
@@ -279,7 +280,7 @@ class TipCatalogTest {
      *
      * The stress case is one day part, not the whole catalog. A user who only ever sees the
      * widget in the morning reaches `general` + `morning` for practical draws, and at
-     * [VarietyLevel.PRACTICAL] roughly 80% of draws want to come from exactly that set — far
+     * [PoolMix.DEFAULT] roughly 80% of draws want to come from exactly that set — far
      * smaller than the catalog total that a naive "is 100 < 280?" check would look at.
      *
      * The two sleep windows are narrower still, and are the real reason this test exists in its
@@ -295,13 +296,13 @@ class TipCatalogTest {
         hour: Int,
     ) {
         val catalog = catalogFor(language)
-        VarietyLevel.entries.forEach { variety ->
+        MIXES_THE_PROMISE_COVERS.forEach { variety ->
             val engine = TipEngine(catalog, Random(seed = 20260729))
             val history = ArrayDeque<String>()
             val time = LocalTime.of(hour, 0)
 
             repeat(DRAWS) {
-                val tip = engine.messageFor(time, history.toList(), varietyLevel = variety)
+                val tip = engine.messageFor(time, history.toList(), poolMix = variety)
                 assertWithMessage(
                     "in %s at %s, %s: %s repeated within the %s-draw window",
                     language,
@@ -351,6 +352,31 @@ class TipCatalogTest {
 
         /** Enough to be a rotation rather than a message with variants. */
         const val MIN_NIGHT_POOL = 8
+
+        /**
+         * The mixes FR5 is promised for, which since 2026-08-02 is no longer "all of them".
+         *
+         * A reader can now switch pools off, and the anti-repeat window is bounded by the
+         * *reachable* set rather than by the catalog — switch off enough and the reachable set
+         * drops under 100, at which point the window cannot be honoured by anything except a
+         * bigger catalog. Philosophy alone is 65 tips. So the promise is pinned across every
+         * practical amount and across an asymmetric tone mix, which is everything a reader is
+         * likely to set, and the narrow-mix behaviour is pinned separately as *degradation* in
+         * `TipEngineTest`. Listing them here rather than iterating an enum is the point: each
+         * one is a claim someone chose to make.
+         *
+         * The tightest of these is night at `TONE_ONLY`, which reaches philosophy and wellbeing
+         * only — motivation is zeroed by the hour, not by the reader — for 136 tips against a
+         * window of 100. If a future content trim takes wellbeing below ~35, this is the test
+         * that will say so.
+         */
+        val MIXES_THE_PROMISE_COVERS =
+            listOf(
+                PoolMix.DEFAULT,
+                PoolMix.DEFAULT.copy(practical = PoolAmount.SOME),
+                PoolMix.DEFAULT.copy(practical = PoolAmount.NONE),
+                PoolMix.DEFAULT.copy(philosophy = PoolAmount.PLENTY, motivation = PoolAmount.NONE),
+            )
 
         @JvmStatic
         fun languages() = TipCatalog.SUPPORTED_LANGUAGES.toList()

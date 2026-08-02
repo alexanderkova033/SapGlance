@@ -10,14 +10,10 @@
     <string name="settings_title">@string/app_name</string>
 
     <string name="settings_variety_title">Больше разнообразия</string>
-    <string name="settings_variety_label_practical">Практика</string>
-    <string name="settings_variety_label_balanced">Баланс</string>
-    <string name="settings_variety_label_playful">Размышления</string>
-    <!-- Same rule as the English: written to sound like a person, not a spec, and all three the
-         same length and register so whichever one you pick sounds like the good choice. -->
-    <string name="settings_variety_state_practical">Мелочи, которые можно сделать сегодня</string>
-    <string name="settings_variety_state_balanced">Понемногу того и другого</string>
-    <string name="settings_variety_state_playful">Что-нибудь для размышления</string>
+    <string name="settings_variety_subtitle">«Здоровье» задаёт, сколько будет всего остального. Три других делят между собой то, что осталось.</string>
+    <string name="settings_amount_none">Нет</string>
+    <string name="settings_amount_some">Немного</string>
+    <string name="settings_amount_plenty">Много</string>
 
     <!-- Russian quotation marks. The English uses curly doubles; using them here would look
          imported. -->

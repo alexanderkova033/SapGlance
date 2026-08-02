@@ -8,16 +8,16 @@
     <string name="settings_title">@string/app_name</string>
 
     <string name="settings_variety_title">More variety</string>
-    <string name="settings_variety_label_practical">Practical</string>
-    <string name="settings_variety_label_balanced">Balanced</string>
-    <string name="settings_variety_label_playful">Reflective</string>
-    <!-- Written to sound like a person, not a spec. The original set named the internal pools
-         ("Mostly motivation, philosophy & wellbeing"), which made Practical the real option and
-         Reflective the leftovers. Keep all three the same length and register: whichever one
-         you pick should sound like the good choice. -->
-    <string name="settings_variety_state_practical">Little things you can try today</string>
-    <string name="settings_variety_state_balanced">A bit of both</string>
-    <string name="settings_variety_state_playful">Something to mull over</string>
+    <!-- Says what the controls below actually do, because they do two different things and the
+         difference is not guessable from four identical-looking rows. Health sets how much of
+         everything else there is; the other three divide that share between themselves. -->
+    <string name="settings_variety_subtitle">Health decides how much of the rest you see. The other three share out what is left.</string>
+    <!-- Amounts, not levels: these label one pool at a time now. "None" means none — it is the
+         whole reason this replaced the old three-position control, so it must not be softened
+         into "rarely". -->
+    <string name="settings_amount_none">None</string>
+    <string name="settings_amount_some">Some</string>
+    <string name="settings_amount_plenty">Plenty</string>
 
     <string name="settings_tip_source_quote">“%1$s”</string>
     <string name="settings_tip_refresh_action">Get a different tip</string>

@@ -48,8 +48,8 @@ interface TipHistoryRepository {
          * is eligible the engine falls back to an outright repeat, breaking the promise it exists
          * to keep. The binding case is not the 280-tip catalog total but the narrowest *reachable*
          * set: a user who only ever sees the widget in one day part reaches
-         * `general` + one day-part pool for practical draws, which is 76-78 tips, and at
-         * `VarietyLevel.PRACTICAL` around 80% of draws want to come from exactly there.
+         * `general` + one day-part pool for practical draws, which is 76-78 tips, and at the
+         * default `PoolMix` around 80% of draws want to come from exactly there.
          *
          * 100 survives that because an exhausted practical tier redistributes into tone rather
          * than repeating — measured over 3000 draws per variety level, in every single day part,
@@ -57,6 +57,15 @@ interface TipHistoryRepository {
          * ~81% to ~73%. `TipCatalogTest` pins this so a future content trim can't quietly
          * invalidate it. Raising the window further needs more tips per pool first, not just a
          * bigger number here.
+         *
+         * **Since 2026-08-02 the reader can spend this promise themselves.** That analysis holds
+         * for every mix that leaves the reachable set above 100, which is every mix the app
+         * defaults to and most that anyone would choose. It does not hold for someone who
+         * switches off three of the four pools: philosophy alone is 65 tips against a window of
+         * 100, so the window cannot be honoured and the engine repeats rather than failing. That
+         * is the cost of `PoolAmount.NONE` being a real "none", it is the reader's choice to
+         * make, and it is the reason FR5 is now a promise about the app's own behaviour rather
+         * than an unconditional one.
          */
         const val ANTI_REPEAT_WINDOW = 100
     }

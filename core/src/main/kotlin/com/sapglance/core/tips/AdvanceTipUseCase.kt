@@ -1,6 +1,6 @@
 package com.sapglance.core.tips
 
-import com.sapglance.core.settings.VarietyLevel
+import com.sapglance.core.settings.PoolMix
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -38,7 +38,7 @@ class AdvanceTipUseCase(
     private val mutex = Mutex()
 
     /** [tipEngine] is the engine for the reader's current language — see the class doc for why it
-     * is a parameter rather than a field. [varietyLevel] is the Settings variety level, passed
+     * is a parameter rather than a field. [poolMix] is the reader's per-pool amounts, passed
      * straight through — see [TipEngine.messageFor] for what it does. An explicit user request for
      * a new tip (widget tap, Settings refresh button) is no different from the passive rotation
      * and used to be: there was a `manual` flag here to route a tap around the fixed sleep-hours
@@ -46,11 +46,11 @@ class AdvanceTipUseCase(
     suspend operator fun invoke(
         tipEngine: TipEngine,
         now: LocalTime,
-        varietyLevel: VarietyLevel = VarietyLevel.PRACTICAL,
+        poolMix: PoolMix = PoolMix.DEFAULT,
     ): Tip =
         mutex.withLock {
             val recentTips = tipHistoryRepository.recentTips.first()
-            val tip = tipEngine.messageFor(now, recentTips, varietyLevel)
+            val tip = tipEngine.messageFor(now, recentTips, poolMix)
             tipHistoryRepository.recordTip(tip.text)
             tip
         }

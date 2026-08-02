@@ -27,7 +27,7 @@ class RefreshTipAction : ActionCallback {
         container.advanceTip(
             container.tipEngine(settings.language),
             LocalTime.now(),
-            varietyLevel = settings.varietyLevel,
+            poolMix = settings.poolMix,
         )
         container.refreshWidget()
     }

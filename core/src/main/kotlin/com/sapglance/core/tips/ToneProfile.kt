@@ -12,9 +12,12 @@ package com.sapglance.core.tips
  * often as a well-timed one — and a mistimed line doesn't read as variety, it reads as the app
  * not knowing what time it is.
  *
- * This is deliberately *not* a user setting. `VarietyLevel` already decides how much tone the
- * user wants; which tone suits 2am is an editorial judgement they have no basis to make and
- * shouldn't be asked to. See README "Notable design decisions".
+ * This is deliberately *not* a user setting, and it stayed that way when the reader gained a
+ * control per pool on 2026-08-02. [com.sapglance.core.settings.PoolMix] decides which voices a
+ * reader wants; which voice suits 2am is an editorial judgement they have no basis to make and
+ * shouldn't be asked to. The two compose by multiplication rather than override — see
+ * `TipEngine.toneGroups` — so a reader tunes the shape below without being able to flatten it.
+ * See README "Notable design decisions".
  *
  * Weights are relative within a draw's tone share, and are required to sum to [SCALE] purely so
  * the table below reads as "out of ten" at a glance rather than needing mental normalisation.
@@ -42,9 +45,12 @@ internal data class ToneProfile(
          * opposite. The night profile zeroes motivation outright, which is the one place this
          * table filters rather than leans: "Two minutes. Set a timer. Go." at 3am is not a
          * weaker version of good advice, it's the opposite of what the hour calls for. That
-         * doesn't contradict the "variety is a lean, never a filter" rule, which is a promise
-         * about what the *user's setting* can do — no `VarietyLevel` ever silences a group. This
-         * is editorial timing, and it is enforced by a test rather than left to intention.
+         * The old "variety is a lean, never a filter" rule used to be cited here as the reason
+         * that was not a contradiction. That rule is gone: a reader can now switch a pool off
+         * outright, so both this table and the reader can silence a voice. What survives, and is
+         * the point worth keeping, is that they are different in kind — this one is about the
+         * hour and cannot be overruled, and it is enforced by a test rather than left to
+         * intention.
          */
         fun forDayPart(dayPart: DayPart): ToneProfile =
             when (dayPart) {

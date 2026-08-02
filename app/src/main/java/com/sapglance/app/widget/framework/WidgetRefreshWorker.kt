@@ -44,7 +44,7 @@ class WidgetRefreshWorker(
             container.advanceTip(
                 container.tipEngine(settings.language),
                 now.toLocalTime(),
-                varietyLevel = settings.varietyLevel,
+                poolMix = settings.poolMix,
             )
             // Written after the advance, not before. If the process dies mid-run the worst case
             // is doing this window twice, which costs one extra tip; writing first would make the

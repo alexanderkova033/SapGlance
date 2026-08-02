@@ -94,7 +94,7 @@ class TipWidget : GlanceAppWidget() {
                         .advanceTip(
                             container.tipEngine(settings.language),
                             LocalTime.now(),
-                            varietyLevel = settings.varietyLevel,
+                            poolMix = settings.poolMix,
                         ).text
                 }
         provideContent {
