@@ -44,6 +44,16 @@ the live privacy-policy URL. What is missing is the account and the feature grap
 
 ## Open work
 
+- [ ] **Read the reworked Russian.** All nine pools were passed over on 2026-08-02 and 08-03
+      after the verdict that the catalog read as unintentionally funny; the four recurring faults
+      and the rules that came out of them are in `ru/general.txt`'s header, and `motivation` is
+      the pool that was rebuilt rather than repaired. What is *not* done is an independent read:
+      the same person wrote both versions, so "better" currently rests on one round of feedback
+      applied by the author of the problem. The gendered past tense is closed and checkable; the
+      register is not. Worth reading `motivation` and `wellbeing` first, since those are the two
+      pools where Russian pulls hardest away from the English — into barking and into sympathy
+      respectively, both of which their own headers forbid.
+
 - [ ] **More card backgrounds still.** Nineteen now, up from eleven: night went four → eight,
       daylight six → ten, evening seven → nine. The card also refuses to draw the background it
       is replacing, so back-to-back repeats are gone outright rather than merely rarer.
@@ -76,30 +86,34 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       open-access copy cited, so the claim was not touched. Either find an open version, or
       re-source the tip, or leave it hedged forever. Leaving it hedged is a perfectly good
       answer.
-- [ ] **Widen `philosophy` further still.** Done once on 2026-07-31: Zhuangzi widened the
+- [ ] **Widen `philosophy` further still.** Done twice. On 2026-07-31: Zhuangzi widened the
       Taoist section, and Saadi (Persian), Tagore (Indian) and Anna Julia Cooper (a second woman,
       and a nineteenth-century American voice next to Douglass) were traditions the pool did not
-      have at all. What is still missing, and is a public-domain problem more than a values one:
-      anything African, anything indigenous, and anything written in the last hundred years.
-      Wollstonecraft remains the known near-miss — the line worth having opens on a pronoun the
-      widget has no room to supply.
-- [ ] **Make a cold tap feel faster.** ~1s is process start plus Glance session setup, not app
-      code, and `warmUp()` already hides the catalog parse behind it. No cheap answer left.
+      have at all. On 2026-08-02 the three gaps that pass named were all closed, and its
+      diagnosis — a public-domain problem rather than a values one — held up: Ptahhotep (Egyptian,
+      and now the oldest text in the file by two millennia), an Akan proverb from Rattray, two
+      lines from Ohiyesa, and Bertrand Russell, whose *Conquest of Happiness* only entered the US
+      public domain this January and reached Gutenberg in February. That last one is the useful
+      lesson: the twentieth-century gap was a copyright boundary, and it moves a year every year,
+      so it is worth re-checking rather than treating as permanent.
+      What is left is narrower. The pool is three women out of everyone in it. The last hundred
+      years is one book deep — Keller and Tagore are twentieth-century but Edwardian, so Russell
+      alone sits on the near side of 1926. And Wollstonecraft remains the known near-miss: the
+      line worth having opens on a pronoun the widget has no room to supply.
+      One caveat is recorded in the pool header rather than here because it is a judgement someone
+      may want to revisit: the standard public-domain Akan collection is Rattray's, whose full
+      1916 subtitle is offensive, and a reader who taps "why this tip?" and follows the link lands
+      on it.
 - [ ] **Languages beyond `en` and `ru`.** Russian shipped 2026-07-31 and the structure is now
       the cheap part: `SUPPORTED_LANGUAGES`, a `values-<lang>` strings file, a folder of nine
       tip files, and `TipCatalogTest` holds any new language to every invariant English has.
-      What is *not* cheap, and did not get cheaper, is 371 lines of prose per language written
+      What is *not* cheap, and did not get cheaper, is 385 lines of prose per language written
       to the pools' own rules. Two debts the Russian took on rather than paid, both written into
       the pool headers: a Russian reader's "why this tip?" shows English citations, and a
       translated philosophy quotation is a rendering of the cited English edition rather than a
       published Russian translation. Both are honest because they are stated, and both would be
       fixed by the same structural change: per-language `_sources.txt`. That is the thing to do
       before a third language, not after.
-- [ ] **Get the Russian in front of someone who speaks it.** Written and reviewed by one person
-      against the pools' rules, which catches register drift and does not catch the things a
-      native reader would wince at. The specific worry is the tone pools: `motivation` has to
-      push without turning into the barking Russian imperative, and `wellbeing` has to stay warm
-      without sliding into the sympathetic register its first rule forbids.
 - [ ] **iOS port.** Costed properly on 2026-07-31: **[docs/IOS_PORT.md](docs/IOS_PORT.md)**.
       The short version is that the code is the easy part — `:core` touches exactly three
       non-multiplatform things and is 1-2 days from compiling against an iOS target — and that
@@ -107,7 +121,7 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       survive the platform: the offline guarantee stops being structural, because there is no
       `INTERNET` permission to omit and no entitlement to renounce. (The other one, the
       90-minute screen-on rule, stopped being a problem on 2026-07-31 — it was replaced by a
-      fixed three-times-a-day schedule, which WidgetKit's timeline model expresses natively. The
+      fixed four-times-a-day schedule, which WidgetKit's timeline model expresses natively. The
       iOS doc is updated but that section is now the *easy* half of the port.) Also worth knowing early: Apple Developer Program enrollment
       has the same 18+ requirement as Play, so it is a *second* ask of the same guardian, plus
       $99/year and a Mac. Recommendation in the doc: not before v1 is live on Android, and
