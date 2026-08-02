@@ -78,14 +78,21 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       is the only warm dark card and Slate the only card with no subject at all, and both exist
       because six cool cards with something to look at had made the night rotation feel narrower
       than its count.
-- [ ] **The Class B rewrites nobody can open the sources for.** The 2026-07-31 pass worked the
-      pile properly and it turned out to be four changes, not twenty, because most of those
-      hedges were *correct* — see docs/TIGHTENING_AUDIT.md for which and why. What is left is the
-      handful whose sources are paywalled, of which the known one is "poor posture held all day
-      is linked to fatigue": the Applied Ergonomics paper behind it returns 403 and has no
-      open-access copy cited, so the claim was not touched. Either find an open version, or
-      re-source the tip, or leave it hedged forever. Leaving it hedged is a perfectly good
-      answer.
+- [x] ~~**The Class B rewrites nobody can open the sources for.**~~ Closed 2026-08-03, and the
+      answer was none of the three the item offered. "Poor posture held all day is linked to
+      fatigue" was not a hedging problem: the paper's abstract — free on PubMed even though the
+      full text is still 403 — shows it measured discomfort and postural shifts, and **never
+      measured fatigue at all**, while the second citation was a workstation-setup page making no
+      claim of any kind. An attempt to keep the claim on better evidence failed honestly: one
+      study supports slumped-sitting muscle fatigue and a second looking for the same effect
+      found nothing, which does not clear the two-citation bar. The line was re-sourced to what
+      its own paper does show, and inverts its old premise: *discomfort rose after an hour in
+      every posture tested, upright included*. Full reasoning in
+      [docs/TIGHTENING_AUDIT.md](docs/TIGHTENING_AUDIT.md).
+      **The transferable lesson: paywalled is not unreadable.** A PubMed abstract is free for
+      almost every paywalled paper and settles what a study *measured*, which is most of what a
+      citation check needs. Check the abstract before recording a source as unopenable. Five tips
+      cited that paywalled URL and all five now point at the open PubMed record.
 - [ ] **Widen `philosophy` further still.** Done twice. On 2026-07-31: Zhuangzi widened the
       Taoist section, and Saadi (Persian), Tagore (Indian) and Anna Julia Cooper (a second woman,
       and a nineteenth-century American voice next to Douglass) were traditions the pool did not
@@ -96,10 +103,19 @@ the live privacy-policy URL. What is missing is the account and the feature grap
       public domain this January and reached Gutenberg in February. That last one is the useful
       lesson: the twentieth-century gap was a copyright boundary, and it moves a year every year,
       so it is worth re-checking rather than treating as permanent.
-      What is left is narrower. The pool is three women out of everyone in it. The last hundred
-      years is one book deep — Keller and Tagore are twentieth-century but Edwardian, so Russell
-      alone sits on the near side of 1926. And Wollstonecraft remains the known near-miss: the
-      line worth having opens on a pronoun the widget has no room to supply.
+      On 2026-08-03 the two gaps that left were closed by one book. Virginia Woolf's *A Room of
+      One's Own* is 1929, so it is a woman and the near side of 1926 at once, and it only became
+      quotable when it entered the US public domain in January 2025. Elizabeth Cady Stanton's
+      *Solitude of Self* came with it as a fourth woman and a second nineteenth-century American
+      voice — and it argues *against* the pool's existing solitude lines rather than with them,
+      which is worth more than another voice agreeing.
+      **The pattern is now the useful part: twice running, a gap turned out to be a copyright
+      date rather than a judgement.** When this pool looks narrow, check what came out of
+      copyright this January before concluding anything about the pool.
+      What is left is narrower still. The last hundred years is two books deep rather than one,
+      which is not yet a range: Woolf and Russell wrote in the same decade, in the same country,
+      at each other's distance from the same literary establishment. And Wollstonecraft remains
+      the known near-miss: the line worth having opens on a pronoun the widget cannot supply.
       One caveat is recorded in the pool header rather than here because it is a judgement someone
       may want to revisit: the standard public-domain Akan collection is Rattray's, whose full
       1916 subtitle is offensive, and a reader who taps "why this tip?" and follows the link lands

@@ -1,6 +1,6 @@
 # Project status
 
-_Last updated: 2026-08-02_
+_Last updated: 2026-08-03_
 
 What has actually been checked and what has not, plus the risks and the assumptions worth
 knowing. **Not a changelog** — how the code got here is in `git log`. **Not a plan** — where it
@@ -16,14 +16,15 @@ the code.
 - **Modules**: `:core` (pure Kotlin domain) and `:app` (Android). Same three features in both
   (`tips`/`settings`/`widget`). `:core` is flat per feature; `:app` splits each into
   `data`/`presentation`/`framework`, which are real differences in kind.
-- **Catalog**: 385 tips — 182 practical (`general` 58, `morning` 31, `afternoon` 31, `evening`
-  33, `sleep_late` 15, `sleep_early` 14) and 203 tone (`motivation` 67, `philosophy` 65,
+- **Catalog**: 387 tips — 182 practical (`general` 58, `morning` 31, `afternoon` 31, `evening`
+  33, `sleep_late` 15, `sleep_early` 14) and 205 tone (`motivation` 67, `philosophy` 67,
   `wellbeing` 71). Every practical line still carries 2+ independent citations, and the pass on
   2026-07-31 reworded most of them without changing a single claim (see below). The 2026-08-02
   pass added ten quoted lines and no practical ones: six to `philosophy`, closing the African,
   indigenous and last-hundred-years gaps its header had named, and four jokes to `wellbeing`
-  from three voices it did not have.
-- **Languages**: `en` and `ru`, 770 tip lines in total. English lives at the root of `tips/`
+  from three voices it did not have. 08-03 added Woolf and Stanton, which closed the two gaps
+  that left, and changed one practical line rather than adding any — see the Class B note below.
+- **Languages**: `en` and `ru`, 774 tip lines in total. English lives at the root of `tips/`
   and is the text the citations were checked against; Russian is a translation of it at
   `tips/ru/`. **Citations are shared, not translated** — one `_sources.txt` per pool, zipped by
   position against both languages, so a translation that gains or loses a line fails at load.
@@ -103,7 +104,7 @@ against real numbers because of it.
    estimate rests on `EFFECTIVE_CHAR_WIDTH_RATIO`, measured once against a *serif* render that
    the card no longer uses — it is now conservative, which wastes space but cannot clip.
    `TipFace.minColumnRatio` was measured over the catalog at 282 tips and the catalog is now
-   385. The 89 lines added up to 2026-07-31 were checked against it by width rather than
+   387. The 89 lines added up to 2026-07-31 were checked against it by width rather than
    re-measured, this time by wrapping the whole catalog greedily at every column width with an
    approximate serif-bold advance table and ranking the result. That is a *relative* answer, not a
    measurement — the units are arbitrary — but it is the right relative answer: the
@@ -286,6 +287,15 @@ Two methodological notes:
   already there ("walking breaks beat standing breaks" next to "break up long sitting with a
   minute of standing"), and close is where a contradiction hides. Worth a read-through when there
   is reason to touch the pools again.
+- **One practical claim was wrong, not merely hedged, and had been since it was written.** "Poor
+  posture held all day is linked to fatigue, not just discomfort" cited a paper that never
+  measured fatigue and a workstation-setup page that makes no claim at all. It was caught on
+  2026-08-03 by reading the abstract of a paper the previous pass had recorded as unopenable —
+  the full text is 403, the abstract is free, and the abstract was enough. **The worrying part is
+  the near-miss**: the rule "an unopenable source means the claim is not touched" is a good rule
+  and it protected the wrong thing here, because it treated paywalled as unreadable and left a
+  mis-sourced claim standing for a year. Nothing in the build can catch this class of error; only
+  reading can. Worth assuming there is another one.
 - **The quoted lines added on 2026-08-02 were verified one way and not the other.** Each was
   pulled from the raw source text and matched character by character, which is the check that
   catches a paraphrase — and it caught one immediately, since Eastman's line circulates as "It

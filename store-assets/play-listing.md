@@ -2,7 +2,7 @@
 
 Draft copy for the Play Console listing, positioned against the quote-widget apps this
 competes with rather than against health trackers. Every number here was counted from the
-repo on 2026-08-02 — re-check them if the catalog changes. The card-style count and the tip
+repo on 2026-08-03 — re-check them if the catalog changes. The card-style count and the tip
 count have both been wrong here before, for the same reason: they are the two numbers that move
 whenever anyone touches content.
 
@@ -49,11 +49,11 @@ TWO KINDS OF LINE, AND YOU PICK THE MIX
   contested evidence was left out rather than rounded up.
 
 - Motivation, philosophy and wellbeing, including quotations from Marcus Aurelius, Spinoza,
-  Thoreau, Montaigne, Lao Tzu, Zhuangzi, Saadi, Rabindranath Tagore, Frederick Douglass and
-  Anna Julia Cooper, checked word for word against the original texts instead of copied from
-  the internet.
+  Thoreau, Montaigne, Lao Tzu, Zhuangzi, Saadi, Rabindranath Tagore, Frederick Douglass,
+  Virginia Woolf, Bertrand Russell, Elizabeth Cady Stanton, Ohiyesa and Ptahhotep, checked word
+  for word against the original texts instead of copied from the internet.
 
-One slider moves you from mostly practical to mostly reflective. Put it wherever you like.
+One control per kind, from none to plenty. Turn one off and it never appears again.
 
 
 IT KNOWS WHAT TIME IT IS
@@ -65,7 +65,7 @@ that.
 
 IT DOESN'T REPEAT ITSELF
 
-385 tips, in English and Russian. The last 100 you have seen never come back, and the 60 before
+387 tips, in English and Russian. The last 100 you have seen never come back, and the 60 before
 those are weighted down, so the rotation keeps finding you something you have not read yet.
 
 

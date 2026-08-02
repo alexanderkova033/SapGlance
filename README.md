@@ -21,7 +21,7 @@ actually awake at 3am — what still helps then, and deliberately not the fright
 that would only keep them awake. The artwork follows the same clock: pale cards in daylight,
 deep ones at night, never a bright meadow behind a philosophy line at 3am.
 
-**It doesn't repeat itself.** 385 tips across nine pools, in English and Russian. The last 100
+**It doesn't repeat itself.** 387 tips across nine pools, in English and Russian. The last 100
 you have seen never come back, the 60 before those are weighted down so the neglected ones
 actually surface, and no voice runs three draws in a row.
 
@@ -91,10 +91,16 @@ first and filtering second was a real bug. If that still leaves nothing, the ton
 gives way before anti-repeat does: the first is a preference about which voice comes next, the
 second is the product promise.
 
-`VarietyLevel` sets the tone tier's share (20/50/80%) and never switches a tier off. Which tone
-suits which hour is editorial rather than a setting: `ToneProfile` leads with motivation in the
-morning and zeroes it at night. The reasoning for each of these sits in the KDoc where it
-applies, and the behaviour is pinned by tests rather than by intention.
+`PoolMix` gives each pool its own amount. The practical amount alone sets the tone tier's share
+(20/50/100%), and **none means none** — a pool switched off never appears, which is a deliberate
+break with the single lean this replaced. The three tone amounts decide how that share divides
+between the voices rather than how large it is.
+
+Which tone suits which hour stays editorial rather than a setting: `ToneProfile` leads with
+motivation in the morning and zeroes it at night, and a reader's amounts *multiply* that table
+instead of replacing it — so turning motivation up cannot conjure it into 3am. The reasoning for
+each of these sits in the KDoc where it applies, and the behaviour is pinned by tests rather than
+by intention.
 
 ## More
 

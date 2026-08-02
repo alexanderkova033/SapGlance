@@ -181,9 +181,10 @@ cheaply.
   on Obayashi, which is observational, and firming the line would also have made it restate
   `evening`'s 100-lux line, which `sleep_late`'s header forbids.
 - `Poor posture held all day is linked to fatigue, not just discomfort.` **Could not be
-  checked**: the Applied Ergonomics paper returns 403 and no open-access copy is cited. Under the
-  rule, an unopenable source means the claim is not touched. This is the rule working rather than
-  a gap, and it is now its own roadmap item.
+  checked** at the time: the Applied Ergonomics paper returns 403 and no open-access copy is
+  cited. Under the rule, an unopenable source means the claim is not touched. This is the rule
+  working rather than a gap. **Settled 2026-08-03 — see below, and it was not a hedging problem
+  at all.**
 - The other ~15 — media multitasking, two hours outdoors, social ties, sleep regularity, eating
   before bed, blink completeness, social jetlag and the rest — all rest on observational or
   cross-sectional work. "Linked to" and "tracks with" are the honest verbs and they stayed.
@@ -204,3 +205,51 @@ keeper. The working test that settled the rest: **an adverb stays if removing it
 the reader does.** `A cluttered desk quietly competes` lost its `quietly`; `walk to the next
 room at a completely different speed` kept its `completely`; `when did you last actually drink
 something` kept its `actually`.
+
+## The last Class B line, settled 2026-08-03
+
+`Poor posture held all day is linked to fatigue, not just discomfort.` was the one line the
+2026-07-31 pass could not check, and it was left on the roadmap as "find an open version, or
+re-source the tip, or leave it hedged forever". **Leaving it hedged turned out not to be
+available, because the problem was never the hedge.**
+
+The paper is Waongenngarm et al., *Perceived musculoskeletal discomfort and its association with
+postural shifts during 4-h prolonged sitting in office workers*, Applied Ergonomics 89 (2020),
+[PMID 32755740](https://pubmed.ncbi.nlm.nih.gov/32755740/). Its full text is still 403 on
+ScienceDirect. **Its abstract is not, and the abstract is enough**: the study measured perceived
+discomfort on Borg CR-10 and postural shifts from seat-pressure data. Fatigue is not an outcome.
+It was never in the paper. So the tip's whole point — *not just discomfort* — was the half its
+own citation did not support, and the second citation was a Cornell workstation-setup page that
+makes no claim about posture, discomfort or fatigue at all.
+
+**Method note, and the reason this took one fetch rather than none.** The rule that stopped the
+last pass was "an unopenable source means the claim is not touched", and it is a good rule. What
+it missed is that *paywalled* and *unreadable* are different: a PubMed abstract is free for
+essentially every paper behind a publisher paywall, and an abstract settles what a study
+*measured* even when it cannot settle effect sizes. Check the abstract before recording a source
+as unopenable.
+
+**Trying to keep the claim, and failing honestly.** There is real evidence that slumped sitting
+fatigues trunk muscles: Waongenngarm et al. 2015,
+[PMC4792914](https://pmc.ncbi.nlm.nih.gov/articles/PMC4792914/), put 30 office workers in three
+postures for an hour and found EMG median-frequency decline in internal oblique / transversus
+abdominis **in slumped sitting only**. One study, two deep abdominal muscles, EMG rather than
+felt tiredness. The obvious second citation, Jung et al., *Medicina* 2020,
+[PMC7822118](https://pmc.ncbi.nlm.nih.gov/articles/PMC7822118/), looked for the same effect and
+**found no significant difference in median frequency**. Citing it as support would have been a
+misrepresentation of a negative result. One study does not clear this pool's two-independent-
+citations bar, so the claim went rather than the hedge.
+
+**What replaced it, from the same paper that killed it.** Waongenngarm 2015's other finding is
+the interesting one and inverts the tip's own premise: *"Regardless of the sitting posture, Body
+Perceived Discomfort scores in the neck, shoulder, upper back, low back, and buttock
+significantly increased after 1 hour of sitting"* — upright and forward-leaning included. The
+line is now `Discomfort rose after an hour of sitting in every posture tested, upright included.`,
+cited to that study and to the 2020 one, which found the same rise continuing across four hours.
+It is a myth-buster carrying a real number, it agrees with `Your best posture is your next one`
+two lines away, and it is the rare rewrite that is both *plainer* and *better supported* than
+what it replaced.
+
+**One incidental win.** The paywalled ScienceDirect URL was cited by five tips. All five now
+point at the PubMed record instead — same paper, same claim, openable by anyone who taps
+"why this tip?".
