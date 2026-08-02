@@ -2,7 +2,7 @@
 
 Draft copy for the Play Console listing, positioned against the quote-widget apps this
 competes with rather than against health trackers. Every number here was counted from the
-repo on 2026-07-31 — re-check them if the catalog changes. The card-style count and the tip
+repo on 2026-08-02 — re-check them if the catalog changes. The card-style count and the tip
 count have both been wrong here before, for the same reason: they are the two numbers that move
 whenever anyone touches content.
 
@@ -65,7 +65,7 @@ that.
 
 IT DOESN'T REPEAT ITSELF
 
-375 tips, in English and Russian. The last 100 you have seen never come back, and the 60 before
+385 tips, in English and Russian. The last 100 you have seen never come back, and the 60 before
 those are weighted down, so the rotation keeps finding you something you have not read yet.
 
 

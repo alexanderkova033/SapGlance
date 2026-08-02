@@ -31,6 +31,15 @@
 # equivalent convention, so the line below is set normally. That is not a silent correction of
 # the English; it is the absence of a feature to carry over.
 #
+# TWO LINES ADDED 2026-08-02 SIT AT A THIRD REMOVE, which is one further than anything else in
+# this file and should be said out loud. Ptahhotep reaches a Russian reader as Gunn's 1906
+# English of a Middle Egyptian text, rendered again here; the Akan proverb as Rattray's 1916
+# English of a Twi saying, rendered again here. Everywhere else the chain is author to English
+# edition to this line; in those two it is author to English edition to this line with an extra
+# link at the front. The attribution still points at the English page, because that page is
+# genuinely what these Russian sentences were made from, which is the whole principle above.
+# Russian editions of both exist and are the honest fix, and they need per-language sources.
+#
 # LENGTH IS THE BINDING CONSTRAINT HERE. Several of these are already at the widget's limit in
 # English, and Russian runs longer. Schopenhauer's "the present alone is true and actual" had to
 # be rebuilt around a colon to fit. Where a line cannot fit, cut at a punctuation mark the
@@ -40,7 +49,7 @@
 Людей мучают не вещи, а представления о них.	Epictetus, Enchiridion V (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm	Epictetus, Enchiridion V (Perseus Digital Library)	https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0237:text%3Denc:chapter%3D5
 Одно в нашей власти, другое не в нашей власти.	Epictetus, Enchiridion I (Project Gutenberg)	https://www.gutenberg.org/files/45109/45109-h/45109-h.htm
 Не желай, чтобы всё шло, как ты хочешь. Желай, чтобы шло так, как идёт.	Epictetus, Enchiridion VIII, tr. Long (Project Gutenberg)	https://www.gutenberg.org/files/10661/10661-h/10661-h.htm
-Никогда не говори о вещи: я её потерял. Говори: я её вернул.	Epictetus, Enchiridion XI, tr. Higginson (Perseus Digital Library)	https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0237:text%3Denc:chapter%3D11
+Никогда не говори о вещи: она потеряна. Говори: она возвращена.	Epictetus, Enchiridion XI, tr. Higginson (Perseus Digital Library)	https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.01.0237:text%3Denc:chapter%3D11
 Даже если ты разобьёшь себе сердце, они всё равно будут делать то же самое.	Marcus Aurelius, Meditations VIII.4 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_8
 Боль не от самой вещи, а от твоей оценки её.	Marcus Aurelius, Meditations VIII.47 (Project Gutenberg)	https://www.gutenberg.org/ebooks/2680
 Нигде человек не найдёт приюта тише и спокойнее, чем в собственной душе.	Marcus Aurelius, Meditations IV.3 (Wikisource)	https://en.wikisource.org/wiki/The_Meditations_of_the_Emperor_Marcus_Antoninus/Book_4
@@ -54,7 +63,7 @@
 # Taoist.
 Кто встал на цыпочки, не может стоять твёрдо.	Lao Tzu, Tao Teh King 24, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
 Знающий других разумен. Знающий себя просветлён.	Lao Tzu, Tao Teh King 33, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/216
-Совершенный человек пренебрегает собой, божественный делом.	Zhuangzi, Chuang Tzu I, tr. Giles (Wikisource)	https://en.wikisource.org/wiki/Chuang_Tz%C5%AD_(Giles)/Chapter_1
+Совершенный человек пренебрегает собой, божественный пренебрегает действием.	Zhuangzi, Chuang Tzu I, tr. Giles (Wikisource)	https://en.wikisource.org/wiki/Chuang_Tz%C5%AD_(Giles)/Chapter_1
 
 # Confucian.
 Учение без размышления бесполезно, размышление без учения опасно.	Confucius, Analects II.XV, tr. Legge (Project Gutenberg)	https://www.gutenberg.org/ebooks/3330
@@ -69,19 +78,19 @@
 В одни и те же реки нельзя войти дважды.	Heraclitus, Fragments 41-42, tr. Burnet (Wikisource)	https://en.wikisource.org/wiki/Fragments_of_Heraclitus_(annotated)
 
 # Essayists and transcendentalists.
-Величайшее дело на свете, это уметь принадлежать себе.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
+Величайшее дело на свете, это знать, что принадлежишь себе.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
 Нужно приберечь для себя каморку, целиком нашу и совершенно свободную.	Montaigne, Essays I.38 "Of Solitude", tr. Cotton (Wikisource)	https://en.wikisource.org/wiki/The_Essays_of_Montaigne/Book_I/Chapter_XXXVIII
 В конце концов нет ничего священного, кроме целостности твоего ума.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
-Держись себя, никогда не подражай.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
+Настаивай на себе, никогда не подражай.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
 За несогласие мир сечёт тебя своим недовольством.	Emerson, Essays: First Series, "Self-Reliance" (Wikisource)	https://en.wikisource.org/wiki/Essays:_First_Series/Self-Reliance
 Большинство людей живёт в тихом отчаянии.	Thoreau, Walden, "Economy" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Economy
-Но что же, люди стали орудиями своих орудий.	Thoreau, Walden, "Economy" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Economy
+Но вот: люди стали орудиями своих орудий.	Thoreau, Walden, "Economy" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Economy
 Наша жизнь растрачивается по мелочам.	Thoreau, Walden, "Where I Lived, and What I Lived for" (Wikisource)	https://en.wikisource.org/wiki/Walden_(1854)_Thoreau/Where_I_Lived,_and_What_I_Lived_for
 Спроси себя, счастлив ли ты, и перестанешь быть счастливым.	J. S. Mill, Autobiography, Chapter V (Wikisource)	https://en.wikisource.org/wiki/Autobiography_(Mill)/Chapter_V
 Мир полон страдания, но он полон и его преодоления.	Helen Keller, Optimism (Wikisource)	https://en.wikisource.org/wiki/Optimism_(Keller)
 
 # German.
-Если есть своё „зачем“ в жизни, вынесешь почти любое „как“.	Nietzsche, Twilight of the Idols, Maxims and Arrows 12 (Project Gutenberg)	https://www.gutenberg.org/files/52263/52263-h/52263-h.htm
+Если есть своё «зачем» в жизни, вынесешь почти любое «как».	Nietzsche, Twilight of the Idols, Maxims and Arrows 12 (Project Gutenberg)	https://www.gutenberg.org/files/52263/52263-h/52263-h.htm
 Человек может быть самим собой, лишь пока он одинок.	Schopenhauer, Counsels and Maxims II, tr. Saunders (Wikisource)	https://en.wikisource.org/wiki/Counsels_and_Maxims/Chapter_II
 Истинно и действительно лишь настоящее: только оно обладает полной реальностью.	Schopenhauer, Counsels and Maxims II, tr. Saunders (Wikisource)	https://en.wikisource.org/wiki/Counsels_and_Maxims/Chapter_II
 
@@ -103,20 +112,34 @@
 # Indian.
 И раз я люблю эту жизнь, я знаю, что полюблю и смерть.	Rabindranath Tagore, Gitanjali 95 (Project Gutenberg)	https://www.gutenberg.org/ebooks/7164
 
+# Ancient Egyptian.
+Молчание принесёт тебе больше пользы, чем обилие речей.	Ptahhotep, Maxim 24, tr. Gunn, 1906 (Project Gutenberg)	https://www.gutenberg.org/files/30508/30508-h/30508-h.htm
+
+# Akan.
+Никто не показывает ребёнку небо.	Akan proverb 3, in Rattray, Ashanti Proverbs, 1916 (Internet Archive)	https://archive.org/details/ashantiproverbst00rattuoft
+
+# Native American.
+Мы верили, что любовь к имуществу есть слабость, которую нужно преодолеть.	Ohiyesa (Charles A. Eastman), The Soul of the Indian IV (Project Gutenberg)	https://www.gutenberg.org/files/340/340-h/340-h.htm
+Молчание есть абсолютное равновесие тела, ума и духа.	Ohiyesa (Charles A. Eastman), The Soul of the Indian IV (Project Gutenberg)	https://www.gutenberg.org/files/340/340-h/340-h.htm
+
+# Twentieth century.
+Счастливая жизнь должна быть в значительной мере тихой жизнью.	Bertrand Russell, The Conquest of Happiness IV, 1930 (Project Gutenberg)	https://www.gutenberg.org/ebooks/77894
+Умение разумно заполнить досуг, это последний плод цивилизации.	Bertrand Russell, The Conquest of Happiness XIV, 1930 (Project Gutenberg)	https://www.gutenberg.org/ebooks/77894
+
 # Original reflections. No source, and none claimed.
-Ты не отстаёшь. Не было расписания, на которое ты соглашался.
-Внимание конечнее всего, чем ты владеешь. Трать его намеренно.
+Ты не отстаёшь. Такого расписания с тобой никто не согласовывал.
+Внимание, это самое конечное из того, чем ты владеешь. Трать его намеренно.
 Терпение не в ожидании. Оно в том, что ты делаешь, пока ждёшь.
 Большую часть сегодняшнего дня ты не вспомнишь. Выбери, что оставить.
 Можно ошибаться годами и всё же развернуться за один день.
 Уверенность дёшева. Заметь, чего тебе стоит передумать.
-История, которую ты расскажешь о сегодня, уже короче самого дня.
+История, которую ты расскажешь про этот день, уже короче самого дня.
 Больше времени, чем сейчас, у тебя не будет. Будут другие причины.
-Самое уверенное твоё мнение пришло от того, кого ты уже забыл.
+Самое уверенное твоё мнение пришло от человека, которого уже не вспомнить.
 Большую часть своей жизни не объяснить тому, кого там не было.
-Ты уже ошибался, и ровно с такой же уверенностью.
+Ровно эта же уверенность уже подводила.
 Совет, который ты даёшь чаще всего, нужнее всего тебе самому.
-В следующем году ты поверишь в то, с чем сегодня стал бы спорить.
+В следующем году ты поверишь в то, с чем сегодня споришь.
 Тот, кого легко не заметить, для кого-то целый мир.
-То, что ты замечаешь, это выбор, который ты давно перестал делать осознанно.
+То, что ты замечаешь, это выбор, который давно перестал быть осознанным.
 Передумать можно и без объявления.

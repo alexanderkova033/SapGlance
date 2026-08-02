@@ -21,6 +21,14 @@
 # edition, and there is one shared sources design and no room for that. Stated rather than
 # hidden, per the same argument.
 #
+# MILNE IS THE ONE A RUSSIAN READER WILL ARGUE WITH, and the argument is worth pre-empting. In
+# Russian, Winnie-the-Pooh is Заходер's Винни-Пух, which is not a translation so much as a
+# retelling, and it is what every Russian reader hears. It is also in copyright, and citing an
+# English Gutenberg page beside Заходер's sentences would point at a text those sentences did not
+# come from. So the two lines below are rendered from Milne's English like everything else here,
+# and they deliberately say "Пух" rather than "Винни-Пух": close to Заходер is worse than plainly
+# not him, because it invites the comparison without earning it.
+#
 # Group headings are kept in English so this file and ../wellbeing.txt can be diffed by eye.
 
 # Noticing.
@@ -47,22 +55,22 @@
 Поставь босые ноги на пол и заметь, каково это.
 Поправь на себе одну вещь, чтобы сидела удобнее.
 Займи чуть больше места, чем занимаешь сейчас.
-Встряхни руки пять секунд, будто только что их вымыл.
+Встряхни руки пять секунд, как после мытья.
 Положи ладонь на грудь и проследи один вдох и выдох целиком.
 
 # Outside.
 В поле зрения есть растение, дерево или кусочек неба.
-Найди небо. Где бы ты ни был, немного его есть.
+Найди небо. Где угодно его есть хоть немного.
 Выйди на улицу на минуту, даже если погода никакая.
 Приоткрой окно, что бы там ни творилось за ним.
-Пойди туда, куда собирался, длинной дорогой.
-В следующий выход на улицу заметь, каков воздух на лице.
-Узнай погоду, выйдя наружу, а не посмотрев в телефон.
+Иди туда, куда идёшь, длинной дорогой.
+В следующий выход на улицу заметь, какой воздух на лице.
+Узнай, какая погода, на улице, а не в телефоне.
 Встань туда, куда падает солнце, если оно куда-то падает.
 
 # Play.
 Включи песню, к которой всегда возвращаешься.
-Подпой чему-нибудь плохо, там, где никто не слышит.
+Подпевай кое-как там, где никто не слышит.
 Сделай одну мелочь просто потому, что это будет смешно.
 Посиди десять минут в другом месте и посмотри, как оно.
 Дойди до соседней комнаты совершенно другим шагом.
@@ -80,22 +88,22 @@
 
 # Making things nicer.
 Если мелочь сделает следующий час приятнее, сходи за ней.
-Положи что-то приятное там, где ты найдёшь это завтра утром.
+Положи что-нибудь приятное туда, где найдёшь это завтра утром.
 Приготовь следующий напиток как следует, не торопясь.
 Освободи одну поверхность. Не комнату, одну поверхность.
 Отдых имеет право быть приятным, а не только необходимым.
 Измени что-нибудь одно в освещении вокруг себя.
-Сдвинь одну вещь на ладонь туда, где ей место с самого начала.
+Сдвинь одну вещь на ладонь туда, где ей и было место.
 
 # Lighter. Small and a bit silly, and just as welcome on a good day.
 Встань и потянись так, чтобы вырвался непроизвольный звук.
-Проверь растение. Оно многое пережило и ни разу не пожаловалось.
-Найди самое старое непрочитанное уведомление и смахни не читая. Ничего не будет.
+Загляни к растению. Оно многое пережило и ни разу не пожаловалось.
+Найди самое старое непрочитанное уведомление и смахни, не читая. Ничего не будет.
 Где-то рядом есть перекус. Ты знаешь какой.
 Включи то, за что было бы неловко, если бы кто-то вошёл.
 Назови вслух ближайший предмет. Теперь это название твоей группы.
 Иди к чайнику длинной дорогой, мимо окна.
-Собака, птица или кот в поле зрения стоят потраченной минуты.
+Собака, птица или кот в поле зрения стоят минуты.
 
 # Jokes. Sourced, not written, and each one says whose it is.
 Я могу устоять перед чем угодно, кроме соблазна.	Oscar Wilde, Lady Windermere's Fan, Act I (Wikisource)	https://en.wikisource.org/wiki/Lady_Windermere%27s_Fan/Act_I
@@ -105,3 +113,7 @@
 День, сущ. Промежуток в двадцать четыре часа, потраченный большей частью зря.	Ambrose Bierce, The Devil's Dictionary (Wikisource)	https://en.wikisource.org/wiki/The_Devil%27s_Dictionary/D
 Любовь к земле относится к самым ранним страстям и к самым поздним.	Charles Dudley Warner, My Summer in a Garden, Preliminary (Project Gutenberg)	https://www.gutenberg.org/ebooks/3135
 Дело в том, что садоводство и есть старая притча о вечном труде.	Charles Dudley Warner, My Summer in a Garden, Fourth Week (Project Gutenberg)	https://www.gutenberg.org/ebooks/3135
+Сочинить изречение хлопотнее, чем поступить правильно.	Mark Twain, Following the Equator, Chapter III epigraph (Project Gutenberg)	https://www.gutenberg.org/ebooks/2895
+Вставать надо тогда, когда надо, а не раньше.	Stephen Leacock, Literary Lapses, "How to Live to be 200" (Project Gutenberg)	https://www.gutenberg.org/ebooks/6340
+С воздушным шариком нельзя оставаться невесёлым.	A. A. Milne, Winnie-the-Pooh, Chapter VI (Project Gutenberg)	https://www.gutenberg.org/files/67098/67098-h/67098-h.htm
+Пух всегда любил чем-нибудь подкрепиться в одиннадцать утра.	A. A. Milne, Winnie-the-Pooh, Chapter II (Project Gutenberg)	https://www.gutenberg.org/files/67098/67098-h/67098-h.htm

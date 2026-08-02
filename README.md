@@ -21,14 +21,14 @@ actually awake at 3am — what still helps then, and deliberately not the fright
 that would only keep them awake. The artwork follows the same clock: pale cards in daylight,
 deep ones at night, never a bright meadow behind a philosophy line at 3am.
 
-**It doesn't repeat itself.** 375 tips across nine pools, in English and Russian. The last 100
+**It doesn't repeat itself.** 385 tips across nine pools, in English and Russian. The last 100
 you have seen never come back, the 60 before those are weighted down so the neglected ones
 actually surface, and no voice runs three draws in a row.
 
-**It changes three times a day, and you know when.** 06:00, 12:00 and 18:00 — which are also
-the boundaries between the morning, afternoon and evening pools, so the line on your screen
-always belongs to the part of the day you are actually in. Tap it any time you want a different
-one; that never disturbs the schedule.
+**It changes four times a day, and you know when.** 06:00, 12:00, 18:00 and 23:00 — which are
+also the boundaries between the morning, afternoon, evening and late-night pools, so the line on
+your screen always belongs to the part of the day you are actually in. Tap it any time you want
+a different one; that never disturbs the schedule.
 
 **It asks for nothing.** No account, no sign-up, no analytics, no crash reporter, no ads, no
 notifications, no streaks. The manifest declares **no `INTERNET` permission at all**, so it

@@ -25,8 +25,9 @@
 # Marcus, three Epictetus, three Seneca), which is a school, not a subject. Stoicism keeps the
 # largest share because it suits the format, but the pool now also carries Confucian, Buddhist,
 # Taoist, presocratic, rationalist, empiricist, German, transcendentalist, essayist,
-# nineteenth-century, Persian and Indian voices, and the ratio is worth defending: before adding
-# another Roman, check whether a tradition below has only one line in it. Three of them do.
+# nineteenth-century, Persian, Indian, ancient Egyptian, Akan, Native American and
+# twentieth-century voices, and the ratio is worth defending: before adding another Roman, check
+# whether a tradition below has only one line in it. Several do.
 #
 # THIRD WRITING RULE, on length: a quotation has to survive a small widget, so prefer the
 # sentence that is already short in the source over a long one trimmed with an ellipsis.
@@ -96,12 +97,59 @@
 # and pushed the line to 93 characters. Losing the best clause to keep the line legible is the
 # trade this pool makes every time, and it is worth noticing that it keeps costing something.
 #
+# THE 2026-08-02 PASS TOOK THE THREE GAPS THE LAST HEADER NAMED, which were African, indigenous,
+# and anything written in the last hundred years. All three are now closed, and the previous
+# header's diagnosis was right: they were a public-domain problem rather than a values one, and
+# two of them were solved by finding the right edition rather than by relaxing any rule here.
+#
+#   Ptahhotep (Egyptian)  Maxim 24, in Gunn's 1906 translation. Africa, and also the oldest
+#                         writing in this file by about two thousand years. The archaic register
+#                         ("unto thee") is the 1906 edition's and stays, under the same rule that
+#                         keeps Hume's capitals.
+#   Akan proverb          The first line here attributed to a *people* rather than a person, and
+#                         the first sub-Saharan one. See the note below, which is a caveat and
+#                         not a footnote.
+#   Ohiyesa               Charles A. Eastman, Santee Dakota, writing in English in 1911 — so, like
+#                         Tagore, no translator stands between the reader and the author. Two
+#                         lines rather than one, because a tradition that was wholly absent is not
+#                         represented by a token.
+#   Bertrand Russell      1930, and the reason the "last hundred years" gap existed at all: The
+#                         Conquest of Happiness only entered the US public domain this January and
+#                         only reached Gutenberg in February 2026. The gap was a copyright
+#                         boundary, and that boundary moves one year every year. Worth checking
+#                         again in a few years rather than treating the twentieth century as shut.
+#
+# THE AKAN CITATION CARRIES A COST AND IT IS NOT HIDDEN. The standard public-domain collection is
+# Rattray's, and its full 1916 subtitle is "the primitive ethics of a savage people". The
+# attribution here uses the short title, which is ordinary citation practice, but a reader who
+# taps "why this tip?" and follows the link lands on the full one. That was judged better than
+# leaving Africa out of the pool for a third pass; anyone who disagrees is disagreeing with a
+# decision that was made rather than one that was missed. Rattray's own note on proverb 3 reads
+# it as being about children on their backs seeing the sky better than their elders do, and the
+# line was taken because it works without that note rather than because of it.
+#
+# TWO THINGS FOUND, VERIFIED AND LEFT OUT, so nobody re-derives them. Russell's "a generation
+# that cannot endure boredom will be a generation of little men" is real and it is good, but the
+# sentence in the book begins "For all these reasons a generation..." — quoting it means
+# capitalising a lowercase word and starting mid-sentence. The third rule permits trimming a
+# quotation's *tail* at punctuation the original has; trimming its head is a different move and
+# this pool has never made it. And "Fear of public opinion, like every other form of fear, is
+# oppressive and stunts growth" verified cleanly but says what Emerson's nonconformity line
+# already says, better.
+#
+# A METHOD NOTE WORTH KEEPING. Every line in this pass was extracted by a summariser first and
+# then checked against the raw source text, and the check earned its keep immediately: the
+# Eastman line circulates, and was first proposed here, as "It *is* our belief". The book says
+# "It was our belief". One word, one tense, and it is the difference between a quotation and a
+# paraphrase of a dead man's beliefs about his own people.
+#
 # WHAT IS STILL OPEN. Wollstonecraft, again, and for the same reason as before: the line worth
 # having, "I do not wish them to have power over men; but over themselves", opens on a pronoun
 # whose antecedent is two paragraphs back, and a widget has no room to supply it. That is a
-# sourcing problem with a solution rather than a reason the pool is shaped this way. Also still
-# absent: anything African, anything indigenous, and anything written in the last hundred years,
-# which is less a values problem than a public-domain one.
+# sourcing problem with a solution rather than a reason the pool is shaped this way. The pool is
+# also still three women out of everyone here, which this pass did not change. And the last
+# hundred years is one book deep: Keller and Tagore are twentieth-century but Edwardian, so
+# Russell alone is on the near side of 1926.
 #
 # Format is inline: "Tip text" alone, or "Tip text<TAB>Label<TAB>URL" for a quotation.
 
@@ -171,6 +219,20 @@ Whatever takes place quickly is not permanent.	Saadi, Gulistan VIII, tr. Burton 
 
 # Indian.
 And because I love this life, I know I shall love death as well.	Rabindranath Tagore, Gitanjali 95 (Project Gutenberg)	https://www.gutenberg.org/ebooks/7164
+
+# Ancient Egyptian.
+Silence is more profitable unto thee than abundance of speech.	Ptahhotep, Maxim 24, tr. Gunn, 1906 (Project Gutenberg)	https://www.gutenberg.org/files/30508/30508-h/30508-h.htm
+
+# Akan.
+No one shows a child the sky.	Akan proverb 3, in Rattray, Ashanti Proverbs, 1916 (Internet Archive)	https://archive.org/details/ashantiproverbst00rattuoft
+
+# Native American.
+It was our belief that the love of possessions is a weakness to be overcome.	Ohiyesa (Charles A. Eastman), The Soul of the Indian IV (Project Gutenberg)	https://www.gutenberg.org/files/340/340-h/340-h.htm
+Silence is the absolute poise or balance of body, mind, and spirit.	Ohiyesa (Charles A. Eastman), The Soul of the Indian IV (Project Gutenberg)	https://www.gutenberg.org/files/340/340-h/340-h.htm
+
+# Twentieth century.
+A happy life must be to a great extent a quiet life.	Bertrand Russell, The Conquest of Happiness IV, 1930 (Project Gutenberg)	https://www.gutenberg.org/ebooks/77894
+To be able to fill leisure intelligently is the last product of civilization.	Bertrand Russell, The Conquest of Happiness XIV, 1930 (Project Gutenberg)	https://www.gutenberg.org/ebooks/77894
 
 # Original reflections. No source, and none claimed.
 You are not behind. There was never a schedule you agreed to.

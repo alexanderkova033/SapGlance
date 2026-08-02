@@ -57,6 +57,31 @@
 # would render as a typo. Repunctuating a quotation to look tidier is the small dishonesty this
 # whole group exists to avoid.
 #
+# SEVEN TO ELEVEN ON 2026-08-02, and every one of the four is a voice that was not here, which
+# is the previous pass's own conclusion applied rather than restated. The counts are now Jerome
+# three, Warner two, Milne two, and one each of Wilde, Bierce, Twain and Leacock: seven voices,
+# and the deepest is still the one that was deepest before.
+#
+#   Twain     "It is more trouble to make a maxim than it is to do right." A joke about the
+#             trouble of making maxims, on a widget whose entire job is showing people maxims.
+#             Nothing else in here is that precisely self-implicating.
+#   Leacock   From "How to Live to be 200", which is eight pages of mockery aimed squarely at
+#             people who optimise their health, printed here inside an app that suggests health
+#             habits. Kept for the same reason as Twain: the joke is on us, which is the one
+#             direction the first rule always allows.
+#   Milne     Two, and the warmest voice available in the whole search. Also the only thing in
+#             the catalog written in the last hundred years, for the same reason Russell is the
+#             only such thing in philosophy: Winnie-the-Pooh was in copyright until 2022.
+#
+# THREE FOUND, VERIFIED AND LEFT OUT. Grahame's "nothing half so much worth doing as simply
+# messing about in boats" is the best line anybody rejected here, and it goes out on exactly the
+# precedent the cast-iron-back line set: the 1908 text sets its interruptions with double
+# hyphens, and the widget would render them as typos. Stevenson's "This does not appeal to me as
+# being Success in Life" is very funny and opens on a pronoun with nothing to point at, which is
+# the same test that keeps Wollstonecraft out of the philosophy pool. And Stevenson's "There is
+# no duty we so much underrate as the duty of being happy" verified perfectly and is simply not
+# a joke; putting it here would blur the one thing this group is for.
+#
 # Sourced lines carry an attribution inline, `Text<TAB>Label<TAB>URL`, the same way a quoted
 # philosophy line does. That is not optional politeness: passing Wilde off as ours would be the
 # same dishonesty as inventing a citation, in a lighter key.
@@ -155,3 +180,7 @@ I like work: it fascinates me. I can sit and look at it for hours.	Jerome K. Jer
 Day, n. A period of twenty-four hours, mostly misspent.	Ambrose Bierce, The Devil's Dictionary (Wikisource)	https://en.wikisource.org/wiki/The_Devil%27s_Dictionary/D
 The love of dirt is among the earliest of passions, as it is the latest.	Charles Dudley Warner, My Summer in a Garden, Preliminary (Project Gutenberg)	https://www.gutenberg.org/ebooks/3135
 The fact is, that gardening is the old fable of perpetual labor.	Charles Dudley Warner, My Summer in a Garden, Fourth Week (Project Gutenberg)	https://www.gutenberg.org/ebooks/3135
+It is more trouble to make a maxim than it is to do right.	Mark Twain, Following the Equator, Chapter III epigraph (Project Gutenberg)	https://www.gutenberg.org/ebooks/2895
+The time to get up is when you have to, not before.	Stephen Leacock, Literary Lapses, "How to Live to be 200" (Project Gutenberg)	https://www.gutenberg.org/ebooks/6340
+Nobody can be uncheered with a balloon.	A. A. Milne, Winnie-the-Pooh, Chapter VI (Project Gutenberg)	https://www.gutenberg.org/files/67098/67098-h/67098-h.htm
+Pooh always liked a little something at eleven o'clock in the morning.	A. A. Milne, Winnie-the-Pooh, Chapter II (Project Gutenberg)	https://www.gutenberg.org/files/67098/67098-h/67098-h.htm
