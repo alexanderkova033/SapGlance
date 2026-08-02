@@ -105,6 +105,7 @@
 Без борьбы нет прогресса.	Frederick Douglass, West India Emancipation, 1857 (Wikisource)	https://en.wikisource.org/wiki/West_India_Emancipation
 Растущее благо мира отчасти держится на неисторических деяниях.	George Eliot, Middlemarch, Finale (Wikisource)	https://en.wikisource.org/wiki/Middlemarch_(1871)/Finale
 Поток не поднимется выше своего истока.	Anna Julia Cooper, A Voice from the South (Wikisource)	https://en.wikisource.org/wiki/A_Voice_from_the_South/Womanhood_a_Vital_Element_in_the_Regeneration_and_Progress_of_a_Race
+И в величайших триумфах, и в самых тёмных трагедиях жизни мы идём одни.	Elizabeth Cady Stanton, Solitude of Self, 1892 (Wikisource)	https://en.wikisource.org/wiki/Solitude_of_Self
 
 # Persian.
 Что делается быстро, то не бывает прочным.	Saadi, Gulistan VIII, tr. Burton (Wikisource)	https://en.wikisource.org/wiki/Tales_from_the_Gulistan/Chapter_8
@@ -125,6 +126,7 @@
 # Twentieth century.
 Счастливая жизнь должна быть в значительной мере тихой жизнью.	Bertrand Russell, The Conquest of Happiness IV, 1930 (Project Gutenberg)	https://www.gutenberg.org/ebooks/77894
 Умение разумно заполнить досуг, это последний плод цивилизации.	Bertrand Russell, The Conquest of Happiness XIV, 1930 (Project Gutenberg)	https://www.gutenberg.org/ebooks/77894
+Нельзя хорошо думать, хорошо любить и хорошо спать без хорошего обеда.	Virginia Woolf, A Room of One's Own I, 1929 (Wikisource)	https://en.wikisource.org/wiki/A_Room_of_One%27s_Own_(Hogarth_1929)/Chapter_1
 
 # Original reflections. No source, and none claimed.
 Ты не отстаёшь. Такого расписания с тобой никто не согласовывал.

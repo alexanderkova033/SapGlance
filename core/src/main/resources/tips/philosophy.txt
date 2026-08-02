@@ -143,13 +143,40 @@
 # "It was our belief". One word, one tense, and it is the difference between a quotation and a
 # paraphrase of a dead man's beliefs about his own people.
 #
+# THE 2026-08-03 PASS TOOK THE TWO GAPS THAT LEFT, and one book closed both of them. Virginia
+# Woolf's A Room of One's Own is 1929, so it is a woman *and* the near side of 1926, and it only
+# became quotable here on 1 January 2025 when it entered the US public domain. That is the second
+# time in two passes that a gap turned out to be a copyright date rather than a judgement — see
+# Russell above — and it is now a habit worth keeping: when this pool looks narrow, check what
+# came out of copyright this January before concluding anything about the pool.
+#
+#   Woolf, 1929           "One cannot think well, love well, sleep well, if one has not dined
+#                         well." Chosen over the famous money-and-a-room sentence on the rule
+#                         this pool has used since 2026-07-30: prefer the line that has not been
+#                         quoted to death. It also happens to be the only line in the pool that
+#                         argues the body has a claim on the mind, which on a wellness widget is
+#                         the house position stated by someone who was not selling anything.
+#   Stanton, 1892         "Alike mid the greatest triumphs and darkest tragedies of life we walk
+#                         alone." A fourth woman, and a second nineteenth-century American voice
+#                         beside Douglass and Cooper. The archaic "mid" is the 1892 address's own
+#                         and stays, under the same rule that keeps Hume's capitals.
+#
+# Stanton lands in the pool's oldest argument rather than beside it: Montaigne's backshop,
+# Schopenhauer on being alone, Emerson on nonconformity and Thoreau on quiet desperation are all
+# about solitude as something chosen. Stanton's is solitude nobody chose, argued by someone
+# making the case that this is exactly why a person must be equipped to bear it. That is the
+# same subject cutting the other way, which is worth more to the pool than another voice
+# agreeing with it.
+#
 # WHAT IS STILL OPEN. Wollstonecraft, again, and for the same reason as before: the line worth
 # having, "I do not wish them to have power over men; but over themselves", opens on a pronoun
 # whose antecedent is two paragraphs back, and a widget has no room to supply it. That is a
-# sourcing problem with a solution rather than a reason the pool is shaped this way. The pool is
-# also still three women out of everyone here, which this pass did not change. And the last
-# hundred years is one book deep: Keller and Tagore are twentieth-century but Edwardian, so
-# Russell alone is on the near side of 1926.
+# sourcing problem with a solution rather than a reason the pool is shaped this way. The last
+# hundred years is now two books deep rather than one, which is better and is not yet a range:
+# Woolf and Russell were writing in the same decade, in the same country, at each other's
+# distance from the same literary establishment. The next real widening there is a voice from
+# somewhere else entirely, and it will most likely arrive the same way both of these did, on a
+# January.
 #
 # Format is inline: "Tip text" alone, or "Tip text<TAB>Label<TAB>URL" for a quotation.
 
@@ -213,6 +240,7 @@ A wise Man, therefore, proportions his Belief to the Evidence.	Hume, Philosophic
 If there is no struggle there is no progress.	Frederick Douglass, West India Emancipation, 1857 (Wikisource)	https://en.wikisource.org/wiki/West_India_Emancipation
 The growing good of the world is partly dependent on unhistoric acts.	George Eliot, Middlemarch, Finale (Wikisource)	https://en.wikisource.org/wiki/Middlemarch_(1871)/Finale
 A stream cannot rise higher than its source.	Anna Julia Cooper, A Voice from the South (Wikisource)	https://en.wikisource.org/wiki/A_Voice_from_the_South/Womanhood_a_Vital_Element_in_the_Regeneration_and_Progress_of_a_Race
+Alike mid the greatest triumphs and darkest tragedies of life we walk alone.	Elizabeth Cady Stanton, Solitude of Self, 1892 (Wikisource)	https://en.wikisource.org/wiki/Solitude_of_Self
 
 # Persian.
 Whatever takes place quickly is not permanent.	Saadi, Gulistan VIII, tr. Burton (Wikisource)	https://en.wikisource.org/wiki/Tales_from_the_Gulistan/Chapter_8
@@ -233,6 +261,7 @@ Silence is the absolute poise or balance of body, mind, and spirit.	Ohiyesa (Cha
 # Twentieth century.
 A happy life must be to a great extent a quiet life.	Bertrand Russell, The Conquest of Happiness IV, 1930 (Project Gutenberg)	https://www.gutenberg.org/ebooks/77894
 To be able to fill leisure intelligently is the last product of civilization.	Bertrand Russell, The Conquest of Happiness XIV, 1930 (Project Gutenberg)	https://www.gutenberg.org/ebooks/77894
+One cannot think well, love well, sleep well, if one has not dined well.	Virginia Woolf, A Room of One's Own I, 1929 (Wikisource)	https://en.wikisource.org/wiki/A_Room_of_One%27s_Own_(Hogarth_1929)/Chapter_1
 
 # Original reflections. No source, and none claimed.
 You are not behind. There was never a schedule you agreed to.
